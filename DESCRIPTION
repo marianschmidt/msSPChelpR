@@ -1,13 +1,27 @@
 Package: msSPChelpR
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: R Helper Functions for Second Primary Cancer Analyses
+Version: 0.1.0
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Marian",
+           family = "Schmidt",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
+           email = "marian.schmidt@tum.de",
+           comment = c(ORCID = "0000-0001-6584-3197"))
+Description: This package provides helper functions for epidemiological analyses on second primary cancer (SPC).
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.1.1
+Depends:
+    R (>= 3.2),
+    utils,
+    stats
+Suggests: 
+    testthat (>= 2.1.0),
+    roxygen2
+Imports: 
+    dplyr,
+    tidyr,
+    magrittr,
+    rlang (>= 0.1.2),
+    tibble
