@@ -4,18 +4,21 @@
 \alias{reshape_wide}
 \title{Reshape dataset to wide format}
 \usage{
-reshape_wide(df, timevar, idvar, chunks = 10)
+reshape_wide(df, idvar, timevar, chunks = 10, timevar_max = 6)
 }
 \arguments{
 \item{df}{dataframe}
 
-\item{timevar}{String with name of variable that indicates diagnosis per patient.
-E.g. \code{timevar="SEQ_NUM"} for SEER data.}
-
 \item{idvar}{String or vector of strings with name of ID variable indicating same patient.
 E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 
+\item{timevar}{String with name of variable that indicates diagnosis per patient.
+E.g. \code{timevar="SEQ_NUM"} for SEER data.}
+
 \item{chunks}{Numeric; default 10.}
+
+\item{timevar_max}{Numeric; default 6. Maximum number of cases per id. 
+All tumors > timevar_max will be deleted before reshaping.}
 }
 \value{
 df
