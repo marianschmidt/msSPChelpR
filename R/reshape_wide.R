@@ -15,6 +15,8 @@
 
 reshape_wide <- function(df, timevar, idvar, chunks = 10){
   
+  n_start <- df %>% dplyr::select(idvar) %>% dplyr::n_distinct()
+  
   rows_pc <- (nrow(df) / chunks) %>% round(0)
   
   df <- split(df, (as.numeric(rownames(df))-1) %/% rows_pc)
@@ -23,12 +25,22 @@ reshape_wide <- function(df, timevar, idvar, chunks = 10){
   
   for(i in 1:chunks){
     
-    wide_df[i] <- stats::reshape(df[[i]], timevar=timevar, idvar=idvar, direction = "wide", sep=".") %>% list
+    wide_df[i] <- df[[i]] %>%
+      as.data.frame %>%
+      stats::reshape(timevar=timevar, idvar=idvar, direction = "wide", sep=".") %>% list
     
     df[i] <- 0
     
   }
   
-  dplyr::bind_rows(wide_df)
+  wide_df <- dplyr::bind_rows(wide_df) %>% dplyr::arrange(idvar, timevar)
+  
+  n_end <- wide_df %>% nrow()
+  
+  if(n_end != n_start){
+    warning('Unique n in long and wide dataset do not match. Possibly dataset was split between cases of same patient.')
+  }
+  
+  return(wide_df)
   
 }
