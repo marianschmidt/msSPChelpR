@@ -15,18 +15,20 @@
 
 reshape_wide <- function(df, timevar, idvar, chunks = 10){
   
-  rows_pc <- round(nrow(df) / chunks,0)
+  rows_pc <- (nrow(df) / chunks) %>% round(0)
   
-  dfs <- split(df, (as.numeric(rownames(df))-1) %/% rows_pc)
+  df <- split(df, (as.numeric(rownames(df))-1) %/% rows_pc)
   
-  single_reshape <- function(x){
-    x %>%
-      as.data.frame() %>%
-      stats::reshape (timevar=timevar, idvar=idvar, direction = "wide", sep=".")
+  wide_df <- list()
+  
+  for(i in 1:chunks){
+    
+    wide_df[i] <- stats::reshape(df[[i]], timevar=timevar, idvar=idvar, direction = "wide", sep=".") %>% list
+    
+    df[i] <- 0
+    
   }
   
-  wide_dfs <- lapply(dfs, single_reshape)
-  
-  dplyr::bind_rows(wide_dfs)
+  dplyr::bind_rows(wide_df)
   
 }
