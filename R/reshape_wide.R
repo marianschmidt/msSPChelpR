@@ -25,11 +25,11 @@ reshape_wide <- function(df, timevar, idvar, chunks = 10){
   
   for(i in 1:chunks){
     
-    wide_df[i] <- df[[i]] %>%
+    wide_df[[i]] <- df[[i]] %>%
       as.data.frame %>%
       stats::reshape(timevar=timevar, idvar=idvar, direction = "wide", sep=".")
     
-    df[i] <- 0
+    df[[i]] <- 0
     
   }
   
