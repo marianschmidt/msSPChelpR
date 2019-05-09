@@ -21,17 +21,22 @@ reshape_wide <- function(df, idvar, timevar, chunks = 10, timevar_max = 6){
   #number of patient IDs at start of function
   n_start <- df %>% dplyr::select(idvar) %>% dplyr::n_distinct()
   
-  #determine maximum number of cases per patient and deleting all tumors > timevar_max
-  max_time <- df %>% 
+  #determine maximum number of cases per patient and deleting all cases > timevar_max
+  max_time <- df %>%
     dplyr::select(timevar) %>%
+    unlist %>%
+    as.numeric %>%
     max(na.rm = TRUE)
   
   if(max_time > timevar_max){
     warning('Long dataset had too many cases per patient. Wide dataset is limited to timevar_max cases per id.')
     
-      df <- df %>%
-        dplyr::filter_at(timevar, dplyr::all_vars(. <= timevar_max))
-  }
+    df <- df %>%
+      dplyr::mutate(counter = as.numeric(!! rlang::sym(timevar))) %>%
+      dplyr::filter(counter <= timevar_max) %>%
+      dplyr::select(-counter)
+    
+    }
   
   #split dataset in equal chunks and store in list
   rows_pc <- (nrow(df) / chunks) %>% round(0)
@@ -60,8 +65,7 @@ reshape_wide <- function(df, idvar, timevar, chunks = 10, timevar_max = 6){
   n_end <- wide_df %>% nrow()
   
   if(n_end != n_start){
-    warning('Unique n in long and wide dataset do not match. Possibly dataset was split between cases of same id. \n
-            Multiple entries for same id still need to be merged')
+    warning('Unique n in long and wide dataset do not match. Possibly dataset was split between cases of same ID. Multiple entries for same ID still need to be merged')
   }
   
   return(wide_df)
