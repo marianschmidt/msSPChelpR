@@ -30,12 +30,12 @@ reshape_wide <- function(df, idvar, timevar, chunks = 10, timevar_max = 6){
   
   if(max_time > timevar_max){
     warning('Long dataset had too many cases per patient. Wide dataset is limited to timevar_max cases per id.')
-    
+
     df <- df %>%
       dplyr::mutate(counter = as.numeric(!! rlang::sym(timevar))) %>%
       dplyr::filter(counter <= timevar_max) %>%
       dplyr::select(-counter)
-    
+
     }
   
   #split dataset in equal chunks and store in list

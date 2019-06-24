@@ -1,6 +1,6 @@
 Package: msSPChelpR
 Title: R Helper Functions for Second Primary Cancer Analyses
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
     person(given = "Marian",
            family = "Schmidt",
@@ -13,7 +13,7 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Depends:
-    R (>= 3.2),
+    R (>= 3.5),
     utils,
     stats
 Suggests: 

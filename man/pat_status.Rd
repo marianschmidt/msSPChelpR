@@ -6,8 +6,9 @@
 \usage{
 pat_status(df, fu_end = NULL, dattype = "zfkd",
   status_var = "p_status", life_var = NULL, spc_var = NULL,
-  lifedat_var = NULL, life_stat_alive = NULL, life_stat_dead = NULL,
-  spc_stat_yes = NULL, spc_stat_no = NULL, check = TRUE)
+  lifedat_var = NULL, fcdat_var = NULL, spcdat_var = NULL,
+  life_stat_alive = NULL, life_stat_dead = NULL, spc_stat_yes = NULL,
+  spc_stat_no = NULL, check = TRUE)
 }
 \arguments{
 \item{df}{dataframe in wide format}
@@ -21,6 +22,20 @@ pat_status(df, fu_end = NULL, dattype = "zfkd",
 \item{life_var}{Name of variable containing life status. Will override dattype preset.}
 
 \item{spc_var}{Name of variable containing SPC status. Will override dattype preset.}
+
+\item{lifedat_var}{Name of variable containing Date of Death. Will override dattype preset.}
+
+\item{fcdat_var}{Name of variable containing Date of Primary Cancer diagnosis. Will override dattype preset.}
+
+\item{spcdat_var}{Name of variable containing Date of SPC diagnosis Will override dattype preset.}
+
+\item{life_stat_alive}{Value for alive status in life_var. Will override dattype preset.}
+
+\item{life_stat_dead}{Value for dead status in life_var. Will override dattype preset.}
+
+\item{spc_stat_yes}{Value for SPC occured in spc_var. Will override dattype preset.}
+
+\item{spc_stat_no}{Value for no SPC in spc_var. Will override dattype preset.}
 
 \item{check}{Check newly calculated variable p_status}
 }

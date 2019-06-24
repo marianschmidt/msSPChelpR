@@ -7,13 +7,20 @@
 #' @param life_var Name of variable containing life status. Will override dattype preset.  
 #' @param spc_var Name of variable containing SPC status. Will override dattype preset.   
 #' @param status_var Name of the newly calculated variable for patient status. Default is p_status.     
-#' @param check Check newly calculated variable p_status      
+#' @param lifedat_var Name of variable containing Date of Death. Will override dattype preset.     
+#' @param fcdat_var Name of variable containing Date of Primary Cancer diagnosis. Will override dattype preset.     
+#' @param spcdat_var Name of variable containing Date of SPC diagnosis Will override dattype preset.
+#' @param life_stat_alive Value for alive status in life_var. Will override dattype preset.
+#' @param life_stat_dead Value for dead status in life_var. Will override dattype preset.
+#' @param spc_stat_yes Value for SPC occured in spc_var. Will override dattype preset.
+#' @param spc_stat_no Value for no SPC in spc_var. Will override dattype preset.
+#' @param check Check newly calculated variable p_status    
 #' @return df
 #' @export
 #'
 
 pat_status <- function(df, fu_end = NULL, dattype = "zfkd", 
-                       status_var = "p_status", life_var = NULL, spc_var = NULL, lifedat_var = NULL, 
+                       status_var = "p_status", life_var = NULL, spc_var = NULL, lifedat_var = NULL, fcdat_var = NULL, spcdat_var = NULL, 
                        life_stat_alive = NULL, life_stat_dead = NULL, spc_stat_yes = NULL, spc_stat_no = NULL,
                        check = TRUE){
   
@@ -36,6 +43,16 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
       lifedat_var <- rlang::quo("p_dodeath")
     } else{
       lifedat_var <- rlang::enquo(lifedat_var)
+    }
+    if(is.null(fcdat_var)){
+      fcdat_var <- rlang::quo("p_dofirst")
+    } else{
+      fcdat_var <- rlang::enquo(fcdat_var)
+    }
+    if(is.null(spcdat_var)){
+      spcdat_var <- rlang::quo("p_dospc")
+    } else{
+      spcdat_var <- rlang::enquo(spcdat_var)
     }
     if(is.null(life_stat_alive)){
       life_stat_alive <- rlang::quo("Alive")
@@ -76,6 +93,16 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
     } else{
       lifedat_var <- rlang::enquo(lifedat_var)
     }
+    if(is.null(fcdat_var)){
+      fcdat_var <- rlang::quo("DDIMP.1")
+    } else{
+      fcdat_var <- rlang::enquo(lfcdat_var)
+    }
+    if(is.null(spcdat_var)){
+      spcdat_var <- rlang::quo("DDIMP.2")
+    } else{
+      spcdat_var <- rlang::enquo(spcdat_var)
+    }
     if(is.null(life_stat_alive)){
       life_stat_alive <- rlang::quo("no (patient alive)")
     } else{
@@ -98,20 +125,23 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
     }
   }
   
-  # #check whether all required variables are defined and present in dataset
-  # defined_vars <- c(life_var, spc_var, lifedat_var, status_var)
-  # 
-  # not_found <- defined_vars[!(defined_vars %in% colnames(df))]
-  # 
-  # if(length(not_found) > 0) {
-  #   rlang::abort(paste0("The following variables defined are not found in the provided dataframe: ", not_found))
-  # }
+  #check whether all required variables are defined and present in dataset
+  defined_vars <- c(rlang::quo_name(life_var), rlang::quo_name(spc_var), rlang::quo_name(lifedat_var))
+
+  not_found <- defined_vars[!(defined_vars %in% colnames(df))]
+
+  if(length(not_found) > 0) {
+    rlang::abort(paste0("The following variables defined are not found in the provided dataframe: ", paste(not_found, collapse=", ")))
+  }
   
   #check whether date was provided in correct format
   fu_end <- rlang::enquo(fu_end)
   if(!lubridate::is.Date(as.Date("2005-01-01", date.format = "%y-%m-%d"))) {
     rlang::abort("You have not provided a correct Follow-up date in the format YYYY-MM-DD")
   }
+  
+  #make label for new variable
+  statvar_label <- paste("Patient Status at end of follow-up", quo_name(fu_end))
 
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
@@ -124,21 +154,21 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
                                  .data[[!!spc_var]] == !!spc_stat_yes & .data[[!!life_var]] == !!life_stat_dead & .data[[!!lifedat_var]] <= !!fu_end ~ 4,
                                 TRUE ~ NA_real_)) %>%
   #todo: add here date of FU to label
-   sjlabelled::var_labels(!!status_var := "Patient Status at end of follow-up") %>%
-  sjlabelled::set_labels(!!status_var, labels = c("patient alive" = 1,
+   sjlabelled::var_labels(!!status_var := !!statvar_label) %>%
+   sjlabelled::set_labels(!!status_var, labels = c("patient alive" = 1,
                                               "patient alive with SPC" = 2,
                                               "patient dead" = 3,
                                               "patient dead after SPC" = 4)) %>%
-  dplyr::mutate_at(dplyr::vars(!!status_var), sjlabelled::as_label, keep.labels=TRUE) 
+   dplyr::mutate_at(dplyr::vars(!!status_var), sjlabelled::as_label, keep.labels=TRUE) 
 
- # #conduct check on new variable
- #  if(check == TRUE){
- #  df %>%
- #      dplyr::select(!!life_var, !!status_var) %>%
- #      table(., useNA = "ifany") %>%
- #      as.data.frame.matrix() %>% 
- #      print()
- #  }
+ #conduct check on new variable
+  if(check == TRUE){
+  check_tab <- df %>%
+    dplyr::count(.data[[!!life_var]], .data[[!!status_var]])
+  
+  print(check_tab)
+  
+  }
  
   return(df)
 
