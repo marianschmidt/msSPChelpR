@@ -23,7 +23,7 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
   }
   
   #make label for new variable (use FU date from label of status_var)
-  statvar_label <- paste("Patient Vital Status at end of follow-up", sjlabelled::get_label(.data[[!!status_var]]) %>% stringr::str_sub(-10))
+  statvar_label <- paste("Patient Vital Status at end of follow-up", df %>% sjlabelled::get_label(.data[[!!status_var]]) %>% stringr::str_sub(-10))
   
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
