@@ -1,6 +1,6 @@
 Package: msSPChelpR
 Title: R Helper Functions for Second Primary Cancer Analyses
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: 
     person(given = "Marian",
            family = "Schmidt",
@@ -25,5 +25,6 @@ Imports:
     magrittr,
     rlang (>= 0.1.2),
     tibble,
+    stringr,
     sjlabelled,
     lubridate
