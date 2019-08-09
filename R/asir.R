@@ -22,10 +22,11 @@
 #' @param sex_var variable in df that contains information on gender. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
 #' @param icdcat_var variable in df that contains information on ICD code of case diagnosis. Default is set if dattype is given.
-#' @param futime_var variable in df that contains follow-up time per person [in years] in cohort (can only be used with futime_src = "cohort"). Default is set if dattype is given.
+#' @param futime_var variable in df that contains follow-up time per person (in years) in cohort (can only be used with futime_src = "cohort"). Default is set if dattype is given.
 #' @param pyar_var variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.
-#' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95% confidence intervals.
+#' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @return df
+#' @importFrom rlang .data
 #' @export
 #'
 #'
@@ -236,8 +237,8 @@ asir <-
       sircalc <- sircalc %>%
         dplyr::mutate(
           i_abs_ir = .data$i_observed / .data$i_pyar * 100000,
-          i_abs_ir_lci = (qchisq(p = alpha / 2, df = 2 * .data$i_observed) / 2) / .data$i_pyar * 100000,
-          i_abs_ir_uci = (qchisq(p = 1 - alpha / 2, df = 2 * (.data$i_observed + 1)) / 2) / .data$i_pyar * 100000
+          i_abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$i_observed) / 2) / .data$i_pyar * 100000,
+          i_abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$i_observed + 1)) / 2) / .data$i_pyar * 100000
         )
       
       #c_DM2: merge standard population
@@ -296,7 +297,7 @@ asir <-
       sircalc <- sircalc %>%
         dplyr::mutate(age = as.character(!!agegroup_var),
                       sex = as.character(!!sex_var)) %>%
-        select(-!!agegroup_var,-!!sex_var)
+        dplyr::select(-!!agegroup_var,-!!sex_var)
       
       #i)making nested version of df and joining populations to each df
       sircalc_nest <- sircalc %>%
@@ -311,7 +312,7 @@ asir <-
       
       #iii)performing join
       sircalc_nest <- sircalc_nest %>%
-        dplyr::mutate(data = map(data, ~ join_df(., stdpop_df)))
+        dplyr::mutate(data = purrr::map(.data, ~ join_df(., stdpop_df)))
       
       #iv)unnest
       sircalc <- sircalc_nest %>%
@@ -335,11 +336,11 @@ asir <-
       sum_group_population <- sircalc %>%
         dplyr::group_by(!!region_var, .data$sex, !!year_var, !!icdcat_var) %>%
         dplyr::summarize(group_pop_sum = sum(.data$population_n, na.rm = TRUE)) %>%
-        ungroup() %>%
-        select(.data$group_pop_sum) %>%
-        distinct(.data$group_pop_sum) %>%
-        filter(.data$group_pop_sum > 0) %>%
-        pull()
+        dplyr::ungroup() %>%
+        dplyr::select(.data$group_pop_sum) %>%
+        dplyr::distinct(.data$group_pop_sum) %>%
+        dplyr::filter(.data$group_pop_sum > 0) %>%
+        dplyr::pull()
       
       #CHK vi sum for group_proportion should be the same across all strata i
       
@@ -362,7 +363,7 @@ asir <-
           #variance calculation based on @brayChapterAgeStandardization2014, p. 114, Poisson distribution; var=sum(i_observed*(group_proportion_recalc / i_pyar)^2)
           i_var_strat = (.data$i_observed * (.data$group_proportion_recalc / .data$i_pyar)^2) * 100000,
           #round very small pyars to 0 for functions that would be negatively affected
-          i_pyar0 = case_when(.data$i_pyar < 0.0001 ~ NA_real_,
+          i_pyar0 = dplyr::case_when(.data$i_pyar < 0.0001 ~ NA_real_,
                               TRUE ~ .data$i_pyar)
         )
       
@@ -375,27 +376,27 @@ asir <-
           group_observed = sum(.data$i_observed, na.rm = TRUE),
           group_pyar = sum(.data$i_pyar, na.rm = TRUE),
           group_abs_ir = round(.data$group_observed / .data$group_pyar * 100000, 2),
-          group_abs_ir_lci = round((qchisq(p = alpha / 2, df = 2 * .data$group_observed) / 2) / .data$group_pyar * 100000, 2),
-          group_abs_ir_uci = round((qchisq(p = 1 - alpha / 2, df = 2 * (.data$group_observed + 1)) / 2) / .data$group_pyar * 100000, 2),
+          group_abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$group_observed) / 2) / .data$group_pyar * 100000,
+          group_abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$group_observed + 1)) / 2) / .data$group_pyar * 100000,
           asir = sum(.data$asir_strat, na.rm = TRUE),
           #confidence intervals based on Poisson approximation based on @brayChapterAgeStandardization2014, p. 114, Poisson distribution; var=sum(i_observed*(group_proportion_recalc / i_pyar)^2)
           var_asir = sum(.data$i_var_strat, na.rm = TRUE),
-          asir_lci = .data$asir + qnorm(p = alpha / 2) * sqrt(.data$var_asir),
-          asir_uci = .data$asir + qnorm(p = 1 - alpha / 2) * sqrt(.data$var_asir),
+          asir_lci = .data$asir + stats::qnorm(p = alpha / 2) * sqrt(.data$var_asir),
+          asir_uci = .data$asir + stats::qnorm(p = 1 - alpha / 2) * sqrt(.data$var_asir),
           #Exact Confidence Intervals based on gamma distribution
           #function adapted from epitools::ageadjust.direct (@aragonEpitoolsEpidemiologyTools2017a), based on Fay and Feuer 2017 @fayConfidenceIntervalsDirectly1997)
           asir_e6 = .data$asir / 100000,
           asir_copy = .data$asir,
           var_asir_gam = sum((.data$group_proportion_recalc ^ 2) * (.data$i_observed /.data$i_pyar ^ 2), na.rm = TRUE),
-          asir_lci_gam = qgamma(
+          asir_lci_gam = stats::qgamma(
             alpha / 2,
             shape = (.data$asir_e6 ^ 2) / .data$var_asir_gam,
             scale = .data$var_asir_gam / .data$asir_e6
           ) * 100000,
-          asir_uci_gam = qgamma(
+          asir_uci_gam = stats::qgamma(
             1 - alpha / 2,
             shape = ((.data$asir_e6 + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE)) ^ 2) / (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE) ^ 2),
-            scale = (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE) ^ 2) / (.data$asir_e6 + max(.data$group_proportion_recalc / i_pyar0, na.rm = TRUE))
+            scale = (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE) ^ 2) / (.data$asir_e6 + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE))
           ) * 100000,
           age = paste0("Age standardized by ", std_pop)
         )
@@ -414,9 +415,9 @@ asir <-
           abs_ir_lci = .data$group_abs_ir_lci,
           abs_ir_uci = .data$group_abs_ir_uci
         ) %>%
-        dplyr::mutate_at(vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, 
+        dplyr::mutate_at(dplyr::vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, 
                               .data$asir_lci_gam, .data$asir_uci_gam), ~ round(.,2)) %>%
-        dplyr::mutate_at(vars(.data$pyar), ~ round(.,0)) %>%
+        dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(.,0)) %>%
         dplyr::select(.data$age, !!region_var, .data$sex, !!year_var, !!icdcat_var, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                       .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
       
@@ -489,7 +490,7 @@ asir <-
       #o)filling-up emty categories of region, year and icdcat
       
       max_sircalc <- sircalc_count %>%
-        expand(.data$age, .data$sex, !!region_var, !!icdcat_var, !!year_var)
+        tidyr::expand(.data$age, .data$sex, !!region_var, !!icdcat_var, !!year_var)
       
       sircalc_count <-  dplyr::full_join(sircalc_count, max_sircalc, by = c("age", "sex", rlang::quo_name(region_var) , rlang::quo_name(year_var), rlang::quo_name(icdcat_var)))
       
@@ -515,7 +516,7 @@ asir <-
       
       #iii)performing join
       sircalc_count_nest <- sircalc_count_nest %>%
-        dplyr::mutate(data = map(data, ~ join_df(., stdpop_df)))
+        dplyr::mutate(data = purrr::map(.data, ~ join_df(., stdpop_df)))
       
       #iv)unnest
       sircalc_count <- sircalc_count_nest %>%
@@ -603,18 +604,18 @@ asir <-
       }
       
       refpop_df <- refpop_df %>%
-        dplyr::mutate(.data$sex = as.character(sex),
-                      .data$region = as.character(region),
-                      .data$year = as.character(year),
-                      .data$age = as.character(age))
+        dplyr::mutate(sex = as.character(.data$sex),
+                      region = as.character(.data$region),
+                      year = as.character(.data$year),
+                      age = as.character(.data$age))
       
       
       
       #3b: prepare sircalc_count data
       
       sircalc_count <- sircalc_count %>%
-        dplyr::mutate(.data$region = as.character(!!region_var),
-                      .data$year = as.character(!!year_var)) %>%
+        dplyr::mutate(region = as.character(!!region_var),
+                      year = as.character(!!year_var)) %>%
         dplyr::filter(.data$sex %in% used_sex & 
                         .data$region %in% used_region &
                         .data$year %in% used_year)
@@ -627,9 +628,9 @@ asir <-
       #enforce truncated standard population option
       if(truncate_std_pop == TRUE){
         removed_ages <- sircalc %>%
-          filter(is.na(.data$population_pyar)) %>%
-          distinct(.data$age) %>%
-          pull()
+          dplyr::filter(is.na(.data$population_pyar)) %>%
+          dplyr::distinct(.data$age) %>%
+          dplyr::pull()
         
         message(paste("The following age groups have been removed before calculating the age-standardized rate: ",
                       paste(removed_ages, collapse = ", "),"
@@ -638,20 +639,20 @@ asir <-
       }
       
       sircalc <- sircalc %>%
-        filter(!is.na(.data$population_pyar)) %>%
-        select(-!!agegroup_var, -!!region_var, -!!sex_var, -!!year_var)
+        dplyr::filter(!is.na(.data$population_pyar)) %>%
+        dplyr::select(-!!agegroup_var, -!!region_var, -!!sex_var, -!!year_var)
       
       #3e: fill up observed=0 for empty groups
       
       sircalc <- sircalc %>%
-        mutate(i_observed = case_when(is.na(.data$i_observed) == TRUE ~ 0,
+        dplyr::mutate(i_observed = dplyr::case_when(is.na(.data$i_observed) == TRUE ~ 0,
                                       TRUE ~ .data$i_observed))
       
       #3f: set incidence and pyars to 0 for ages_without_data
       
       if (length(ages_without_data) > 0) {
         sircalc <- sircalc %>%
-          mutate(population_pyar = case_when(.data$age %in% ages_without_data == TRUE ~ 0.000000001,
+          dplyr::mutate(population_pyar = dplyr::case_when(.data$age %in% ages_without_data == TRUE ~ 0.000000001,
                                              TRUE ~ .data$population_pyar))
       }
       
@@ -662,8 +663,8 @@ asir <-
         dplyr::mutate(
           i_pyar = .data$population_pyar,
           i_abs_ir = .data$i_observed / .data$i_pyar * 100000,
-          i_abs_ir_lci = (qchisq(p = alpha / 2, df = 2 * .data$i_observed) / 2) / .data$i_pyar * 100000,
-          i_abs_ir_uci = (qchisq(p = 1 - alpha / 2, df = 2 * (.data$i_observed + 1)) / 2) / .data$i_pyar * 100000
+          i_abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$i_observed) / 2) / .data$i_pyar * 100000,
+          i_abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$i_observed + 1)) / 2) / .data$i_pyar * 100000
         )
       
       
@@ -674,11 +675,11 @@ asir <-
       sum_group_population <- sircalc %>%
         dplyr::group_by(.data$region, .data$sex, .data$year,!!icdcat_var) %>%
         dplyr::summarize(group_pop_sum = sum(.data$population_n, na.rm = TRUE)) %>%
-        ungroup() %>%
-        select(.data$group_pop_sum) %>%
-        distinct(.data$group_pop_sum) %>%
-        filter(.data$group_pop_sum > 0) %>%
-        pull()
+        dplyr::ungroup() %>%
+        dplyr::select(.data$group_pop_sum) %>%
+        dplyr::distinct(.data$group_pop_sum) %>%
+        dplyr::filter(.data$group_pop_sum > 0) %>%
+        dplyr::pull()
       
       #CHK_AN2a sum for group_proportion should be the same across all strata i
       
@@ -699,7 +700,7 @@ asir <-
           #variance calculation based on @brayChapterAgeStandardization2014, p. 114, Poisson distribution; var=sum(i_observed*(group_proportion_recalc / i_pyar)^2)
           i_var_strat = (.data$i_observed * (.data$group_proportion_recalc / .data$i_pyar)^2) * 100000,
           #round very small pyars to 0 for functions that would be negatively affected
-          i_pyar0 = case_when(.data$i_pyar < 0.0001 ~ NA_real_,
+          i_pyar0 = dplyr::case_when(.data$i_pyar < 0.0001 ~ NA_real_,
                               TRUE ~ .data$i_pyar)
         )
       
@@ -712,24 +713,24 @@ asir <-
           group_observed = sum(.data$i_observed, na.rm = TRUE),
           group_pyar = sum(.data$i_pyar, na.rm = TRUE),
           group_abs_ir = .data$group_observed / .data$group_pyar * 100000,
-          group_abs_ir_lci = (qchisq(p = alpha / 2, df = 2 * .data$group_observed) / 2) / .data$group_pyar * 100000,
-          group_abs_ir_uci = (qchisq(p = 1 - alpha / 2, df = 2 * (.data$group_observed + 1)) / 2) / .data$group_pyar * 100000,
+          group_abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$group_observed) / 2) / .data$group_pyar * 100000,
+          group_abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$group_observed + 1)) / 2) / .data$group_pyar * 100000,
           asir = sum(.data$asir_strat, na.rm = TRUE),
           #confidence intervals based on Poisson approximation based on @brayChapterAgeStandardization2014, p. 114, Poisson distribution; var=sum(i_observed*(group_proportion_recalc / i_pyar)^2)
           var_asir = sum(.data$i_var_strat, na.rm = TRUE),
-          asir_lci = .data$asir + qnorm(p = alpha / 2) * sqrt(.data$var_asir),
-          asir_uci = .data$asir + qnorm(p = 1 - alpha / 2) * sqrt(.data$var_asir),
+          asir_lci = .data$asir + stats::qnorm(p = alpha / 2) * sqrt(.data$var_asir),
+          asir_uci = .data$asir + stats::qnorm(p = 1 - alpha / 2) * sqrt(.data$var_asir),
           #Exact Confidence Intervals based on gamma distribution
           #function adapted from epitools::ageadjust.direct (@aragonEpitoolsEpidemiologyTools2017a), based on Fay and Feuer 2017 @fayConfidenceIntervalsDirectly1997)
           asir_e6 = .data$asir / 100000,
           asir_copy = .data$asir,
           var_asir_gam = sum((.data$group_proportion_recalc ^ 2) * (.data$i_observed /.data$i_pyar ^ 2), na.rm = TRUE),
-          asir_lci_gam = qgamma(
+          asir_lci_gam = stats::qgamma(
             alpha / 2,
             shape = (.data$asir_e6 ^ 2) / .data$var_asir_gam,
             scale = .data$var_asir_gam / .data$asir_e6
           ) * 100000,
-          asir_uci_gam = qgamma(
+          asir_uci_gam = stats::qgamma(
             1 - alpha / 2,
             shape = ((.data$asir_e6 + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE)) ^ 2) / (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE) ^ 2),
             scale = (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE) ^ 2) / (.data$asir_e6 + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE))
@@ -740,11 +741,11 @@ asir <-
       #enforce truncated standard population option
       if(truncate_std_pop == TRUE){
         asir_results <- asir_results %>%
-          dplyr::mutate(.data$age = paste0("Age standardized by truncated ", std_pop, ": truncated to ages ", min_age, " - ", max_age))
+          dplyr::mutate(age = paste0("Age standardized by truncated ", std_pop, ": truncated to ages ", min_age, " - ", max_age))
       }
       
       asir_results <- asir_results %>%
-        mutate(icdcat = !!icdcat_var) %>%
+        dplyr::mutate(icdcat = !!icdcat_var) %>%
         dplyr::rename(
           observed = .data$group_observed,
           pyar = .data$group_pyar,
@@ -752,9 +753,9 @@ asir <-
           abs_ir_lci = .data$group_abs_ir_lci,
           abs_ir_uci = .data$group_abs_ir_uci
         ) %>%
-        dplyr::mutate_at(vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
+        dplyr::mutate_at(dplyr::vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
                               .data$asir_uci_gam), ~ round(.,2)) %>%
-        dplyr::mutate_at(vars(.data$pyar), ~ round(.,0)) %>%
+        dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(.,0)) %>%
         dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$icdcat, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                       .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
       
@@ -806,7 +807,7 @@ asir <-
             group_abs_ir = .data$group_observed / .data$group_pyar * 100000,
             group_asir_strat = .data$group_abs_ir * .data$group_proportion_recalc,
             group_var_strat = (.data$group_observed * (.data$group_proportion_recalc / .data$group_pyar)^2) * 100000,
-            group_pyar0 = case_when(.data$group_pyar0 < 0.00001 ~ NA_real_,
+            group_pyar0 = dplyr::case_when(.data$group_pyar0 < 0.00001 ~ NA_real_,
                                     TRUE ~ .data$group_pyar0)
           )
         
@@ -822,12 +823,12 @@ asir <-
             #function adapted from epitools::ageadjust.direct (@aragonEpitoolsEpidemiologyTools2017a), based on Fay and Feuer 2017 @fayConfidenceIntervalsDirectly1997)
             var_asir_gam = sum((.data$group_proportion_recalc ^ 2) * (.data$group_observed /.data$group_pyar ^ 2), na.rm = TRUE),
             asir_e6 = asir / 100000,
-            asir_lci_gam = qgamma(
+            asir_lci_gam = stats::qgamma(
               alpha / 2,
               shape = (.data$asir_e6 ^ 2) / .data$var_asir_gam,
               scale = .data$var_asir_gam / .data$asir_e6
             ) * 100000,
-            asir_uci_gam = qgamma(
+            asir_uci_gam = stats::qgamma(
               1 - alpha / 2,
               shape = ((.data$asir_e6 + max(.data$group_proportion_recalc / .data$group_pyar0, na.rm = TRUE)) ^ 2) / (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$group_pyar0, na.rm = TRUE) ^ 2),
               scale = (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$group_pyar0, na.rm = TRUE) ^ 2) / (.data$asir_e6 + max(.data$group_proportion_recalc / .data$group_pyar0, na.rm = TRUE))
@@ -838,11 +839,11 @@ asir <-
           dplyr::mutate(
             #absolute IR incl. confidence intervals
             sum_group_abs_ir = .data$sum_group_observed / .data$sum_group_pyar * 100000,
-            sum_group_abs_ir_lci = (qchisq(p = alpha / 2, df = 2 * .data$sum_group_observed) / 2) / .data$sum_group_pyar * 100000,
-            sum_group_abs_ir_uci = (qchisq(p = 1 - alpha / 2, df = 2 * (.data$sum_group_observed + 1)) / 2) / .data$sum_group_pyar * 100000,
+            sum_group_abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$sum_group_observed) / 2) / .data$sum_group_pyar * 100000,
+            sum_group_abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$sum_group_observed + 1)) / 2) / .data$sum_group_pyar * 100000,
             #confidence intervals for ASIR based on Poisson approximation based on @brayChapterAgeStandardization2014, p. 114, Poisson distribution; var=sum(i_observed*(group_proportion_recalc / i_pyar)^2)
-            asir_lci = .data$asir + qnorm(p = alpha / 2) * sqrt(.data$var_asir),
-            asir_uci = .data$asir + qnorm(p = 1 - alpha / 2) * sqrt(.data$var_asir),
+            asir_lci = .data$asir + stats::qnorm(p = alpha / 2) * sqrt(.data$var_asir),
+            asir_uci = .data$asir + stats::qnorm(p = 1 - alpha / 2) * sqrt(.data$var_asir),
             asir_copy = .data$asir,
             age = paste0("Age standardized by ", std_pop)
           )
@@ -882,9 +883,9 @@ asir <-
             abs_ir_lci = .data$sum_group_abs_ir_lci,
             abs_ir_uci = .data$sum_group_abs_ir_uci
           ) %>%
-          dplyr::mutate_at(vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
+          dplyr::mutate_at(dplyr::vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
                                 .data$asir_uci_gam), ~ round(.,2)) %>%
-          dplyr::mutate_at(vars(.data$pyar), ~ round(.,0)) %>%
+          dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(.,0)) %>%
           dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$icdcat, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                         .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
         
