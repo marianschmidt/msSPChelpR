@@ -7,6 +7,7 @@
 #' @param timevar String with name of variable that indicates diagnosis per patient.
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
 #' @param chunks Numeric; default 10.
+#' @param keep_vars Vector of variables to keep. Default is "_all".
 #' @return df
 #' @export
 #' @importFrom utils str 
