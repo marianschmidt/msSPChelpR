@@ -16,6 +16,8 @@ E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
 \item{chunks}{Numeric; default 10.}
+
+\item{keep_vars}{Vector of variables to keep. Default is "_all".}
 }
 \value{
 df
