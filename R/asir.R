@@ -33,6 +33,7 @@
 
 
 
+
 asir <-
   function(df,
            dattype = "zfkd",
@@ -312,7 +313,7 @@ asir <-
       
       #iii)performing join
       sircalc_nest <- sircalc_nest %>%
-        dplyr::mutate(data = purrr::map(.data, ~ join_df(., stdpop_df)))
+        dplyr::mutate(data = purrr::map(data, ~ join_df(., stdpop_df)))
       
       #iv)unnest
       sircalc <- sircalc_nest %>%
@@ -364,7 +365,7 @@ asir <-
           i_var_strat = (.data$i_observed * (.data$group_proportion_recalc / .data$i_pyar)^2) * 100000,
           #round very small pyars to 0 for functions that would be negatively affected
           i_pyar0 = dplyr::case_when(.data$i_pyar < 0.0001 ~ NA_real_,
-                              TRUE ~ .data$i_pyar)
+                                     TRUE ~ .data$i_pyar)
         )
       
       #AN2: calculate age-standardized rate
@@ -416,7 +417,7 @@ asir <-
           abs_ir_uci = .data$group_abs_ir_uci
         ) %>%
         dplyr::mutate_at(dplyr::vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, 
-                              .data$asir_lci_gam, .data$asir_uci_gam), ~ round(.,2)) %>%
+                                     .data$asir_lci_gam, .data$asir_uci_gam), ~ round(.,2)) %>%
         dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(.,0)) %>%
         dplyr::select(.data$age, !!region_var, .data$sex, !!year_var, !!icdcat_var, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                       .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
@@ -516,7 +517,7 @@ asir <-
       
       #iii)performing join
       sircalc_count_nest <- sircalc_count_nest %>%
-        dplyr::mutate(data = purrr::map(.data, ~ join_df(., stdpop_df)))
+        dplyr::mutate(data = purrr::map(data, ~ join_df(., stdpop_df)))
       
       #iv)unnest
       sircalc_count <- sircalc_count_nest %>%
@@ -646,14 +647,14 @@ asir <-
       
       sircalc <- sircalc %>%
         dplyr::mutate(i_observed = dplyr::case_when(is.na(.data$i_observed) == TRUE ~ 0,
-                                      TRUE ~ .data$i_observed))
+                                                    TRUE ~ .data$i_observed))
       
       #3f: set incidence and pyars to 0 for ages_without_data
       
       if (length(ages_without_data) > 0) {
         sircalc <- sircalc %>%
           dplyr::mutate(population_pyar = dplyr::case_when(.data$age %in% ages_without_data == TRUE ~ 0.000000001,
-                                             TRUE ~ .data$population_pyar))
+                                                           TRUE ~ .data$population_pyar))
       }
       
       
@@ -692,7 +693,7 @@ asir <-
       }
       
       sircalc <- sircalc %>%
-        dplyr::mutate(group_proportion_recalc = .data$population_n / .data$sum_group_population)
+        dplyr::mutate(group_proportion_recalc = .data$population_n / sum_group_population)
       
       sircalc <- sircalc %>%
         dplyr::mutate(
@@ -701,7 +702,7 @@ asir <-
           i_var_strat = (.data$i_observed * (.data$group_proportion_recalc / .data$i_pyar)^2) * 100000,
           #round very small pyars to 0 for functions that would be negatively affected
           i_pyar0 = dplyr::case_when(.data$i_pyar < 0.0001 ~ NA_real_,
-                              TRUE ~ .data$i_pyar)
+                                     TRUE ~ .data$i_pyar)
         )
       
       #AN2: calculate age-standardized rate
@@ -754,7 +755,7 @@ asir <-
           abs_ir_uci = .data$group_abs_ir_uci
         ) %>%
         dplyr::mutate_at(dplyr::vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
-                              .data$asir_uci_gam), ~ round(.,2)) %>%
+                                     .data$asir_uci_gam), ~ round(.,2)) %>%
         dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(.,0)) %>%
         dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$icdcat, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                       .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
@@ -808,7 +809,7 @@ asir <-
             group_asir_strat = .data$group_abs_ir * .data$group_proportion_recalc,
             group_var_strat = (.data$group_observed * (.data$group_proportion_recalc / .data$group_pyar)^2) * 100000,
             group_pyar0 = dplyr::case_when(.data$group_pyar0 < 0.00001 ~ NA_real_,
-                                    TRUE ~ .data$group_pyar0)
+                                           TRUE ~ .data$group_pyar0)
           )
         
         
@@ -884,7 +885,7 @@ asir <-
             abs_ir_uci = .data$sum_group_abs_ir_uci
           ) %>%
           dplyr::mutate_at(dplyr::vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
-                                .data$asir_uci_gam), ~ round(.,2)) %>%
+                                       .data$asir_uci_gam), ~ round(.,2)) %>%
           dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(.,0)) %>%
           dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$icdcat, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                         .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
