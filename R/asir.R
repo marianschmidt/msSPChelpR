@@ -31,7 +31,8 @@
 #'
 #'
 
-
+## quiets concerns of R CMD check standard objects that appear in function
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("data")) 
 
 
 asir <-
@@ -53,14 +54,41 @@ asir <-
            pyar_var = NULL,
            alpha = 0.05) {
     
+    
+    ### check if df and std_pop_df exist and are dataframes
+    
+    if (exists("df") && is.data.frame(get("df"))){}
+    else{
+      rlang::abort(paste0("The following df for for providing the observed cases does not exist or is not a dataframe: ",
+                          rlang::quo_name(df)))
+    }
+    
+    if (exists("stdpop_df") && is.data.frame(get("stdpop_df"))){}
+    else{
+      rlang::abort(paste0("The following stdpop_df for for providing the standard population does not exist or is not a dataframe: ",
+                          rlang::quo_name(stdpop_df)))
+    }
+    
     ### remove all labels from dfs to avoid warning messages
     
     df <- sjlabelled::remove_all_labels(df)
     stdpop_df <- sjlabelled::remove_all_labels(stdpop_df)
     
     
+    ### check if refpop_df exists and is dataframe
+    
     if (futime_src == "refpop") {
-      refpop_df <- sjlabelled::remove_all_labels(refpop_df)
+      
+      if (exists("refpop_df") && is.data.frame(get("refpop_df"))){
+        
+        refpop_df <- sjlabelled::remove_all_labels(refpop_df)
+        
+      }
+      else{
+        rlang::abort(paste0("The following stdpop_df for for providing the standard population does not exist or is not a dataframe: ",
+                            rlang::quo_name(refpop_df)))
+      }
+      
     }
     
     ### check futime_scr
@@ -400,7 +428,8 @@ asir <-
             scale = (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE) ^ 2) / (.data$asir_e6 + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE))
           ) * 100000,
           age = paste0("Age standardized by ", std_pop)
-        )
+        ) %>%
+        dplyr::ungroup()
       
       #enforce truncated standard population option
       if(truncate_std_pop == TRUE){
@@ -478,7 +507,7 @@ asir <-
       
       stdpop_df <- stdpop_df %>%
         dplyr::filter(.data$standard_pop == std_pop &
-                        .data$sex %in% used_sex & age != "Total - All age groups") %>%
+                        .data$sex %in% used_sex & .data$age != "Total - All age groups") %>%
         dplyr::mutate(sex = as.character(.data$sex),
                       age = as.character(.data$age))
       
@@ -622,7 +651,8 @@ asir <-
                         .data$year %in% used_year)
       
       #3c: join pyars from refpop_df
-      sircalc <-  dplyr::full_join(sircalc_count, refpop_df, by = c("sex","region", "year", "age"))
+      sircalc <-  dplyr::full_join(sircalc_count, refpop_df, by = c("sex","region", "year", "age")) %>%
+        dplyr::ungroup()
       
       
       #3d: remove unused age-groups
@@ -737,7 +767,10 @@ asir <-
             scale = (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE) ^ 2) / (.data$asir_e6 + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE))
           ) * 100000,
           age = paste0("Age standardized by ", std_pop)
-        )
+        ) 
+      
+      asir_results <- asir_results%>%
+        ungroup()
       
       #enforce truncated standard population option
       if(truncate_std_pop == TRUE){
