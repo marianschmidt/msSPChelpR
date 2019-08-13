@@ -1,5 +1,5 @@
 
-#' Calculate age-standardized incidence ratios
+#' Calculate age-standardized incidence rates
 #'
 #' @param df dataframe in wide format
 #' @param dattype can be "zfkd" or "seer" or empty. Will set default variable names from dataset.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/asir.R
 \name{asir}
 \alias{asir}
-\title{Calculate age-standardized incidence ratios}
+\title{Calculate age-standardized incidence rates}
 \usage{
 asir(df, dattype = "zfkd", std_pop = "ESP2013",
   truncate_std_pop = FALSE, futime_src = "refpop",
@@ -58,5 +58,5 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
 df
 }
 \description{
-Calculate age-standardized incidence ratios
+Calculate age-standardized incidence rates
 }
