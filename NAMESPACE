@@ -2,6 +2,7 @@
 
 export("%>%")
 export(":=")
+export()
 export(.data)
 export(asir)
 export(enexpr)
