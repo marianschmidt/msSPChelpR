@@ -7,15 +7,13 @@
 #' @param xbreak_var variable from df by which rates should be stratified in columns of result df. Default is "none".
 #' @param ybreak_vars variables from df by which rates should be stratified in rows of result df. Multiple variables will result in
 #'                    appended rows in result df. y_break_vars is required.
+#' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
 #' @param futime_var variable in df that contains follow-up time per person (in years). Default is set if dattype is given.
 #' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @return df
 #' @importFrom rlang .data
 #' @export
 #'
-
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
-if(getRversion() >= "2.15.1")  utils::globalVariables(c(".")) 
 
 
 ir_crosstab <-

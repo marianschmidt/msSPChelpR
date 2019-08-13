@@ -31,9 +31,6 @@
 #'
 #'
 
-## quiets concerns of R CMD check standard objects that appear in function
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("data")) 
-
 
 asir <-
   function(df,
@@ -53,6 +50,7 @@ asir <-
            futime_var = NULL,
            pyar_var = NULL,
            alpha = 0.05) {
+    
     
     
     ### check if df and std_pop_df exist and are dataframes
@@ -770,7 +768,7 @@ asir <-
         ) 
       
       asir_results <- asir_results%>%
-        ungroup()
+        dplyr::ungroup()
       
       #enforce truncated standard population option
       if(truncate_std_pop == TRUE){
