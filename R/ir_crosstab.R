@@ -26,6 +26,14 @@ ir_crosstab <-
            futime_var = NULL,
            alpha = 0.05) {
     
+    ### check if df exists and is dataframes
+    
+    if (exists("df") && is.data.frame(get("df"))){}
+    else{
+      rlang::abort(paste0("The following df for for providing the observed cases does not exist or is not a dataframe: ",
+                          rlang::quo_name(df)))
+    }
+    
     ### remove all labels from dfs to avoid warning messages
     
     df <- sjlabelled::remove_all_labels(df)
