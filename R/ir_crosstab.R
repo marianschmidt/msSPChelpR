@@ -95,7 +95,7 @@ ir_crosstab <-
     #DM1 - make change factor variables to character for ybreak_vars
     
     df_n <- df %>%
-      dplyr::mutate_at(dplyr::vars(!!!ybreak_vars), as.character)
+      dplyr::mutate_at(dplyr::vars(ybreak_var_names), as.character)
     
     y <- 1
     
