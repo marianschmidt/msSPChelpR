@@ -5,7 +5,8 @@
 \title{Calculate crude incidence rates and crosstabulate results by break variables}
 \usage{
 ir_crosstab(df, dattype = "zfkd", count_var, xbreak_var = "none",
-  ybreak_vars, collapse_ci = FALSE, futime_var = NULL, alpha = 0.05)
+  ybreak_vars, collapse_ci = FALSE, add_total = "no",
+  futime_var = NULL, alpha = 0.05)
 }
 \arguments{
 \item{df}{dataframe in wide format}
@@ -20,6 +21,8 @@ ir_crosstab(df, dattype = "zfkd", count_var, xbreak_var = "none",
 appended rows in result df. y_break_vars is required.}
 
 \item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
+
+\item{add_total}{option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".}
 
 \item{futime_var}{variable in df that contains follow-up time per person (in years). Default is set if dattype is given.}
 

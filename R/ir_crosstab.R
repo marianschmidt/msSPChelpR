@@ -8,11 +8,12 @@
 #' @param ybreak_vars variables from df by which rates should be stratified in rows of result df. Multiple variables will result in
 #'                    appended rows in result df. y_break_vars is required.
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
+#' @param add_total option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
 #' @param futime_var variable in df that contains follow-up time per person (in years). Default is set if dattype is given.
 #' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @return df
 #' @importFrom rlang .data
-#' @export
+#' @export 
 #'
 
 
@@ -23,6 +24,7 @@ ir_crosstab <-
            xbreak_var = "none",
            ybreak_vars,
            collapse_ci = FALSE,
+           add_total = "no",
            futime_var = NULL,
            alpha = 0.05) {
     
@@ -173,7 +175,6 @@ ir_crosstab <-
         single_ybreak_var <- rlang::sym(ybreak_var_names[y])  #getting y object in list of quosures to be used as ybreak_var in this loop
         
         ratecount <- df_n %>%
-          dplyr::group_by(!!single_ybreak_var) %>%
           {if(xb){dplyr::group_by(., !!single_ybreak_var, !!xbreak_var)} else {dplyr::group_by(., !!single_ybreak_var)}} %>% 
           dplyr::summarize(
             n_base = dplyr::n(),
@@ -238,9 +239,83 @@ ir_crosstab <-
         
       }
       
+      ### add option for total row
+      
+      if(add_total == "top" | add_total == "bottom"){
+        
+        df_n <- df_n %>%
+          dplyr::mutate(total_var = "Total")
+        
+        single_ybreak_var <- rlang::sym("total_var")  #setting the constant "total_var" as break_var
+        
+        ratecount <- df_n %>%
+          {if(xb){dplyr::group_by(., !!single_ybreak_var, !!xbreak_var)} else {dplyr::group_by(., !!single_ybreak_var)}} %>% 
+          dplyr::summarize(
+            n_base = dplyr::n(),
+            observed = sum(!!count_var, na.rm = TRUE),
+            pyar = sum(!!futime_var, na.rm = TRUE),
+            abs_ir = .data$observed / .data$pyar * 100000,
+            abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$observed) / 2) / .data$pyar * 100000,
+            abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$observed + 1)) / 2) / .data$pyar * 100000
+          ) %>%
+          dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(., 0)) %>%
+          dplyr::mutate_at(dplyr::vars(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci),
+                           ~ round(., 2)) %>%
+          dplyr::ungroup() %>%
+          {if(xb){tidyr::complete(., !!single_ybreak_var, !!xbreak_var)} else {tidyr::complete(., !!single_ybreak_var)}} #create NA lines for all combinations of ybreak_var and xbreak_var not present in the dataset (needed later for transposing)
+        
+        #collapse upper and lower CI limit if option is set
+        if(collapse_ci == TRUE){
+          ratecount <- ratecount %>%
+            tidyr::unite("abs_ir_ci", .data$abs_ir_lci, .data$abs_ir_uci, sep = " - ")
+        }
+        
+        if(xb == FALSE){
+          ratecount_result_tmp <- ratecount %>%
+            dplyr::rename(yvar_label = !!single_ybreak_var)
+        }
+        
+        else{
+          ratecount_nest <- ratecount %>%
+            dplyr::group_by(!!xbreak_var) %>%
+            tidyr::nest()
+          
+          rescolnames <-
+            ratecount_nest$data[[1]] %>% colnames() %>% .[1:ncol(ratecount_nest$data[[1]])] %>% paste0(ratecount_nest[[1]][[1]], "_", .)
+          rescolnames[1] <- "yvar_label"
+          
+          ratecount_result_tmp <-
+            cbind(stats::setNames(ratecount_nest$data[[1]], rescolnames))
+          
+          for (i in 2:length(ratecount_nest[[1]])) {
+            rescolnames <-
+              ratecount_nest$data[[i]] %>% # create vector of new variable names that combines level of xbreak_var with name of calculated metric (e.g. to6months_n_base)
+              colnames() %>%
+              .[2:ncol(ratecount_nest$data[[i]])] %>%          # skip the name of the first column, because this is replicated in each df of the list
+              paste0(ratecount_nest[[1]][[i]], "_", .)
+            
+            ratecount_result_tmp <-
+              cbind(ratecount_result_tmp,
+                    stats::setNames(ratecount_nest$data[[i]][2:ncol(ratecount_nest$data[[i]])], rescolnames))
+          }
+        }
+        
+        yvar_name_str <- df_n %>% 
+          dplyr::select(!!single_ybreak_var) %>% colnames()
+        
+        ratecount_result_tmp <- ratecount_result_tmp %>%
+          dplyr::mutate(yvar_name = yvar_name_str) %>%
+          dplyr::select(.data$yvar_name, dplyr::everything())
+        
+        if(add_total == "top"){
+          ratecount_result <- rbind(ratecount_result_tmp, ratecount_result)
+        } else{
+          ratecount_result <- rbind(ratecount_result, ratecount_result_tmp)
+        }
+      }
+      
       return(ratecount_result)
       
       
     }
   }
-
