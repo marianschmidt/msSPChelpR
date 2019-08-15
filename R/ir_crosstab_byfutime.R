@@ -148,10 +148,10 @@ ir_crosstab_byfutime <-
     
     
     ratecount_result <- df_n %>%
-      dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var < futime_breaks[x+1] ~ 1,
+      dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var > futime_breaks[x] & !!futime_var < futime_breaks[x+1] ~ 1,
                                       TRUE ~ 0),
-                    futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ !!futime_var / 12,
-                                       !!futime_var >= futime_breaks[x+1] ~ futime_breaks[x+1] / 12,
+                    futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ (!!futime_var - futime_breaks[x]) / 12,
+                                       !!futime_var >= futime_breaks[x+1] ~ (futime_breaks[x+1] - futime_breaks[x]) / 12,
                                        TRUE ~ NA_real_)) %>%
       dplyr::group_by(., !!single_ybreak_var, !!single_xbreak_var) %>% 
       dplyr::summarize(
@@ -188,11 +188,11 @@ ir_crosstab_byfutime <-
       single_xbreak_var <- rlang::sym(xbreak_var_names[x])
       
       ratecount_result_tmp <- df_n %>%
-        dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var < futime_breaks[x+1] ~ 1,
-                                        TRUE ~ 0),
-                      futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ !!futime_var / 12,
-                                         !!futime_var >= futime_breaks[x+1] ~ futime_breaks[x+1] / 12,
-                                         TRUE ~ NA_real_)) %>%
+        dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var > futime_breaks[x] & !!futime_var < futime_breaks[x+1] ~ 1,
+                                               TRUE ~ 0),
+                      futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ (!!futime_var - futime_breaks[x]) / 12,
+                                                !!futime_var >= futime_breaks[x+1] ~ (futime_breaks[x+1] - futime_breaks[x]) / 12,
+                                                TRUE ~ NA_real_)) %>%
         dplyr::group_by(., !!single_ybreak_var, !!single_xbreak_var) %>% 
         dplyr::summarize(
           n_base = dplyr::n(),
@@ -245,11 +245,11 @@ ir_crosstab_byfutime <-
         
         
         ratecount_result_y <- df_n %>%
-          dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var < futime_breaks[x+1] ~ 1,
-                                          TRUE ~ 0),
-                        futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ !!futime_var / 12,
-                                           !!futime_var >= futime_breaks[x+1] ~ futime_breaks[x+1] / 12,
-                                           TRUE ~ NA_real_)) %>%
+          dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var > futime_breaks[x] & !!futime_var < futime_breaks[x+1] ~ 1,
+                                                 TRUE ~ 0),
+                        futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ (!!futime_var - futime_breaks[x]) / 12,
+                                                  !!futime_var >= futime_breaks[x+1] ~ (futime_breaks[x+1] - futime_breaks[x]) / 12,
+                                                  TRUE ~ NA_real_)) %>%
           dplyr::group_by(., !!single_ybreak_var, !!single_xbreak_var) %>% 
           dplyr::summarize(
             n_base = dplyr::n(),
@@ -285,11 +285,11 @@ ir_crosstab_byfutime <-
           single_xbreak_var <- rlang::sym(xbreak_var_names[x])
           
           ratecount_result_ytmp <- df_n %>%
-            dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var < futime_breaks[x+1] ~ 1,
-                                            TRUE ~ 0),
-                          futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ !!futime_var / 12,
-                                             !!futime_var >= futime_breaks[x+1] ~ futime_breaks[x+1] / 12,
-                                             TRUE ~ NA_real_)) %>%
+            dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var > futime_breaks[x] & !!futime_var < futime_breaks[x+1] ~ 1,
+                                                   TRUE ~ 0),
+                          futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ (!!futime_var - futime_breaks[x]) / 12,
+                                                    !!futime_var >= futime_breaks[x+1] ~ (futime_breaks[x+1] - futime_breaks[x]) / 12,
+                                                    TRUE ~ NA_real_)) %>%
             dplyr::group_by(., !!single_ybreak_var, !!single_xbreak_var) %>% 
             dplyr::summarize(
               n_base = dplyr::n(),
@@ -351,11 +351,11 @@ ir_crosstab_byfutime <-
         
         
         ratecount_result_y <- df_n %>%
-          dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var < futime_breaks[x+1] ~ 1,
-                                          TRUE ~ 0),
-                        futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ !!futime_var / 12,
-                                           !!futime_var >= futime_breaks[x+1] ~ futime_breaks[x+1] / 12,
-                                           TRUE ~ NA_real_)) %>%
+          dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var > futime_breaks[x] & !!futime_var < futime_breaks[x+1] ~ 1,
+                                                 TRUE ~ 0),
+                        futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ (!!futime_var - futime_breaks[x]) / 12,
+                                                  !!futime_var >= futime_breaks[x+1] ~ (futime_breaks[x+1] - futime_breaks[x]) / 12,
+                                                  TRUE ~ NA_real_)) %>%
           dplyr::group_by(., !!single_ybreak_var, !!single_xbreak_var) %>% 
           dplyr::summarize(
             n_base = dplyr::n(),
@@ -392,11 +392,11 @@ ir_crosstab_byfutime <-
           single_xbreak_var <- rlang::sym(xbreak_var_names[x])
           
           ratecount_result_ytmp <- df_n %>%
-            dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var < futime_breaks[x+1] ~ 1,
-                                            TRUE ~ 0),
-                          futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ !!futime_var / 12,
-                                             !!futime_var >= futime_breaks[x+1] ~ futime_breaks[x+1] / 12,
-                                             TRUE ~ NA_real_)) %>%
+            dplyr::mutate(count = dplyr::case_when(!!count_var == 1 & !!futime_var > futime_breaks[x] & !!futime_var < futime_breaks[x+1] ~ 1,
+                                                   TRUE ~ 0),
+                          futime = dplyr::case_when(!!futime_var < futime_breaks[x+1] ~ (!!futime_var - futime_breaks[x]) / 12,
+                                                    !!futime_var >= futime_breaks[x+1] ~ (futime_breaks[x+1] - futime_breaks[x]) / 12,
+                                                    TRUE ~ NA_real_)) %>%
             dplyr::group_by(., !!single_ybreak_var, !!single_xbreak_var) %>% 
             dplyr::summarize(
               n_base = dplyr::n(),
