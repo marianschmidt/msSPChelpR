@@ -9,12 +9,14 @@
 #'                    appended rows in result df. y_break_vars is required.
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
 #' @param add_total option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
+#' @param add_n_percentages option to add a column of percentages for n_base in its respective yvar_group. Can only be used when xbreak_var = "none". Default is FALSE.
 #' @param futime_var variable in df that contains follow-up time per person (in years). Default is set if dattype is given.
 #' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @return df
 #' @importFrom rlang .data
 #' @export 
 #'
+
 
 
 ir_crosstab <-
@@ -25,6 +27,7 @@ ir_crosstab <-
            ybreak_vars,
            collapse_ci = FALSE,
            add_total = "no",
+           add_n_percentages = FALSE,
            futime_var = NULL,
            alpha = 0.05) {
     
@@ -52,6 +55,14 @@ ir_crosstab <-
     
     ybreak_vars <- rlang::enquo(ybreak_vars)
     ybreak_var_names <- rlang::eval_tidy(ybreak_vars)
+    
+    #set option for percentatges if add_n_percentages = TRUE, but only works with no xbreak_variable
+    
+    perc <- add_n_percentages
+    if(xb == TRUE & perc == TRUE){
+      warning("Option add_n_percentages cannot be combinded with xbreak_var. No percentages will be calculated.")
+      perc <- FALSE
+    }
     
     
     ### setting default var names and values for SEER data --> still need to update to final names!
@@ -115,9 +126,12 @@ ir_crosstab <-
         abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$observed) / 2) / .data$pyar * 100000,
         abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$observed + 1)) / 2) / .data$pyar * 100000
       ) %>%
+      #rounding of values
       dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(., 0)) %>%
       dplyr::mutate_at(dplyr::vars(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci),
                        ~ round(., 2)) %>%
+      #if add_n_percentages option is true, add calculation
+      {if(perc){dplyr::mutate(., n_perc = round(.data$n_base / sum(.data$n_base), 2))} else {.}}  %>% 
       dplyr::ungroup() %>%
       {if(xb){tidyr::complete(., !!single_ybreak_var, !!xbreak_var)} else {tidyr::complete(., !!single_ybreak_var)}} #create NA lines for all combinations of ybreak_var and xbreak_var not present in the dataset (needed later for transposing)
     
@@ -187,6 +201,8 @@ ir_crosstab <-
           dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(., 0)) %>%
           dplyr::mutate_at(dplyr::vars(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci),
                            ~ round(., 2)) %>%
+          #if add_n_percentages option is true, add calculation
+          {if(perc){dplyr::mutate(., n_perc = round(.data$n_base / sum(.data$n_base), 2))} else {.}}  %>% 
           dplyr::ungroup() %>%
           {if(xb){tidyr::complete(., !!single_ybreak_var, !!xbreak_var)} else {tidyr::complete(., !!single_ybreak_var)}} #create NA lines for all combinations of ybreak_var and xbreak_var not present in the dataset (needed later for transposing)
         
@@ -261,6 +277,8 @@ ir_crosstab <-
           dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(., 0)) %>%
           dplyr::mutate_at(dplyr::vars(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci),
                            ~ round(., 2)) %>%
+          #if add_n_percentages option is true, add calculation
+          {if(perc){dplyr::mutate(., n_perc = round(.data$n_base / sum(.data$n_base), 2))} else {.}}  %>% 
           dplyr::ungroup() %>%
           {if(xb){tidyr::complete(., !!single_ybreak_var, !!xbreak_var)} else {tidyr::complete(., !!single_ybreak_var)}} #create NA lines for all combinations of ybreak_var and xbreak_var not present in the dataset (needed later for transposing)
         
