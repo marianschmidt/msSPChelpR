@@ -159,7 +159,7 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
   
   #check whether date was provided in correct format
   fu_end <- rlang::enquo(fu_end)
-  if(!lubridate::is.Date(as.Date(fu_end, date.format = "%y-%m-%d"))) {
+  if(!lubridate::is.Date(as.Date(rlang::eval_tidy(fu_end), date.format = "%y-%m-%d"))) {
     rlang::abort("You have not provided a correct Follow-up date in the format YYYY-MM-DD")
   }
   
