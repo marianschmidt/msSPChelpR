@@ -9,7 +9,7 @@ pat_status(df, fu_end = NULL, dattype = "zfkd",
   birthdat_var = NULL, lifedat_var = NULL, fcdat_var = NULL,
   spcdat_var = NULL, life_stat_alive = NULL, life_stat_dead = NULL,
   spc_stat_yes = NULL, spc_stat_no = NULL, lifedat_fu_end = NULL,
-  check = TRUE)
+  check = TRUE, as_labelled_factor = FALSE)
 }
 \arguments{
 \item{df}{dataframe in wide format}
@@ -43,6 +43,8 @@ pat_status(df, fu_end = NULL, dattype = "zfkd",
 \item{lifedat_fu_end}{Date of last FU of alive status in registry data. Will override dattype preset (2017-03-31 for zfkd; 2018-12-31 for seer).}
 
 \item{check}{Check newly calculated variable p_status}
+
+\item{as_labelled_factor}{If true, output status_var as labelled factor variable. Default is FALSE.}
 }
 \value{
 df
