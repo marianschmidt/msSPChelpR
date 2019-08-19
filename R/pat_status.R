@@ -17,6 +17,7 @@
 #' @param spc_stat_no Value for no SPC in spc_var. Will override dattype preset.
 #' @param lifedat_fu_end Date of last FU of alive status in registry data. Will override dattype preset (2017-03-31 for zfkd; 2018-12-31 for seer).
 #' @param check Check newly calculated variable p_status    
+#' @param as_labelled_factor If true, output status_var as labelled factor variable. Default is FALSE.
 #' @return df
 #' @export
 #'
@@ -24,7 +25,7 @@
 pat_status <- function(df, fu_end = NULL, dattype = "zfkd", 
                        status_var = "p_status", life_var = NULL, spc_var = NULL, birthdat_var = NULL, lifedat_var = NULL, fcdat_var = NULL, spcdat_var = NULL, 
                        life_stat_alive = NULL, life_stat_dead = NULL, spc_stat_yes = NULL, spc_stat_no = NULL, lifedat_fu_end = NULL,
-                       check = TRUE){
+                       check = TRUE, as_labelled_factor = FALSE){
   
   status_var <- rlang::enquo(status_var)
   
@@ -158,7 +159,7 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
   
   #check whether date was provided in correct format
   fu_end <- rlang::enquo(fu_end)
-  if(!lubridate::is.Date(as.Date("2005-01-01", date.format = "%y-%m-%d"))) {
+  if(!lubridate::is.Date(as.Date(fu_end, date.format = "%y-%m-%d"))) {
     rlang::abort("You have not provided a correct Follow-up date in the format YYYY-MM-DD")
   }
   
@@ -198,8 +199,12 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
                                                    "patient dead after SPC" = 4,
                                                    "NA - patient not born before end of FU" = 97,
                                                    "NA - patient did not develop cancer before end of FU" = 98,
-                                                   "NA - patient date of death is missing" = 99)) #%>%
-   #dplyr::mutate_at(dplyr::vars(!!status_var), sjlabelled::as_label, keep.labels=TRUE) 
+                                                   "NA - patient date of death is missing" = 99)) 
+ #enforce option as_labelled_factor = TRUE
+ if(as_labelled_factor == TRUE){
+ df <- df %>%
+   dplyr::mutate_at(dplyr::vars(!!status_var), sjlabelled::as_label, keep.labels=TRUE) 
+ }
 
  #conduct check on new variable
   if(check == TRUE){
@@ -207,6 +212,11 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
     dplyr::count(.data[[!!life_var]], .data[[!!status_var]])
   
   print(check_tab)
+  
+  freq_tab <- df %>%
+    dplyr::count(.data[[!!life_var]])
+  
+  print(freq_tab)
   
   }
  
