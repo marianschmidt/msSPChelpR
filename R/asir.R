@@ -329,7 +329,7 @@ asir <-
       #i)making nested version of df and joining populations to each df
       sircalc_nest <- sircalc %>%
         dplyr::group_by(!!region_var,!!year_var,!!icdcat_var) %>%
-        tidyr::nest()
+        tidyr::nest_legacy()
       
       #ii)function for nested join
       join_df <- function(df_nest, df_other) {
@@ -534,7 +534,7 @@ asir <-
       #i)making nested version of df and joining populations to each df
       sircalc_count_nest <- sircalc_count %>%
         dplyr::group_by(!!region_var,!!year_var,!!icdcat_var) %>%
-        tidyr::nest()
+        tidyr::nest_legacy()
       
       #ii)function for nested join
       join_df <- function(df_nest, df_other) {
