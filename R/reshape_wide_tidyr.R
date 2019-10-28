@@ -10,6 +10,7 @@
 #'                    All tumors > timevar_max will be deleted before reshaping.    
 #' @param var_selection Vector of variables to keep. Default is "_all".          
 #' @return df
+#' @export
 #'
 
 reshape_wide_tidyr <- function(df, case_id_var, time_id_var, timevar_max = 6, var_selection = c("_all")){

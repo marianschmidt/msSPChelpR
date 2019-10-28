@@ -8,7 +8,8 @@
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
 #' @param var_selection Vector of variables to keep. Default is "_all".
 #' @return df
-#'
+#' @export
+#' 
 
 reshape_long_tidyr <- function(df, case_id_var, time_id_var, var_selection = c("_all")){
   
