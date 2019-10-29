@@ -4,7 +4,7 @@
 \alias{reshape_long_tidyr}
 \title{Reshape dataset to long format}
 \usage{
-reshape_long_tidyr(df, case_id_var, time_id_var,
+reshape_long_tidyr(df, case_id_var, time_id_var, drop_na = FALSE,
   var_selection = c("_all"))
 }
 \arguments{
@@ -15,6 +15,9 @@ E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 
 \item{time_id_var}{String with name of variable that indicates diagnosis per patient.
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
+
+\item{drop_na}{Logical to indicate whether empty rows after pivoting should be dropped (activates option values_drop_na in tidyr::pivot_longer).
+Default is drop_na = FALSE.}
 
 \item{var_selection}{Vector of variables to keep. Default is "_all".}
 }
