@@ -4,8 +4,8 @@
 \alias{reshape_long_tidyr}
 \title{Reshape dataset to long format}
 \usage{
-reshape_long_tidyr(df, case_id_var, time_id_var, constant_vars = NULL,
-  drop_na = FALSE, var_selection = c("_all"),
+reshape_long_tidyr(df, case_id_var, time_id_var, time_id_num = TRUE,
+  constant_vars = NULL, drop_na = FALSE, var_selection = c("_all"),
   names_pattern = "(.*)\\\\.(.*)")
 }
 \arguments{
@@ -16,6 +16,9 @@ E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 
 \item{time_id_var}{String with name of variable that indicates diagnosis per patient.
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
+
+\item{time_id_num}{Logical that indicates whether time_id_var should be transformed to numeric or not.
+Default is \code{time_id_num=TRUE}.}
 
 \item{constant_vars}{Vector of variables that are constant for all times per case_id, so these variables will just be filled during pivot_longer
 Default is NULL.}
