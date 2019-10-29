@@ -30,7 +30,7 @@ reshape_long_tidyr <- function(df, case_id_var, time_id_var, time_id_num = TRUE,
     #enable variable selection
     {if (all(var_selection != "_all")){dplyr::select(case_id_var, time_id_var, var_selection)} else {.}} %>% 
     #make time_id_var numeric if 
-    {if (time_id_num == TRUE){dplyr::mutate_at(time_id_var, as.numeric)} else {.}}
+    {if (time_id_num == TRUE){dplyr::mutate_at({{time_id_var}}, as.numeric)} else {.}}
   
   }
 
