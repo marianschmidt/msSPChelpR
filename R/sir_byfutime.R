@@ -292,7 +292,7 @@ sir_byfutime <- function(df,
 
   #CHK - check that there are no missing values for futimegroups
   
-  chk_na <- df_n %>% dplyr::filter(is.na(.data$futimegroup)) %>% length()
+  chk_na <- df_n %>% dplyr::filter(is.na(.data$futimegroup)) %>% nrow()
   
   if (chk_na > 0) {
     warning(
