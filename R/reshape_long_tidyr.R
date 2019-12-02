@@ -16,7 +16,12 @@
 #' @export
 #' 
 
-reshape_long_tidyr <- function(df, case_id_var, time_id_var, time_id_num = TRUE, constant_vars = NULL, drop_na = FALSE, var_selection = c("_all"), names_pattern = "(.*)\\.(.*)"){
+reshape_long_tidyr <- function(df, case_id_var, 
+                               time_id_var,  
+                               constant_vars = NULL, 
+                               drop_na = FALSE, 
+                               var_selection = c("_all"), 
+                               names_pattern = "(.*)\\.(.*)"){
   
   df %>%
     tidyr::pivot_longer(
