@@ -4,12 +4,25 @@
 \alias{pat_status}
 \title{Calculate patient status at specific end of follow-up}
 \usage{
-pat_status(df, fu_end = NULL, dattype = "zfkd",
-  status_var = "p_status", life_var = NULL, spc_var = NULL,
-  birthdat_var = NULL, lifedat_var = NULL, fcdat_var = NULL,
-  spcdat_var = NULL, life_stat_alive = NULL, life_stat_dead = NULL,
-  spc_stat_yes = NULL, spc_stat_no = NULL, lifedat_fu_end = NULL,
-  check = TRUE, as_labelled_factor = FALSE)
+pat_status(
+  df,
+  fu_end = NULL,
+  dattype = "zfkd",
+  status_var = "p_status",
+  life_var = NULL,
+  spc_var = NULL,
+  birthdat_var = NULL,
+  lifedat_var = NULL,
+  fcdat_var = NULL,
+  spcdat_var = NULL,
+  life_stat_alive = NULL,
+  life_stat_dead = NULL,
+  spc_stat_yes = NULL,
+  spc_stat_no = NULL,
+  lifedat_fu_end = NULL,
+  check = TRUE,
+  as_labelled_factor = FALSE
+)
 }
 \arguments{
 \item{df}{dataframe in wide format}

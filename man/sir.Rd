@@ -4,14 +4,29 @@
 \alias{sir}
 \title{Calculate standardized incidence ratios with costum grouping variables}
 \usage{
-sir(df, dattype = "zfkd", expcount_src = "refrates",
-  xbreak_vars = "none", ybreak_vars = "none",
-  summarize_groups = "none", count_var, refrates_df = rates,
-  add_total = "no", collapse_ci = FALSE,
-  stdpop_df = standard_population, refpop_df = population,
-  std_pop = "ESP2013", region_var = NULL, agegroup_var = NULL,
-  sex_var = NULL, year_var = NULL, icdcat_var = NULL,
-  futime_var = NULL, pyar_var = NULL, alpha = 0.05)
+sir(
+  df,
+  dattype = "zfkd",
+  expcount_src = "refrates",
+  xbreak_vars = "none",
+  ybreak_vars = "none",
+  summarize_groups = "none",
+  count_var,
+  refrates_df = rates,
+  add_total = "no",
+  collapse_ci = FALSE,
+  stdpop_df = standard_population,
+  refpop_df = population,
+  std_pop = "ESP2013",
+  region_var = NULL,
+  agegroup_var = NULL,
+  sex_var = NULL,
+  year_var = NULL,
+  icdcat_var = NULL,
+  futime_var = NULL,
+  pyar_var = NULL,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{df}{dataframe in wide format}

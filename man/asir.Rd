@@ -4,13 +4,25 @@
 \alias{asir}
 \title{Calculate age-standardized incidence rates}
 \usage{
-asir(df, dattype = "zfkd", std_pop = "ESP2013",
-  truncate_std_pop = FALSE, futime_src = "refpop",
-  summarize_groups = "none", count_var,
-  stdpop_df = standard_population, refpop_df = population,
-  region_var = NULL, agegroup_var = NULL, sex_var = NULL,
-  year_var = NULL, icdcat_var = NULL, futime_var = NULL,
-  pyar_var = NULL, alpha = 0.05)
+asir(
+  df,
+  dattype = "zfkd",
+  std_pop = "ESP2013",
+  truncate_std_pop = FALSE,
+  futime_src = "refpop",
+  summarize_groups = "none",
+  count_var,
+  stdpop_df = standard_population,
+  refpop_df = population,
+  region_var = NULL,
+  agegroup_var = NULL,
+  sex_var = NULL,
+  year_var = NULL,
+  icdcat_var = NULL,
+  futime_var = NULL,
+  pyar_var = NULL,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{df}{dataframe in wide format}

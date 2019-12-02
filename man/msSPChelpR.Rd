@@ -3,7 +3,6 @@
 \docType{package}
 \name{msSPChelpR}
 \alias{msSPChelpR}
-\alias{msSPChelpR-package}
 \title{msSPChelpR}
 \description{
 R helper functions for Second Primary Cancer analyses

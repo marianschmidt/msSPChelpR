@@ -4,8 +4,12 @@
 \alias{vital_status}
 \title{Calculate vital status at end of follow-up depending on pat_status}
 \usage{
-vital_status(df, status_var = "p_status", life_var_new = "p_alive",
-  check = TRUE)
+vital_status(
+  df,
+  status_var = "p_status",
+  life_var_new = "p_alive",
+  check = TRUE
+)
 }
 \arguments{
 \item{df}{dataframe in wide format}

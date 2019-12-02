@@ -4,9 +4,17 @@
 \alias{ir_crosstab_byfutime}
 \title{Calculate crude incidence rates and crosstabulate results by break variables (Copy of ir_crosstab for the special case of cumulative FU-times as xbreak_var)}
 \usage{
-ir_crosstab_byfutime(df, dattype = "zfkd", count_var,
-  futime_breaks = c(6, 12, 60, 120), ybreak_vars, collapse_ci = FALSE,
-  add_total = "no", futime_var = NULL, alpha = 0.05)
+ir_crosstab_byfutime(
+  df,
+  dattype = "zfkd",
+  count_var,
+  futime_breaks = c(6, 12, 60, 120),
+  ybreak_vars,
+  collapse_ci = FALSE,
+  add_total = "no",
+  futime_var = NULL,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{df}{dataframe in wide format}

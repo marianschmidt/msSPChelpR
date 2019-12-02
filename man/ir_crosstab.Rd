@@ -4,9 +4,18 @@
 \alias{ir_crosstab}
 \title{Calculate crude incidence rates and crosstabulate results by break variables}
 \usage{
-ir_crosstab(df, dattype = "zfkd", count_var, xbreak_var = "none",
-  ybreak_vars, collapse_ci = FALSE, add_total = "no",
-  add_n_percentages = FALSE, futime_var = NULL, alpha = 0.05)
+ir_crosstab(
+  df,
+  dattype = "zfkd",
+  count_var,
+  xbreak_var = "none",
+  ybreak_vars,
+  collapse_ci = FALSE,
+  add_total = "no",
+  add_n_percentages = FALSE,
+  futime_var = NULL,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{df}{dataframe in wide format}

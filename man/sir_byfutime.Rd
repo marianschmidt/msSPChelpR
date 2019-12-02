@@ -2,17 +2,34 @@
 % Please edit documentation in R/sir_byfutime.R
 \name{sir_byfutime}
 \alias{sir_byfutime}
-\title{Calculate standardized incidence ratios with costum grouping variables by follow-up time}
+\title{Calculate standardized incidence ratios with costum grouping variables}
 \usage{
-sir_byfutime(df, dattype = "zfkd", expcount_src = "refrates",
-  xbreak_vars = "none", ybreak_vars = "none",
-  summarize_groups = "none", futime_breaks = c(6, 12, 60, 120),
-  count_var, refrates_df = rates, add_total = "no",
-  collapse_ci = FALSE, stdpop_df = standard_population,
-  refpop_df = population, std_pop = "ESP2013", region_var = NULL,
-  agegroup_var = NULL, sex_var = NULL, year_var = NULL,
-  icdcat_var = NULL, futime_var = NULL, pyar_var = NULL,
-  alpha = 0.05)
+sir_byfutime(
+  df,
+  dattype = "zfkd",
+  expcount_src = "refrates",
+  futime_src = "cohort",
+  xbreak_var = "none",
+  ybreak_vars = "none",
+  futime_breaks = c(0, 0.5, 1, 5, 10, Inf),
+  count_var,
+  refrates_df = rates,
+  add_total_row = "no",
+  add_total_fu = "no",
+  collapse_ci = FALSE,
+  stdpop_df = standard_population,
+  refpop_df = population,
+  std_pop = "ESP2013",
+  truncate_std_pop = NULL,
+  region_var = NULL,
+  agegroup_var = NULL,
+  sex_var = NULL,
+  year_var = NULL,
+  icdcat_var = NULL,
+  futime_var = NULL,
+  pyar_var = NULL,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{df}{dataframe in wide format}
@@ -21,17 +38,20 @@ sir_byfutime(df, dattype = "zfkd", expcount_src = "refrates",
 
 \item{expcount_src}{can bei either "refrates" or "cohort"}
 
-\item{xbreak_vars}{variables from df by which rates should be stratified in columns of result df. Default is "none".}
+\item{futime_src}{Source of follow-up time for calculating reference ratecan bei either "refpop" or "cohort"}
 
-\item{ybreak_vars}{variables from df by which rates should be stratified in rows of result df. Multiple variables will result in
-appended rows in result df. Default is "none".}
+\item{xbreak_var}{One variable from df by which SIRs should be stratified as a second dimension in result df. This variable will be added as
+a second stratification dimension to ybreak_vars and all variables will be calculated for subpopulations of x and y combinations. 
+Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Year of second cancer).
+If y_break_vars = "none", no stratification is performed. Default is "none".}
 
-\item{summarize_groups}{option to define summarizing stratified groups. Default is "none". 
-If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var. 
-Define multiple summarize variables by summarize_groups = c("region", "sex", "year")}
+\item{ybreak_vars}{variables from df by which SIRs should be stratified in result df. Multiple variables will result in
+appended rows in result df. 
+Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Histology of second cancer).
+If y_break_vars = "none", no stratification is performed. Default is "none".}
 
-\item{futime_breaks}{vector that indicates split points for follow-up time groups (in months) that will be used as xbreak_var.
-Default is c(6, 12, 60, 120) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years)}
+\item{futime_breaks}{vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
+Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years)}
 
 \item{count_var}{variable to be counted as observed case. Should be 1 for case to be counted.}
 
@@ -40,7 +60,9 @@ Default is c(6, 12, 60, 120) that will result in 5 groups (up to 6 months, 6-12 
 "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
 refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.}
 
-\item{add_total}{option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".}
+\item{add_total_row}{option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".}
+
+\item{add_total_fu}{option to add totals for follow-up time. Can bei either "no" for not adding such a column or "left" or "right" for adding it at the first or last column. Default is "no".}
 
 \item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
 
@@ -53,7 +75,9 @@ stdpop_df must use the same category coding of age and sex as agegroup_var and s
 "population_pyar" for person-years at risk in the respective age/gender/year cohort.
 refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.}
 
-\item{std_pop}{can be either "ESP2013, ESP1976, WHO1960. Only applies to expcount_src = "cohort".}
+\item{std_pop}{can be either "ESP2013, ESP1976, WHO1960}
+
+\item{truncate_std_pop}{if TRUE standard population will be truncated for all age-groups that do not occur in df}
 
 \item{region_var}{variable in df that contains information on region where case was incident. Default is set if dattype is given.}
 
@@ -75,5 +99,5 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
 df
 }
 \description{
-Calculate standardized incidence ratios with costum grouping variables by follow-up time
+Calculate standardized incidence ratios with costum grouping variables
 }

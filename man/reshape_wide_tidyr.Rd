@@ -4,8 +4,13 @@
 \alias{reshape_wide_tidyr}
 \title{Reshape dataset to wide format}
 \usage{
-reshape_wide_tidyr(df, case_id_var, time_id_var, timevar_max = 6,
-  var_selection = c("_all"))
+reshape_wide_tidyr(
+  df,
+  case_id_var,
+  time_id_var,
+  timevar_max = 6,
+  var_selection = c("_all")
+)
 }
 \arguments{
 \item{df}{dataframe}
