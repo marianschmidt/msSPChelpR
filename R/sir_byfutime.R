@@ -16,7 +16,7 @@
 #'                      Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years)
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
 #' @param add_total_row option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
-#' @param add_total_fu option to add totals for follow-up time. Can bei either "no" for not adding such a column or "left" or "right" for adding it at the first or last column. Default is "no".
+#' @param add_total_fu option to add totals for follow-up time. Can bei either "no" for not adding such a column or "yes" for adding. Default is "no".
 #' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
 #' @param refrates_df df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
 #'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
@@ -105,13 +105,14 @@ sir_byfutime <- function(df,
     xbreak_var <- rlang::enquo(xbreak_var)
     xbreak_var_names <- rlang::eval_tidy(xbreak_var)
     length_xb <- length(xbreak_var_names)
+    x <- 1
   } else{
     xb <- FALSE
     length_xb <- 1}
   
   
   
-  if(add_total_fu == "left" | add_total_fu == "right"){
+  if(add_total_fu == "yes"){
     ft <- TRUE
   } else{ft <- FALSE} #dummy to show loop for Total line
   
@@ -386,7 +387,6 @@ sir_byfutime <- function(df,
   #make symbols out of fu_time_levels
   
   fu_var_names <- futimegroup_levels_norm
-  fu_vars <- rlang::syms(fu_var_names)  
   fu <- TRUE
   length_fu <- length(fu_var_names)
   
@@ -421,7 +421,7 @@ sir_byfutime <- function(df,
       syb_var <- rlang::sym(ybreak_var_names[y])
     }
     if(xb){
-      sxb_var <- rlang::sym(xbreak_var_names[x])
+      sxb_var <- rlang::sym(xbreak_var_names[1])
     }
     
     #start loop for iterations of follow-up levels [f]
@@ -451,8 +451,10 @@ sir_byfutime <- function(df,
       
       sircalc_count <- sircalc_count %>% #complete groups where i_observed = 0
         dplyr::filter(!!fub_var == 1) %>%  #remove category fub_var == 0, which does not apply #incompatiblity with fu=FALSE (unclear, how to do conditional filtering)
-        tidyr::complete(., .data$age, .data$sex, .data$region, .data$year, t_icdcat = refrates_icd_all) %>%
-        {if (yb){tidyr::complete(., .data$age, .data$sex, .data$region, .data$year, .data$t_icdcat, !!syb_var)} else{.}} %>%
+        {if (!yb & !xb){tidyr::complete(., .data$age, .data$sex, .data$region, .data$year, t_icdcat = refrates_icd_all)} else{.}} %>%
+        {if (yb & !xb){tidyr::complete(., .data$age, .data$sex, .data$region, .data$year, t_icdcat = refrates_icd_all, !!syb_var)} else{.}} %>%
+        {if (yb & xb){tidyr::complete(., .data$age, .data$sex, .data$region, .data$year, t_icdcat = refrates_icd_all, !!syb_var, !!sxb_var)} else{.}} %>%
+        {if (!yb & xb){tidyr::complete(., .data$age, .data$sex, .data$region, .data$year, t_icdcat = refrates_icd_all, !!sxb_var)} else{.}} %>%
         dplyr::mutate(i_observed = dplyr::case_when(is.na(.data$i_observed) ~ 0,
                                                     TRUE              ~ .data$i_observed),
                       !!fub_var := 1) %>%
@@ -460,16 +462,24 @@ sir_byfutime <- function(df,
       
       
       #for ybreak_var: make NAs explicit
-      if(yb){
+      if(yb & !xb){
         sircalc_count <- sircalc_count %>% 
           dplyr::mutate_at(dplyr::vars(!!syb_var), ~tidyr::replace_na(., na_explicit)) %>%
           dplyr::filter(!(!!syb_var == na_explicit & .data$i_observed == 0)) # remove all NA categories as they are empty with 0 observations
       }
       
       #for xbreak_var: make NAs explicit
-      if(xb){
+      if(!yb & xb){
         sircalc_count <- sircalc_count %>% 
-          dplyr::mutate_at(dplyr::vars(!!sxb_var), ~tidyr::replace_na(., na_explicit))
+          dplyr::mutate_at(dplyr::vars(!!sxb_var), ~tidyr::replace_na(., na_explicit)) %>%
+          dplyr::filter(!(!!sxb_var == na_explicit & .data$i_observed == 0)) # remove all NA categories as they are empty with 0 observations
+      }
+      
+      #for ybreak_vars and xbreak_var: make NAs explicit
+      if(yb & xb){
+        sircalc_count <- sircalc_count %>% 
+          dplyr::mutate_at(dplyr::vars(!!sxb_var), ~tidyr::replace_na(., na_explicit)) %>%
+          dplyr::filter(!(!!syb_var == na_explicit & !!sxb_var == na_explicit & .data$i_observed == 0)) # remove all NA categories as they are empty with 0 observations
       }
       
       
@@ -497,9 +507,15 @@ sir_byfutime <- function(df,
                       n_base = dplyr::case_when(is.na(.data$n_base) ~ 0,
                                                 TRUE              ~ .data$n_base))
       if(yb){
-        sircalc_fu <- sircalc_fu %>% #complete groups where i_observed = 0
+        sircalc_fu <- sircalc_fu %>% 
           dplyr::mutate(!!syb_var := dplyr::case_when(is.na(!!syb_var) ~ "missing",
                                                       TRUE              ~ !!syb_var))
+      }
+      
+      if(xb){
+        sircalc_fu <- sircalc_fu %>% 
+          dplyr::mutate(!!sxb_var := dplyr::case_when(is.na(!!sxb_var) ~ "missing",
+                                                      TRUE              ~ !!sxb_var))
       }
       
       #CHK_sircalc_n - Check that all combinations of age, sex, region, year, t_icdcat, syb_var, sxb_var are present in sircalc_count and sircalc_fu
@@ -529,6 +545,7 @@ sir_byfutime <- function(df,
       
       #not found strata in sircalc_fu
       n_not_found_fu <- n_strata_required_count - (n_strata_required_fu * n_t_icdcat)
+      
       
       #CHK_strata1
       
@@ -743,13 +760,24 @@ sir_byfutime <- function(df,
         dplyr::select(.data$yvar_name, .data$yvar_label, dplyr::everything())
     }
     
+    if(xb & yb){
+      sir_longresult_strat <- sir_longresult_strat %>%
+        dplyr::mutate(yvar_name = rlang::quo_name(syb_var),
+                      yvar_sort = y,
+                      xvar_name = rlang::quo_name(sxb_var),
+                      xvar_sort = x) %>%
+        dplyr::rename(yvar_label = !!syb_var,
+                      xvar_label = !!sxb_var)  %>%
+        dplyr::select(.data$yvar_name, .data$yvar_label, .data$xvar_name, .data$xvar_label,dplyr::everything())
+    }
+    
     
     #F4c: binding results if needed
-    if(!xb & !yb){
+    if(!yb){
       sir_longresult <- sir_longresult_strat
     }
     
-    if(!xb & yb){
+    if(yb){
       if(y == 1){
         sir_longresult <- sir_longresult_strat
       } else{
@@ -862,6 +890,9 @@ sir_byfutime <- function(df,
   if(length(notes_refcases_attr > 0)){
     attr(sir_result, "notes_refcases") <- notes_refcases_attr
   }
+  
+  #write attributes for matched strata
+  attr(sir_result, "strata_var_names") <- strata_var_names
   
   pb$terminate()
   
