@@ -2,7 +2,7 @@
 % Please edit documentation in R/sir_byfutime.R
 \name{sir_byfutime}
 \alias{sir_byfutime}
-\title{Calculate standardized incidence ratios with costum grouping variables}
+\title{Calculate standardized incidence ratios with costum grouping variables by follow-up time}
 \usage{
 sir_byfutime(
   df,
@@ -62,7 +62,7 @@ refrates_df must use the same category coding of age, sex, region, year and icdc
 
 \item{add_total_row}{option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".}
 
-\item{add_total_fu}{option to add totals for follow-up time. Can bei either "no" for not adding such a column or "left" or "right" for adding it at the first or last column. Default is "no".}
+\item{add_total_fu}{option to add totals for follow-up time. Can bei either "no" for not adding such a column or "yes" for adding. Default is "no".}
 
 \item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
 
@@ -99,5 +99,5 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
 df
 }
 \description{
-Calculate standardized incidence ratios with costum grouping variables
+Calculate standardized incidence ratios with costum grouping variables by follow-up time
 }
