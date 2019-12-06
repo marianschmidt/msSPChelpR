@@ -407,22 +407,22 @@ summarize_sir_results <- function(sir_df,
     #creating pivoting specs
     specs <- sum_pre2 %>% 
       tidyr::build_wider_spec(names_from = c(if(fu){c("fu_time_sort", "fu_time")}, if(xb){c("xvar_name", "xvar_label")}), 
-                       values_from = trans_vars,
-                       names_sep = ".")
+                              values_from = trans_vars,
+                              names_sep = ".")
     
     if(fu & !xb){
       specs <- specs %>%
-        dplyr::mutate(.name = paste(paste(fu_time_sort, fu_time, sep = "**"), .value, sep = "__"))
+        dplyr::mutate(.name = paste(paste(.data[["fu_time_sort"]], .data[["fu_time"]], sep = "**"), .data[[".value"]], sep = "__"))
     }
     
     if(!fu & xb){
       specs <- specs %>%
-        dplyr::mutate(.name = paste(xvar_label, .value, sep = "__"))
+        dplyr::mutate(.name = paste(.data[["xvar_label"]], .data[[".value"]], sep = "__"))
     }
     
     if(fu & xb){
       specs <- specs %>%
-        dplyr::mutate(.name = paste(paste(paste(fu_time_sort, fu_time, sep = "**"), xvar_label, sep = "<<"), .value, sep = "__"))
+        dplyr::mutate(.name = paste(paste(paste(.data[["fu_time_sort"]], .data[["fu_time"]], sep = "**"), .data[["xvar_label"]], sep = "<<"), .data[[".value"]], sep = "__"))
     }
     
     sum_results_pre <- sum_pre2 %>% 

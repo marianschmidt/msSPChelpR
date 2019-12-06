@@ -273,7 +273,7 @@ sir <- function(df,
       syb_var <- rlang::sym(ybreak_var_names[y])
     }
     if(xb){
-      sxb_var <- rlang::sym(xbreak_var_names[x])
+      sxb_var <- rlang::sym(xbreak_var_names[1])
     }
     
     #F1b observed
