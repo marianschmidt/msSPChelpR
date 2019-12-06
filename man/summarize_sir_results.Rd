@@ -9,12 +9,14 @@ summarize_sir_results(
   summarize_groups,
   summarize_icdcat,
   output = "long",
+  output_information = "full",
   add_total_row = "no",
   add_total_fu = "no",
   collapse_ci = FALSE,
+  shorten_total_cols = FALSE,
   fubreak_var_name = "fu_time",
   ybreak_var_name = "yvar_name",
-  xbreak_var_name = "xvar_name",
+  xbreak_var_name = "none",
   alpha = 0.05
 )
 }
@@ -32,11 +34,17 @@ Or "wide" for wide format where fubreak_var and xbreak_var are appended as colum
 Or "long" for long format where sir_df is not reshaped, but just summarized (ybreak_var, xbreak_var and fubreak_var remain in rows).
 Default is "long".}
 
+\item{output_information}{option to define information to be presented in final output table. Default is "full" information, i.e. all variables from
+from sir_df. "reduced" is observed, expected, sir, sir_ci / sir_lci+sir_uci, pyar, n_base. "minimal" is observed, expected, sir, sir_ci. 
+Default is "full".}
+
 \item{add_total_row}{option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".}
 
 \item{add_total_fu}{option to add totals for follow-up time. Can bei either "no" for not adding such a column or "left" or "right" for adding it at the first or last column. Default is "no".}
 
 \item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
+
+\item{shorten_total_cols}{Shorten text in all results columns that start with "Total". Default == FALSE.}
 
 \item{fubreak_var_name}{Name of variable with futime stratification. Default is "fu_time".}
 
