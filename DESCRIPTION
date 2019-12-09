@@ -1,6 +1,6 @@
 Package: msSPChelpR
 Title: R Helper Functions for Second Primary Cancer Analyses
-Version: 0.6.4
+Version: 0.6.5
 Authors@R: 
     person(given = "Marian",
            family = "Eberl",
@@ -11,7 +11,7 @@ Description: This package provides helper functions for epidemiological analyses
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 Depends:
     R (>= 3.5),
     utils,

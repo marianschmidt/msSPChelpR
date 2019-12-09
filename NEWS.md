@@ -1,3 +1,7 @@
+# msSPChelpR 0.6.5
+
+* Fixed issue in Namespace
+
 # msSPChelpR 0.6.4
 
 * Added a `NEWS.md` file to track changes to the package.

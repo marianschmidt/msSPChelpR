@@ -21,7 +21,7 @@
 #' @param ybreak_var_name Name of variable with futime stratification. Default is "yvar_name".
 #' @param xbreak_var_name Name of variable with futime stratification. Default is "xvar_name".
 #' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
-#' 
+#' @export
 
 summarize_sir_results <- function(sir_df,
                                   summarize_groups,
