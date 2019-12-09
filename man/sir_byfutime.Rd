@@ -51,7 +51,8 @@ Careful: do not chose any variables that are dependent on occurence of count_var
 If y_break_vars = "none", no stratification is performed. Default is "none".}
 
 \item{futime_breaks}{vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
-Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years)}
+Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years). 
+If you don't want to split by follow-up time, use futime_breaks = "none".}
 
 \item{count_var}{variable to be counted as observed case. Should be 1 for case to be counted.}
 

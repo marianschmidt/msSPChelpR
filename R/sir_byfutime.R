@@ -13,7 +13,8 @@
 #'                    Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Year of second cancer).
 #'                    If y_break_vars = "none", no stratification is performed. Default is "none".                
 #' @param futime_breaks vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
-#'                      Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years)
+#'                      Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years). 
+#'                      If you don't want to split by follow-up time, use futime_breaks = "none".
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
 #' @param add_total_row option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
 #' @param add_total_fu option to add totals for follow-up time. Can bei either "no" for not adding such a column or "yes" for adding. Default is "no".
@@ -110,6 +111,12 @@ sir_byfutime <- function(df,
     xb <- FALSE
     length_xb <- 1}
   
+  #futime_option
+  if(futime_breaks[1] != "none"){
+    fu <- TRUE
+  } else{
+    fu <- FALSE
+  }
   
   
   if(add_total_fu == "yes"){
@@ -314,51 +321,34 @@ sir_byfutime <- function(df,
   
   #1c: prepare futime
   
-  df <- df %>%
-    dplyr::mutate(futimegroup = cut(!!futime_var, breaks = futime_breaks, right = FALSE))
-  
-  
-  # capture and change futime levels to make grouping readable 
-  futimegroup_levels <- levels(df$futimegroup) %>% 
-    stringr::str_replace("\\[0,", "to ") %>% 
-    stringr::str_replace(",Inf\\)", "\\+ years") %>% 
-    stringr::str_replace("\\[", "") %>% 
-    stringr::str_replace(",", "-")  %>% 
-    stringr::str_replace("\\)", " years") %>% 
-    stringr::str_replace("to 0.0833 years", "to 1 month") %>% 
-    stringr::str_replace("to 0.167 years", "to 2 months") %>% 
-    stringr::str_replace("to 0.25 years", "to 3 months") %>% 
-    stringr::str_replace("to 0.333 years", "to 4 months") %>% 
-    stringr::str_replace("0.0833-0.5 years", "1-6 months") %>% 
-    stringr::str_replace("0.167-0.5 years", "2-6 months") %>% 
-    stringr::str_replace("0.25-0.5 years", "3-6 months") %>% 
-    stringr::str_replace("0.333-0.5 years", "4-6 months") %>% 
-    stringr::str_replace("to 0.5 years", "to 6 months") %>% 
-    stringr::str_replace("0.5-1 years", "6-12 months")
-  
-  #assign levels
-  levels(df$futimegroup) <- futimegroup_levels
-  
-  #normalized names without spaces and special characters
-  futimegroup_levels_norm <- futimegroup_levels %>% 
-    stringr::str_replace_all(stringr::fixed(" "), "") %>% 
-    stringr::str_replace_all("-", "to") %>% 
-    stringr::str_replace_all("\\.", "") %>% 
-    stringr::str_replace_all("\\+", "plus") %>% 
-    stringr::str_replace(stringr::regex("^[[:digit:]]"), "x")
-  
-  
-  #create dummy variables for each level of fub
-  for (lv in 1:nlevels(df$futimegroup)){
-    df[paste0(futimegroup_levels_norm[lv])] <- ifelse(as.numeric(df$futimegroup) >= lv, 1, 0)
-  }
-  
-  
-  # prepare add_total_fu option
-  
-  if(ft){
-    #add to all levels
-    futimegroup_levels <- c(futimegroup_levels, paste0("Total ", futime_breaks[1]," to ", futime_breaks[length(futime_breaks)], " years"))
+  if(fu){
+    
+    
+    df <- df %>%
+      dplyr::mutate(futimegroup = cut(!!futime_var, breaks = futime_breaks, right = FALSE))
+    
+    
+    # capture and change futime levels to make grouping readable 
+    futimegroup_levels <- levels(df$futimegroup) %>% 
+      stringr::str_replace("\\[0,", "to ") %>% 
+      stringr::str_replace(",Inf\\)", "\\+ years") %>% 
+      stringr::str_replace("\\[", "") %>% 
+      stringr::str_replace(",", "-")  %>% 
+      stringr::str_replace("\\)", " years") %>% 
+      stringr::str_replace("to 0.0833 years", "to 1 month") %>% 
+      stringr::str_replace("to 0.167 years", "to 2 months") %>% 
+      stringr::str_replace("to 0.25 years", "to 3 months") %>% 
+      stringr::str_replace("to 0.333 years", "to 4 months") %>% 
+      stringr::str_replace("0.0833-0.5 years", "1-6 months") %>% 
+      stringr::str_replace("0.167-0.5 years", "2-6 months") %>% 
+      stringr::str_replace("0.25-0.5 years", "3-6 months") %>% 
+      stringr::str_replace("0.333-0.5 years", "4-6 months") %>% 
+      stringr::str_replace("to 0.5 years", "to 6 months") %>% 
+      stringr::str_replace("0.5-1 years", "6-12 months")
+    
+    #assign levels
+    levels(df$futimegroup) <- futimegroup_levels
+    
     #normalized names without spaces and special characters
     futimegroup_levels_norm <- futimegroup_levels %>% 
       stringr::str_replace_all(stringr::fixed(" "), "") %>% 
@@ -366,29 +356,58 @@ sir_byfutime <- function(df,
       stringr::str_replace_all("\\.", "") %>% 
       stringr::str_replace_all("\\+", "plus") %>% 
       stringr::str_replace(stringr::regex("^[[:digit:]]"), "x")
-    #create total dummy
-    df[paste0(futimegroup_levels_norm[length(futimegroup_levels)])] <- ifelse(!is.na(df$futimegroup), 1, 0)
+    
+    
+    #create dummy variables for each level of fub
+    for (lv in 1:nlevels(df$futimegroup)){
+      df[paste0(futimegroup_levels_norm[lv])] <- ifelse(as.numeric(df$futimegroup) >= lv, 1, 0)
+    }
+    
+    
+    # prepare add_total_fu option
+    
+    if(ft){
+      #add to all levels
+      futimegroup_levels <- c(futimegroup_levels, paste0("Total ", futime_breaks[1]," to ", futime_breaks[length(futime_breaks)], " years"))
+      #normalized names without spaces and special characters
+      futimegroup_levels_norm <- futimegroup_levels %>% 
+        stringr::str_replace_all(stringr::fixed(" "), "") %>% 
+        stringr::str_replace_all("-", "to") %>% 
+        stringr::str_replace_all("\\.", "") %>% 
+        stringr::str_replace_all("\\+", "plus") %>% 
+        stringr::str_replace(stringr::regex("^[[:digit:]]"), "x")
+      #create total dummy
+      df[paste0(futimegroup_levels_norm[length(futimegroup_levels)])] <- ifelse(!is.na(df$futimegroup), 1, 0)
+    }
+    
+    
+    #CHK - check that there are no missing values for futimegroups
+    
+    chk_na <- df %>% dplyr::filter(is.na(.data$futimegroup)) %>% nrow()
+    
+    if (chk_na > 0) {
+      warning(
+        paste0(
+          "The variable for follow-up time has: ", chk_na, " missings. These will be omitted when creating the crosstabs.")
+      )
+    }
+    
+    
+    
+    #make symbols out of fu_time_levels
+    
+    fu_var_names <- futimegroup_levels_norm
+    length_fu <- length(fu_var_names)
   }
   
-  
-  #CHK - check that there are no missing values for futimegroups
-  
-  chk_na <- df %>% dplyr::filter(is.na(.data$futimegroup)) %>% nrow()
-  
-  if (chk_na > 0) {
-    warning(
-      paste0(
-        "The variable for follow-up time has: ", chk_na, " missings. These will be omitted when creating the crosstabs.")
-    )
+  #make settings for fu == FALSE
+  if (!fu){
+    length_fu <- 1
+    fu_var_names <- c("Total_FU")
+    futime_breaks <- c(0,Inf)
+    df <- df %>%
+      dplyr::mutate(Total_FU = 1)
   }
-  
-  
-  
-  #make symbols out of fu_time_levels
-  
-  fu_var_names <- futimegroup_levels_norm
-  fu <- TRUE
-  length_fu <- length(fu_var_names)
   
   #set-up progess bar
   
@@ -445,7 +464,7 @@ sir_byfutime <- function(df,
         dplyr::group_by(., .data$age, .data$sex, .data$region, .data$year, .data$t_icdcat) %>%
         {if (yb){dplyr::group_by(., !!syb_var, add = TRUE)} else{.}} %>% # add y grouping variable if present
         {if (xb){dplyr::group_by(., !!sxb_var, add = TRUE)} else{.}} %>% # add x grouping variable if present
-        {if (fu){dplyr::group_by(., !!fub_var, add = TRUE)} else{.}} %>% # add fub grouping variable
+        dplyr::group_by(., !!fub_var, add = TRUE) %>% # add fub grouping variable
         dplyr::summarize(i_observed = sum(.data$count_var_new, na.rm = TRUE)) %>%
         dplyr::ungroup()
       
@@ -571,7 +590,7 @@ sir_byfutime <- function(df,
       
       #vector of matching variables in join functions
       match_vars <- c("age", "sex", "region", "year", 
-                      if(fu){rlang::expr_text(fub_var)}, if(yb){rlang::expr_text(syb_var)}, if(xb){rlang::expr_text(sxb_var)})
+                      rlang::expr_text(fub_var), if(yb){rlang::expr_text(syb_var)}, if(xb){rlang::expr_text(sxb_var)})
       
       #check that there are no conflicting rows with regard to matching variables for join between fu and count
       n_dist_sircalc_fu <- sircalc_fu %>% 
@@ -734,6 +753,9 @@ sir_byfutime <- function(df,
                         fu_time_sort = f) %>%          
           dplyr::select(.data$fu_time, dplyr::everything()) %>%       #move fu_time col to front
           dplyr::select(-dplyr::starts_with(rlang::expr_text(fub_var))) #remove old column named after fub_var
+      } else{
+        sir_longresult_strat_f <- sir_longresult_strat_f %>%
+          dplyr::select(-dplyr::starts_with(rlang::expr_text(fub_var)))
       }
       
       #depending on which iteration of [f] is conducted, data should be joined (append new columns to right)
@@ -796,7 +818,8 @@ sir_byfutime <- function(df,
   #CHK_R1 - PYARS should be the same for all age, gender, year, region groups
   
   problems_pyar <- sir_longresult %>% 
-    dplyr::group_by(.data$yvar_name, .data$yvar_label, .data$fu_time, .data$age, .data$sex, .data$region, .data$year) %>% 
+    dplyr::group_by(.data$yvar_name, .data$yvar_label, .data$age, .data$sex, .data$region, .data$year) %>% 
+    {if (fu){dplyr::group_by(., !.data$fu_time, add = TRUE)} else{.}} %>% # add x grouping variable if present
     dplyr::summarize(min_pyar = min(.data$i_pyar), 
                      max_pyar = max(.data$i_pyar)) %>% 
     dplyr::filter(.data$min_pyar != .data$max_pyar)
