@@ -2,9 +2,9 @@
 #' Reshape dataset to long format
 #'
 #' @param df dataframe
-#' @param idvar String or vector of strings with name of ID variable indicating same patient.
+#' @param case_id_var String or vector of strings with name of ID variable indicating same patient.
 #'                E.g. \code{idvar="PUBCSNUM"} for SEER data.
-#' @param timevar String with name of variable that indicates diagnosis per patient.
+#' @param time_id_var String with name of variable that indicates diagnosis per patient.
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
 #' @param chunks Numeric; default 10.
 #' @param keep_vars Vector of variables to keep. Default is "_all".
@@ -15,10 +15,10 @@
 #'
 
 
-reshape_long <- function(df, idvar, timevar, chunks = 10, keep_vars = c("_all")){
+reshape_long <- function(df, case_id_var, time_id_var, chunks = 10, keep_vars = c("_all")){
   
   #number of patient IDs at start of function
-  n_start <- df %>% dplyr::select(idvar) %>% dplyr::n_distinct()
+  n_start <- df %>% dplyr::select(case_id_var) %>% dplyr::n_distinct()
   
   #select variables defined in keep_vars
   
@@ -37,7 +37,7 @@ reshape_long <- function(df, idvar, timevar, chunks = 10, keep_vars = c("_all"))
     
     long_df[[i]] <- df[[i]] %>%
       as.data.frame %>%
-      stats::reshape(timevar=timevar, idvar=idvar, direction = "long", sep=".")
+      stats::reshape(timevar=time_id_var, idvar=case_id_var, direction = "long", sep=".")
     
     # wide_zfkddata_new <- wide_zfkddata %>%
     #   select(PSEUDOPATID, p_spc, p_futime, SEX.1, SEX.2, SEX.3, SEX.4, SEX.5, SEX.6)
@@ -58,7 +58,7 @@ reshape_long <- function(df, idvar, timevar, chunks = 10, keep_vars = c("_all"))
   
   #rbind chunks into one dataframe
   long_df <- dplyr::bind_rows(long_df) %>% 
-    dplyr::arrange(!! rlang::sym(idvar), !! rlang::sym(timevar))
+    dplyr::arrange(!! rlang::sym(case_id_var), !! rlang::sym(time_id_var))
   
   #check whether final number of patient IDs matches number at start.
   n_end <- long_df %>% nrow()
