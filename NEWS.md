@@ -1,3 +1,7 @@
+# msSPChelpR 0.6.6
+
+* Make use of time_id_var and case_id_var use coherent across reshape funtions
+
 # msSPChelpR 0.6.5
 
 * Fixed issue in Namespace
