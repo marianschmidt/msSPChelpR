@@ -11,6 +11,8 @@ Description: This package provides helper functions for epidemiological analyses
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/marianschmidt/msSPChelpR
+BugReports: https://github.com/marianschmidt/msSPChelpR/issues
 RoxygenNote: 7.0.2
 Depends:
     R (>= 3.5),
