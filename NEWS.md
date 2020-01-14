@@ -1,3 +1,7 @@
+# msSPChelpR 0.6.7
+
+* for function sir_byfutime -> make option `add_total_row` work, even if option `ybreak_vars = "none"`
+
 # msSPChelpR 0.6.6
 
 * Make use of time_id_var and case_id_var use coherent across reshape funtions
