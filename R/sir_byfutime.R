@@ -308,14 +308,20 @@ sir_byfutime <- function(df,
     df <- df %>%
       dplyr::mutate(total_var = "Overall")
     
-    length_yb = length_yb + 1
-    
-    if(add_total_row == "top") {
-      ybreak_var_names <- c("total_var", ybreak_var_names)
-    }
-    
-    if(add_total_row == "bottom") {
-      ybreak_var_names <- c(ybreak_var_names, "total_var")
+    if(yb){
+      length_yb <- length_yb + 1
+      
+      if(add_total_row == "top") {
+        ybreak_var_names <- c("total_var", ybreak_var_names)
+      }
+      
+      if(add_total_row == "bottom") {
+        ybreak_var_names <- c(ybreak_var_names, "total_var")
+      }
+    } else{
+      yb <- TRUE
+      length_yb <- 1
+      ybreak_var_names <- c("total_var")
     }
   }
   
