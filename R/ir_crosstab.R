@@ -149,7 +149,7 @@ ir_crosstab <-
     else{
       ratecount_nest <- ratecount %>%
         dplyr::group_by(!!xbreak_var) %>%
-        tidyr::nest_legacy()
+        tidyr::nest()
       
       rescolnames <-
         ratecount_nest$data[[1]] %>% colnames() %>% .[1:ncol(ratecount_nest$data[[1]])] %>% paste0(ratecount_nest[[1]][[1]], "_", .)
@@ -220,7 +220,7 @@ ir_crosstab <-
         else{
           ratecount_nest <- ratecount %>%
             dplyr::group_by(!!xbreak_var) %>%
-            tidyr::nest_legacy()
+            tidyr::nest()
           
           rescolnames <-
             ratecount_nest$data[[1]] %>% colnames() %>% .[1:ncol(ratecount_nest$data[[1]])] %>% paste0(ratecount_nest[[1]][[1]], "_", .)
@@ -296,7 +296,7 @@ ir_crosstab <-
         else{
           ratecount_nest <- ratecount %>%
             dplyr::group_by(!!xbreak_var) %>%
-            tidyr::nest_legacy()
+            tidyr::nest()
           
           rescolnames <-
             ratecount_nest$data[[1]] %>% colnames() %>% .[1:ncol(ratecount_nest$data[[1]])] %>% paste0(ratecount_nest[[1]][[1]], "_", .)
