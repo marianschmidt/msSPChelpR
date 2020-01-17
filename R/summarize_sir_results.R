@@ -62,6 +62,7 @@ summarize_sir_results <- function(sir_df,
     }
   }
   
+  
   #prepare ybreak_var_name
   
   if(ybreak_var_name == "none"){
@@ -241,7 +242,7 @@ summarize_sir_results <- function(sir_df,
     
     #iv) summarize over grouping vars
     sum_pre_tmp <- sir_df_mod %>%
-      dplyr::group_by_at(dplyr::vars(grouping_vars, .data$t_icdcat)) %>%
+      dplyr::group_by_at(dplyr::vars(grouping_vars, "t_icdcat")) %>%
       dplyr::summarize(
         group_observed = sum(.data$observed, na.rm = TRUE),
         group_pyar = sum(.data$pyar, na.rm = TRUE),
@@ -353,6 +354,7 @@ summarize_sir_results <- function(sir_df,
   
   #change output information required
   
+  
   #full
   if(output_information == "full"){
     sum_pre2 <- sum_pre
@@ -405,10 +407,15 @@ summarize_sir_results <- function(sir_df,
                                                           if(fu){c("fu_time", "fu_time_sort")})]
     
     #creating pivoting specs
-    specs <- sum_pre2 %>% 
-      tidyr::build_wider_spec(names_from = c(if(fu){c("fu_time_sort", "fu_time")}, if(xb){c("xvar_name", "xvar_label")}), 
-                              values_from = trans_vars,
-                              names_sep = ".")
+    if(fu | xb){
+      specs <- sum_pre2 %>% 
+        tidyr::build_wider_spec(names_from = c(if(fu){c("fu_time_sort", "fu_time")}, if(xb){c("xvar_name", "xvar_label")}), 
+                                values_from = trans_vars,
+                                names_sep = ".")
+      
+      yb_off <- FALSE
+      
+    }
     
     if(fu & !xb){
       specs <- specs %>%
@@ -424,6 +431,28 @@ summarize_sir_results <- function(sir_df,
       specs <- specs %>%
         dplyr::mutate(.name = paste(paste(paste(.data[["fu_time_sort"]], .data[["fu_time"]], sep = "**"), .data[["xvar_label"]], sep = "<<"), .data[[".value"]], sep = "__"))
     }
+    
+    if(!fu & !xb & yb){
+      
+      specs <- sum_pre2 %>% 
+        tidyr::build_wider_spec(names_from = c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels"), 
+                                values_from = trans_vars,
+                                names_sep = ".")
+      
+      specs <- specs %>%
+        dplyr::mutate(.name = paste(.data[["yvar_label"]], .data[[".value"]], sep = "__"))
+      
+      yb_off <- TRUE
+      
+    }
+    
+    if(!fu & !xb & !yb){
+      warning("No break variables (futime, xvar, yvar) provided. Nothing to reshape. Returning long results.")
+      sum_results <- sum_pre2
+      
+      return(sum_results)
+    }
+    
     
     sum_results_pre <- sum_pre2 %>% 
       tidyr::pivot_wider_spec(specs)
@@ -443,7 +472,7 @@ summarize_sir_results <- function(sir_df,
     #sort dataframe
     sum_results <- sum_results_pre %>%
       dplyr::select(dplyr::one_of(c("age", "region", "sex", "year", 
-                                    if(yb){c("yvar_name", "yvar_label")}, 
+                                    if(yb & !yb_off){c("yvar_name", "yvar_label")}, 
                                     "t_icdcat", sort)),
                     dplyr::everything())
     
@@ -465,4 +494,3 @@ summarize_sir_results <- function(sir_df,
   return(sum_results) 
   
 }
-
