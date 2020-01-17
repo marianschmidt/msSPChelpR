@@ -1,3 +1,7 @@
+# msSPChelpR 0.6.8
+
+* make summarize_sir_results function work without break variables
+
 # msSPChelpR 0.6.7
 
 * for function sir_byfutime -> make option `add_total_row` work, even if option `ybreak_vars = "none"`
