@@ -1,3 +1,7 @@
+# msSPChelpR 0.6.9
+
+* remove nest_legacy functions and use new tidyr syntax, close #19
+
 # msSPChelpR 0.6.8
 
 * make summarize_sir_results function work without break variables
