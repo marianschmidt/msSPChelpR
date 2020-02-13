@@ -1,3 +1,6 @@
+# msSPChelpR 0.6.10
+* rebuild description file and manual
+
 # msSPChelpR 0.6.9
 
 * remove nest_legacy functions and use new tidyr syntax, close #19
