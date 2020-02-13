@@ -23,8 +23,8 @@ summarize_sir_results(
 \arguments{
 \item{sir_df}{dataframe with stratified sir results created using the sir or sir_byfutime functions}
 
-\item{summarize_groups}{option to define summarizing stratified groups. Default is "none". 
-If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var. 
+\item{summarize_groups}{option to define summarizing stratified groups. Default is "none".
+If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var.
 Define multiple summarize variables by summarize_groups = c("region", "sex", "year")}
 
 \item{summarize_icdcat}{option to summarize over all ICD codes}
@@ -35,7 +35,7 @@ Or "long" for long format where sir_df is not reshaped, but just summarized (ybr
 Default is "long".}
 
 \item{output_information}{option to define information to be presented in final output table. Default is "full" information, i.e. all variables from
-from sir_df. "reduced" is observed, expected, sir, sir_ci / sir_lci+sir_uci, pyar, n_base. "minimal" is observed, expected, sir, sir_ci. 
+from sir_df. "reduced" is observed, expected, sir, sir_ci / sir_lci+sir_uci, pyar, n_base. "minimal" is observed, expected, sir, sir_ci.
 Default is "full".}
 
 \item{add_total_row}{option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".}

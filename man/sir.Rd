@@ -40,14 +40,14 @@ sir(
 \item{ybreak_vars}{variables from df by which rates should be stratified in rows of result df. Multiple variables will result in
 appended rows in result df. Default is "none".}
 
-\item{summarize_groups}{option to define summarizing stratified groups. Default is "none". 
-If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var. 
+\item{summarize_groups}{option to define summarizing stratified groups. Default is "none".
+If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var.
 Define multiple summarize variables by summarize_groups = c("region", "sex", "year")}
 
 \item{count_var}{variable to be counted as observed case. Should be 1 for case to be counted.}
 
-\item{refrates_df}{df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
-"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
+\item{refrates_df}{df where reference rate from general population are defined. It is assumed that refrates_df has the columns
+"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
 refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.}
 
@@ -59,8 +59,8 @@ refrates_df must use the same category coding of age, sex, region, year and icdc
 "standard_pop" for name of standard population (e.g. "European Standard Population 2013) and "population_n" for size of standard population age-group.
 stdpop_df must use the same category coding of age and sex as agegroup_var and sex_var.}
 
-\item{refpop_df}{df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns 
-"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
+\item{refpop_df}{df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns
+"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "population_pyar" for person-years at risk in the respective age/gender/year cohort.
 refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.}
 

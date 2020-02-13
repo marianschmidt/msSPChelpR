@@ -31,7 +31,7 @@ Default is drop_na = FALSE.}
 
 \item{var_selection}{Vector of variables to keep after pivoting. Default is "_all".}
 
-\item{names_pattern}{A regular expression containing matching groups (()). Default is names_pattern = "(.*)\\.(.*)" where variable name and time_id are separated by a dot ".".}
+\item{names_pattern}{A regular expression containing matching groups (()). Default is names_pattern = "(.\emph{)\\.(.})" where variable name and time_id are separated by a dot ".".}
 }
 \value{
 df

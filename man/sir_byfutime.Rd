@@ -41,23 +41,23 @@ sir_byfutime(
 \item{futime_src}{Source of follow-up time for calculating reference ratecan bei either "refpop" or "cohort"}
 
 \item{xbreak_var}{One variable from df by which SIRs should be stratified as a second dimension in result df. This variable will be added as
-a second stratification dimension to ybreak_vars and all variables will be calculated for subpopulations of x and y combinations. 
+a second stratification dimension to ybreak_vars and all variables will be calculated for subpopulations of x and y combinations.
 Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Year of second cancer).
 If y_break_vars = "none", no stratification is performed. Default is "none".}
 
 \item{ybreak_vars}{variables from df by which SIRs should be stratified in result df. Multiple variables will result in
-appended rows in result df. 
+appended rows in result df.
 Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Histology of second cancer).
 If y_break_vars = "none", no stratification is performed. Default is "none".}
 
 \item{futime_breaks}{vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
-Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years). 
+Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years).
 If you don't want to split by follow-up time, use futime_breaks = "none".}
 
 \item{count_var}{variable to be counted as observed case. Should be 1 for case to be counted.}
 
-\item{refrates_df}{df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
-"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
+\item{refrates_df}{df where reference rate from general population are defined. It is assumed that refrates_df has the columns
+"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
 refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.}
 
@@ -71,8 +71,8 @@ refrates_df must use the same category coding of age, sex, region, year and icdc
 "standard_pop" for name of standard population (e.g. "European Standard Population 2013) and "population_n" for size of standard population age-group.
 stdpop_df must use the same category coding of age and sex as agegroup_var and sex_var.}
 
-\item{refpop_df}{df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns 
-"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
+\item{refpop_df}{df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns
+"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "population_pyar" for person-years at risk in the respective age/gender/year cohort.
 refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.}
 

@@ -17,7 +17,7 @@ E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
 \item{chunks}{Numeric; default 10.}
 
-\item{timevar_max}{Numeric; default 6. Maximum number of cases per id. 
+\item{timevar_max}{Numeric; default 6. Maximum number of cases per id.
 All tumors > timevar_max will be deleted before reshaping.}
 }
 \value{

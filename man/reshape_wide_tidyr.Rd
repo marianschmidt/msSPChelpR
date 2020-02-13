@@ -21,7 +21,7 @@ E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 \item{time_id_var}{String with name of variable that indicates diagnosis per patient.
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
-\item{timevar_max}{Numeric; default 6. Maximum number of cases per id. 
+\item{timevar_max}{Numeric; default 6. Maximum number of cases per id.
 All tumors > timevar_max will be deleted before reshaping.}
 
 \item{var_selection}{Vector of variables to keep. Default is "_all".}
