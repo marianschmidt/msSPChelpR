@@ -39,7 +39,7 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
       TRUE ~ .data[[!!status_var]])) %>%
     #label new variable
     sjlabelled::var_labels(!!life_var_new := !!statvar_label) %>%
-    sjlabelled::set_labels(!!life_var_new, labels = c("patient alive" = 1,
+    sjlabelled::val_labels(!!life_var_new := c("patient alive" = 1,
                                                     "patient dead" = 2,
                                                     "NA - patient not born before end of FU" = 97,
                                                     "NA - patient did not develop cancer before end of FU" = 98,

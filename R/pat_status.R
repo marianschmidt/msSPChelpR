@@ -190,10 +190,12 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
     #patient is dead after SPC and before end of FU
     .data[[!!spc_var]] == !!spc_stat_yes & .data[[!!spcdat_var]] <= !!fu_end & .data[[!!life_var]] == !!life_stat_dead & .data[[!!lifedat_var]] <= !!fu_end ~ 4,
     .data[[!!spc_var]] == !!spc_stat_yes & .data[[!!spcdat_var]] <= !!fu_end & .data[[!!life_var]] == !!life_stat_dead & is.na(.data[[!!lifedat_var]]) & !!lifedat_fu_end <= !!fu_end ~ 4,
-    TRUE ~ NA_real_)) %>%
+    TRUE ~ NA_real_)) 
+ 
+ df <- df%>%
    #label new variable
    sjlabelled::var_labels(!!status_var := !!statvar_label) %>%
-   sjlabelled::set_labels(!!status_var, labels = c("patient alive after FC (with or without following SPC after end of FU)" = 1,
+   sjlabelled::val_labels(!!status_var := c("patient alive after FC (with or without following SPC after end of FU)" = 1,
                                                    "patient alive after SPC" = 2,
                                                    "patient dead after FC" = 3,
                                                    "patient dead after SPC" = 4,
