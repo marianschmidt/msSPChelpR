@@ -1,5 +1,8 @@
+# msSPChelpR 0.7.1
+* fix error in vital_status function by replacing sjlabelled::get_label function
+
 # msSPChelpR 0.7.0
-* fix error in pat_status and viatal_status functions due to change in sjlabelled package
+* fix error in pat_status and vital_status functions due to change in sjlabelled package
 
 # msSPChelpR 0.6.10
 * rebuild description file and manual
