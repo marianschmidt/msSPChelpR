@@ -22,7 +22,6 @@ Imports:
     sjlabelled,
     stats,
     stringr,
-    testthat (>= 2.1.1),
     tibble,
     tidyr (>= 1.0.0),
     utils
