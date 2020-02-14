@@ -1,3 +1,7 @@
+# msSPChelpR 0.7.3
+* add check to revert status_var to numeric in case it was created with option as_labelled_factor
+* fix label bug in life_var_new
+
 # msSPChelpR 0.7.2
 * add option as_labelled_factor to vital_status function
 * fix newly introduced error in vital_status function
