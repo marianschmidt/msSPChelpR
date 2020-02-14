@@ -1,3 +1,7 @@
+# msSPChelpR 0.7.2
+* add option as_labelled_factor to vital_status function
+* fix newly introduced error in vital_status function
+
 # msSPChelpR 0.7.1
 * fix error in vital_status function by replacing sjlabelled::get_label function
 
