@@ -24,7 +24,7 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
   
   #make label for new variable (use FU date from label of status_var)
   
-  statvar_label <- paste("Patient Vital Status at end of follow-up", attr(df[[rlang::eval_tidy(var_name)]], "label", exact = T) %>%
+  lifevar_label <- paste("Patient Vital Status at end of follow-up", attr(df[[rlang::eval_tidy(status_var)]], "label", exact = T) %>%
                            stringr::str_sub(-10))
   
   #calculate new status_var variable and label it
@@ -40,7 +40,7 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
       #copy NA codes
       TRUE ~ .data[[!!status_var]])) %>%
     #label new variable
-    sjlabelled::var_labels(!!life_var_new := !!statvar_label) %>%
+    sjlabelled::var_labels(!!life_var_new := !!lifevar_label) %>%
     sjlabelled::val_labels(!!life_var_new := c("patient alive" = 1,
                                                     "patient dead" = 2,
                                                     "NA - patient not born before end of FU" = 97,
