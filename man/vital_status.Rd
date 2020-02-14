@@ -8,7 +8,8 @@ vital_status(
   df,
   status_var = "p_status",
   life_var_new = "p_alive",
-  check = TRUE
+  check = TRUE,
+  as_labelled_factor = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ vital_status(
 \item{life_var_new}{Name of the newly calculated variable for patient vital status. Default is p_alive.}
 
 \item{check}{Check newly calculated variable p_status by printing frequency table. Default is TRUE.}
+
+\item{as_labelled_factor}{If true, output life_var_new as labelled factor variable. Default is FALSE.}
 }
 \value{
 df

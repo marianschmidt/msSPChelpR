@@ -4,11 +4,12 @@
 #' @param status_var Name of the patient status variable that was previously created. Default is p_status.  
 #' @param life_var_new Name of the newly calculated variable for patient vital status. Default is p_alive.  
 #' @param check Check newly calculated variable p_status by printing frequency table. Default is TRUE.   
+#' @param as_labelled_factor If true, output life_var_new as labelled factor variable. Default is FALSE.
 #' @return df
 #' @export
 #'
 
-vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", check = TRUE){
+vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", check = TRUE, as_labelled_factor = FALSE){
   
   status_var <- rlang::enquo(status_var)
   life_var_new <- rlang::enquo(life_var_new)
@@ -45,8 +46,13 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
                                                     "patient dead" = 2,
                                                     "NA - patient not born before end of FU" = 97,
                                                     "NA - patient did not develop cancer before end of FU" = 98,
-                                                    "NA - patient date of death is missing" = 99)) #%>%
-  #dplyr::mutate_at(dplyr::vars(!!life_var_new), sjlabelled::as_label, keep.labels=TRUE) 
+                                                    "NA - patient date of death is missing" = 99)) 
+  
+  #enforce option as_labelled_factor = TRUE
+  if(as_labelled_factor == TRUE){
+    df <- df %>%
+      dplyr::mutate_at(dplyr::vars(!!life_var_new), sjlabelled::as_label, keep.labels=TRUE) 
+  }
   
   #conduct check on new variable
   if(check == TRUE){
