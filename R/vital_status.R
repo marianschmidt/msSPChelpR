@@ -30,6 +30,14 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
   
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
+  
+  #revert status_var to numeric if previously labelled
+  if(is.factor(df[[rlang::eval_tidy(status_var)]])){
+    df <- df %>%
+      dplyr::mutate_at(dplyr::vars(!!status_var), sjlabelled::as_numeric, keep.labels=FALSE, use.labels = TRUE)
+  }
+  
+  #create new life_var
   df <- df %>%
     dplyr::mutate(!!life_var_new := dplyr::case_when(
       #patient alive
@@ -40,10 +48,10 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
       .data[[!!status_var]] == 4 ~ 11,
       #copy NA codes
       TRUE ~ .data[[!!status_var]])) %>%
-    #label new variable
-    sjlabelled::var_labels(!!life_var_new := !!lifevar_label) %>%
-    sjlabelled::val_labels(!!life_var_new := c("patient alive" = 1,
-                                                    "patient dead" = 2,
+    #label new variable 
+    sjlabelled::var_labels(!!life_var_new := lifevar_label) %>%
+    sjlabelled::val_labels(!!life_var_new := c("patient alive" = 10,
+                                                    "patient dead" = 11,
                                                     "NA - patient not born before end of FU" = 97,
                                                     "NA - patient did not develop cancer before end of FU" = 98,
                                                     "NA - patient date of death is missing" = 99)) 
