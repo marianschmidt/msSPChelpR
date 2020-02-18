@@ -1,3 +1,6 @@
+# msSPChelpR 0.7.4
+* new function renumber_time_id
+
 # msSPChelpR 0.7.3
 * add check to revert status_var to numeric in case it was created with option as_labelled_factor
 * fix label bug in life_var_new
