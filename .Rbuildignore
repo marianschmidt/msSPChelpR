@@ -1,3 +1,5 @@
+^renv$
+^renv\.lock$
 ^msSPChelpR\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
