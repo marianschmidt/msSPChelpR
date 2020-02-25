@@ -1,4 +1,6 @@
-*new experimental version dtplyr
+# msSPChelpR (development version)
+
+*new experimental version of pat_status function using dtplyr
 
 # msSPChelpR 0.8.0
 
