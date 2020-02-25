@@ -15,4 +15,4 @@
 #' @keywords internal
 NULL
 ## quiets warnings of R CMD check standard objects that appear in function
-if(getRversion() >= "2.15.1")  utils::globalVariables(c(".", "data", "counter", "standard_population", "population", "rates")) 
+if(getRversion() >= "2.15.1")  utils::globalVariables(c(".", ".N", "data", "counter", "standard_population", "population", "rates")) 
