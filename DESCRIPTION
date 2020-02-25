@@ -11,6 +11,7 @@ BugReports: https://github.com/marianschmidt/msSPChelpR/issues
 Depends: 
     R (>= 3.5)
 Imports: 
+    data.table (>= 1.12),
     dplyr (>= 0.8.3),
     glue (>= 1.3.0),
     knitr,
