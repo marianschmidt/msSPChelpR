@@ -1,3 +1,5 @@
+*new experimental version dtplyr
+
 # msSPChelpR 0.8.0
 
 *new faster version of reshape_wide_dt function based on data.table and without problematic slices done by reshape_wide
