@@ -1,3 +1,6 @@
+*new faster version of reshape_wide_dt function based on data.table and without problematic slices done by reshape_wide
+*new faster version of renumber_time_id function based on data.table
+
 # msSPChelpR 0.7.4
 * new function renumber_time_id
 
