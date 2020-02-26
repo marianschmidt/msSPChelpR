@@ -164,7 +164,7 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
   }
   
   #make label for new variable
-  statvar_label <- paste("Patient Status at end of follow-up", quo_name(fu_end))
+  statvar_label <- paste("Patient Status at end of follow-up", rlang::quo_name(fu_end))
 
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
