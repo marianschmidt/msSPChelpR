@@ -11,6 +11,12 @@
 
 vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_alive", check = TRUE, as_labelled_factor = FALSE){
   
+  #check if df is data.frame
+  if(!is.data.frame(df) | data.table::is.data.table(df)){
+    message("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
+    df <- as.data.frame(df)
+  }
+  
   status_var <- rlang::enquo(status_var)
   life_var_new <- rlang::enquo(life_var_new)
   

@@ -28,7 +28,7 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
                        check = TRUE, as_labelled_factor = FALSE){
   
   #check if df is data.frame
-  if(!is.data.frame(df)){
+  if(!is.data.frame(df) | data.table::is.data.table(df)){
     message("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
     df <- as.data.frame(df)
   }
