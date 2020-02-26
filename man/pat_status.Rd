@@ -5,7 +5,7 @@
 \title{Calculate patient status at specific end of follow-up}
 \usage{
 pat_status(
-  df,
+  wide_df,
   fu_end = NULL,
   dattype = "zfkd",
   status_var = "p_status",
@@ -25,7 +25,7 @@ pat_status(
 )
 }
 \arguments{
-\item{df}{dataframe in wide format}
+\item{wide_df}{dataframe in wide format}
 
 \item{fu_end}{end of follow-up in time format YYYY-MM-DD.}
 
@@ -60,7 +60,7 @@ pat_status(
 \item{as_labelled_factor}{If true, output status_var as labelled factor variable. Default is FALSE.}
 }
 \value{
-df
+wide_df
 }
 \description{
 Calculate patient status at specific end of follow-up
