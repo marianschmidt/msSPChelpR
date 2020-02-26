@@ -1,5 +1,5 @@
 
-#' Calculate patient status at specific end of follow-up using dtplyr
+#' Calculate patient status at specific end of follow-up using data.table
 #'
 #' @param wide_df dataframe in wide format
 #' @param fu_end end of follow-up in time format YYYY-MM-DD.

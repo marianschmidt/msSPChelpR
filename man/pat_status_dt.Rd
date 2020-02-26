@@ -2,7 +2,7 @@
 % Please edit documentation in R/pat_status_dt.R
 \name{pat_status_dt}
 \alias{pat_status_dt}
-\title{Calculate patient status at specific end of follow-up using dtplyr}
+\title{Calculate patient status at specific end of follow-up using data.table}
 \usage{
 pat_status_dt(
   wide_df,
@@ -63,5 +63,5 @@ pat_status_dt(
 wide_df
 }
 \description{
-Calculate patient status at specific end of follow-up using dtplyr
+Calculate patient status at specific end of follow-up using data.table
 }
