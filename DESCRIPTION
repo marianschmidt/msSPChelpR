@@ -20,7 +20,7 @@ Imports:
     magrittr,
     progress,
     purrr,
-    rlang,
+    rlang (>= 0.1.2),
     sjlabelled,
     stats,
     stringr,
