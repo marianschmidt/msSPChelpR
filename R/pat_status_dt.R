@@ -104,10 +104,6 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     } 
   }
   
-  #save quosures that are needed later
-  status_var_quo <- rlang::enquo(status_var)
-  
-  
   #check whether all required variables are defined and present in dataset
   defined_vars <- c(rlang::quo_name(life_var), rlang::quo_name(spc_var), rlang::quo_name(lifedat_var))
   
@@ -152,19 +148,20 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       get(spc_var) == spc_stat_yes & get(spcdat_var) <= fu_end & get(life_var) == life_stat_dead & is.na(get(lifedat_var)) & lifedat_fu_end <= fu_end, 4L,
       #missings
       default = NA_integer_
-    )]
+    )] 
   
-  wide_df <- wide_df%>%
-    #label new variable
-    sjlabelled::var_labels(!!status_var_quo := !!statvar_label)  %>%
-    sjlabelled::val_labels(!!status_var_quo := c("patient alive after FC (with or without following SPC after end of FU)" = 1,
-                                                 "patient alive after SPC" = 2,
-                                                 "patient dead after FC" = 3,
-                                                 "patient dead after SPC" = 4,
-                                                 "NA - patient not born before end of FU" = 97,
-                                                 "NA - patient did not develop cancer before end of FU" = 98,
-                                                 "NA - patient date of death is missing" = 99))
+  #add variable label to status_var
+  sjlabelled::set_label(wide_df[[status_var]]) <- statvar_label
   
+  #add value labels to status_var
+  wide_df[[status_var]] <- sjlabelled::set_labels(wide_df[[status_var]], labels =  c("patient alive after FC (with or without following SPC after end of FU)" = 1,
+                                                                                     "patient alive after SPC" = 2,
+                                                                                     "patient dead after FC" = 3,
+                                                                                     "patient dead after SPC" = 4,
+                                                                                     "NA - patient not born before end of FU" = 97,
+                                                                                     "NA - patient did not develop cancer before end of FU" = 98,
+                                                                                     "NA - patient date of death is missing" = 99),
+                                                  force.labels = TRUE)
   
   
   #enforce option as_labelled_factor = TRUE
@@ -192,3 +189,4 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   return(wide_df)
   
 }
+
