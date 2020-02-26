@@ -27,6 +27,12 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
                        life_stat_alive = NULL, life_stat_dead = NULL, spc_stat_yes = NULL, spc_stat_no = NULL, lifedat_fu_end = NULL,
                        check = TRUE, as_labelled_factor = FALSE){
   
+  #check if df is data.frame
+  if(!is.data.frame(df)){
+    message("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
+    df <- as.data.frame(df)
+  }
+  
   status_var <- rlang::enquo(status_var)
   
   #setting default var names and values for SEER data
@@ -201,7 +207,9 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
                                                    "patient dead after SPC" = 4,
                                                    "NA - patient not born before end of FU" = 97,
                                                    "NA - patient did not develop cancer before end of FU" = 98,
-                                                   "NA - patient date of death is missing" = 99)) 
+                                                   "NA - patient date of death is missing" = 99),
+                          force.labels = TRUE)
+ 
  #enforce option as_labelled_factor = TRUE
  if(as_labelled_factor == TRUE){
  df <- df %>%
