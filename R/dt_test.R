@@ -12,7 +12,7 @@ dt_test <- function(df, ref_var1, ref_var2){
   df <- 
     data.table::setDT(df)
     #.[, (ref_var1) := 123L] %>% #seems not to be working
-  df <- data.table::set[df, j=ref_var1, value = 234L]
+  df <- data.table::set[df, j=get(ref_var1), value = 234L]
   df <- data.table::set[df, j="ref_var2", value = 45L]
   
   return(df)
