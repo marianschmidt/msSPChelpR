@@ -5,7 +5,7 @@
 \title{Calculate vital status at end of follow-up depending on pat_status}
 \usage{
 vital_status(
-  df,
+  wide_df,
   status_var = "p_status",
   life_var_new = "p_alive",
   check = TRUE,
@@ -13,7 +13,7 @@ vital_status(
 )
 }
 \arguments{
-\item{df}{dataframe in wide format}
+\item{wide_df}{dataframe in wide format}
 
 \item{status_var}{Name of the patient status variable that was previously created. Default is p_status.}
 
@@ -24,7 +24,7 @@ vital_status(
 \item{as_labelled_factor}{If true, output life_var_new as labelled factor variable. Default is FALSE.}
 }
 \value{
-df
+wide_df
 }
 \description{
 Calculate vital status at end of follow-up depending on pat_status
