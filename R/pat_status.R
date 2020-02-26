@@ -1,7 +1,7 @@
 
 #' Calculate patient status at specific end of follow-up
 #'
-#' @param df dataframe in wide format
+#' @param wide_df dataframe in wide format
 #' @param fu_end end of follow-up in time format YYYY-MM-DD.
 #' @param dattype Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".
 #' @param life_var Name of variable containing life status. Will override dattype preset.  
@@ -18,19 +18,19 @@
 #' @param lifedat_fu_end Date of last FU of alive status in registry data. Will override dattype preset (2017-03-31 for zfkd; 2018-12-31 for seer).
 #' @param check Check newly calculated variable p_status    
 #' @param as_labelled_factor If true, output status_var as labelled factor variable. Default is FALSE.
-#' @return df
+#' @return wide_df
 #' @export
 #'
 
-pat_status <- function(df, fu_end = NULL, dattype = "zfkd", 
+pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd", 
                        status_var = "p_status", life_var = NULL, spc_var = NULL, birthdat_var = NULL, lifedat_var = NULL, fcdat_var = NULL, spcdat_var = NULL, 
                        life_stat_alive = NULL, life_stat_dead = NULL, spc_stat_yes = NULL, spc_stat_no = NULL, lifedat_fu_end = NULL,
                        check = TRUE, as_labelled_factor = FALSE){
   
-  #check if df is data.frame
-  if(!is.data.frame(df) | data.table::is.data.table(df)){
+  #check if wide_df is data.frame
+  if(!is.data.frame(wide_df) | data.table::is.data.table(wide_df)){
     message("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
-    df <- as.data.frame(df)
+    wide_df <- as.data.frame(wide_df)
   }
   
   status_var <- rlang::enquo(status_var)
@@ -157,7 +157,7 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
   #check whether all required variables are defined and present in dataset
   defined_vars <- c(rlang::quo_name(life_var), rlang::quo_name(spc_var), rlang::quo_name(lifedat_var))
 
-  not_found <- defined_vars[!(defined_vars %in% colnames(df))]
+  not_found <- defined_vars[!(defined_vars %in% colnames(wide_df))]
 
   if(length(not_found) > 0) {
     rlang::abort(paste0("The following variables defined are not found in the provided dataframe: ", paste(not_found, collapse=", ")))
@@ -174,7 +174,7 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
 
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
- df <- df %>%
+ wide_df <- wide_df %>%
   dplyr::mutate(!!status_var := dplyr::case_when(
     #patient is not born before end of follow-up
     .data[[!!birthdat_var]] > !!fu_end ~ 97,
@@ -198,7 +198,7 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
     .data[[!!spc_var]] == !!spc_stat_yes & .data[[!!spcdat_var]] <= !!fu_end & .data[[!!life_var]] == !!life_stat_dead & is.na(.data[[!!lifedat_var]]) & !!lifedat_fu_end <= !!fu_end ~ 4,
     TRUE ~ NA_real_)) 
  
- df <- df%>%
+ wide_df <- wide_df%>%
    #label new variable
    sjlabelled::var_labels(!!status_var := !!statvar_label) %>%
    sjlabelled::val_labels(!!status_var := c("patient alive after FC (with or without following SPC after end of FU)" = 1,
@@ -212,24 +212,24 @@ pat_status <- function(df, fu_end = NULL, dattype = "zfkd",
  
  #enforce option as_labelled_factor = TRUE
  if(as_labelled_factor == TRUE){
- df <- df %>%
+ wide_df <- wide_df %>%
    dplyr::mutate_at(dplyr::vars(!!status_var), sjlabelled::as_label, keep.labels=TRUE) 
  }
 
  #conduct check on new variable
   if(check == TRUE){
-  check_tab <- df %>%
+  check_tab <- wide_df %>%
     dplyr::count(.data[[!!life_var]], .data[[!!status_var]])
   
   print(check_tab)
   
-  freq_tab <- df %>%
+  freq_tab <- wide_df %>%
     dplyr::count(.data[[!!life_var]])
   
   print(freq_tab)
   
   }
  
-  return(df)
+  return(wide_df)
 
 }
