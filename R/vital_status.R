@@ -1,15 +1,15 @@
 #' Calculate vital status at end of follow-up depending on pat_status
 #'
-#' @param df dataframe in wide format
+#' @param wide_df dataframe in wide format
 #' @param status_var Name of the patient status variable that was previously created. Default is p_status.  
 #' @param life_var_new Name of the newly calculated variable for patient vital status. Default is p_alive.  
 #' @param check Check newly calculated variable p_status by printing frequency table. Default is TRUE.   
 #' @param as_labelled_factor If true, output life_var_new as labelled factor variable. Default is FALSE.
-#' @return df
+#' @return wide_df
 #' @export
 #'
 
-vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", check = TRUE, as_labelled_factor = FALSE){
+vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_alive", check = TRUE, as_labelled_factor = FALSE){
   
   status_var <- rlang::enquo(status_var)
   life_var_new <- rlang::enquo(life_var_new)
@@ -17,7 +17,7 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
   #check whether all required variables are defined and present in dataset
   defined_vars <- c(rlang::quo_name(status_var))
   
-  not_found <- defined_vars[!(defined_vars %in% colnames(df))]
+  not_found <- defined_vars[!(defined_vars %in% colnames(wide_df))]
   
   if(length(not_found) > 0) {
     rlang::abort(paste0("The following variables defined are not found in the provided dataframe: ", not_found, ". Please run pat_status function beforehand."))
@@ -25,20 +25,20 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
   
   #make label for new variable (use FU date from label of status_var)
   
-  lifevar_label <- paste("Patient Vital Status at end of follow-up", attr(df[[rlang::eval_tidy(status_var)]], "label", exact = T) %>%
+  lifevar_label <- paste("Patient Vital Status at end of follow-up", attr(wide_df[[rlang::eval_tidy(status_var)]], "label", exact = T) %>%
                            stringr::str_sub(-10))
   
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
   
   #revert status_var to numeric if previously labelled
-  if(is.factor(df[[rlang::eval_tidy(status_var)]])){
-    df <- df %>%
+  if(is.factor(wide_df[[rlang::eval_tidy(status_var)]])){
+    wide_df <- wide_df %>%
       dplyr::mutate_at(dplyr::vars(!!status_var), sjlabelled::as_numeric, keep.labels=FALSE, use.labels = TRUE)
   }
   
   #create new life_var
-  df <- df %>%
+  wide_df <- wide_df %>%
     dplyr::mutate(!!life_var_new := dplyr::case_when(
       #patient alive
       .data[[!!status_var]] == 1 ~ 10,
@@ -58,19 +58,19 @@ vital_status <- function(df, status_var = "p_status", life_var_new = "p_alive", 
   
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
-    df <- df %>%
+    wide_df <- wide_df %>%
       dplyr::mutate_at(dplyr::vars(!!life_var_new), sjlabelled::as_label, keep.labels=TRUE) 
   }
   
   #conduct check on new variable
   if(check == TRUE){
-    check_tab <- df %>%
+    check_tab <- wide_df %>%
       dplyr::count(.data[[!!status_var]], .data[[!!life_var_new]])
     
     print(check_tab)
     
   }
   
-  return(df)
+  return(wide_df)
   
 }
