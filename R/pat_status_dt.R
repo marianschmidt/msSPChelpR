@@ -124,8 +124,8 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
   wide_df <- 
-    data.table::setDT(wide_df)[
-    , `:=` (counter_4zy6 =  data.table::fcase(
+    data.table::setDT(wide_df) %>%
+    data.table::set(., j=get(status_var), value =  data.table::fcase(
       #(status_var) := data.table::fcase(
       #patient is not born before end of follow-up
       get(birthdat_var) > fu_end,    97L,
@@ -149,8 +149,7 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       get(spc_var) == spc_stat_yes & get(spcdat_var) <= fu_end & get(life_var) == life_stat_dead & is.na(get(lifedat_var)) & lifedat_fu_end <= fu_end, 4L,
       #missings
       default = NA_integer_
-    ))] %>%
-    data.table::setnames(., old = "counter_4zy6", new = status_var)
+    ))
   
   #add variable label to status_var
   sjlabelled::set_label(wide_df[[status_var]]) <- statvar_label
