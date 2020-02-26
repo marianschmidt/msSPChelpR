@@ -125,32 +125,31 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
   wide_df <- 
     data.table::setDT(wide_df) %>%
-    .[, `:=` (counter_4zy6 =  data.table::fcase(
-        #(status_var) := data.table::fcase(
+    #.[, `:=` (counter_4zy6 =  data.table::fcase(
+     .[, (status_var) := data.table::fcase(
         #patient is not born before end of follow-up
-      .[, get(birthdat_var)] > fu_end,    97L,
-      #patient has not developed FC before end of follow-up
-      .[, get(fcdat_var)] > fu_end,       98L, 
-      #patient date of death is missing
-      .[, get(life_var)] == life_stat_dead & is.na(.[, get(lifedat_var)]) & lifedat_fu_end > fu_end,   99L,
-      #patient is alive after FC and before end of FU (independet of whether SPC has developed or not after FU)
-      .[, get(spc_var)] == spc_stat_no & .[, get(life_var)] == life_stat_alive,    1L,
-      .[, get(spc_var)] == spc_stat_no & .[, get(life_var)] == life_stat_dead & .[, get(lifedat_var)] > fu_end,   1L,
-      .[, get(spc_var)] == spc_stat_yes & .[, get(spcdat_var)] > fu_end & .[, get(life_var)] == life_stat_alive,  1L,
-      .[, get(spc_var)] == spc_stat_yes & .[, get(spcdat_var)] > fu_end & .[, get(life_var)] == life_stat_dead & .[, get(lifedat_var)] > fu_end,  1L,
-      #patient is alive after SPC and before end of FU
-      .[, get(spc_var)] == spc_stat_yes & .[, get(spcdat_var)] <= fu_end & .[, get(life_var)] == life_stat_alive, 2L,
-      .[, get(spc_var)] == spc_stat_yes & .[, get(spcdat_var)] <= fu_end & .[, get(life_var)] == life_stat_dead & .[, get(lifedat_var)] > fu_end, 2L,
-      #patient is dead after FC and before end of FU
-      .[, get(spc_var)] == spc_stat_no & .[, get(life_var)] == life_stat_dead & .[, get(lifedat_var)] <= fu_end,  3L,
-      .[, get(spc_var)] == spc_stat_no & .[, get(life_var)] == life_stat_dead & is.na(.[, get(lifedat_var)]) & lifedat_fu_end <= fu_end,     3L,
-      #patient is dead after SPC and before end of FU
-      .[, get(spc_var)] == spc_stat_yes & .[, get(spcdat_var)] <= fu_end & .[, get(life_var)] == life_stat_dead & .[, get(lifedat_var)] <= fu_end, 4L,
-      .[, get(spc_var)] == spc_stat_yes & .[, get(spcdat_var)] <= fu_end & .[, get(life_var)] == life_stat_dead & is.na(.[, get(lifedat_var)]) & lifedat_fu_end <= fu_end, 4L,
-      #missings
-      default = NA_integer_
-      ))] %>%
-    data.table::setnames(., old = "counter_4zy6", new = status_var)
+        get(birthdat_var) > fu_end,    97L,
+        #patient has not developed FC before end of follow-up
+        get(fcdat_var) > fu_end,       98L, 
+        #patient date of death is missing
+        get(life_var) == life_stat_dead & is.na(get(lifedat_var)) & lifedat_fu_end > fu_end,   99L,
+        #patient is alive after FC and before end of FU (independet of whether SPC has developed or not after FU)
+        get(spc_var) == spc_stat_no & get(life_var) == life_stat_alive,    1L,
+        get(spc_var) == spc_stat_no & get(life_var) == life_stat_dead & get(lifedat_var) > fu_end,   1L,
+        get(spc_var) == spc_stat_yes & get(spcdat_var) > fu_end & get(life_var) == life_stat_alive,  1L,
+        get(spc_var) == spc_stat_yes & get(spcdat_var) > fu_end & get(life_var) == life_stat_dead & get(lifedat_var) > fu_end,  1L,
+        #patient is alive after SPC and before end of FU
+        get(spc_var) == spc_stat_yes & get(spcdat_var) <= fu_end & get(life_var) == life_stat_alive, 2L,
+        get(spc_var) == spc_stat_yes & get(spcdat_var) <= fu_end & get(life_var) == life_stat_dead & get(lifedat_var) > fu_end, 2L,
+        #patient is dead after FC and before end of FU
+        get(spc_var) == spc_stat_no & get(life_var) == life_stat_dead & get(lifedat_var) <= fu_end,  3L,
+        get(spc_var) == spc_stat_no & get(life_var) == life_stat_dead & is.na(get(lifedat_var)) & lifedat_fu_end <= fu_end,     3L,
+        #patient is dead after SPC and before end of FU
+        get(spc_var) == spc_stat_yes & get(spcdat_var) <= fu_end & get(life_var) == life_stat_dead & get(lifedat_var) <= fu_end, 4L,
+        get(spc_var) == spc_stat_yes & get(spcdat_var) <= fu_end & get(life_var) == life_stat_dead & is.na(get(lifedat_var)) & lifedat_fu_end <= fu_end, 4L,
+        #missings
+        default = NA_integer_
+      )] 
   
   #add variable label to status_var
   sjlabelled::set_label(wide_df[[status_var]]) <- statvar_label
