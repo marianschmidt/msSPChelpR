@@ -11,8 +11,6 @@
 
 vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_alive", check = TRUE, as_labelled_factor = FALSE){
   
-  life_var_new_quo <- rlang::enquo(life_var_new)
-  
   #setDT
   data.table::setDT(wide_df)
   
@@ -40,7 +38,7 @@ vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   }
   
   #create new life_var
-  wide_df <- 
+  wide_df <- wide_df %>%
     .[, (status_var) := data.table::fcase(
       #patient alive
       get(status_var) == 1, 10L,
@@ -50,14 +48,19 @@ vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_
       get(status_var) == 4, 11L,
       #copy NA codes
       default = get(status_var)
-    )] %>%
-    #label new variable 
-    sjlabelled::var_labels(!!life_var_new_quo := lifevar_label) %>%
-    sjlabelled::val_labels(!!life_var_new_quo := c("patient alive" = 10,
-                                                    "patient dead" = 11,
-                                                    "NA - patient not born before end of FU" = 97,
-                                                    "NA - patient did not develop cancer before end of FU" = 98,
-                                                    "NA - patient date of death is missing" = 99)) 
+    )] 
+  
+  #label new variable 
+  sjlabelled::set_label(wide_df[[life_var_new]]) <- lifevar_label
+  
+  #label new variable values
+  wide_df[[life_var_new]] <- sjlabelled::set_labels(wide_df[[life_var_new]], labels =  c("patient alive" = 10,
+                                                                                     "patient dead" = 11,
+                                                                                     "NA - patient not born before end of FU" = 97,
+                                                                                     "NA - patient did not develop cancer before end of FU" = 98,
+                                                                                     "NA - patient date of death is missing" = 99),
+                                                  force.labels = TRUE)
+
   
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
