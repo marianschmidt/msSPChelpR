@@ -1,6 +1,6 @@
 # msSPChelpR (development version)
-
-*new experimental version of pat_status function using dtplyr
+*new faster version of vital_status function using data.table
+*new faster version of pat_status function using data.table
 
 # msSPChelpR 0.8.0
 
