@@ -124,8 +124,8 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
   wide_df <- 
-    data.table::setDT(wide_df) %>%
-    .[, `:=` (counter_4zy6 =  data.table::fcase(
+    data.table::setDT(wide_df)[
+    , `:=` (counter_4zy6 =  data.table::fcase(
       #(status_var) := data.table::fcase(
       #patient is not born before end of follow-up
       get(birthdat_var) > fu_end,    97L,
