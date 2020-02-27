@@ -39,34 +39,37 @@ vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   
   #create new life_var
   wide_df <- data.table::set(wide_df, i=NULL, j=life_var_new, value = data.table::fcase(
-      #patient alive
-      wide_df[[status_var]] == 1, 10L,
-      wide_df[[status_var]] == 2, 10L,
-      #patient dead
-      wide_df[[status_var]] == 3, 11L,
-      wide_df[[status_var]] == 4, 11L,
-      #copy NA codes
-      default = wide_df[[status_var]]
-    ))
+    #patient alive
+    wide_df[[status_var]] == 1, 10,
+    wide_df[[status_var]] == 2, 10,
+    #patient dead
+    wide_df[[status_var]] == 3, 11,
+    wide_df[[status_var]] == 4, 11,
+    #copy NA codes
+    wide_df[[status_var]] == 97, 97,
+    wide_df[[status_var]] == 98, 98,
+    wide_df[[status_var]] == 99, 99,
+    default = NA_real_
+  ))
   
   #label new variable 
   sjlabelled::set_label(wide_df[[life_var_new]]) <- lifevar_label
   
   #label new variable values
   wide_df[[life_var_new]] <- sjlabelled::set_labels(wide_df[[life_var_new]], labels =  c("patient alive" = 10,
-                                                                                     "patient dead" = 11,
-                                                                                     "NA - patient not born before end of FU" = 97,
-                                                                                     "NA - patient did not develop cancer before end of FU" = 98,
-                                                                                     "NA - patient date of death is missing" = 99),
-                                                  force.labels = TRUE)
-
+                                                                                         "patient dead" = 11,
+                                                                                         "NA - patient not born before end of FU" = 97,
+                                                                                         "NA - patient did not develop cancer before end of FU" = 98,
+                                                                                         "NA - patient date of death is missing" = 99),
+                                                    force.labels = TRUE)
+  
   
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
     wide_df <- data.table::set(wide_df, i=NULL, j=life_var_new, value = 
                                  sjlabelled::as_label(wide_df[[life_var_new]], keep.labels=TRUE))
   }
- 
+  
   #conduct check on new variable
   if(check == TRUE){
     check_tab <- wide_df %>%
@@ -79,3 +82,4 @@ vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   return(wide_df)
   
 }
+
