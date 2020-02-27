@@ -165,8 +165,8 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
-    wide_df <- wide_df %>%
-      .[, (status_var) := sjlabelled::as_label(.[[status_var]], keep.labels=TRUE)]
+    wide_df <- data.table::set(wide_df, i=NULL, j=status_var, value =
+                                            sjlabelled::as_label(wide_df[[status_var]], keep.labels=TRUE))
   }
   
   #conduct check on new variable
@@ -174,7 +174,7 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     #count n for life_var and status_var
     check_tab <- wide_df %>%
       .[, .N, by = c(life_var, status_var)]
-    
+
     print(check_tab)
     
     #count n of new status_var
