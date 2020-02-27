@@ -5,6 +5,7 @@
 ##Bug Fixes
 *implement correct referencing in vital_status_dt and pat_status_dt
 *add exports from data.table
+*update documentation for sir and sir_byfutime functions
 
 # msSPChelpR 0.8.2
 
