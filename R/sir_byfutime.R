@@ -18,7 +18,7 @@
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
 #' @param add_total_row option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
 #' @param add_total_fu option to add totals for follow-up time. Can bei either "no" for not adding such a column or "yes" for adding. Default is "no".
-#' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
+#' @param count_var variable to be counted as observed case. Cases are usually the second cancers. Should be 1 for case to be counted.
 #' @param refrates_df df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
 #'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
 #'                  "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
@@ -27,8 +27,8 @@
 #' @param agegroup_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on gender. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
-#' @param icdcat_var variable in df that contains information on ICD code of case diagnosis. Default is set if dattype is given.
-#' @param futime_var variable in df that contains follow-up time per person (in years) in cohort (can only be used with futime_src = "cohort"). Default is set if dattype is given.
+#' @param icdcat_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
+#' @param futime_var variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.
 #' @param pyar_var variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.
 #' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @param std_pop can be either "ESP2013, ESP1976, WHO1960

@@ -6,7 +6,7 @@
 #' @param summarize_groups option to define summarizing stratified groups. Default is "none". 
 #'                 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var. 
 #'                 Define multiple summarize variables by summarize_groups = c("region", "sex", "year")
-#' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
+#' @param count_var variable to be counted as observed case. Cases are usually the second cancers. Should be 1 for case to be counted.
 #' @param xbreak_vars variables from df by which rates should be stratified in columns of result df. Default is "none".
 #' @param ybreak_vars variables from df by which rates should be stratified in rows of result df. Multiple variables will result in
 #'                    appended rows in result df. Default is "none".
@@ -28,8 +28,8 @@
 #' @param sex_var variable in df that contains information on gender. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
 #' @param std_pop can be either "ESP2013, ESP1976, WHO1960. Only applies to expcount_src = "cohort".
-#' @param icdcat_var variable in df that contains information on ICD code of case diagnosis. Default is set if dattype is given.
-#' @param futime_var variable in df that contains follow-up time per person (in years) in cohort (can only be used with futime_src = "cohort"). Default is set if dattype is given.
+#' @param icdcat_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
+#' @param futime_var variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.
 #' @param pyar_var variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.
 #' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @return df
