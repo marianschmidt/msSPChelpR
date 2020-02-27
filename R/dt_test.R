@@ -55,8 +55,18 @@ dt_test <- function(df, ref_var1, ref_var2, gender_var = "SEX", fun = "v1"){
     return(df)
   }
   
-  
   dt_test5 <- function(df, ref_var1, ref_var2, gender_var){
+    df <- 
+      data.table::setDT(df)
+    #.[, (ref_var1) := 123L] %>% #seems not to be working
+    df <- data.table::set(df, i=NULL, j=ref_var1, value = 123L)
+    df <- data.table::set(df, i=NULL, j=ref_var2, value = as.character(df[[get(gender_var)]]))
+    
+    return(df)
+  }
+  
+  
+  dt_test11 <- function(df, ref_var1, ref_var2, gender_var){
     df <- 
       data.table::setDT(df)
     #.[, (ref_var1) := 123L] %>% #seems not to be working
@@ -70,7 +80,7 @@ dt_test <- function(df, ref_var1, ref_var2, gender_var = "SEX", fun = "v1"){
     return(df)
   }
   
-  dt_test6 <- function(df, ref_var1, ref_var2, gender_var){
+  dt_test12 <- function(df, ref_var1, ref_var2, gender_var){
     gender_var_quo <- rlang::ensym(gender_var)
     
     df <- 
@@ -84,7 +94,7 @@ dt_test <- function(df, ref_var1, ref_var2, gender_var = "SEX", fun = "v1"){
     return(df)
   }
   
-  dt_test7 <- function(df, ref_var1, ref_var2, gender_var){
+  dt_test13 <- function(df, ref_var1, ref_var2, gender_var){
     df <- 
       data.table::setDT(df) %>%
       .[, `:=`(ref_var1 = 123L, ref_var2 = data.table::fcase(
@@ -96,7 +106,7 @@ dt_test <- function(df, ref_var1, ref_var2, gender_var = "SEX", fun = "v1"){
     return(df)
   }
   
-  dt_test8 <- function(df, ref_var1, ref_var2, gender_var){
+  dt_test14 <- function(df, ref_var1, ref_var2, gender_var){
     
     gender_var_quo <- rlang::ensym(gender_var)
     
@@ -113,6 +123,21 @@ dt_test <- function(df, ref_var1, ref_var2, gender_var = "SEX", fun = "v1"){
     return(df)
   }
   
+  dt_test15 <- function(df, ref_var1, ref_var2, gender_var){
+    df <- 
+      data.table::setDT(df)
+    #.[, (ref_var1) := 123L] %>% #seems not to be working
+    df <- data.table::set(df, i=NULL, j=ref_var1, value = 123L)
+    df <- data.table::set(df, i=NULL, j=ref_var2, value = data.table::fcase(
+      df[[get(gender_var)]] == "Male", "M",
+      df[[get(gender_var)]] == "Female", "F",
+      default = NA_character_
+    ))
+    
+    return(df)
+  }
+  
+  
   if(fun == "v1"){
     df <- dt_test1(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
   }
@@ -125,30 +150,36 @@ dt_test <- function(df, ref_var1, ref_var2, gender_var = "SEX", fun = "v1"){
     df <- dt_test3(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
   }
   
-  
   if(fun == "v4"){
     df <- dt_test4(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
   }
-  
   
   if(fun == "v5"){
     df <- dt_test5(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
   }
   
-  if(fun == "v6"){
-    df <- dt_test6(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
+  if(fun == "v11"){
+    df <- dt_test11(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
   }
   
-  if(fun == "v7"){
-    df <- dt_test7(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
+  if(fun == "v12"){
+    df <- dt_test12(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
   }
   
-  if(fun == "v8"){
-    df <- dt_test8(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
+  if(fun == "v13"){
+    df <- dt_test13(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
+  }
+  
+  if(fun == "v14"){
+    df <- dt_test14(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
+  }
+  
+  if(fun == "v15"){
+    df <- dt_test15(df=df, ref_var1=ref_var1, ref_var2=ref_var2, gender_var = gender_var)
   }
   
   return(df)
+  
 }
-
 
   
