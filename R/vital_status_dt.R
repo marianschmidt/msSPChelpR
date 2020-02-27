@@ -45,7 +45,7 @@ vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_
     #patient dead
     wide_df[[status_var]] == 3, 11,
     wide_df[[status_var]] == 4, 11,
-    #copy NA codes
+    #copy NA codes - currently "default" in data.table::fcase does not support vectors; check back if this might be supported
     wide_df[[status_var]] == 97, 97,
     wide_df[[status_var]] == 98, 98,
     wide_df[[status_var]] == 99, 99,
@@ -82,4 +82,5 @@ vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   return(wide_df)
   
 }
+
 
