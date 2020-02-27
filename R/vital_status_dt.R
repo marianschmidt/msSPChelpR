@@ -32,23 +32,22 @@ vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
   
   #revert status_var to numeric if previously labelled
-  if(is.factor(wide_df[, get(status_var)])){
+  if(is.factor(wide_df[[status_var]])){
     wide_df %>%
-      .[, (status_var) := sjlabelled::as_numeric(.[, get(status_var)], keep.labels=FALSE, use.labels = TRUE)]
+      .[, (status_var) := sjlabelled::as_numeric(.[[status_var]], keep.labels=FALSE, use.labels = TRUE)]
   }
   
   #create new life_var
-  wide_df <- wide_df %>%
-    .[, (status_var) := data.table::fcase(
+  wide_df <- data.table::set(wide_df, i=NULL, j=life_var_new, value = data.table::fcase(
       #patient alive
-      get(status_var) == 1, 10L,
-      get(status_var) == 2, 10L,
+      wide_df[[status_var]] == 1, 10L,
+      wide_df[[status_var]] == 2, 10L,
       #patient dead
-      get(status_var) == 3, 11L,
-      get(status_var) == 4, 11L,
+      wide_df[[status_var]] == 3, 11L,
+      wide_df[[status_var]] == 4, 11L,
       #copy NA codes
-      default = get(status_var)
-    )] 
+      default = wide_df[[status_var]]
+    ))
   
   #label new variable 
   sjlabelled::set_label(wide_df[[life_var_new]]) <- lifevar_label
