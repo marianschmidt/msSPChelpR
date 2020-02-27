@@ -33,8 +33,8 @@ vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   
   #revert status_var to numeric if previously labelled
   if(is.factor(wide_df[[status_var]])){
-    wide_df %>%
-      .[, (status_var) := sjlabelled::as_numeric(.[[status_var]], keep.labels=FALSE, use.labels = TRUE)]
+    wide_df <- data.table::set(wide_df, i=NULL, j=status_var, value =
+                                 sjlabelled::as_numeric(wide_df[[status_var]], keep.labels=FALSE, use.labels = TRUE))
   }
   
   #create new life_var
@@ -63,8 +63,8 @@ vital_status_dt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
-    wide_df <- wide_df %>%
-      .[, (life_var_new) := sjlabelled::as_label(.[, get(life_var_new)], keep.labels=TRUE)]
+    wide_df <- data.table::set(wide_df, i=NULL, j=life_var_new, value = 
+                                 sjlabelled::as_label(wide_df[[life_var_new]], keep.labels=TRUE))
   }
  
   #conduct check on new variable
