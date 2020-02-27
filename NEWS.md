@@ -1,20 +1,33 @@
 # msSPChelpR (development version)
 
+##New Features
+
+##Bug Fixes
+*implement correct referencing in vital_status_dt and pat_status_dt
+*add exports from data.table
+
 # msSPChelpR 0.8.2
 
 # msSPChelpR 0.8.1
+
+##New Features
 *new faster version of vital_status function using data.table
 *new faster version of pat_status function using data.table
 
 # msSPChelpR 0.8.0
 
+##New Features
 *new faster version of reshape_wide_dt function based on data.table and without problematic slices done by reshape_wide
 *new faster version of renumber_time_id function based on data.table
 
 # msSPChelpR 0.7.4
+
+##New Features
 * new function renumber_time_id
 
 # msSPChelpR 0.7.3
+
+##Bug Fixes
 * add check to revert status_var to numeric in case it was created with option as_labelled_factor
 * fix label bug in life_var_new
 
