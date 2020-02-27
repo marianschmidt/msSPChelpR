@@ -52,7 +52,6 @@ asir <-
            alpha = 0.05) {
     
     
-    
     ### check if df and std_pop_df exist and are dataframes
     
     if (exists("df") && is.data.frame(get("df"))){}
@@ -83,7 +82,7 @@ asir <-
         
       }
       else{
-        rlang::abort(paste0("The following stdpop_df for for providing the standard population does not exist or is not a dataframe: ",
+        rlang::abort(paste0("The following refpop_df for for providing the reference population does not exist or is not a dataframe: ",
                             rlang::quo_name(refpop_df)))
       }
       
