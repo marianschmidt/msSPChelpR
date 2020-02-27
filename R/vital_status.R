@@ -53,7 +53,8 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
       .data[[!!status_var]] == 3 ~ 11,
       .data[[!!status_var]] == 4 ~ 11,
       #copy NA codes
-      TRUE ~ .data[[!!status_var]])) %>%
+      #status_var needs to be converted to double to avoid error message (status_var is in some cases changed to integer during function)
+      TRUE ~ as.numeric(.data[[!!status_var]]))) %>%
     #label new variable 
     sjlabelled::var_labels(!!life_var_new := !!lifevar_label) %>%
     sjlabelled::val_labels(!!life_var_new := c("patient alive" = 10,
