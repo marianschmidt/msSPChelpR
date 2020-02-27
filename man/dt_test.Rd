@@ -4,7 +4,7 @@
 \alias{dt_test}
 \title{Test function to make sure referencing in data.table works}
 \usage{
-dt_test(df, ref_var1, ref_var2)
+dt_test(df, ref_var1, ref_var2, gender_var = "SEX", fun = "v1")
 }
 \arguments{
 \item{df}{dataframe in wide format}
@@ -12,6 +12,10 @@ dt_test(df, ref_var1, ref_var2)
 \item{ref_var1}{Referenced variable 1}
 
 \item{ref_var2}{Referenced variable 2}
+
+\item{gender_var}{Variable for gender}
+
+\item{fun}{reference to function (can be "v1", "v2", etc.)}
 }
 \value{
 df
