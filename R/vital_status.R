@@ -55,12 +55,13 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
       #copy NA codes
       TRUE ~ .data[[!!status_var]])) %>%
     #label new variable 
-    sjlabelled::var_labels(!!life_var_new := lifevar_label) %>%
+    sjlabelled::var_labels(!!life_var_new := !!lifevar_label) %>%
     sjlabelled::val_labels(!!life_var_new := c("patient alive" = 10,
-                                                    "patient dead" = 11,
-                                                    "NA - patient not born before end of FU" = 97,
-                                                    "NA - patient did not develop cancer before end of FU" = 98,
-                                                    "NA - patient date of death is missing" = 99)) 
+                                               "patient dead" = 11,
+                                               "NA - patient not born before end of FU" = 97,
+                                               "NA - patient did not develop cancer before end of FU" = 98,
+                                               "NA - patient date of death is missing" = 99),
+                           force.labels = TRUE) 
   
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
@@ -80,3 +81,4 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
   return(wide_df)
   
 }
+
