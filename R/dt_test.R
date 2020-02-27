@@ -60,7 +60,7 @@ dt_test <- function(df, ref_var1, ref_var2, gender_var = "SEX", fun = "v1"){
       data.table::setDT(df)
     #.[, (ref_var1) := 123L] %>% #seems not to be working
     df <- data.table::set(df, i=NULL, j=ref_var1, value = 123L)
-    df <- data.table::set(df, i=NULL, j=ref_var2, value = as.character(df[[get(gender_var)]]))
+    df <- data.table::set(df, i=NULL, j=ref_var2, value = as.character(df[[gender_var]]))
     
     return(df)
   }
@@ -129,8 +129,8 @@ dt_test <- function(df, ref_var1, ref_var2, gender_var = "SEX", fun = "v1"){
     #.[, (ref_var1) := 123L] %>% #seems not to be working
     df <- data.table::set(df, i=NULL, j=ref_var1, value = 123L)
     df <- data.table::set(df, i=NULL, j=ref_var2, value = data.table::fcase(
-      df[[get(gender_var)]] == "Male", "M",
-      df[[get(gender_var)]] == "Female", "F",
+      df[[gender_var]] == "Male", "M",
+      df[[gender_var]] == "Female", "F",
       default = NA_character_
     ))
     
