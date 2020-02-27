@@ -39,7 +39,6 @@
 #'
 
 
-
 sir <- function(df,
                 dattype = "zfkd",
                 expcount_src = "refrates",
@@ -61,7 +60,6 @@ sir <- function(df,
                 futime_var = NULL,
                 pyar_var = NULL,              #optional for indirect standardization
                 alpha = 0.05) {
-  
   
   ###----  prepwork
   
@@ -546,4 +544,3 @@ sir <- function(df,
   return(sir_result)
   
 }
-
