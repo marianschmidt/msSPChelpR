@@ -8,6 +8,7 @@
 \alias{sym}
 \alias{syms}
 \alias{.data}
+\alias{:=}
 \alias{as_name}
 \alias{as_label}
 \title{Tidy eval helpers}
