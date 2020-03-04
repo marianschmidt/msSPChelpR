@@ -4,10 +4,10 @@
 \alias{reshape_long}
 \title{Reshape dataset to long format}
 \usage{
-reshape_long(df, case_id_var, time_id_var, chunks = 10, keep_vars = c("_all"))
+reshape_long(wide_df, case_id_var, time_id_var, chunks = 10)
 }
 \arguments{
-\item{df}{dataframe}
+\item{wide_df}{dataframe}
 
 \item{case_id_var}{String or vector of strings with name of ID variable indicating same patient.
 E.g. \code{idvar="PUBCSNUM"} for SEER data.}
@@ -16,11 +16,9 @@ E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
 \item{chunks}{Numeric; default 10.}
-
-\item{keep_vars}{Vector of variables to keep. Default is "_all".}
 }
 \value{
-df
+long_df
 }
 \description{
 Reshape dataset to long format

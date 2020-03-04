@@ -1,41 +1,36 @@
 
 #' Reshape dataset to long format
 #'
-#' @param df dataframe
+#' @param wide_df dataframe
 #' @param case_id_var String or vector of strings with name of ID variable indicating same patient.
 #'                E.g. \code{idvar="PUBCSNUM"} for SEER data.
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
 #' @param chunks Numeric; default 10.
-#' @param keep_vars Vector of variables to keep. Default is "_all".
-#' @return df
+#' @return long_df
 #' @export
-#' @importFrom utils str 
-#' @importFrom rlang .data
 #'
 
 
-reshape_long <- function(df, case_id_var, time_id_var, chunks = 10, keep_vars = c("_all")){
+reshape_long <- function(wide_df, case_id_var, time_id_var, chunks = 10){
   
   #number of patient IDs at start of function
-  n_start <- df %>% dplyr::select(case_id_var) %>% dplyr::n_distinct()
-  
-  #select variables defined in keep_vars
+  n_start <- wide_df %>% dplyr::select(case_id_var) %>% dplyr::n_distinct()
   
   #calculate times of variable repetition
   
   #split dataset in equal chunks and store in list
-  rows_pc <- (nrow(df) / chunks) %>% round(0)
+  rows_pc <- (nrow(wide_df) / chunks) %>% round(0)
   
-  df <- split(df, (as.numeric(rownames(df))-1) %/% rows_pc)
+  wide_df <- split(wide_df, (as.numeric(rownames(wide_df))-1) %/% rows_pc)
   
   
   #perform reshape command on each chunk
-  wide_df <- list()
+  wide_wide_df <- list()
   
   for(i in 1:chunks){
     
-    long_df[[i]] <- df[[i]] %>%
+    long_df[[i]] <- wide_df[[i]] %>%
       as.data.frame %>%
       stats::reshape(timevar=time_id_var, idvar=case_id_var, direction = "long", sep=".")
     
@@ -52,7 +47,7 @@ reshape_long <- function(df, case_id_var, time_id_var, chunks = 10, keep_vars = 
     #   arrange(PSEUDOPATID) %>%
     #   select(-SEX)
     
-    df[[i]] <- 0
+    wide_df[[i]] <- 0
     
   }
   
