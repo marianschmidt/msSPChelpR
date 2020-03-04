@@ -1,6 +1,7 @@
 # msSPChelpR (development version)
 
 ##New Features
+*new faster version of reshape_long based on data.table 
 
 ##Bug Fixes
 *implement correct referencing in vital_status_dt and pat_status_dt
