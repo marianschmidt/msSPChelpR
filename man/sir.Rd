@@ -44,7 +44,7 @@ appended rows in result df. Default is "none".}
 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var.
 Define multiple summarize variables by summarize_groups = c("region", "sex", "year")}
 
-\item{count_var}{variable to be counted as observed case. Should be 1 for case to be counted.}
+\item{count_var}{variable to be counted as observed case. Cases are usually the second cancers. Should be 1 for case to be counted.}
 
 \item{refrates_df}{df where reference rate from general population are defined. It is assumed that refrates_df has the columns
 "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
@@ -74,9 +74,9 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
 
 \item{year_var}{variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.}
 
-\item{icdcat_var}{variable in df that contains information on ICD code of case diagnosis. Default is set if dattype is given.}
+\item{icdcat_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
 
-\item{futime_var}{variable in df that contains follow-up time per person (in years) in cohort (can only be used with futime_src = "cohort"). Default is set if dattype is given.}
+\item{futime_var}{variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.}
 
 \item{pyar_var}{variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.}
 
