@@ -7,12 +7,13 @@
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
 #' @param chunks Numeric; default 10.
+#' @param datsize Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
 #' @return long_df
 #' @export
 #'
 
 
-reshape_long_reshape <- function(wide_df, case_id_var, time_id_var, chunks = 1,
+reshape_long <- function(wide_df, case_id_var, time_id_var, chunks = 1,
                                  datsize = Inf){
   
   if(nrow(wide_df) > datsize){
