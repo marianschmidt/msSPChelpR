@@ -12,40 +12,34 @@
 #'
 
 
-reshape_long <- function(wide_df, case_id_var, time_id_var, chunks = 10){
+reshape_long_reshape <- function(wide_df, case_id_var, time_id_var, chunks = 1,
+                                 datsize = Inf){
+  
+  if(nrow(wide_df) > datsize){
+    wide_df <- wide_df[c(1:datsize), ]
+  }
   
   #number of patient IDs at start of function
-  n_start <- wide_df %>% dplyr::select(case_id_var) %>% dplyr::n_distinct()
+  n_start <- nrow(wide_df)
   
-  #calculate times of variable repetition
+  #in list of variable names find variables that have a dot separator followed by digits in the end or NA in the end
+  varying_vars <- colnames(wide_df) %>% stringr::str_subset(.,
+                                                            paste0("\\.", "(?=[:digit:]$|(?=[:digit:](?=[:digit:]$))|(?=N(?=A$)))"))
+  
   
   #split dataset in equal chunks and store in list
   rows_pc <- (nrow(wide_df) / chunks) %>% round(0)
   
   wide_df <- split(wide_df, (as.numeric(rownames(wide_df))-1) %/% rows_pc)
   
-  
   #perform reshape command on each chunk
-  wide_wide_df <- list()
+  long_df <- list()
   
   for(i in 1:chunks){
     
     long_df[[i]] <- wide_df[[i]] %>%
       as.data.frame %>%
-      stats::reshape(timevar=time_id_var, idvar=case_id_var, direction = "long", sep=".")
-    
-    # wide_zfkddata_new <- wide_zfkddata %>%
-    #   select(PSEUDOPATID, p_spc, p_futime, SEX.1, SEX.2, SEX.3, SEX.4, SEX.5, SEX.6)
-    # 
-    # varying_vars <- grep("\\.1$|\\.2$|\\.3$|\\.4$|\\.5$|\\.6$", names(wide_zfkddata_new))
-    # 
-    # zfkddata_new <- wide_zfkddata_new %>%
-    #   as.data.frame() %>%         #
-    #   reshape (timevar="TUMID3", idvar=c("PSEUDOPATID"), varying = varying_vars, direction = "long", times = 6, sep=".") %>%
-    #   as_tibble %>%
-    #   filter(!is.na(SEX)) %>%
-    #   arrange(PSEUDOPATID) %>%
-    #   select(-SEX)
+      stats::reshape(timevar=time_id_var, idvar=case_id_var, direction = "long", varying = varying_vars, sep=".")
     
     wide_df[[i]] <- 0
     
@@ -55,8 +49,16 @@ reshape_long <- function(wide_df, case_id_var, time_id_var, chunks = 10){
   long_df <- dplyr::bind_rows(long_df) %>% 
     dplyr::arrange(!! rlang::sym(case_id_var), !! rlang::sym(time_id_var))
   
+  #filter empty rows
+  col_subset <- colnames(long_df)[!colnames(long_df) %in% (c(case_id_var, time_id_var))]
+  long_df <- long_df %>%
+    dplyr::filter_at(.vars = dplyr::vars(tidyselect::one_of(col_subset)),
+                     dplyr::any_vars(!is.na(.))) %>%
+    #sorting
+    dplyr::arrange(!! rlang::sym(case_id_var), !! rlang::sym(time_id_var))
+  
   #check whether final number of patient IDs matches number at start.
-  n_end <- long_df %>% nrow()
+  n_end <- long_df %>% dplyr::select(tidyselect::all_of(case_id_var)) %>% dplyr::n_distinct()
   
   if(n_end != n_start){
     warning('Unique n in long and wide dataset do not match. There may have been an error!')
