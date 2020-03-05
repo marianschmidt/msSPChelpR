@@ -24,6 +24,7 @@ Imports:
     sjlabelled,
     stats,
     stringr,
+    tidyselect, 
     tibble,
     tidyr (>= 1.0.0),
     utils
