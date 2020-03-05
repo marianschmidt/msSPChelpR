@@ -2,8 +2,8 @@
 #'
 #' See data.table package for details.
 #'
-#' @name .N
+#' @name data.table
 #' @keywords internal
-#' @export .N
-#' @importFrom data.table .N
+#' @export .N .SD
+#' @importFrom data.table .N .SD
 NULL
