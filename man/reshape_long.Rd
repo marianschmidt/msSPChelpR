@@ -4,7 +4,7 @@
 \alias{reshape_long}
 \title{Reshape dataset to long format}
 \usage{
-reshape_long(wide_df, case_id_var, time_id_var, chunks = 10)
+reshape_long(wide_df, case_id_var, time_id_var, chunks = 1, datsize = Inf)
 }
 \arguments{
 \item{wide_df}{dataframe}
@@ -16,6 +16,8 @@ E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
 \item{chunks}{Numeric; default 10.}
+
+\item{datsize}{Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 }
 \value{
 long_df
