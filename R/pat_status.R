@@ -163,10 +163,24 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     rlang::abort(paste0("The following variables defined are not found in the provided dataframe: ", paste(not_found, collapse=", ")))
   }
   
-  #check whether date was provided in correct format
+  #get used FU date from function parameter
   fu_end <- rlang::enquo(fu_end)
-  if(!lubridate::is.Date(as.Date(rlang::eval_tidy(fu_end), date.format = "%y-%m-%d"))) {
+  fu_end_param <- as.Date(rlang::eval_tidy(fu_end), date.format = "%y-%m-%d")
+  
+  #check whether date was provided in correct format
+  
+  if(!lubridate::is.Date(fu_end_param)) {
     rlang::abort("You have not provided a correct Follow-up date in the format YYYY-MM-DD")
+  }
+  
+  #check whether FU date provided might be too late
+  if(fu_end_param > max(wide_df[[rlang::quo_name(fcdat_var)]], na.rm = TRUE) | fu_end_param > max(wide_df[[rlang::quo_name(spcdat_var)]], na.rm = TRUE)) {
+    rlang::abort(paste0("You have provided an end of Follow-up date that might be out of range of the collected data.",
+                        "Thus events such as SPCs or deaths might not have been recorded and FU-time is overestimated.", 
+                        "\nEnd of Follow-up provided: ", fu_end_param, 
+                        "\nLatest recorded First Cancer: ",  max(wide_df[[rlang::quo_name(fcdat_var)]], na.rm = TRUE),
+                        "\nLatest recorded Second Cancer: ",  max(wide_df[[rlang::quo_name(spcdat_var)]], na.rm = TRUE)
+    ))
   }
   
   #make label for new variable
@@ -213,7 +227,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
  #enforce option as_labelled_factor = TRUE
  if(as_labelled_factor == TRUE){
  wide_df <- wide_df %>%
-   dplyr::mutate_at(dplyr::vars(!!status_var), sjlabelled::as_label, keep.labels=TRUE) 
+   dplyr::mutate_at(!!status_var, sjlabelled::as_label, keep.labels=TRUE) 
  }
 
  #conduct check on new variable
