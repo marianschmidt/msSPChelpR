@@ -850,7 +850,7 @@ sir_byfutime <- function(df,
   
   problems_pyar <- sir_longresult %>% 
     dplyr::group_by(.data$yvar_name, .data$yvar_label, .data$age, .data$sex, .data$region, .data$year) %>% 
-    {if (fu){dplyr::group_by(., !.data$fu_time, add = TRUE)} else{.}} %>% # add x grouping variable if present
+    {if (fu){dplyr::group_by(., .data$fu_time, add = TRUE)} else{.}} %>% # add x grouping variable if present
     dplyr::summarize(min_pyar = min(.data$i_pyar), 
                      max_pyar = max(.data$i_pyar)) %>% 
     dplyr::filter(.data$min_pyar != .data$max_pyar)
