@@ -237,6 +237,7 @@ sir_byfutime <- function(df,
   problems_pyar_attr <- c()
   problems_not_empty_attr <- c()
   problems_missing_ref_strata_attr <- c()
+  problems_missing_futime <- c()
   
   
   #create vector with basic matching variables age, sex, region, icdcat, year
@@ -270,8 +271,32 @@ sir_byfutime <- function(df,
     )
   }
   
+  #CHK3: check whether all cases used for analysis have futime calculated
   
+  if (fu){
   
+    problems_missing_futime <- df %>%
+      filter(is.na(.data[[!!futime_var]]))
+    
+    if (length(nrow(problems_missing_futime)) > 0) {
+      message(
+        paste0(
+          "There are ", futime_miss, "rows in the data set for which futime_var is missing.", 
+          "\nPlease make sure that you have: ", 
+          "\n - calculated FU time for all cases where the index event occured and", 
+          "\n - have removed all cases from the dataset that do not count at baseline."
+        )
+      )
+      problems_missing_futime_attr <- c(problems_missing_futime_attr, 
+                                        paste0(
+                                          "There are ", futime_miss, "rows in the data set for which futime_var is missing.", 
+                                          "\nPlease make sure that you have: ", 
+                                          "\n - calculated FU time for all cases where the index event occured and", 
+                                          "\n - have removed all cases from the dataset that do not count at baseline."
+                                        ))
+    }
+    
+  }
   
   #####---- doing everything for the first y
   
@@ -910,6 +935,9 @@ sir_byfutime <- function(df,
     ))))
   
   #write attributes for error and warning messages
+  if(length(problems_missing_futime_attr > 0)){
+    attr(sir_result, "problems_missing_futime") <- problems_missing_futime_attr
+  }
   if(length(problems_not_empty_attr > 0)){
     attr(sir_result, "problems_not_empty") <- problems_not_empty_attr
   }
@@ -919,6 +947,7 @@ sir_byfutime <- function(df,
   if(length(notes_refcases_attr > 0)){
     attr(sir_result, "notes_refcases") <- notes_refcases_attr
   }
+ 
   
   #write attributes for matched strata
   attr(sir_result, "strata_var_names") <- strata_var_names
