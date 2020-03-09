@@ -30,7 +30,8 @@ Imports:
     utils
 Suggests: 
     roxygen2,
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.0.2
