@@ -1,0 +1,38 @@
+---
+title: "Determine Patient Status and Follow-up Time for End of Follow-Up"
+author: "Marian Eberl"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pat_status_futime}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(msSPChelpR)
+```
+
+# Introduction
+
+This vignette explains how to use the three functions:
+* `pat_status` to determine patient status at end of follow-up
+* `vital_status` to determine vital status whether patient is alive or dead at end of follow-up
+* `calc_futime` to calculate follow-up time from index event until next event, death or end of follow-up date
+
+# Recommended Workflow
+
+# `pat_status` function
+
+# `vital_status` function
+
+# `calc_futime` function
+
+# Examples
