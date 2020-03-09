@@ -3,6 +3,7 @@
 ##New Features
 
 ##Bug Fixes
+*fix incomplete check for required variables in `pat_status()` and `pat_status_dt()` functions
 
 
 # msSPChelpR 0.8.3

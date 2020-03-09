@@ -155,7 +155,8 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   }
   
   #check whether all required variables are defined and present in dataset
-  defined_vars <- c(rlang::quo_name(life_var), rlang::quo_name(spc_var), rlang::quo_name(lifedat_var))
+  defined_vars <- c(rlang::quo_name(life_var), rlang::quo_name(spc_var), rlang::quo_name(lifedat_var),
+                    rlang::quo_name(birthdat_var), rlang::quo_name(fcdat_var), rlang::quo_name(spcdat_var))
 
   not_found <- defined_vars[!(defined_vars %in% colnames(wide_df))]
 
