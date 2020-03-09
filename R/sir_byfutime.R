@@ -237,7 +237,7 @@ sir_byfutime <- function(df,
   problems_pyar_attr <- c()
   problems_not_empty_attr <- c()
   problems_missing_ref_strata_attr <- c()
-  problems_missing_futime <- c()
+  problems_missing_futime_attr <- c()
   
   
   #create vector with basic matching variables age, sex, region, icdcat, year
@@ -274,11 +274,11 @@ sir_byfutime <- function(df,
   #CHK3: check whether all cases used for analysis have futime calculated
   
   if (fu){
-  
+    
     problems_missing_futime <- df %>%
       dplyr::filter(is.na(.data[[!!futime_var]]))
     
-    if (length(nrow(problems_missing_futime)) > 0) {
+    if (nrow(problems_missing_futime) > 0) {
       message(
         paste0(
           "There are ", nrow(problems_missing_futime), "rows in the data set for which futime_var is missing.", 
@@ -315,8 +315,8 @@ sir_byfutime <- function(df,
   #make all important variables characters and make NAs explicit for ybreak_vars (for better matching)
   if(yb){
     df <- df %>%
-      dplyr::mutate_at(dplyr::vars(ybreak_var_names), ~as.character(.)) %>%
-      dplyr::mutate_at(dplyr::vars(ybreak_var_names), ~tidyr::replace_na(., na_explicit))
+      dplyr::mutate_at(dplyr::vars(tidyselect::all_of(ybreak_var_names)), ~as.character(.)) %>%
+      dplyr::mutate_at(dplyr::vars(tidyselect::all_of(ybreak_var_names)), ~tidyr::replace_na(., na_explicit))
   }
   
   #make all important variables characters and make NAs explicit for xbreak_var (for better matching)
@@ -947,7 +947,7 @@ sir_byfutime <- function(df,
   if(length(notes_refcases_attr > 0)){
     attr(sir_result, "notes_refcases") <- notes_refcases_attr
   }
- 
+  
   
   #write attributes for matched strata
   attr(sir_result, "strata_var_names") <- strata_var_names

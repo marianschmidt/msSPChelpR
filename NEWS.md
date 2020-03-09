@@ -5,6 +5,7 @@
 *start new vignette on workflow from filtered long dataset to follow-up times `vignette("patstatus_futime")` 
 
 ##Bug Fixes
+*implement new tidyselect routine using `tidyselect::all_of` for vector-based variable selection
 *implement correct referencing in vital_status_dt and pat_status_dt
 *add exports from data.table
 *update documentation for sir and sir_byfutime functions
