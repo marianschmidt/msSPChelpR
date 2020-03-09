@@ -2,6 +2,7 @@
 
 ##New Features
 *new faster version of reshape_long based on data.table 
+*start new vignette on workflow from filtered long dataset to follow-up times `vignette("patstatus_futime")` 
 
 ##Bug Fixes
 *implement correct referencing in vital_status_dt and pat_status_dt
