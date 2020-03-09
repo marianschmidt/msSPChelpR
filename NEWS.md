@@ -1,4 +1,4 @@
-# msSPChelpR (development version)
+# msSPChelpR 0.8.3
 
 ##New Features
 *new faster version of reshape_long based on data.table 
