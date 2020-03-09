@@ -128,7 +128,7 @@ calc_futime <- function(wide_df,
   #CHK2: if new and old futime_var are the same --> message that id was overwritten
   
   if(rlang::quo_name(futime_var_new) %in% names(wide_df)){
-    warning(paste0(rlang::quo_name(time_var_new),"is already present in dataset. Variable has been overwritten with new FU time values"))
+    warning(paste0(rlang::quo_name(futime_var_new),"is already present in dataset. Variable has been overwritten with new FU time values"))
   }
   
   
@@ -172,7 +172,7 @@ calc_futime <- function(wide_df,
       dplyr::summarise(mean_futime = mean(.data[[!!futime_var_new]], na.rm = TRUE), 
                        min_futime = min(.data[[!!futime_var_new]], na.rm = TRUE),
                        max_futime = max(.data[[!!futime_var_new]], na.rm = TRUE),
-                       median_futime = median(.data[[!!futime_var_new]], na.rm = TRUE))
+                       median_futime = stats::median(.data[[!!futime_var_new]], na.rm = TRUE))
     
     print(check_tab)
     
