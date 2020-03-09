@@ -7,6 +7,7 @@
 *implement correct referencing in vital_status_dt and pat_status_dt
 *add exports from data.table
 *update documentation for sir and sir_byfutime functions
+*make reshape_long function work
 
 # msSPChelpR 0.8.2
 
