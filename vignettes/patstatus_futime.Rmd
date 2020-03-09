@@ -23,13 +23,25 @@ library(msSPChelpR)
 # Introduction
 
 This vignette explains how to use the three functions:
-* `pat_status` to determine patient status at end of follow-up
-* `vital_status` to determine vital status whether patient is alive or dead at end of follow-up
-* `calc_futime` to calculate follow-up time from index event until next event, death or end of follow-up date
+
+ * `pat_status` to determine patient status at end of follow-up
+ * `vital_status` to determine vital status whether patient is alive or dead at end of follow-up
+ * `calc_futime` to calculate follow-up time from index event until next event, death or end of follow-up date
 
 # Recommended Workflow
 
-It is recommended to run the  
+It is recommended to run the following steps in the correct order to obtain accurate follow-up time calculations.
+
+ 1. Use the long version dataset to filter all cases that are relevant for your analysis. Make sure that: 
+   * for each `case_id` the index event (e.g. First Cancer FC) is still included and is the one remaining row in the dataset with the smallest `case_id` (`TUMID3` variable for ZfKD data, and `SEQ_NUM` for SEER data)
+   * all `case_id`s might or might not get a countable incident event (e.g. Second Primary Cancer SPC). This event should be the second entry per `case_id` (second smallest `case_id`) if it is to be counted
+   * in the long version dataset a `count_var` should indicate whether the countable incident event (SPC) has occured or not. Coded `0` for non-occurence (or not counted event) and `1` for a counted incident event.
+ 2. In this filtered long dataset version, you should run the helper function `msSPChelpR::renumber_time_id_dt()` (or non-data.table variant `msSPChelpR::renumber_time_id()`) that will renumber all events per `case_id` and (if step 1 is fulfilled) will assign each index event with `time_var_new = 1` and each second (possibly countable incidenct event) with `time_var_new = 2`. Any SIR related function will only count the second event, if additionally to `time_var_new = 2` for thi row also `count_var = 1` is true.
+ 3. Run  `msSPChelpR::reshape_wide_dt()` or non-data.table-variant `msSPChelpR::reshape_wide()`, so that datset is transposed to wide format (1 row per `case_id`, creating variables such as `count_var.2`).
+ 4. Determine patient status at a defined end of follow-up by using the `msSPChelpR::pat_status()` function. This date for end of follow-up must:
+   * be in "YYYY-MM-DD" format and is always defined via the `fu_end =` parameter
+   * must preceed the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your `fu_end` must be `fu_end = "2014-12-15"` or earlier.
+ 5. Calculate follow-up time for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 4. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
 
 ## `pat_status` function
 
@@ -38,3 +50,16 @@ It is recommended to run the
 ## `calc_futime` function
 
 # Examples
+
+## ZfKD melanoma
+
+### Step 1 - Long dataset
+
+### Step 2 - Renumber `time_id`
+
+### Step 3 - Reshape dataset
+
+### Step 4 - Determine patient status at end of FU
+
+### Step 5 - Calculate FU time
+
