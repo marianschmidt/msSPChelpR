@@ -276,12 +276,12 @@ sir_byfutime <- function(df,
   if (fu){
   
     problems_missing_futime <- df %>%
-      filter(is.na(.data[[!!futime_var]]))
+      dplyr::filter(is.na(.data[[!!futime_var]]))
     
     if (length(nrow(problems_missing_futime)) > 0) {
       message(
         paste0(
-          "There are ", futime_miss, "rows in the data set for which futime_var is missing.", 
+          "There are ", nrow(problems_missing_futime), "rows in the data set for which futime_var is missing.", 
           "\nPlease make sure that you have: ", 
           "\n - calculated FU time for all cases where the index event occured and", 
           "\n - have removed all cases from the dataset that do not count at baseline."
@@ -289,7 +289,7 @@ sir_byfutime <- function(df,
       )
       problems_missing_futime_attr <- c(problems_missing_futime_attr, 
                                         paste0(
-                                          "There are ", futime_miss, "rows in the data set for which futime_var is missing.", 
+                                          "There are ", nrow(problems_missing_futime), "rows in the data set for which futime_var is missing.", 
                                           "\nPlease make sure that you have: ", 
                                           "\n - calculated FU time for all cases where the index event occured and", 
                                           "\n - have removed all cases from the dataset that do not count at baseline."
