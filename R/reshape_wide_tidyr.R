@@ -55,6 +55,8 @@ reshape_wide_tidyr <- function(df, case_id_var, time_id_var, timevar_max = 6, da
     names_from = {{time_id_var}}, 
     values_from = tidyselect::all_of(trans_vars),
     names_sep = "."
-  )
+    ) %>%
+    #sort by case_id_var
+    dplyr::arrange(!!rlang::sym(case_id_var))
   
 }
