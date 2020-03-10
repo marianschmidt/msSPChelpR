@@ -8,12 +8,14 @@
 #'                E.g. \code{idvar="PUBCSNUM"} for SEER data.
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
+#' @param timevar_max Numeric; default Inf. Maximum number of cases per id. 
+#'                    All tumors > timevar_max will be deleted before renumbering  
 #' @return df
 #' @export
 #'
 
 renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd", 
-                             case_id_var = NULL, time_id_var = NULL){
+                             case_id_var = NULL, time_id_var = NULL, timevar_max = Inf){
   
   #----- Setting basic parameters
   
@@ -77,6 +79,8 @@ renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd",
     #calculate new renumbered variable
     dplyr::mutate(!!new_time_id_var := dplyr::row_number()) %>%
     #ungroup
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    #delete all rows where new_time_id_var > timevar_max
+    dplyr::filter(.data[[!!new_time_id_var]] <= timevar_max)
   
 }
