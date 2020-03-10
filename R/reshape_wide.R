@@ -9,6 +9,7 @@
 #' @param chunks Numeric; default 10.
 #' @param timevar_max Numeric; default 6. Maximum number of cases per id. 
 #'                    All tumors > timevar_max will be deleted before reshaping.              
+#' @param datsize Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
 #' @return df
 #' @export
 #' @importFrom utils str 
@@ -16,7 +17,12 @@
 #'
 
 
-reshape_wide <- function(df, case_id_var, time_id_var, chunks = 10, timevar_max = 6){
+reshape_wide <- function(df, case_id_var, time_id_var, chunks = 10, timevar_max = 6, datsize = Inf){
+  
+  # restrict size of data.frame to datsize number of rows
+  if(nrow(df) > datsize){
+    df <- df[c(1:datsize), ]
+  }
   
   #number of patient IDs at start of function
   n_start <- df %>% dplyr::select(case_id_var) %>% dplyr::n_distinct()
