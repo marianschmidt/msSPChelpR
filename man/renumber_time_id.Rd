@@ -9,7 +9,8 @@ renumber_time_id(
   new_time_id_var,
   dattype = "zfkd",
   case_id_var = NULL,
-  time_id_var = NULL
+  time_id_var = NULL,
+  timevar_max = Inf
 )
 }
 \arguments{
@@ -24,6 +25,9 @@ E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 
 \item{time_id_var}{String with name of variable that indicates diagnosis per patient.
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
+
+\item{timevar_max}{Numeric; default Inf. Maximum number of cases per id.
+All tumors > timevar_max will be deleted before renumbering}
 }
 \value{
 df

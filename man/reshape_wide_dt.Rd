@@ -9,7 +9,7 @@ reshape_wide_dt(
   case_id_var,
   time_id_var,
   timevar_max = 6,
-  chunks = 2,
+  chunks = 0,
   datsize = Inf
 )
 }
@@ -26,7 +26,7 @@ E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 All tumors > timevar_max will be deleted before reshaping.}
 
 \item{chunks}{Number of last digits taken from case_id_var as grouping variable. Increasing chunks will increase computational time,
-but will save memory. Default is 2.}
+but might save memory. Default is 0.}
 
 \item{datsize}{Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 }

@@ -9,7 +9,7 @@ reshape_wide_tidyr(
   case_id_var,
   time_id_var,
   timevar_max = 6,
-  var_selection = c("_all")
+  datsize = Inf
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 \item{timevar_max}{Numeric; default 6. Maximum number of cases per id.
 All tumors > timevar_max will be deleted before reshaping.}
 
-\item{var_selection}{Vector of variables to keep. Default is "_all".}
+\item{datsize}{Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 }
 \value{
 df

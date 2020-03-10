@@ -4,7 +4,14 @@
 \alias{reshape_wide}
 \title{Reshape dataset to wide format}
 \usage{
-reshape_wide(df, case_id_var, time_id_var, chunks = 10, timevar_max = 6)
+reshape_wide(
+  df,
+  case_id_var,
+  time_id_var,
+  chunks = 10,
+  timevar_max = 6,
+  datsize = Inf
+)
 }
 \arguments{
 \item{df}{dataframe}
@@ -19,6 +26,8 @@ E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
 \item{timevar_max}{Numeric; default 6. Maximum number of cases per id.
 All tumors > timevar_max will be deleted before reshaping.}
+
+\item{datsize}{Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 }
 \value{
 df
