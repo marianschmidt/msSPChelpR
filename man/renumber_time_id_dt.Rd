@@ -10,6 +10,7 @@ renumber_time_id_dt(
   dattype = "zfkd",
   case_id_var = NULL,
   time_id_var = NULL,
+  diagdat_var = NULL,
   timevar_max = Inf
 )
 }
@@ -20,11 +21,14 @@ renumber_time_id_dt(
 
 \item{dattype}{Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".}
 
-\item{case_id_var}{String or vector of strings with name of ID variable indicating same patient.
-E.g. \code{idvar="PUBCSNUM"} for SEER data.}
+\item{case_id_var}{String with name of ID variable indicating same patient.
+E.g. \code{case_id_var="PUBCSNUM"} for SEER data.}
 
 \item{time_id_var}{String with name of variable that indicates diagnosis per patient.
-E.g. \code{timevar="SEQ_NUM"} for SEER data.}
+E.g. \code{time_id_var="SEQ_NUM"} for SEER data.}
+
+\item{diagdat_var}{String with name of variable that indicates date of diagnosis per event.
+E.g. \code{diagdat_var="t_datediag"} for SEER data.}
 
 \item{timevar_max}{Numeric; default Inf. Maximum number of cases per id.
 All tumors > timevar_max will be deleted before renumbering}

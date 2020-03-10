@@ -4,10 +4,12 @@
 #' @param df dataframe
 #' @param new_time_id_var Name of the newly calculated variable for time_id. Required. 
 #' @param dattype Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".
-#' @param case_id_var String or vector of strings with name of ID variable indicating same patient.
-#'                E.g. \code{idvar="PUBCSNUM"} for SEER data.
+#' @param case_id_var String with name of ID variable indicating same patient.
+#'                E.g. \code{case_id_var="PUBCSNUM"} for SEER data.
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.
-#'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
+#'                E.g. \code{time_id_var="SEQ_NUM"} for SEER data.
+#' @param diagdat_var String with name of variable that indicates date of diagnosis per event. 
+#'                E.g. \code{diagdat_var="t_datediag"} for SEER data.
 #' @param timevar_max Numeric; default Inf. Maximum number of cases per id. 
 #'                    All tumors > timevar_max will be deleted before renumbering  
 #' @return df
@@ -15,7 +17,7 @@
 #'
 
 renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd", 
-                             case_id_var = NULL, time_id_var = NULL, timevar_max = Inf){
+                             case_id_var = NULL, time_id_var = NULL, diagdat_var = NULL, timevar_max = Inf){
   
   #----- Setting basic parameters
   
@@ -35,6 +37,11 @@ renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd",
     } else{
       time_id_var <- rlang::ensym(time_id_var)
     }
+    if(is.null(diagdat_var)){
+      datediag_var <- rlang::sym("t_datediag")
+    } else{
+      datediag_var <- rlang::ensym(diagdat_var)
+    }
   }
   
   #setting default var names and values for ZfKD data
@@ -49,13 +56,18 @@ renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd",
     } else{
       time_id_var <- rlang::ensym(time_id_var)
     }
+    if(is.null(diagdat_var)){
+      datediag_var <- rlang::sym("DDIMP")
+    } else{
+      datediag_var <- rlang::ensym(diagdat_var)
+    }
   }
   
   #------ Checks 
   
   #CHK1: check whether all required variables are defined and present in dataset 
   #(check for time_id_var is also check for long dataset format)
-  defined_vars <- c(rlang::quo_name(case_id_var), rlang::quo_name(time_id_var))
+  defined_vars <- c(rlang::quo_name(case_id_var), rlang::quo_name(time_id_var), rlang::quo_name(diagdat_var))
   
   not_found <- defined_vars[!(defined_vars %in% colnames(df))]
   
@@ -73,7 +85,7 @@ renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd",
   
   df %>%
     #sort by case_id and time_id_var
-    dplyr::arrange(!!case_id_var, !!time_id_var)%>%
+    dplyr::arrange(!!case_id_var, !!diagdat_var, !!time_id_var)%>%
     #group by case_id_var
     dplyr::group_by(!!case_id_var)%>%
     #calculate new renumbered variable

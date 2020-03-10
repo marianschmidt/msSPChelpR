@@ -1,7 +1,7 @@
 # msSPChelpR (development version)
 
 ##New Features
-*add timevar_max option to `renumber_timeid()` function
+*add timevar_max option to `renumber_timeid()` function; use sorting by date of diagnosis instead of old time_id_var
 *various improvements to  `reshape_wide_tidyr()` function
 *various improvements to `reshape_wide_dt()` function which is much faster now and uses data.table::dcast instead of stats::reshape now
 
