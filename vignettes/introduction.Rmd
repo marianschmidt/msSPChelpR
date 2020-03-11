@@ -1,5 +1,5 @@
 ---
-title: "Determine Patient Status and Follow-up Time for End of Follow-Up"
+title: "Introduction to the msSPChelpR package - from long dataset to SIR analyses"
 author: "Marian Eberl"
 date: "09 March 2020"
 output: rmarkdown::html_vignette
@@ -22,13 +22,15 @@ library(msSPChelpR)
 
 # Introduction
 
-This vignette explains how to use the three functions:
+This vignette explains how to use the functions:
 
  * `pat_status` to determine patient status at end of follow-up
  * `vital_status` to determine vital status whether patient is alive or dead at end of follow-up
  * `calc_futime` to calculate follow-up time from index event until next event, death or end of follow-up date
 
-# Recommended Workflow
+# Recommended Workflows
+
+## Calculate follow-up times
 
 It is recommended to run the following steps in the correct order to obtain accurate follow-up time calculations.
 
@@ -42,6 +44,8 @@ It is recommended to run the following steps in the correct order to obtain accu
    * be in "YYYY-MM-DD" format and is always defined via the `fu_end =` parameter
    * must preceed the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your `fu_end` must be `fu_end = "2014-12-15"` or earlier.
  5. Calculate follow-up time for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 4. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
+ 
+# Details on single functions
 
 ## `pat_status` function
 
@@ -55,11 +59,13 @@ It is recommended to run the following steps in the correct order to obtain accu
 
 ### Step 1 - Long dataset
 
-### Step 2 - Renumber `time_id`
+### Step 2 - Filter long dataset
 
-### Step 3 - Reshape dataset
+### Step 3 - Renumber `time_id`
 
-### Step 4 - Determine patient status at end of FU
+### Step 4 - Reshape dataset
 
-### Step 5 - Calculate FU time
+### Step 5 - Determine patient status at end of FU
+
+### Step 6 - Calculate FU time
 
