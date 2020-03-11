@@ -31,7 +31,7 @@ renumber_time_id_dt <- function(df, new_time_id_var, dattype = "zfkd",
       time_id_var <- "SEQ_NUM"
     }
     if(is.null(diagdat_var)){
-      datediag_var <- "t_datediag"
+      diagdat_var <- "t_datediag"
     }
   }
   
@@ -44,7 +44,7 @@ renumber_time_id_dt <- function(df, new_time_id_var, dattype = "zfkd",
       time_id_var <- "TUMID3"
     }
     if(is.null(diagdat_var)){
-      datediag_var <- "DDIMP"
+      diagdat_var <- "DDIMP"
     }
   }
   
