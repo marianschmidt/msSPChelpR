@@ -38,9 +38,9 @@ renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd",
       time_id_var <- rlang::ensym(time_id_var)
     }
     if(is.null(diagdat_var)){
-      datediag_var <- rlang::sym("t_datediag")
+      diagdat_var <- rlang::sym("t_datediag")
     } else{
-      datediag_var <- rlang::ensym(diagdat_var)
+      diagdat_var <- rlang::ensym(diagdat_var)
     }
   }
   
@@ -57,9 +57,9 @@ renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd",
       time_id_var <- rlang::ensym(time_id_var)
     }
     if(is.null(diagdat_var)){
-      datediag_var <- rlang::sym("DDIMP")
+      diagdat_var <- rlang::sym("DDIMP")
     } else{
-      datediag_var <- rlang::ensym(diagdat_var)
+      diagdat_var <- rlang::ensym(diagdat_var)
     }
   }
   
