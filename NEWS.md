@@ -1,4 +1,4 @@
-# msSPChelpR (development version)
+# msSPChelpR 0.8.4
 
 ##New Features
 *add timevar_max option to `renumber_time_id()` function; use sorting by date of diagnosis instead of old time_id_var
