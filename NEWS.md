@@ -1,12 +1,14 @@
 # msSPChelpR (development version)
 
 ##New Features
-*add timevar_max option to `renumber_timeid()` function; use sorting by date of diagnosis instead of old time_id_var
+*add timevar_max option to `renumber_time_id()` function; use sorting by date of diagnosis instead of old time_id_var
 *various improvements to  `reshape_wide_tidyr()` function
 *various improvements to `reshape_wide_dt()` function which is much faster now and uses data.table::dcast instead of stats::reshape now
 
 ##Bug Fixes
 *fix incomplete check for required variables in `pat_status()` and `pat_status_dt()` functions
+*fix error in check for required variables in `renumber_time_id()` that broke functions
+*fix bug in check for end of FU time in `pat_status()` and `calc_futime()`
 
 
 # msSPChelpR 0.8.3

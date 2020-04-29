@@ -116,7 +116,7 @@ calc_futime <- function(wide_df,
   
   
   #check whether FU date provided might be too late
-  if(fu_end_param > max(wide_df[[rlang::quo_name(fcdat_var)]], na.rm = TRUE) | fu_end_param > max(wide_df[[rlang::quo_name(spcdat_var)]], na.rm = TRUE)) {
+  if(fu_end_param > max(wide_df[[rlang::quo_name(fcdat_var)]], na.rm = TRUE) & fu_end_param > max(wide_df[[rlang::quo_name(spcdat_var)]], na.rm = TRUE)) {
     rlang::abort(paste0("You have provided an end of Follow-up date that might be out of range of the collected data.",
                         "Thus events such as SPCs or deaths might not have been recorded and FU-time is overestimated.", 
                         "\nEnd of Follow-up provided: ", fu_end_param, 

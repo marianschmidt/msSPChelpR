@@ -34,7 +34,7 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 Language: en-US
 Remotes: Rdatatable/data.table
