@@ -1,42 +1,42 @@
 # msSPChelpR 0.8.4
 
 ##New Features
-*add timevar_max option to `renumber_time_id()` function; use sorting by date of diagnosis instead of old time_id_var
-*various improvements to  `reshape_wide_tidyr()` function
-*various improvements to `reshape_wide_dt()` function which is much faster now and uses data.table::dcast instead of stats::reshape now
+* add timevar_max option to `renumber_time_id()` function; use sorting by date of diagnosis instead of old time_id_var
+* various improvements to  `reshape_wide_tidyr()` function
+* various improvements to `reshape_wide_dt()` function which is much faster now and uses `data.table::dcast` instead of `stats::reshape` now
 
 ##Bug Fixes
-*fix incomplete check for required variables in `pat_status()` and `pat_status_dt()` functions
-*fix error in check for required variables in `renumber_time_id()` that broke functions
-*fix bug in check for end of FU time in `pat_status()` and `calc_futime()`
+* fix incomplete check for required variables in `pat_status()` and `pat_status_dt()` functions
+* fix error in check for required variables in `renumber_time_id()` that broke functions
+* fix bug in check for end of FU time in `pat_status()` and `calc_futime()`
 
 
 # msSPChelpR 0.8.3
 
 ##New Features
-*new faster version of reshape_long based on data.table 
-*start new vignette on workflow from filtered long dataset to follow-up times `vignette("patstatus_futime")` 
+* new faster version of reshape_long based on data.table 
+* start new vignette on workflow from filtered long dataset to follow-up times `vignette("patstatus_futime")` 
 
 ##Bug Fixes
-*implement new tidyselect routine using `tidyselect::all_of` for vector-based variable selection
-*implement correct referencing in vital_status_dt and pat_status_dt
-*add exports from data.table
-*update documentation for sir and sir_byfutime functions
-*make reshape_long function work
+* implement new tidyselect routine using `tidyselect::all_of` for vector-based variable selection
+* implement correct referencing in `vital_status_dt` and `pat_status_dt`
+* add exports from `data.table`
+* update documentation for sir and sir_byfutime functions
+* make `reshape_long` function work
 
 # msSPChelpR 0.8.2
 
 # msSPChelpR 0.8.1
 
 ##New Features
-*new faster version of vital_status function using data.table
-*new faster version of pat_status function using data.table
+* new faster version of vital_status function using data.table
+* new faster version of pat_status function using data.table
 
 # msSPChelpR 0.8.0
 
 ##New Features
-*new faster version of reshape_wide_dt function based on data.table and without problematic slices done by reshape_wide
-*new faster version of renumber_time_id function based on data.table
+* new faster version of reshape_wide_dt function based on data.table and without problematic slices done by reshape_wide
+* new faster version of renumber_time_id function based on data.table
 
 # msSPChelpR 0.7.4
 
