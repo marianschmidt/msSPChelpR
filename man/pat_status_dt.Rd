@@ -13,6 +13,7 @@ pat_status_dt(
   spc_var = NULL,
   birthdat_var = NULL,
   lifedat_var = NULL,
+  lifedatmin_var = NULL,
   fcdat_var = NULL,
   spcdat_var = NULL,
   life_stat_alive = NULL,
@@ -20,6 +21,7 @@ pat_status_dt(
   spc_stat_yes = NULL,
   spc_stat_no = NULL,
   lifedat_fu_end = NULL,
+  use_lifedatmin = FALSE,
   check = TRUE,
   as_labelled_factor = FALSE
 )
@@ -41,6 +43,8 @@ pat_status_dt(
 
 \item{lifedat_var}{Name of variable containing Date of Death. Will override dattype preset.}
 
+\item{lifedatmin_var}{Name of variable containing the minimum Date of Death when true DoD is missing. Will override dattype preset. Will only  be used if use_lifedatmin = TRUE.}
+
 \item{fcdat_var}{Name of variable containing Date of Primary Cancer diagnosis. Will override dattype preset.}
 
 \item{spcdat_var}{Name of variable containing Date of SPC diagnosis Will override dattype preset.}
@@ -55,9 +59,11 @@ pat_status_dt(
 
 \item{lifedat_fu_end}{Date of last FU of alive status in registry data. Will override dattype preset (2017-03-31 for zfkd; 2018-12-31 for seer).}
 
-\item{check}{Check newly calculated variable p_status}
+\item{use_lifedatmin}{If TRUE, option to use Date of Death from lifedatmin_var when DOD is missing. Default is FALSE.}
 
-\item{as_labelled_factor}{If true, output status_var as labelled factor variable. Default is FALSE.}
+\item{check}{Check newly calculated variable p_status. Default is TRUE.}
+
+\item{as_labelled_factor}{If TRUE, output status_var as labelled factor variable. Default is FALSE.}
 }
 \value{
 wide_df
