@@ -4,6 +4,7 @@
 * add timevar_max option to `renumber_time_id()` function; use sorting by date of diagnosis instead of old time_id_var
 * various improvements to  `reshape_wide_tidyr()` function
 * various improvements to `reshape_wide_dt()` function which is much faster now and uses `data.table::dcast` instead of `stats::reshape` now
+* various improvements to `pat_status()` and `pat_status_dt()` functions
 *update vignette `vignette("introduction")`
 
 ##Bug Fixes
