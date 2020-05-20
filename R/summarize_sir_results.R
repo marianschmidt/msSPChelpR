@@ -40,7 +40,7 @@ summarize_sir_results <- function(sir_df,
   
   #---prework
   #get arguments
-  
+
   #set defaults
   
   #prepare fubreak_var_name
@@ -124,9 +124,15 @@ summarize_sir_results <- function(sir_df,
   
   if(summarize_groups[1] != "none"){
     sg <- TRUE
-    sg_vars <- rlang::enquo(summarize_groups)
     sg_var_names <- rlang::eval_tidy(summarize_groups)
   } else{sg <- FALSE}
+  
+  #enforce summarize icdcat
+  
+  if(summarize_icdcat == TRUE){
+    sg <- TRUE
+    sg_var_names <- rlang::eval_tidy(c(summarize_groups, "t_icdcat"))
+  }
   
   #prepare total_fu
   
@@ -220,7 +226,7 @@ summarize_sir_results <- function(sir_df,
     }
     
     #ii) create vector with all possible grouping vars and CHK
-    all_grouping_vars <- c("age", "sex", "region", "year", 
+    all_grouping_vars <- c("age", "sex", "region", "year", "t_icdcat",
                            if(fu){c(fubreak_var_name, "fu_time_sort")},
                            if(yb){c(ybreak_var_name, ylabel_var_name, "yvar_sort", "yvar_sort_levels")}, if(xb){c(xbreak_var_name, xlabel_var_name)})
     
@@ -242,7 +248,7 @@ summarize_sir_results <- function(sir_df,
     
     #iv) summarize over grouping vars
     sum_pre_tmp <- sir_df_mod %>%
-      dplyr::group_by_at(dplyr::vars(grouping_vars, "t_icdcat")) %>%
+      dplyr::group_by_at(dplyr::vars(grouping_vars)) %>%
       dplyr::summarize(
         group_observed = sum(.data$observed, na.rm = TRUE),
         group_pyar = sum(.data$pyar, na.rm = TRUE),
@@ -307,10 +313,10 @@ summarize_sir_results <- function(sir_df,
     if("t_icdcat" %in% sg_var_names == TRUE){
       if(shorten_total_cols==FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(icdcat = paste0("Total - All included ICD categories: ", paste(used_icdcat, collapse = ", ")))
+          dplyr::mutate(t_icdcat = paste0("Total - All included ICD categories: ", paste(used_icdcat, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(icdcat = "Total")
+          dplyr::mutate(t_icdcat = "Total")
       }
     }
     
@@ -410,7 +416,7 @@ summarize_sir_results <- function(sir_df,
     if(fu | xb){
       specs <- sum_pre2 %>% 
         tidyr::build_wider_spec(names_from = c(if(fu){c("fu_time_sort", "fu_time")}, if(xb){c("xvar_name", "xvar_label")}), 
-                                values_from = trans_vars,
+                                values_from = tidyselect::all_of(trans_vars),
                                 names_sep = ".")
       
       yb_off <- FALSE
@@ -436,7 +442,7 @@ summarize_sir_results <- function(sir_df,
       
       specs <- sum_pre2 %>% 
         tidyr::build_wider_spec(names_from = c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels"), 
-                                values_from = trans_vars,
+                                values_from = tidyselect::all_of(trans_vars),
                                 names_sep = ".")
       
       specs <- specs %>%
@@ -494,3 +500,4 @@ summarize_sir_results <- function(sir_df,
   return(sum_results) 
   
 }
+
