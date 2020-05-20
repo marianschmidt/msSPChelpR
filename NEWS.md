@@ -1,16 +1,18 @@
-# msSPChelpR 0.8.4
+# msSPChelpR 0.8.4 - 2020-05-21
 
 ##New Features
 * add timevar_max option to `renumber_time_id()` function; use sorting by date of diagnosis instead of old time_id_var
 * various improvements to  `reshape_wide_tidyr()` function
 * various improvements to `reshape_wide_dt()` function which is much faster now and uses `data.table::dcast` instead of `stats::reshape` now
 * various improvements to `pat_status()` and `pat_status_dt()` functions
-*update vignette `vignette("introduction")`
+* option summarize_icdcat in `summarize_sir_results()` is now functional
+* update vignette `vignette("introduction")`
 
 ##Bug Fixes
 * fix incomplete check for required variables in `pat_status()` and `pat_status_dt()` functions
 * fix error in check for required variables in `renumber_time_id()` that broke functions
 * fix bug in check for end of FU time in `pat_status()` and `calc_futime()`
+* implement new tidyselect routine using `tidyselect::all_of` in `summarize_sir_results()`
 
 
 # msSPChelpR 0.8.3
