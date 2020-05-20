@@ -43,15 +43,15 @@ It is recommended to run the following steps in the correct order to obtain accu
  
  3. [Reshape dataset](#step-reshape-wide): Run  `msSPChelpR::reshape_wide_dt()` or non-data.table-variant `msSPChelpR::reshape_wide()`, so that datset is transposed to wide format (1 row per `case_id`, creating variables such as `count_var.2`).
  
- 4. [Set flag for Second Primary Cancer diagnosis]: 
+ 4. [Set flag for Second Primary Cancer diagnosis](#step-spc): After filtering and reshaping it is essential to set `p_spc` again. This variable will be used by later steps of the analysis.
  
- 4. [Determine patient status](#step-pat-status) at a defined end of follow-up by using the `msSPChelpR::pat_status()` function. This date for end of follow-up must:
+ 5. [Determine patient status](#step-pat-status) at a defined end of follow-up by using the `msSPChelpR::pat_status()` function. This date for end of follow-up must:
    * be in "YYYY-MM-DD" format and is always defined via the `fu_end =` parameter
    * must preceed the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your `fu_end` must be `fu_end = "2014-12-15"` or earlier.
    
- 5. [Calculate follow-up time](#step-calc-futime) for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 4. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
+ 6. [Calculate follow-up time](#step-calc-futime) for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 4. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
  
- 6. 
+ 7. 
  
 # Details on single functions
 
@@ -71,15 +71,33 @@ It is recommended to run the following steps in the correct order to obtain accu
 
 ### Step 1 - Long dataset {#step-long}
 
+
+
+
 ### Step 2 - Filter long dataset {#step-filter}
 
 ### Step 3 - Renumber `time_id` {#step-renumber}
 
 ### Step 4 - Reshape to wide dataset {#step-reshape-wide}
 
-### Step 5 - Determine patient status at end of FU {#step-pat-status}
+### Step 5 - Recalculate `p_spc` {#step-spc}
 
-### Step 6 - Calculate FU time {#step-calc-futime}
+```{r, echo=TRUE, eval=FALSE}
+
+wide_sdata_lung <- wide_sdata_lung %>%
+  dplyr::mutate(p_spc = case_when(is.na(PRIMSITE.2)     ~ 0,
+                         !is.na(PRIMSITE.2)    ~ 1,
+                         TRUE ~ NA_real_)) %>%
+  sjlabelled::var_labels(p_spc="Patient has developed Second Primary Cancer") %>%
+  sjlabelled::set_labels(p_spc, labels = c("no SPC" = 0,
+                                           "SPC developed" = 1)) %>%
+  dplyr::mutate_at(vars("p_spc"), sjlabelled::as_label, keep.labels=TRUE) 
+
+```
+
+### Step 6 - Determine patient status at end of FU {#step-pat-status}
+
+### Step 7 - Calculate FU time {#step-calc-futime}
 
 ## ZfKD melanoma
 
@@ -95,3 +113,9 @@ It is recommended to run the following steps in the correct order to obtain accu
 
 ### Step 6 - Calculate FU tim
 
+
+## Built with
+
+```{r}
+sessionInfo()
+```
