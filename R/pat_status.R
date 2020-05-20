@@ -17,7 +17,7 @@
 #' @param spc_stat_yes Value for SPC occured in spc_var. Will override dattype preset.
 #' @param spc_stat_no Value for no SPC in spc_var. Will override dattype preset.
 #' @param lifedat_fu_end Date of last FU of alive status in registry data. Will override dattype preset (2017-03-31 for zfkd; 2018-12-31 for seer).
-#' @param use_lifedat_min If TRUE, option to use Date of Death from lifedatmin_var when DOD is missing. Default is FALSE.
+#' @param use_lifedatmin If TRUE, option to use Date of Death from lifedatmin_var when DOD is missing. Default is FALSE.
 #' @param check Check newly calculated variable p_status. Default is TRUE.    
 #' @param as_labelled_factor If TRUE, output status_var as labelled factor variable. Default is FALSE.
 #' @return wide_df
@@ -254,7 +254,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
         !!lifedat_var := .data$p_datedeath_orig
       ) %>%
       #remove p_datedeath_orig
-      dplyr::select(-p_datedeath_orig)
+      dplyr::select(-dplyr::one_of(c("p_datedeath_orig")))
   }
   
   wide_df <- wide_df%>%
@@ -292,5 +292,4 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   return(wide_df)
   
 }
-
 

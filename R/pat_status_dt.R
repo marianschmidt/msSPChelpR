@@ -1,3 +1,4 @@
+
 #' Calculate patient status at specific end of follow-up using data.table
 #'
 #' @param wide_df dataframe in wide format
@@ -16,7 +17,7 @@
 #' @param spc_stat_yes Value for SPC occured in spc_var. Will override dattype preset.
 #' @param spc_stat_no Value for no SPC in spc_var. Will override dattype preset.
 #' @param lifedat_fu_end Date of last FU of alive status in registry data. Will override dattype preset (2017-03-31 for zfkd; 2018-12-31 for seer).
-#' @param use_lifedat_min If TRUE, option to use Date of Death from lifedatmin_var when DOD is missing. Default is FALSE.
+#' @param use_lifedatmin If TRUE, option to use Date of Death from lifedatmin_var when DOD is missing. Default is FALSE.
 #' @param check Check newly calculated variable p_status. Default is TRUE.    
 #' @param as_labelled_factor If TRUE, output status_var as labelled factor variable. Default is FALSE.
 #' @return wide_df
@@ -29,6 +30,8 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
                           life_stat_alive = NULL, life_stat_dead = NULL, spc_stat_yes = NULL, spc_stat_no = NULL, lifedat_fu_end = NULL,
                           use_lifedatmin = FALSE, check = TRUE, as_labelled_factor = FALSE){
   
+  #prep - define NULL vars later calculated to avoid RMD_check error
+  p_datedeath_orig <- NULL
   
   #setting default var names and values for SEER data
   
@@ -146,7 +149,7 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   if(use_lifedatmin == TRUE){
     wide_df <- wide_df %>%
       #copy old lifedat_var
-      .[, p_datedeath_orig := get(lifedat_var)]  %>%
+      .[, c("p_datedeath_orig") := get(lifedat_var)]  %>%
       #if lifedat_var is missing, replace with lifedatmin value
       .[is.na(wide_df[[lifedat_var]]), (lifedat_var) := get(lifedatmin_var)]
   }
@@ -186,7 +189,7 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       #replace temporary lifedat_var values with values from old lifedat_var
       .[, (lifedat_var) := p_datedeath_orig] %>%
       #remove p_datedeath_orig
-      .[, p_datedeath_orig := NULL]
+      .[, c("p_datedeath_orig") := NULL]
   }
   
   #add variable label to status_var
