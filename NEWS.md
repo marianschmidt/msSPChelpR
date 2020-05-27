@@ -1,5 +1,12 @@
 # msSPChelpR (development version)
 
+##New Features
+
+##Changes
+* breaking change in function `sir_byfutime()`; options `add_total_row` and `add_total_fu` are replaced by `calc_total_row` and `calc_total_fu`. These are logical parameters now. The positioning of total rows and colums is completely handled by the `summarize_sir_results()` function now. There total rows can be set to top and bottom and total columns to left and right.
+
+##Bug Fixes
+
 # msSPChelpR 0.8.4 - 2020-05-21
 
 ##New Features

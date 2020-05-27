@@ -16,8 +16,8 @@
 #'                      Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years). 
 #'                      If you don't want to split by follow-up time, use futime_breaks = "none".
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
-#' @param add_total_row option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
-#' @param add_total_fu option to add totals for follow-up time. Can bei either "no" for not adding such a column or "yes" for adding. Default is "no".
+#' @param calc_total_row option to calculate a row of totals. Can be either FALSE for not adding such a row or TRUE for adding it at the first row. Default is TRUE.
+#' @param calc_total_fu option to calculate totals for follow-up time. Can be either FALSE for not adding such a column or TRUE for adding. Default is TRUE.
 #' @param count_var variable to be counted as observed case. Cases are usually the second cancers. Should be 1 for case to be counted.
 #' @param refrates_df df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
 #'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
@@ -56,8 +56,8 @@ sir_byfutime <- function(df,
                          futime_breaks = c(0, .5, 1, 5, 10, Inf),
                          count_var,
                          refrates_df = rates,
-                         add_total_row = "no",
-                         add_total_fu = "no",
+                         calc_total_row = TRUE,
+                         calc_total_fu = TRUE,
                          collapse_ci = FALSE,
                          stdpop_df = standard_population, #optional for indirect standardization
                          refpop_df = population,        #optional for indirect standardization
@@ -118,8 +118,12 @@ sir_byfutime <- function(df,
     fu <- FALSE
   }
   
+  if(!is.logical(calc_total_fu)){
+    rlang::inform("Parameter `calc_total_fu` should be logical (TRUE or FALSE). Default `calc_total_fu = TRUE` will be used instead.")
+    calc_total_fu <- TRUE
+  }
   
-  if(add_total_fu == "yes"){
+  if(calc_total_fu == TRUE){
     ft <- TRUE
   } else{ft <- FALSE} #dummy to show loop for Total line
   
@@ -326,9 +330,14 @@ sir_byfutime <- function(df,
       dplyr::mutate_at(dplyr::vars(xbreak_var_names), ~tidyr::replace_na(., na_explicit))
   }
   
-  #1b: prepare add_total_row option
+  #1b: prepare calc_total_row option
   
-  if(add_total_row == "top" | add_total_row == "bottom"){
+  if(!is.logical(calc_total_row)){
+    rlang::inform("Parameter `calc_total_row` should be logical (TRUE or FALSE). Default `calc_total_row = TRUE` will be used instead.")
+    calc_total_row <- TRUE
+  }
+  
+  if(calc_total_row == TRUE){
     
     df <- df %>%
       dplyr::mutate(total_var = "Overall")
@@ -336,13 +345,8 @@ sir_byfutime <- function(df,
     if(yb){
       length_yb <- length_yb + 1
       
-      if(add_total_row == "top") {
-        ybreak_var_names <- c("total_var", ybreak_var_names)
-      }
+      ybreak_var_names <- c("total_var", ybreak_var_names) #add total before all other ybreak_vars
       
-      if(add_total_row == "bottom") {
-        ybreak_var_names <- c(ybreak_var_names, "total_var")
-      }
     } else{
       yb <- TRUE
       length_yb <- 1
@@ -395,7 +399,7 @@ sir_byfutime <- function(df,
     }
     
     
-    # prepare add_total_fu option
+    # prepare calc_total_fu option
     
     if(ft){
       #add to all levels
@@ -910,6 +914,11 @@ sir_byfutime <- function(df,
   
   #collapse_ci option
   
+  if(!is.logical(collapse_ci)){
+    rlang::inform("Parameter `collapse_ci` should be logical (TRUE or FALSE). Default `collapse_ci = FALSE` will be used instead.")
+    collapse_ci <- FALSE
+  }
+  
   if(collapse_ci == TRUE){
     
     sir_result_pre <- sir_result_pre %>%
@@ -959,3 +968,4 @@ sir_byfutime <- function(df,
   return(sir_result)
   
 }
+
