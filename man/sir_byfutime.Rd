@@ -14,8 +14,8 @@ sir_byfutime(
   futime_breaks = c(0, 0.5, 1, 5, 10, Inf),
   count_var,
   refrates_df = rates,
-  add_total_row = "no",
-  add_total_fu = "no",
+  calc_total_row = TRUE,
+  calc_total_fu = TRUE,
   collapse_ci = FALSE,
   stdpop_df = standard_population,
   refpop_df = population,
@@ -61,9 +61,9 @@ If you don't want to split by follow-up time, use futime_breaks = "none".}
 "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
 refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.}
 
-\item{add_total_row}{option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".}
+\item{calc_total_row}{option to calculate a row of totals. Can be either FALSE for not adding such a row or TRUE for adding it at the first row. Default is TRUE.}
 
-\item{add_total_fu}{option to add totals for follow-up time. Can bei either "no" for not adding such a column or "yes" for adding. Default is "no".}
+\item{calc_total_fu}{option to calculate totals for follow-up time. Can be either FALSE for not adding such a column or TRUE for adding. Default is TRUE.}
 
 \item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
 
