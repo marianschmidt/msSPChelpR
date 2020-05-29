@@ -13,14 +13,14 @@
 #' @param output_information option to define information to be presented in final output table. Default is "full" information, i.e. all variables from
 #'                           from sir_df. "reduced" is observed, expected, sir, sir_ci / sir_lci+sir_uci, pyar, n_base. "minimal" is observed, expected, sir, sir_ci. 
 #'                           Default is "full".
-#' @param add_total_row option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
-#' @param add_total_fu option to add totals for follow-up time. Can bei either "no" for not adding such a column or "left" or "right" for adding it at the first or last column. Default is "no".
+#' @param add_total_row option to add a row of totals. Can be either "no" for not adding such a row or "start" or "end" for adding it at the first or last row. Default is "no".
+#' @param add_total_fu option to add totals for follow-up time. Can be either "no" for not adding such a column or "start" or "end" for adding it at the first or last column. Default is "no".
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
 #' @param shorten_total_cols Shorten text in all results columns that start with "Total". Default == FALSE.
 #' @param fubreak_var_name Name of variable with futime stratification. Default is "fu_time".
 #' @param ybreak_var_name Name of variable with futime stratification. Default is "yvar_name".
 #' @param xbreak_var_name Name of variable with futime stratification. Default is "xvar_name".
-#' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
+#' @param alpha significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @export
 
 summarize_sir_results <- function(sir_df,
@@ -40,7 +40,7 @@ summarize_sir_results <- function(sir_df,
   
   #---prework
   #get arguments
-
+  
   #set defaults
   
   #prepare fubreak_var_name
@@ -136,13 +136,13 @@ summarize_sir_results <- function(sir_df,
   
   #prepare total_fu
   
-  if(add_total_fu == "left" | add_total_fu == "right"){
+  if(add_total_fu == "start" | add_total_fu == "end"){
     ft <- TRUE
   } else{ft <- FALSE} #dummy to show loop for Total line
   
   #prepare total_row
   
-  if(add_total_row == "top" | add_total_row == "bottom"){
+  if(add_total_row == "start" | add_total_row == "end"){
     
     #BUG: do something here
     
@@ -248,7 +248,7 @@ summarize_sir_results <- function(sir_df,
     
     #iv) summarize over grouping vars
     sum_pre_tmp <- sir_df_mod %>%
-      dplyr::group_by_at(dplyr::vars(grouping_vars)) %>%
+      dplyr::group_by_at(dplyr::vars(tidyselect::all_of(grouping_vars))) %>%
       dplyr::summarize(
         group_observed = sum(.data$observed, na.rm = TRUE),
         group_pyar = sum(.data$pyar, na.rm = TRUE),
@@ -491,9 +491,9 @@ summarize_sir_results <- function(sir_df,
   if(output == "nested"){
     
     sum_results <- sum_pre %>%
-      dplyr::group_by_at(dplyr::vars(grouping_vars)) %>%
-      {if (xb){dplyr::group_by(., .data$xvar_name, add = TRUE)} else{.}} %>% # add x grouping variable if present
-      {if (fu){dplyr::group_by(., .data$fu_time, add = TRUE)} else{.}} %>% # add fub grouping variable
+      dplyr::group_by_at(dplyr::vars(tidyselect::all_of(grouping_vars))) %>%
+      {if (xb){dplyr::group_by(., .data$xvar_name, .add = TRUE)} else{.}} %>% # add x grouping variable if present
+      {if (fu){dplyr::group_by(., .data$fu_time, .add = TRUE)} else{.}} %>% # add fub grouping variable
       tidyr::nest()
   }
   

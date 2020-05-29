@@ -77,7 +77,10 @@ sir_byfutime <- function(df,
   
   #setting default parameters
   na_explicit <- "_NA_explicit" # string for explicit NAs
+  options_dplyr_old <- options(dplyr.summarise.inform = TRUE) # save old setting for showing dplyr messages
+  on.exit(options(options_dplyr_old), add = TRUE) #make sure old options are used when exiting function
   
+  options(dplyr.summarise.inform = FALSE) #set new setting for not showing dplyr messages to avoid outbut by summarize()
   
   
   #CHK1: check if df exists and is dataframe
@@ -497,9 +500,9 @@ sir_byfutime <- function(df,
                                                        ((!!count_var) == 1) & ((!!futime_var) >= futime_breaks[f]) & ((!!futime_var) < futime_breaks[f+1]) ~ 1, #otherwise only count cases occuring between futime_breaks
                                                        TRUE ~ 0)) %>% 
         dplyr::group_by(., .data$age, .data$sex, .data$region, .data$year, .data$t_icdcat) %>%
-        {if (yb){dplyr::group_by(., !!syb_var, add = TRUE)} else{.}} %>% # add y grouping variable if present
-        {if (xb){dplyr::group_by(., !!sxb_var, add = TRUE)} else{.}} %>% # add x grouping variable if present
-        dplyr::group_by(., !!fub_var, add = TRUE) %>% # add fub grouping variable
+        {if (yb){dplyr::group_by(., !!syb_var, .add = TRUE)} else{.}} %>% # add y grouping variable if present
+        {if (xb){dplyr::group_by(., !!sxb_var, .add = TRUE)} else{.}} %>% # add x grouping variable if present
+        dplyr::group_by(., !!fub_var, .add = TRUE) %>% # add fub grouping variable
         dplyr::summarize(i_observed = sum(.data$count_var_new, na.rm = TRUE)) %>%
         dplyr::ungroup()
       
@@ -547,9 +550,9 @@ sir_byfutime <- function(df,
                       base_n_fugroup = dplyr::case_when((!!fub_var) == 1 ~ 1,
                                                         TRUE           ~ 0)) %>%
         dplyr::group_by(., .data$age, .data$sex, .data$region, .data$year) %>%
-        {if (yb){dplyr::group_by(., !!syb_var, add = TRUE)} else{.}} %>% # add y grouping variable if present
-        {if (xb){dplyr::group_by(., !!sxb_var, add = TRUE)} else{.}} %>% # add x grouping variable if present
-        dplyr::group_by(., !!fub_var, add = TRUE) %>% # add fub grouping variable
+        {if (yb){dplyr::group_by(., !!syb_var, .add = TRUE)} else{.}} %>% # add y grouping variable if present
+        {if (xb){dplyr::group_by(., !!sxb_var, .add = TRUE)} else{.}} %>% # add x grouping variable if present
+        dplyr::group_by(., !!fub_var, .add = TRUE) %>% # add fub grouping variable
         dplyr::summarize(i_pyar = sum(.data$futime_var_new, na.rm = TRUE),
                          n_base = sum(.data$base_n_fugroup, na.rm = TRUE)) %>%
         dplyr::ungroup()
@@ -854,7 +857,7 @@ sir_byfutime <- function(df,
   
   problems_pyar <- sir_longresult %>% 
     dplyr::group_by(.data$yvar_name, .data$yvar_label, .data$age, .data$sex, .data$region, .data$year) %>% 
-    {if (fu){dplyr::group_by(., .data$fu_time, add = TRUE)} else{.}} %>% # add x grouping variable if present
+    {if (fu){dplyr::group_by(., .data$fu_time, .add = TRUE)} else{.}} %>% # add x grouping variable if present
     dplyr::summarize(min_pyar = min(.data$i_pyar), 
                      max_pyar = max(.data$i_pyar)) %>% 
     dplyr::filter(.data$min_pyar != .data$max_pyar)
