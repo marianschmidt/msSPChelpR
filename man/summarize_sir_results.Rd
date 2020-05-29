@@ -38,9 +38,9 @@ Default is "long".}
 from sir_df. "reduced" is observed, expected, sir, sir_ci / sir_lci+sir_uci, pyar, n_base. "minimal" is observed, expected, sir, sir_ci.
 Default is "full".}
 
-\item{add_total_row}{option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".}
+\item{add_total_row}{option to add a row of totals. Can be either "no" for not adding such a row or "start" or "end" for adding it at the first or last row. Default is "no".}
 
-\item{add_total_fu}{option to add totals for follow-up time. Can bei either "no" for not adding such a column or "left" or "right" for adding it at the first or last column. Default is "no".}
+\item{add_total_fu}{option to add totals for follow-up time. Can be either "no" for not adding such a column or "start" or "end" for adding it at the first or last column. Default is "no".}
 
 \item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
 
@@ -52,7 +52,7 @@ Default is "full".}
 
 \item{xbreak_var_name}{Name of variable with futime stratification. Default is "xvar_name".}
 
-\item{alpha}{signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
+\item{alpha}{significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
 }
 \description{
 Summarize detailed SIR results
