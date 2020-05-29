@@ -213,28 +213,28 @@ sir_byfutime <- function(df,
   # remove all labels from dfs and change factors to character to avoid warning messages
   
   df <- df%>%
-    dplyr::mutate_if(is.factor, as.character)
+    dplyr::mutate(dplyr::across(where(is.factor), as.character))
   
   df[] <- lapply(df, function(x) { attributes(x) <- NULL; x })
   
   
   if(expcount_src == "refrates"){
     refrates_df <- refrates_df %>%
-      dplyr::mutate_if(is.factor, as.character) 
+      dplyr::mutate(dplyr::across(where(is.factor), as.character))
     
     refrates_df[] <- lapply(refrates_df, function(x) { attributes(x) <- NULL; x })
   }
   
   if(expcount_src == "cohort"){
     stdpop_df <- stdpop_df %>%
-      dplyr::mutate_if(is.factor, as.character)
+      dplyr::mutate(dplyr::across(where(is.factor), as.character))
     
     stdpop_df[] <- lapply(stdpop_df, function(x) { attributes(x) <- NULL; x })
   }
   
   if(expcount_src == "cohort"){
     refpop_df <- refpop_df %>%
-      dplyr::mutate_if(is.factor, as.character)
+      dplyr::mutate(dplyr::across(where(is.factor), as.character))
     
     refpop_df[] <- lapply(refpop_df, function(x) { attributes(x) <- NULL; x })
   }
