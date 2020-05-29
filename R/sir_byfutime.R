@@ -77,9 +77,9 @@ sir_byfutime <- function(df,
   
   #setting default parameters
   na_explicit <- "_NA_explicit" # string for explicit NAs
+  
   options_dplyr_old <- options(dplyr.summarise.inform = TRUE) # save old setting for showing dplyr messages
   on.exit(options(options_dplyr_old), add = TRUE) #make sure old options are used when exiting function
-  
   options(dplyr.summarise.inform = FALSE) #set new setting for not showing dplyr messages to avoid outbut by summarize()
   
   

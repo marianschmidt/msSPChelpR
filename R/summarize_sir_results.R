@@ -42,6 +42,9 @@ summarize_sir_results <- function(sir_df,
   #get arguments
   
   #set defaults
+  options_dplyr_old <- options(dplyr.summarise.inform = TRUE) # save old setting for showing dplyr messages
+  on.exit(options(options_dplyr_old), add = TRUE) #make sure old options are used when exiting function
+  options(dplyr.summarise.inform = FALSE) #set new setting for not showing dplyr messages to avoid outbut by summarize()
   
   #prepare fubreak_var_name
   
