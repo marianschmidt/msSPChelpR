@@ -442,9 +442,9 @@ asir <-
           abs_ir_lci = .data$group_abs_ir_lci,
           abs_ir_uci = .data$group_abs_ir_uci
         ) %>%
-        dplyr::mutate_at(dplyr::vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, 
-                                     .data$asir_lci_gam, .data$asir_uci_gam), ~ round(.,2)) %>%
-        dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(.,0)) %>%
+        dplyr::mutate(dplyr::across(.cols = c(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, 
+                                              .data$asir_lci_gam, .data$asir_uci_gam), .fns = ~round(.,2))) %>%
+        dplyr::mutate(dplyr::across(.cols = .data$pyar, ~ round(.,0))) %>%
         dplyr::select(.data$age, !!region_var, .data$sex, !!year_var, !!icdcat_var, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                       .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
       
@@ -764,9 +764,7 @@ asir <-
             scale = (.data$var_asir_gam + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE) ^ 2) / (.data$asir_e6 + max(.data$group_proportion_recalc / .data$i_pyar0, na.rm = TRUE))
           ) * 100000,
           age = paste0("Age standardized by ", std_pop)
-        ) 
-      
-      asir_results <- asir_results%>%
+        ) %>%
         dplyr::ungroup()
       
       #enforce truncated standard population option
@@ -784,9 +782,9 @@ asir <-
           abs_ir_lci = .data$group_abs_ir_lci,
           abs_ir_uci = .data$group_abs_ir_uci
         ) %>%
-        dplyr::mutate_at(dplyr::vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
-                                     .data$asir_uci_gam), ~ round(.,2)) %>%
-        dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(.,0)) %>%
+        dplyr::mutate(dplyr::across(.cols = c(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, 
+                                              .data$asir_lci_gam, .data$asir_uci_gam), .fns = ~round(.,2))) %>%
+        dplyr::mutate(dplyr::across(.cols = .data$pyar, ~ round(.,0))) %>%
         dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$icdcat, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                       .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
       
@@ -827,7 +825,7 @@ asir <-
         #3c group with age to make summary of observed, pyrs, group_proportion_recalc
         asir_results_sum_tmp <- sircalc %>%
           dplyr::mutate(icdcat = as.character(!!icdcat_var)) %>%
-          dplyr::group_by_at(dplyr::vars(grouping_vars, "age")) %>%
+          dplyr::group_by(dplyr::across(tidyselect::all_of(c(grouping_vars, "age"))), .drop = FALSE) %>%
           dplyr::summarize(
             group_observed = sum(.data$i_observed, na.rm = TRUE),
             group_pyar = sum(.data$i_pyar, na.rm = TRUE),
@@ -840,12 +838,13 @@ asir <-
             group_var_strat = (.data$group_observed * (.data$group_proportion_recalc / .data$group_pyar)^2) * 100000,
             group_pyar0 = dplyr::case_when(.data$group_pyar0 < 0.00001 ~ NA_real_,
                                            TRUE ~ .data$group_pyar0)
-          )
+          ) %>%
+          dplyr::ungroup()
         
         
         #3c get summary by aggregating over age    
         asir_results_sum <- asir_results_sum_tmp%>%
-          dplyr::group_by_at(dplyr::vars(grouping_vars)) %>%
+          dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_vars)), .drop = FALSE) %>%
           dplyr::summarize(
             asir = sum(.data$group_asir_strat, na.rm = TRUE),
             #variance based on Poisson approximation based on @brayChapterAgeStandardization2014, p. 114, Poisson distribution; var=sum(i_observed*(group_proportion_recalc / i_pyar)^2)
@@ -877,7 +876,8 @@ asir <-
             asir_uci = .data$asir + stats::qnorm(p = 1 - alpha / 2) * sqrt(.data$var_asir),
             asir_copy = .data$asir,
             age = paste0("Age standardized by ", std_pop)
-          )
+          ) %>%
+          dplyr::ungroup()
         
         #enforce truncated standard population option
         if(truncate_std_pop == TRUE){
@@ -914,9 +914,9 @@ asir <-
             abs_ir_lci = .data$sum_group_abs_ir_lci,
             abs_ir_uci = .data$sum_group_abs_ir_uci
           ) %>%
-          dplyr::mutate_at(dplyr::vars(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
-                                       .data$asir_uci_gam), ~ round(.,2)) %>%
-          dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(.,0)) %>%
+          dplyr::mutate(dplyr::across(.cols = c(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
+                                                .data$asir_uci_gam), .fns = ~ round(.,2))) %>%
+          dplyr::mutate(dplyr::across(.cols = .data$pyar, ~ round(.,0))) %>%
           dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$icdcat, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                         .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
         
@@ -925,3 +925,5 @@ asir <-
       
     }
   }
+
+
