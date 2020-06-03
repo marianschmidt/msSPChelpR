@@ -317,20 +317,21 @@ sir_byfutime <- function(df,
       region = as.character(!!region_var),
       year = as.character(!!year_var),
       t_icdcat = as.character(!!icdcat_var)) %>%
-    dplyr::mutate_at(dplyr::vars(.data$age, .data$sex, .data$region, .data$year, .data$t_icdcat), ~tidyr::replace_na(., na_explicit))
+    dplyr::mutate(dplyr::across(.cols = c(.data$age, .data$sex, .data$region, .data$year, .data$t_icdcat), 
+                                .fns = ~tidyr::replace_na(., na_explicit)))
   
   #make all important variables characters and make NAs explicit for ybreak_vars (for better matching)
   if(yb){
     df <- df %>%
-      dplyr::mutate_at(dplyr::vars(tidyselect::all_of(ybreak_var_names)), ~as.character(.)) %>%
-      dplyr::mutate_at(dplyr::vars(tidyselect::all_of(ybreak_var_names)), ~tidyr::replace_na(., na_explicit))
+      dplyr::mutate(dplyr::across(tidyselect::all_of(ybreak_var_names), .fns = ~as.character(.))) %>%
+      dplyr::mutate(dplyr::across(tidyselect::all_of(ybreak_var_names), .fns = ~tidyr::replace_na(., na_explicit)))
   }
   
   #make all important variables characters and make NAs explicit for xbreak_var (for better matching)
   if(xb){
     df <- df %>%
-      dplyr::mutate_at(dplyr::vars(xbreak_var_names), ~as.character(.)) %>%
-      dplyr::mutate_at(dplyr::vars(xbreak_var_names), ~tidyr::replace_na(., na_explicit))
+      dplyr::mutate(dplyr::across(tidyselect::all_of(xbreak_var_names), .fns = ~as.character(.))) %>%
+      dplyr::mutate(dplyr::across(tidyselect::all_of(xbreak_var_names), .fns = ~tidyr::replace_na(., na_explicit)))
   }
   
   #1b: prepare calc_total_row option
@@ -521,21 +522,22 @@ sir_byfutime <- function(df,
       #for ybreak_var: make NAs explicit
       if(yb & !xb){
         sircalc_count <- sircalc_count %>% 
-          dplyr::mutate_at(dplyr::vars(!!syb_var), ~tidyr::replace_na(., na_explicit)) %>%
+          dplyr::mutate(dplyr::across(.cols = .data[[syb_var]], ~tidyr::replace_na(., na_explicit))) %>%
           dplyr::filter(!(!!syb_var == na_explicit & .data$i_observed == 0)) # remove all NA categories as they are empty with 0 observations
       }
       
       #for xbreak_var: make NAs explicit
       if(!yb & xb){
         sircalc_count <- sircalc_count %>% 
-          dplyr::mutate_at(dplyr::vars(!!sxb_var), ~tidyr::replace_na(., na_explicit)) %>%
+          dplyr::mutate(dplyr::across(.cols = .data[[sxb_var]], ~tidyr::replace_na(., na_explicit))) %>%
           dplyr::filter(!(!!sxb_var == na_explicit & .data$i_observed == 0)) # remove all NA categories as they are empty with 0 observations
       }
       
       #for ybreak_vars and xbreak_var: make NAs explicit
       if(yb & xb){
         sircalc_count <- sircalc_count %>% 
-          dplyr::mutate_at(dplyr::vars(!!sxb_var), ~tidyr::replace_na(., na_explicit)) %>%
+          dplyr::mutate(dplyr::across(.cols = .data[[syb_var]], ~tidyr::replace_na(., na_explicit))) %>%
+          dplyr::mutate(dplyr::across(.cols = .data[[sxb_var]], ~tidyr::replace_na(., na_explicit))) %>%
           dplyr::filter(!(!!syb_var == na_explicit & !!sxb_var == na_explicit & .data$i_observed == 0)) # remove all NA categories as they are empty with 0 observations
       }
       
@@ -666,7 +668,7 @@ sir_byfutime <- function(df,
       #some missings in t_icdcat are expected after merge for those strata where no observed case occured
       #make NAs in t_icdcat in sircalc explicit
       sircalc <- sircalc %>% 
-        dplyr::mutate_at("t_icdcat", ~tidyr::replace_na(., na_explicit))
+        dplyr::mutate(t_icdcat = tidyr::replace_na(t_icdcat, na_explicit))
       
       
       
@@ -913,7 +915,8 @@ sir_byfutime <- function(df,
   #5d rounding
   
   sir_result_pre <- sir_result_pre %>%
-    dplyr::mutate_at(dplyr::vars(.data$pyar, .data$sir, .data$sir_lci, .data$sir_uci), ~ round(.,2))
+    dplyr::mutate(dplyr::across(.cols = c(.data$pyar, .data$sir, .data$sir_lci, .data$sir_uci), 
+                                .fns = ~round(.,2)))
   
   #collapse_ci option
   
@@ -930,20 +933,21 @@ sir_byfutime <- function(df,
   
   
   
-  ### F5: labelling and returning results
+  ### F5: labeling and returning results
   
   sir_result <- sir_result_pre %>%
-    dplyr::select(dplyr::one_of(c("age", "region", "sex", "year", 
-                                  if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
-                                  if(fu){"fu_time"}, 
-                                  "t_icdcat", "observed", "expected", "sir",
-                                  if(collapse_ci == TRUE){"sir_ci"},
-                                  if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
+    dplyr::select(tidyselect::any_of(c("age", "region", "sex", "year", 
+                                       if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
+                                       if(fu){"fu_time"}, 
+                                       "t_icdcat", "observed", "expected", "sir",
+                                       if(collapse_ci == TRUE){"sir_ci"},
+                                       if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
                   dplyr::everything()
     ) %>% 
-    dplyr::arrange_at(dplyr::vars(dplyr::one_of(c("age", "region", "sex", "year", 
-                                                  if(yb){c("yvar_sort", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
-                                                  if(fu){"fu_time_sort"}
+    dplyr::arrange(dplyr::across(tidyselect::any_of(c("age", "region", "sex", "year", 
+                                                      if(yb){c("yvar_sort", "yvar_label")}, 
+                                                      if(xb){c("xvar_name", "xvar_label")}, 
+                                                      if(fu){"fu_time_sort"}
     ))))
   
   #write attributes for error and warning messages

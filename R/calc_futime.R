@@ -136,7 +136,7 @@ calc_futime <- function(wide_df,
   #revert status_var to numeric if previously labeled
   if(is.factor(wide_df[[rlang::eval_tidy(status_var)]])){
     wide_df <- wide_df %>%
-      dplyr::mutate_at(dplyr::vars(!!status_var), sjlabelled::as_numeric, keep.labels=FALSE, use.labels = TRUE)
+      dplyr::mutate(!!status_var := sjlabelled::as_numeric(.data[[status_var]], keep.labels=FALSE, use.labels = TRUE))
   }
   
   #new variable label

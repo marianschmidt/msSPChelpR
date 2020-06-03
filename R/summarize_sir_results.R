@@ -251,7 +251,7 @@ summarize_sir_results <- function(sir_df,
     
     #iv) summarize over grouping vars
     sum_pre_tmp <- sir_df_mod %>%
-      dplyr::group_by_at(dplyr::vars(tidyselect::all_of(grouping_vars))) %>%
+      dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_vars))) %>%
       dplyr::summarize(
         group_observed = sum(.data$observed, na.rm = TRUE),
         group_pyar = sum(.data$pyar, na.rm = TRUE),
@@ -326,7 +326,8 @@ summarize_sir_results <- function(sir_df,
     #rounding
     
     sum_pre_tmp <- sum_pre_tmp %>%
-      dplyr::mutate_at(dplyr::vars(.data$group_pyar, .data$sir, .data$sir_lci, .data$sir_uci), ~ round(.,2))
+      dplyr::mutate(dplyr::across(.cols = c(.data$group_pyar, .data$sir, .data$sir_lci, .data$sir_uci), 
+                                  .fns = ~ round(.x,2)))
     
     #do collapse_ci
     if(ci){
@@ -343,17 +344,17 @@ summarize_sir_results <- function(sir_df,
                     ref_inc_cases = .data$group_incidence_cases,
                     ref_population_pyar = .data$group_population_pyar,
                     ref_inc_crude_rate = .data$group_incidence_crude_rate) %>%
-      dplyr::select(dplyr::one_of(c("age", "region", "sex", "year", 
-                                    if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
-                                    if(fu){"fu_time"}, 
-                                    "t_icdcat", "observed", "expected", "sir",
-                                    if(collapse_ci == TRUE){"sir_ci"},
-                                    if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
+      dplyr::select(tidyselect::any_of(c("age", "region", "sex", "year", 
+                                         if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
+                                         if(fu){"fu_time"}, 
+                                         "t_icdcat", "observed", "expected", "sir",
+                                         if(collapse_ci == TRUE){"sir_ci"},
+                                         if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
                     dplyr::everything()
       ) %>% 
-      dplyr::arrange_at(dplyr::vars(dplyr::one_of(c("age", "region", "sex", "year", 
-                                                    if(yb){c("yvar_sort", "yvar_sort_levels")}, if(xb){c("xvar_name", "xvar_label")}, 
-                                                    if(fu){"fu_time_sort"}
+      dplyr::arrange(dplyr::across(tidyselect::any_of(c("age", "region", "sex", "year", 
+                                                        if(yb){c("yvar_sort", "yvar_sort_levels")}, if(xb){c("xvar_name", "xvar_label")}, 
+                                                        if(fu){"fu_time_sort"}
       ))))
     
     
@@ -494,7 +495,7 @@ summarize_sir_results <- function(sir_df,
   if(output == "nested"){
     
     sum_results <- sum_pre %>%
-      dplyr::group_by_at(dplyr::vars(tidyselect::all_of(grouping_vars))) %>%
+      dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_vars))) %>%
       {if (xb){dplyr::group_by(., .data$xvar_name, .add = TRUE)} else{.}} %>% # add x grouping variable if present
       {if (fu){dplyr::group_by(., .data$fu_time, .add = TRUE)} else{.}} %>% # add fub grouping variable
       tidyr::nest()
