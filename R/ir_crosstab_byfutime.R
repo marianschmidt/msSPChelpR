@@ -29,6 +29,13 @@ ir_crosstab_byfutime <-
            futime_var = NULL,
            alpha = 0.05) {
     
+    ###----  prepwork
+    
+    #setting default parameters
+    options_dplyr_old <- options(dplyr.summarise.inform = TRUE) # save old setting for showing dplyr messages
+    on.exit(options(options_dplyr_old), add = TRUE) #make sure old options are used when exiting function
+    options(dplyr.summarise.inform = FALSE) #set new setting for not showing dplyr messages to avoid outbut by summarize()
+    
     ### check if df exists and is dataframes
     
     if (exists("df") && is.data.frame(get("df"))){}
