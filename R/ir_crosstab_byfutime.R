@@ -94,7 +94,7 @@ ir_crosstab_byfutime <-
     #DM1 - change factor variables to character for ybreak_vars
     
     df_n <- df %>%
-      dplyr::mutate_at(dplyr::vars(ybreak_var_names), as.character)
+      dplyr::mutate(dplyr::across(.cols = tidyselect::all_of(ybreak_var_names), .fns = as.character))
     
     y <- 1
     
@@ -203,10 +203,11 @@ ir_crosstab_byfutime <-
           abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$observed) / 2) / .data$pyar * 100000,
           abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$observed + 1)) / 2) / .data$pyar * 100000
         ) %>%
-        dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(., 0)) %>%
-        dplyr::mutate_at(dplyr::vars(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci),
-                         ~ round(., 2)) %>%
+        #rounding of values
+        dplyr::mutate(dplyr::across(.cols = c(.data$pyar), .fns = ~round(., 0))) %>%
+        dplyr::mutate(dplyr::across(.cols = c(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci), .fns = ~round(., 2))) %>%
         dplyr::ungroup() %>%
+        #complete missing cateories and clean up
         tidyr::complete(., !!single_ybreak_var, !!single_xbreak_var) %>%
         dplyr::arrange(!!single_ybreak_var) %>%
         dplyr::filter(!!single_xbreak_var == 1) %>%
@@ -260,10 +261,11 @@ ir_crosstab_byfutime <-
             abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$observed) / 2) / .data$pyar * 100000,
             abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$observed + 1)) / 2) / .data$pyar * 100000
           ) %>%
-          dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(., 0)) %>%
-          dplyr::mutate_at(dplyr::vars(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci),
-                           ~ round(., 2)) %>%
+          #rounding of values
+          dplyr::mutate(dplyr::across(.cols = c(.data$pyar), .fns = ~round(., 0))) %>%
+          dplyr::mutate(dplyr::across(.cols = c(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci), .fns = ~round(., 2))) %>%
           dplyr::ungroup() %>%
+          #complete missing cateories and clean up
           tidyr::complete(., !!single_ybreak_var, !!single_xbreak_var) %>%
           dplyr::arrange(!!single_ybreak_var) %>%
           dplyr::filter(!!single_xbreak_var == 1) %>%
@@ -300,10 +302,11 @@ ir_crosstab_byfutime <-
               abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$observed) / 2) / .data$pyar * 100000,
               abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$observed + 1)) / 2) / .data$pyar * 100000
             ) %>%
-            dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(., 0)) %>%
-            dplyr::mutate_at(dplyr::vars(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci),
-                             ~ round(., 2)) %>%
+            #rounding of values
+            dplyr::mutate(dplyr::across(.cols = c(.data$pyar), .fns = ~round(., 0))) %>%
+            dplyr::mutate(dplyr::across(.cols = c(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci), .fns = ~round(., 2))) %>%
             dplyr::ungroup() %>%
+            #complete missing cateories and clean up
             tidyr::complete(., !!single_ybreak_var, !!single_xbreak_var) %>%
             dplyr::arrange(!!single_ybreak_var) %>%
             dplyr::filter(!!single_xbreak_var == 1) %>%
@@ -366,10 +369,11 @@ ir_crosstab_byfutime <-
             abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$observed) / 2) / .data$pyar * 100000,
             abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$observed + 1)) / 2) / .data$pyar * 100000
           ) %>%
-          dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(., 0)) %>%
-          dplyr::mutate_at(dplyr::vars(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci),
-                           ~ round(., 2)) %>%
+          #rounding of values
+          dplyr::mutate(dplyr::across(.cols = c(.data$pyar), .fns = ~round(., 0))) %>%
+          dplyr::mutate(dplyr::across(.cols = c(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci), .fns = ~round(., 2))) %>%
           dplyr::ungroup() %>%
+          #complete missing cateories and clean up
           tidyr::complete(., !!single_ybreak_var, !!single_xbreak_var) %>%
           dplyr::arrange(!!single_ybreak_var) %>%
           dplyr::filter(!!single_xbreak_var == 1) %>%
@@ -407,10 +411,11 @@ ir_crosstab_byfutime <-
               abs_ir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$observed) / 2) / .data$pyar * 100000,
               abs_ir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$observed + 1)) / 2) / .data$pyar * 100000
             ) %>%
-            dplyr::mutate_at(dplyr::vars(.data$pyar), ~ round(., 0)) %>%
-            dplyr::mutate_at(dplyr::vars(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci),
-                             ~ round(., 2)) %>%
+            #rounding of values
+            dplyr::mutate(dplyr::across(.cols = c(.data$pyar), .fns = ~round(., 0))) %>%
+            dplyr::mutate(dplyr::across(.cols = c(.data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci), .fns = ~round(., 2))) %>%
             dplyr::ungroup() %>%
+            #complete missing cateories and clean up
             tidyr::complete(., !!single_ybreak_var, !!single_xbreak_var) %>%
             dplyr::arrange(!!single_ybreak_var) %>%
             dplyr::filter(!!single_xbreak_var == 1) %>%
