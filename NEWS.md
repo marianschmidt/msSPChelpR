@@ -8,6 +8,7 @@
 * now requires dplyr version 1.0.0
 
 ##Bug Fixes
+* implement new reliable routine to split df when `reshape_wide()` with option `chunks` is used. Closes #1.
 
 # msSPChelpR 0.8.4 - 2020-05-21
 
