@@ -10,7 +10,7 @@ R helper functions for Second Primary Cancer analyses
 \section{Main functions}{
 
 
-Functions include asir, ir_crosstabl, pat_status, reshape.
+Functions include asir, ir_crosstab, pat_status, reshape, sir_byfutime and summarize_sir_results.
 }
 
 \section{Package context}{

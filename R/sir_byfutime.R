@@ -668,7 +668,7 @@ sir_byfutime <- function(df,
       #some missings in t_icdcat are expected after merge for those strata where no observed case occured
       #make NAs in t_icdcat in sircalc explicit
       sircalc <- sircalc %>% 
-        dplyr::mutate(t_icdcat = tidyr::replace_na(t_icdcat, na_explicit))
+        dplyr::mutate(t_icdcat = tidyr::replace_na(.data$t_icdcat, na_explicit))
       
       
       

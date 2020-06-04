@@ -4,7 +4,7 @@
 #'
 #' @section Main functions:
 #' 
-#' Functions include asir, ir_crosstabl, pat_status, reshape.
+#' Functions include asir, ir_crosstab, pat_status, reshape, sir_byfutime and summarize_sir_results.
 #' 
 #' @section Package context:
 #' This package follows the principles of the "tidyverse".
@@ -15,4 +15,13 @@
 #' @keywords internal
 NULL
 ## quiets warnings of R CMD check standard objects that appear in function
-if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", ".", ".N", "data", "counter", "standard_population", "population", "rates")) 
+if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and tidyverse programming
+                                                        ".", 
+                                                        ".N", 
+                                                        "data", 
+                                                        "counter", 
+                                                        "standard_population", 
+                                                        "population", 
+                                                        "rates", 
+                                                        "where" #temporary fix because tidyverse::where is not exported
+                                                        )) 
