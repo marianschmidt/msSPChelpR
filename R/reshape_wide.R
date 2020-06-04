@@ -44,10 +44,9 @@ reshape_wide <- function(df, case_id_var, time_id_var, chunks = 10, timevar_max 
 
     }
   
-  #split dataset in equal chunks and store in list
-  rows_pc <- (nrow(df) / chunks) %>% round(0)
+  # split dataset in equal chunks and store in list
   
-  df <- split(df, (as.numeric(rownames(df))-1) %/% rows_pc)
+  df <- split(df, as.numeric(as.factor(df[[case_id_var]])) %% chunks)
   
   
   #perform reshape command on each chunk
