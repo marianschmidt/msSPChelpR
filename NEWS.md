@@ -2,8 +2,9 @@
 
 ##New Features
 
-##Changes
+##Breaking Changes
 * breaking change in function `sir_byfutime()`; options `add_total_row` and `add_total_fu` are replaced by `calc_total_row` and `calc_total_fu`. These are logical parameters now. The positioning of total rows and colums is completely handled by the `summarize_sir_results()` function now. There total rows can be set to top and bottom and total columns to left and right.
+* function `sir()` is superseded by the use of `sir_byfutime()`. To migrate your former `sir()` functions, you can simply use `sir_byfutime(, futime_breaks = "none")` that will yield the same results.
 * now requires dplyr version 1.0.0
 
 ##Bug Fixes
