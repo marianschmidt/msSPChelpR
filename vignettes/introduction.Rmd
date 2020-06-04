@@ -91,7 +91,7 @@ wide_sdata_lung <- wide_sdata_lung %>%
   sjlabelled::var_labels(p_spc="Patient has developed Second Primary Cancer") %>%
   sjlabelled::set_labels(p_spc, labels = c("no SPC" = 0,
                                            "SPC developed" = 1)) %>%
-  dplyr::mutate_at(vars("p_spc"), sjlabelled::as_label, keep.labels=TRUE) 
+  dplyr::mutate(p_spc =  sjlabelled::as_label(p_spc, keep.labels=TRUE)) 
 
 ```
 
