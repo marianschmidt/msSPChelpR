@@ -36,7 +36,15 @@ reshape_wide <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize 
     rlang::inform(paste("Long dataset had too many cases per patient. Wide dataset is limited to ", timevar_max," cases per id as defined in timevar_max option."))    
     
     df <- df %>%
-      dplyr::mutate(counter = as.integer(!! rlang::sym(time_id_var))) %>%
+      #sort by case_id and time_id_var
+      dplyr::arrange(!!case_id_var, !!time_id_var) %>%
+      #group by case_id_var
+      dplyr::group_by(!!case_id_var) %>%
+      #calculate new renumbered variable
+      dplyr::mutate(counter = as.integer(dplyr::row_number())) %>%
+      #ungroup
+      dplyr::ungroup() %>%
+      #delete all rows where counter > timevar_max
       dplyr::filter(counter <= timevar_max) %>%
       dplyr::select(-counter)
     
