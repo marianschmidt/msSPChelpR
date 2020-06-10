@@ -31,10 +31,10 @@ E.g. \code{time_id_var="SEQ_NUM"} for SEER data.}
 E.g. \code{diagdat_var="t_datediag"} for SEER data.}
 
 \item{timevar_max}{Numeric; default Inf. Maximum number of cases per id.
-All tumors > timevar_max will be deleted before renumbering}
+All tumors > timevar_max will be deleted.}
 }
 \value{
-df
+data.table
 }
 \description{
 Renumber the time ID per case (i.e. Tumor sequence) using data.table

@@ -30,11 +30,12 @@ This vignette explains how to use the functions:
 
 # Recommended Workflows
 
-## Calculate follow-up times
+## Calculate follow-up times {#wf-calc-fu}
 
-It is recommended to run the following steps in the correct order to obtain accurate follow-up time calculations [Step.
+It is recommended to run the following steps in the correct order to obtain accurate follow-up time calculations
 
  1. [Use the long version dataset](#step-long) to [filter all cases](#step-filter) that are relevant for your analysis. Make sure that: 
+ 
    * for each `case_id` the index event (e.g. First Cancer FC) is still included and is the one remaining row in the dataset with the smallest `case_id` (`TUMID3` variable for ZfKD data, and `SEQ_NUM` for SEER data)
    * all `case_id`s might or might not get a countable incident event (e.g. Second Primary Cancer SPC). This event should be the second entry per `case_id` (second smallest `case_id`) if it is to be counted
    * in the long version dataset a `count_var` should indicate whether the countable incident event (SPC) has occured or not. Coded `0` for non-occurence (or not counted event) and `1` for a counted incident event.
@@ -51,19 +52,49 @@ It is recommended to run the following steps in the correct order to obtain accu
    
  6. [Calculate follow-up time](#step-calc-futime) for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 4. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
  
- 7. 
- 
+
+## Calculate Standardized Incidence Ratios (SIR) 
+
+In order to calculate SIR using the package functions, the following data structure is needed:
+  * Wide format data `wide_df` with one row per patient that has encountered the index event (i.e. diagnosed with a first primary cancer FC)
+
+ * The dataset `wide_df` needs to contain the following variables (columns) per patient (row):
+   * `region_var` - variable in df that contains information on region where case was incident.
+   * `agegroup_var` - variable in df that contains information on age-group.
+   * `sex_var` - variable in df that contains information on biological sex.
+   * `year_var` - variable in df that contains information on year or year-period when case was incident.
+   * `icdcat_var` - variable in df that contains information on case (count event) diagnosis. Cases are usually the second cancers. Diagnoses can use any coding system (e.g. ICD) but coding system between dataset and reference data must be coherent.
+   * `futime_var` - variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). In case you have not calculated the FU time yet, you can use the workflow described in the previous [chapter](#wf-calc-fu).
+   
+If your data has the required structure, you can calculate and summarize SIRs with the following two steps:
+
+ 7. [Calculate SIR](#step-sir-byfutime) per SPC diagnosis with age, sex, region, period-specific strata using the `msSPChelpR::sir_byfutime()` function. For this calculation usually a reference dataset is required that defines the population standard rates. `refpop_df` must use the same category coding of age, sex, region, year and icdcat as `agegroup_var`, `sex_var`, `region_var`, `year_var` and `icdcat_var`
+   * The theory behind calculating stratified SIRs is explained in the chapter on [basics on SIRs](#theo-sir)
+   
+ 8. [Summarize SIR results](#step-summarize-sir) using the `msSPChelpR::summarize_sir_results()` function on the stratified sir results produced by the previous step.
+
+
 # Details on single functions
 
-## `renumber_time_id` function
+## `renumber_time_id()` function
 
-## `reshape_wide` function
+## `reshape_wide()` function
 
-## `pat_status` function
+## `reshape_long()` function
 
-## `vital_status` function
+## `pat_status()` function
 
-## `calc_futime` function
+## `vital_status()` function
+
+## `calc_futime()` function
+
+## `sir_byfutime()` function
+
+## `summarize_sir_results()` function
+
+
+
+# Theory behind SIRs {#theo-sir}
 
 # Examples
 
@@ -99,6 +130,11 @@ wide_sdata_lung <- wide_sdata_lung %>%
 
 ### Step 7 - Calculate FU time {#step-calc-futime}
 
+### Step 8 - Calculate SIR {#step-sir-byfutime}
+
+### Step 9 - Summarize SIR results {#step-summarize-sir}
+
+
 ## ZfKD melanoma
 
 ### Step 1 - Long dataset
@@ -111,7 +147,7 @@ wide_sdata_lung <- wide_sdata_lung %>%
 
 ### Step 5 - Determine patient status at end of FU
 
-### Step 6 - Calculate FU tim
+### Step 6 - Calculate FU time
 
 
 ## Built with

@@ -25,7 +25,7 @@ Imports:
     stats,
     stringr,
     tidyselect, 
-    tidytable (>= 0.5.1),
+    tidytable (>= 0.5.1.9),
     tibble,
     tidyr (>= 1.0.0),
     utils
