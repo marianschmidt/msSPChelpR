@@ -2,7 +2,7 @@
 % Please edit documentation in R/renumber_time_id_tt.R
 \name{renumber_time_id_tt}
 \alias{renumber_time_id_tt}
-\title{Renumber the time ID per case (i.e. Tumor sequence) - Tidytable variant}
+\title{Renumber the time ID per case (i.e. Tumor sequence) - tidytable version}
 \usage{
 renumber_time_id_tt(
   df,
@@ -37,5 +37,5 @@ All tumors > timevar_max will be deleted.}
 df
 }
 \description{
-Renumber the time ID per case (i.e. Tumor sequence) - Tidytable variant
+Renumber the time ID per case (i.e. Tumor sequence) - tidytable version
 }

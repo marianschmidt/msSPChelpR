@@ -2,7 +2,7 @@
 % Please edit documentation in R/reshape_wide_tidyr.R
 \name{reshape_wide_tidyr}
 \alias{reshape_wide_tidyr}
-\title{Reshape dataset to wide format}
+\title{Reshape dataset to wide format - tidyr version}
 \usage{
 reshape_wide_tidyr(
   df,
@@ -15,7 +15,7 @@ reshape_wide_tidyr(
 \arguments{
 \item{df}{dataframe}
 
-\item{case_id_var}{String or vector of strings with name of ID variable indicating same patient.
+\item{case_id_var}{String with name of ID variable indicating same patient.
 E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 
 \item{time_id_var}{String with name of variable that indicates diagnosis per patient.
@@ -24,11 +24,11 @@ E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 \item{timevar_max}{Numeric; default 6. Maximum number of cases per id.
 All tumors > timevar_max will be deleted before reshaping.}
 
-\item{datsize}{Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
+\item{datsize}{Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 }
 \value{
 df
 }
 \description{
-Reshape dataset to wide format
+Reshape dataset to wide format - tidyr version
 }

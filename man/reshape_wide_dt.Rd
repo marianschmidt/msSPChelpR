@@ -2,19 +2,19 @@
 % Please edit documentation in R/reshape_wide_dt.R
 \name{reshape_wide_dt}
 \alias{reshape_wide_dt}
-\title{Reshape dataset to wide format using data.table}
+\title{Reshape dataset to wide format - data.table version}
 \usage{
 reshape_wide_dt(
-  df,
+  dt,
   case_id_var,
   time_id_var,
   timevar_max = 6,
-  chunks = 0,
-  datsize = Inf
+  datsize = Inf,
+  chunks = 0
 )
 }
 \arguments{
-\item{df}{dataframe}
+\item{dt}{dataframe or data.table}
 
 \item{case_id_var}{String with name of ID variable indicating same patient.
 E.g. \code{idvar="PUBCSNUM"} for SEER data.}
@@ -25,14 +25,13 @@ E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 \item{timevar_max}{Numeric; default 6. Maximum number of cases per id.
 All tumors > timevar_max will be deleted before reshaping.}
 
-\item{chunks}{Number of last digits taken from case_id_var as grouping variable. Increasing chunks will increase computational time,
-but might save memory. Default is 0.}
+\item{datsize}{Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 
-\item{datsize}{Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
+\item{chunks}{Numeric; default 0. Technical parameter how the data is split during reshaping.}
 }
 \value{
-df
+data.table
 }
 \description{
-Reshape dataset to wide format using data.table
+Reshape dataset to wide format - data.table version
 }
