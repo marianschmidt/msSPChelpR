@@ -15,13 +15,16 @@
 
 reshape_wide_tidyr <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize = Inf){
   
+  case_id_var <- rlang::ensym(case_id_var)
+  time_id_var <- rlang::ensym(time_id_var)
+  
   ### restrict size of data.frame to datsize number of rows
   if(nrow(df) > datsize){
     df <- df[c(1:datsize), ]
   }
   
   ### get names from df to provide to pivot function
-  trans_vars <- names(df)[!names(df) %in% c({{case_id_var}}, {{time_id_var}})]
+  trans_vars <- names(df)[!names(df) %in% c(rlang::quo_text(case_id_var), rlang::quo_text(time_id_var))]
   
   
   ### determine maximum number of cases per patient and deleting all cases > timevar_max
@@ -37,16 +40,17 @@ reshape_wide_tidyr <- function(df, case_id_var, time_id_var, timevar_max = 6, da
     
     df <- df %>%
       #sort by case_id and time_id_var
-      dplyr::arrange({{case_id_var}}, {{time_id_var}})%>%
+      dplyr::arrange(!!case_id_var, !!time_id_var) %>%
       #group by case_id_var
-      dplyr::group_by({{case_id_var}})%>%
+      dplyr::group_by(!!case_id_var) %>%
       #calculate new renumbered variable
       dplyr::mutate(counter = as.integer(dplyr::row_number())) %>%
-      #filter based on new renumbered variable
-      dplyr::filter(counter <= timevar_max) %>%
-      dplyr::select(-counter) %>%
       #ungroup
-      dplyr::ungroup()
+      dplyr::ungroup() %>%
+      #delete all rows where counter > timevar_max
+      dplyr::filter(counter <= timevar_max) %>%
+      dplyr::select(-counter)
+    
     
   }
   
@@ -58,6 +62,7 @@ reshape_wide_tidyr <- function(df, case_id_var, time_id_var, timevar_max = 6, da
   ) %>%  
     #sort by case_id_var
     dplyr::arrange(as.numeric(rlang::eval_tidy(rlang::ensym(case_id_var))))
+  
   
 }
 
