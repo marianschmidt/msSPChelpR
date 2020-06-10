@@ -29,7 +29,7 @@ reshape_wide_tidyr <- function(df, case_id_var, time_id_var, timevar_max = 6, da
   
   ### determine maximum number of cases per patient and deleting all cases > timevar_max
   max_time <- df %>%
-    dplyr::select(tidyselect::all_of(time_id_var)) %>%
+    dplyr::select(!!time_id_var) %>%
     unlist %>%
     as.numeric %>%
     max(na.rm = TRUE)
