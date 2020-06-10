@@ -11,13 +11,13 @@
 #' @param diagdat_var String with name of variable that indicates date of diagnosis per event. 
 #'                E.g. \code{diagdat_var="t_datediag"} for SEER data.
 #' @param timevar_max Numeric; default Inf. Maximum number of cases per id. 
-#'                    All tumors > timevar_max will be deleted before renumbering  
+#'                    All tumors > timevar_max will be deleted.
 #' @return df
 #' @export
 #'
 
 renumber_time_id_dt <- function(df, new_time_id_var, dattype = "zfkd", 
-                             case_id_var = NULL, time_id_var = NULL, diagdat_var = NULL, timevar_max = Inf){
+                                case_id_var = NULL, time_id_var = NULL, diagdat_var = NULL, timevar_max = Inf){
   
   #----- Setting basic parameters
   
@@ -66,15 +66,20 @@ renumber_time_id_dt <- function(df, new_time_id_var, dattype = "zfkd",
     warning(paste0("Original time_id_var: ", time_id_var," has been overwritten with new renumbered values"))
   }
   
-  #----- DM 
+  #----- DM
   
   df %>%
-    data.table::setDT(.) %>%
-    #sort by case_id and time_id_var
-    .[base::order(nchar(.[, get(case_id_var)]), .[, get(case_id_var)], .[, get(diagdat_var)], .[, get(time_id_var)], method = "radix")] %>%
+    data.table::as.data.table(.) %>%
+    #sort by case_id, diagdat_var and time_id_var
+    .[base::order(.[, get(case_id_var)], .[, get(diagdat_var)], .[, get(time_id_var)], method = "radix")] %>%
     #calculate new renumbered variable
-    .[, (new_time_id_var) := seq_len(.N), by=get(case_id_var)] %>%
+    .[, (new_time_id_var) := as.integer(seq_len(.N)), by=get(case_id_var)] %>%
     #filter all time_ids per case that exceed timevar_max
-    .[get(new_time_id_var) <= timevar_max, ]
+    .[get(new_time_id_var) <= timevar_max, ] %>%
+    #sort by case_id and time_id_var
+    .[base::order(as.numeric(.[, get(case_id_var)]), .[, get(new_time_id_var)], method = "radix")] %>%
+    .[]
+  
   
 }
+

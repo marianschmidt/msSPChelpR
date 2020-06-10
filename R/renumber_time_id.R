@@ -11,7 +11,7 @@
 #' @param diagdat_var String with name of variable that indicates date of diagnosis per event. 
 #'                E.g. \code{diagdat_var="t_datediag"} for SEER data.
 #' @param timevar_max Numeric; default Inf. Maximum number of cases per id. 
-#'                    All tumors > timevar_max will be deleted before renumbering  
+#'                    All tumors > timevar_max will be deleted.   
 #' @return df
 #' @export
 #'
@@ -84,15 +84,17 @@ renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd",
   #----- DM 
   
   df %>%
-    #sort by case_id and time_id_var
-    dplyr::arrange(!!case_id_var, !!diagdat_var, !!time_id_var)%>%
+    #sort by case_id, diagdat_var and time_id_var
+    dplyr::arrange(!!case_id_var, !!diagdat_var, !!time_id_var) %>%
     #group by case_id_var
-    dplyr::group_by(!!case_id_var)%>%
+    dplyr::group_by(!!case_id_var) %>%
     #calculate new renumbered variable
-    dplyr::mutate(!!new_time_id_var := dplyr::row_number()) %>%
+    dplyr::mutate(!!new_time_id_var := as.integer(dplyr::row_number())) %>%
     #ungroup
     dplyr::ungroup() %>%
     #delete all rows where new_time_id_var > timevar_max
-    dplyr::filter(.data[[!!new_time_id_var]] <= timevar_max)
+    dplyr::filter(.data[[!!new_time_id_var]] <= timevar_max) %>%
+    #sort by case_id_var and new_time_id_var
+    dplyr::arrange(as.numeric(.data[[!!case_id_var]]), .data[[!!new_time_id_var]])
   
 }
