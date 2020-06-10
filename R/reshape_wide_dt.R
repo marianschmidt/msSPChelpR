@@ -1,27 +1,28 @@
 
-#' Reshape dataset to wide format using data.table
+#' Reshape dataset to wide format - data.table version
 #'
-#' @param df dataframe
+#' @param dt dataframe or data.table
 #' @param case_id_var String with name of ID variable indicating same patient.
 #'                E.g. \code{idvar="PUBCSNUM"} for SEER data.
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
 #' @param timevar_max Numeric; default 6. Maximum number of cases per id. 
-#'                    All tumors > timevar_max will be deleted before reshaping.  
-#' @param chunks Number of last digits taken from case_id_var as grouping variable. Increasing chunks will increase computational time,
-#'                    but might save memory. Default is 0.
-#' @param datsize Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
-#' @return df
+#'                    All tumors > timevar_max will be deleted before reshaping.              
+#' @param datsize Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
+#' @param chunks Numeric; default 0. Technical parameter how the data is split during reshaping.
+#' @return data.table
 #' @export
 #'
 
-reshape_wide_dt <- function(df, case_id_var, time_id_var, timevar_max = 6, chunks = 0, datsize = Inf){
+reshape_wide_dt <- function(dt, case_id_var, time_id_var, timevar_max = 6, datsize = Inf, chunks = 0){
   
   #make df a data.table
-  if(is.infinite(datsize) | nrow(df) <= datsize){
-    data.table::setDT(df)
+  if(is.infinite(datsize) | nrow(dt) <= datsize){
+    df <- dt %>%
+      data.table::as.data.table(.)
   } else{
-    df <- data.table::setDT(df) %>%
+    df <- dt %>%
+      data.table::as.data.table(.) %>%
       #select first rows 1:datsize
       .[1:datsize, ]
   }
@@ -42,7 +43,7 @@ reshape_wide_dt <- function(df, case_id_var, time_id_var, timevar_max = 6, chunk
   trans_vars <- names(df)[!names(df) %in% c(case_id_var, time_id_var)]
   
   if(max_time > timevar_max){
-    warning(glue::glue('Long dataset had too many cases per patient. Wide dataset is limited to {timevar_max} cases per id.'))
+    rlang::inform(paste("Long dataset had too many cases per patient. Wide dataset is limited to ", timevar_max," cases per id as defined in timevar_max option."))    
     
     #creat new var counter that counts incidences per case
     #!!!Performance - at this step computation time might be saved
@@ -104,3 +105,4 @@ reshape_wide_dt <- function(df, case_id_var, time_id_var, timevar_max = 6, chunk
   return(wide_df)
   
 }
+
