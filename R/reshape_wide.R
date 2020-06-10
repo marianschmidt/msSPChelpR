@@ -17,17 +17,20 @@
 
 reshape_wide <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize = Inf, chunks = 10){
   
+  case_id_var <- rlang::ensym(case_id_var)
+  time_id_var <- rlang::ensym(time_id_var)
+  
   # restrict size of data.frame to datsize number of rows
   if(nrow(df) > datsize){
     df <- df[c(1:datsize), ]
   }
   
   #number of patient IDs at start of function
-  n_start <- df %>% dplyr::select(tidyselect::all_of(case_id_var)) %>% dplyr::n_distinct()
+  n_start <- df %>% dplyr::select(!!case_id_var) %>% dplyr::n_distinct()
   
   #determine maximum number of cases per patient and deleting all cases > timevar_max
   max_time <- df %>%
-    dplyr::select(tidyselect::all_of(time_id_var)) %>%
+    dplyr::select(!!time_id_var) %>%
     unlist %>%
     as.numeric %>%
     max(na.rm = TRUE)
@@ -46,13 +49,12 @@ reshape_wide <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize 
       dplyr::ungroup() %>%
       #delete all rows where counter > timevar_max
       dplyr::filter(counter <= timevar_max) %>%
-      dplyr::select(-counter)
-    
+      dplyr::select(-counter)    
   }
   
   # split dataset in equal chunks and store in list
   
-  df <- split(df, as.numeric(as.factor(df[[case_id_var]])) %% chunks)
+  df <- split(df, as.numeric(as.factor(df[[rlang::quo_text(case_id_var)]])) %% chunks)
   
   
   #perform reshape command on each chunk
@@ -62,7 +64,7 @@ reshape_wide <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize 
     
     wide_df[[i]] <- df[[i]] %>%
       as.data.frame %>%
-      stats::reshape(timevar=time_id_var, idvar=case_id_var, direction = "wide", sep=".")
+      stats::reshape(timevar=rlang::quo_text(time_id_var), idvar=rlang::quo_text(case_id_var), direction = "wide", sep=".")
     
     df[[i]] <- 0
     
@@ -71,7 +73,7 @@ reshape_wide <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize 
   #rbind chunks into one dataframe
   wide_df <- dplyr::bind_rows(wide_df) %>%
     #sort by case_id_var
-    dplyr::arrange(as.numeric(rlang::eval_tidy(rlang::ensym(case_id_var))))
+    dplyr::arrange(as.numeric(rlang::eval_tidy(case_id_var)))
   
   #check whether final number of patient IDs matches number at start.
   n_end <- wide_df %>% nrow()
