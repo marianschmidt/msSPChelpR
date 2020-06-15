@@ -6,8 +6,6 @@
 #'                E.g. \code{idvar="PUBCSNUM"} for SEER data.
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
-#' @param timevar_max Numeric; default 6. Maximum number of cases per id. 
-#'                    All tumors > timevar_max will be deleted before reshaping.              
 #' @param datsize Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
 #' @return long_df
 #' @export

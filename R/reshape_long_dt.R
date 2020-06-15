@@ -1,7 +1,7 @@
 
 #' Reshape dataset to long format - data.table version
 #'
-#' @param wide_df wide dataframe or data.table
+#' @param wide_dt wide data.table (data.frame can also be provided, but will be converted to data.table)
 #' @param case_id_var String with name of ID variable indicating same patient.
 #'                E.g. \code{idvar="PUBCSNUM"} for SEER data.
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.

@@ -16,9 +16,6 @@ E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
 \item{datsize}{Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
-
-\item{timevar_max}{Numeric; default 6. Maximum number of cases per id.
-All tumors > timevar_max will be deleted before reshaping.}
 }
 \value{
 long_df

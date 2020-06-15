@@ -7,6 +7,8 @@
 reshape_long_dt(wide_dt, case_id_var, time_id_var, datsize = Inf, chunks = 0)
 }
 \arguments{
+\item{wide_dt}{wide data.table (data.frame can also be provided, but will be converted to data.table)}
+
 \item{case_id_var}{String with name of ID variable indicating same patient.
 E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 
@@ -16,8 +18,6 @@ E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 \item{datsize}{Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 
 \item{chunks}{Numeric; default 0. Technical parameter how the data is split during reshaping.}
-
-\item{wide_df}{wide dataframe or data.table}
 }
 \value{
 long data.table
