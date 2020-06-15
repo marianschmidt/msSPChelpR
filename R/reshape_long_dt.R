@@ -1,29 +1,31 @@
 
-#' Reshape dataset to long format
+#' Reshape dataset to long format - data.table version
 #'
-#' @param wide_df wide dataframe
-#' @param case_id_var String or vector of strings with name of ID variable indicating same patient.
+#' @param wide_df wide dataframe or data.table
+#' @param case_id_var String with name of ID variable indicating same patient.
 #'                E.g. \code{idvar="PUBCSNUM"} for SEER data.
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
-#' @param chunks Number of last digits taken from case_id_var as grouping variable. Increasing chunks will increase computational time,
-#'                    but will save memory. Default is 0.
-#' @param datsize Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
-#' @return df
+#' @param datsize Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
+#' @param chunks Numeric; default 0. Technical parameter how the data is split during reshaping.
+#' @return long data.table
 #' @export
 #'
 
 
-reshape_long_dt <- function(wide_df, case_id_var, time_id_var, chunks = 0, datsize = Inf){
+reshape_long_dt <- function(wide_dt, case_id_var, time_id_var, datsize = Inf, chunks = 0){
   
   #make df a data.table
-  if(is.infinite(datsize) | nrow(wide_df) <= datsize){
-    data.table::setDT(wide_df)
+  if(is.infinite(datsize) | nrow(wide_dt) <= datsize){
+    wide_df <- wide_dt %>%
+      data.table::as.data.table(.)
   } else{
-    wide_df <- data.table::setDT(wide_df) %>%
+    wide_df <- wide_dt %>%
+      data.table::as.data.table(.) %>%
       #select first rows 1:datsize
       .[1:datsize, ]
   }
+  
   
   #number of patient IDs at start of function
   n_start <- wide_df %>% nrow()
@@ -60,3 +62,4 @@ reshape_long_dt <- function(wide_df, case_id_var, time_id_var, chunks = 0, datsi
   return(long_df)
   
 }
+
