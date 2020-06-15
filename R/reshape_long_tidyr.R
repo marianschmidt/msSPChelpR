@@ -1,37 +1,74 @@
 
-#' Reshape dataset to long format
+#' Reshape dataset to wide format - tidyr version
 #'
-#' @param df dataframe
-#' @param case_id_var String or vector of strings with name of ID variable indicating same patient.
+#' @param wide_df dataframe
+#' @param case_id_var String with name of ID variable indicating same patient.
 #'                E.g. \code{idvar="PUBCSNUM"} for SEER data.
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.
 #'                E.g. \code{timevar="SEQ_NUM"} for SEER data.
-#' @param constant_vars Vector of variables that are constant for all times per case_id, so these variables will just be filled during pivot_longer
-#'                      Default is NULL.
-#' @param drop_na Logical to indicate whether empty rows after pivoting should be dropped (activates option values_drop_na in tidyr::pivot_longer).
-#'                Default is drop_na = FALSE.
-#' @param var_selection Vector of variables to keep after pivoting. Default is "_all".
-#' @param names_pattern A regular expression containing matching groups (()). Default is names_pattern = "(.*)\\.(.*)" where variable name and time_id are separated by a dot ".".
-#' @return df
+#' @param timevar_max Numeric; default 6. Maximum number of cases per id. 
+#'                    All tumors > timevar_max will be deleted before reshaping.              
+#' @param datsize Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
+#' @return long_df
 #' @export
-#' 
+#'
 
-reshape_long_tidyr <- function(df, case_id_var, 
-                               time_id_var,  
-                               constant_vars = NULL, 
-                               drop_na = FALSE, 
-                               var_selection = c("_all"), 
-                               names_pattern = "(.*)\\.(.*)"){
+reshape_long_tidyr <- function(wide_df, case_id_var, time_id_var, datsize = Inf){
   
-  df %>%
-    tidyr::pivot_longer(
-      -c({{case_id_var}}, {{constant_vars}}),
-      names_to = c(".value", {{time_id_var}}),
-      names_pattern = names_pattern,
-      values_drop_na = drop_na
-    ) %>%
-    #enable variable selection
-    {if (all(var_selection != "_all")){dplyr::select(case_id_var, time_id_var, var_selection)} else {.}}
-
+  case_id_var <- rlang::ensym(case_id_var)
+  time_id_var <- rlang::ensym(time_id_var)
+  # restrict size of data.frame to datsize number of rows
+  if(nrow(wide_df) > datsize){
+    wide_df <- wide_df[c(1:datsize), ]
   }
+  
+  #number of patient IDs at start of function
+  n_start <- nrow(wide_df)
+  
+  #get data type of case_id_var
+  class_case_id_start <- class(wide_df[[rlang::quo_text(case_id_var)]])
+  
+  
+  #in list of variable names find variables that have a dot separator followed by digits in the end or NA in the end
+  varying_vars <- colnames(wide_df) %>% stringr::str_subset(.,
+                                                            paste0("\\.", "(?=[:digit:]$|(?=[:digit:](?=[:digit:]$))|(?=N(?=A$)))"))
+  
+  constant_vars <- colnames(wide_df)[!colnames(wide_df) %in% c(varying_vars)]
+  
+  ### perform tidyr::pivot_longer
+  long_df <- wide_df %>% tidyr::pivot_longer(
+    -c(tidyselect::all_of(constant_vars)),
+    names_to = c(".value", rlang::quo_text(time_id_var)),
+    names_pattern = "(.*)\\.(.*)",
+    values_drop_na = TRUE
+  ) %>%  
+    #make time_id_var numeric
+    dplyr::mutate(!!time_id_var := as.numeric(rlang::eval_tidy(!!time_id_var))) %>%
+    #sort by case_id_var and time_id_var
+    dplyr::arrange(as.numeric(.data[[!!case_id_var]]), .data[[!!time_id_var]])
+  
+  
+  #---- Checks 
+  
+  #check whether final number of patient IDs matches number at start.
+  n_end <- long_df %>% dplyr::select(!!case_id_var) %>% dplyr::n_distinct()
+  
+  if(n_end != n_start){
+    rlang::abort('Unique n in long and wide dataset do not match. There may have been an error!')
+  }
+  
+  #check whether final data type of case_id_var is the same as at start
+  
+  class_case_id_end <- class(long_df[[rlang::quo_text(case_id_var)]])
+  
+  if(class_case_id_end != class_case_id_start){
+    rlang::inform(paste0("Data type of case_id_var has been changed to: ", class_case_id_end, 
+                         ". Was ", class_case_id_start, " before."))
+  }
+  
+  #---- Return results
+  
+  return(long_df)
+  
+}
 
