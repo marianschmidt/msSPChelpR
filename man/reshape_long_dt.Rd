@@ -2,27 +2,26 @@
 % Please edit documentation in R/reshape_long_dt.R
 \name{reshape_long_dt}
 \alias{reshape_long_dt}
-\title{Reshape dataset to long format}
+\title{Reshape dataset to long format - data.table version}
 \usage{
-reshape_long_dt(wide_df, case_id_var, time_id_var, chunks = 0, datsize = Inf)
+reshape_long_dt(wide_dt, case_id_var, time_id_var, datsize = Inf, chunks = 0)
 }
 \arguments{
-\item{wide_df}{wide dataframe}
-
-\item{case_id_var}{String or vector of strings with name of ID variable indicating same patient.
+\item{case_id_var}{String with name of ID variable indicating same patient.
 E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 
 \item{time_id_var}{String with name of variable that indicates diagnosis per patient.
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
-\item{chunks}{Number of last digits taken from case_id_var as grouping variable. Increasing chunks will increase computational time,
-but will save memory. Default is 0.}
+\item{datsize}{Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 
-\item{datsize}{Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
+\item{chunks}{Numeric; default 0. Technical parameter how the data is split during reshaping.}
+
+\item{wide_df}{wide dataframe or data.table}
 }
 \value{
-df
+long data.table
 }
 \description{
-Reshape dataset to long format
+Reshape dataset to long format - data.table version
 }

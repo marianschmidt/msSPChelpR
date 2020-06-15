@@ -2,40 +2,27 @@
 % Please edit documentation in R/reshape_long_tidyr.R
 \name{reshape_long_tidyr}
 \alias{reshape_long_tidyr}
-\title{Reshape dataset to long format}
+\title{Reshape dataset to wide format - tidyr version}
 \usage{
-reshape_long_tidyr(
-  df,
-  case_id_var,
-  time_id_var,
-  constant_vars = NULL,
-  drop_na = FALSE,
-  var_selection = c("_all"),
-  names_pattern = "(.*)\\\\.(.*)"
-)
+reshape_long_tidyr(wide_df, case_id_var, time_id_var, datsize = Inf)
 }
 \arguments{
-\item{df}{dataframe}
+\item{wide_df}{dataframe}
 
-\item{case_id_var}{String or vector of strings with name of ID variable indicating same patient.
+\item{case_id_var}{String with name of ID variable indicating same patient.
 E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 
 \item{time_id_var}{String with name of variable that indicates diagnosis per patient.
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
-\item{constant_vars}{Vector of variables that are constant for all times per case_id, so these variables will just be filled during pivot_longer
-Default is NULL.}
+\item{datsize}{Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 
-\item{drop_na}{Logical to indicate whether empty rows after pivoting should be dropped (activates option values_drop_na in tidyr::pivot_longer).
-Default is drop_na = FALSE.}
-
-\item{var_selection}{Vector of variables to keep after pivoting. Default is "_all".}
-
-\item{names_pattern}{A regular expression containing matching groups (()). Default is names_pattern = "(.\emph{)\\.(.})" where variable name and time_id are separated by a dot ".".}
+\item{timevar_max}{Numeric; default 6. Maximum number of cases per id.
+All tumors > timevar_max will be deleted before reshaping.}
 }
 \value{
-df
+long_df
 }
 \description{
-Reshape dataset to long format
+Reshape dataset to wide format - tidyr version
 }

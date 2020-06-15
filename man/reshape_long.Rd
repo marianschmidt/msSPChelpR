@@ -2,26 +2,26 @@
 % Please edit documentation in R/reshape_long.R
 \name{reshape_long}
 \alias{reshape_long}
-\title{Reshape dataset to long format}
+\title{Reshape dataset to long format - stats::reshape version}
 \usage{
-reshape_long(wide_df, case_id_var, time_id_var, chunks = 1, datsize = Inf)
+reshape_long(wide_df, case_id_var, time_id_var, datsize = Inf, chunks = 1)
 }
 \arguments{
-\item{wide_df}{dataframe}
+\item{wide_df}{dataframe in wide format}
 
-\item{case_id_var}{String or vector of strings with name of ID variable indicating same patient.
+\item{case_id_var}{String with name of ID variable indicating same patient.
 E.g. \code{idvar="PUBCSNUM"} for SEER data.}
 
 \item{time_id_var}{String with name of variable that indicates diagnosis per patient.
 E.g. \code{timevar="SEQ_NUM"} for SEER data.}
 
-\item{chunks}{Numeric; default 10.}
+\item{datsize}{Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 
-\item{datsize}{Number of rows to be  take from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
+\item{chunks}{Numeric; default 1. Technical parameter how the data is split during reshaping.}
 }
 \value{
-long_df
+long df
 }
 \description{
-Reshape dataset to long format
+Reshape dataset to long format - stats::reshape version
 }
