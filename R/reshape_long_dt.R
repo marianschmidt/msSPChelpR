@@ -26,9 +26,12 @@ reshape_long_dt <- function(wide_dt, case_id_var, time_id_var, datsize = Inf, ch
       .[1:datsize, ]
   }
   
-  
   #number of patient IDs at start of function
   n_start <- wide_df %>% nrow()
+  
+  #get data type of case_id_var
+  class_case_id_start <- class(wide_df[[rlang::quo_text(case_id_var)]])
+  
   
   #in list of variable names find variables that have a dot separator followed by digits in the end or NA in the end
   varying_vars <- colnames(wide_df) %>% stringr::str_subset(.,
@@ -49,6 +52,10 @@ reshape_long_dt <- function(wide_dt, case_id_var, time_id_var, datsize = Inf, ch
     #remove rows in long_df that are all NA for all variables
     .[rowSums(!is.na(.[, .SD, .SDcols = colnames(.)[!colnames(.) %in% (c(case_id_var, time_id_var, "group_ids"))]])) > 0,]
   
+  
+  
+  #---- Checks 
+  
   #check whether final number of patient IDs matches number at start.
   n_end <- long_df %>%
     .[,get(case_id_var)] %>%
@@ -56,8 +63,19 @@ reshape_long_dt <- function(wide_dt, case_id_var, time_id_var, datsize = Inf, ch
     length()
   
   if(n_end != n_start){
-    warning('Unique n in long and wide dataset do not match. Possibly dataset was split between cases of same ID. Multiple entries for same ID still need to be merged')
+    rlang::abort('Unique n in long and wide dataset do not match. There may have been an error!')
   }
+  
+  #check whether final data type of case_id_var is the same as at start
+  
+  class_case_id_end <- class(long_df[[rlang::quo_text(case_id_var)]])
+  
+  if(class_case_id_end != class_case_id_start){
+    rlang::inform(paste0("Data type of case_id_var has been changed to: ", class_case_id_end, 
+                         ". Was ", class_case_id_start, " before."))
+  }
+  
+  #---- Return results
   
   return(long_df)
   

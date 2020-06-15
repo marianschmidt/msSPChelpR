@@ -27,6 +27,10 @@ reshape_long <- function(wide_df, case_id_var, time_id_var,
   #number of patient IDs at start of function
   n_start <- nrow(wide_df)
   
+  #get data type of case_id_var
+  class_case_id_start <- class(wide_df[[rlang::quo_text(case_id_var)]])
+  
+  
   #in list of variable names find variables that have a dot separator followed by digits in the end or NA in the end
   varying_vars <- colnames(wide_df) %>% stringr::str_subset(.,
                                                             paste0("\\.", "(?=[:digit:]$|(?=[:digit:](?=[:digit:]$))|(?=N(?=A$)))"))
@@ -62,12 +66,25 @@ reshape_long <- function(wide_df, case_id_var, time_id_var,
     #sorting
     dplyr::arrange(as.numeric(.data[[!!case_id_var]]), .data[[!!time_id_var]])
   
+  #---- Checks 
+  
   #check whether final number of patient IDs matches number at start.
   n_end <- long_df %>% dplyr::select(!!case_id_var) %>% dplyr::n_distinct()
   
   if(n_end != n_start){
-    warning('Unique n in long and wide dataset do not match. There may have been an error!')
+    rlang::abort('Unique n in long and wide dataset do not match. There may have been an error!')
   }
+  
+  #check whether final data type of case_id_var is the same as at start
+  
+  class_case_id_end <- class(long_df[[rlang::quo_text(case_id_var)]])
+  
+  if(class_case_id_end != class_case_id_start){
+    rlang::inform(paste0("Data type of case_id_var has been changed to: ", class_case_id_end, 
+                         ". Was ", class_case_id_start, " before."))
+  }
+  
+  #---- Return results
   
   return(long_df)
   
