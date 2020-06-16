@@ -42,7 +42,7 @@ reshape_wide_tt <- function(df, case_id_var, time_id_var, timevar_max = 6, datsi
       #sort by case_id and time_id_var
       tidytable::arrange.(!!case_id_var, !!time_id_var) %>%
       #calculate new renumbered variable group by case_id_var
-      tidytable::mutate.(counter = as.integer(tidytable::row_number.()), by = !!case_id_var) %>%
+      tidytable::mutate.(counter = as.integer(tidytable::row_number.()), .by = !!case_id_var) %>%
       #filter based on new renumbered variable
       tidytable::filter.(counter <= !!timevar_max) %>% 
       tidytable::select.(-counter)
