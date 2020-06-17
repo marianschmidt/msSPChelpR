@@ -217,7 +217,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
         #copy old lifedat_var
         p_datedeath_orig = .data[[!!lifedat_var]],
         !!lifedat_var := dplyr::case_when(
-          use_lifedatmin == TRUE & is.na(.data[[!!lifedat_var]])  ~ .data[[!!lifedatmin_var]],
+          is.na(.data[[!!lifedat_var]])  ~ .data[[!!lifedatmin_var]],
           TRUE ~ .data[[!!lifedat_var]])
       ) 
   }
@@ -257,7 +257,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
         !!lifedat_var := .data$p_datedeath_orig
       ) %>%
       #remove p_datedeath_orig
-      dplyr::select(-dplyr::one_of(c("p_datedeath_orig")))
+      dplyr::select(-p_datedeath_orig)
   }
   
   wide_df <- wide_df%>%
