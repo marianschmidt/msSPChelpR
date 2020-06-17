@@ -1,7 +1,7 @@
 
-#' Calculate patient status at specific end of follow-up using data.table
+#' Calculate patient status at specific end of follow-up - data.table version
 #'
-#' @param wide_df dataframe in wide format
+#' @param wide_dt wide data.table (data.frame can also be provided, but will be converted to data.table)
 #' @param fu_end end of follow-up in time format YYYY-MM-DD.
 #' @param dattype Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".
 #' @param life_var Name of variable containing life status. Will override dattype preset.  
@@ -20,15 +20,21 @@
 #' @param use_lifedatmin If TRUE, option to use Date of Death from lifedatmin_var when DOD is missing. Default is FALSE.
 #' @param check Check newly calculated variable p_status. Default is TRUE.    
 #' @param as_labelled_factor If TRUE, output status_var as labelled factor variable. Default is FALSE.
-#' @return wide_df
+#' @return wide_dt
 #' @export
 #'
 
-pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
+pat_status_dt <- function(wide_dt, fu_end = NULL, dattype = "zfkd",
                           status_var = "p_status", life_var = NULL, spc_var = NULL, birthdat_var = NULL, lifedat_var = NULL, 
                           lifedatmin_var = NULL, fcdat_var = NULL, spcdat_var = NULL, 
                           life_stat_alive = NULL, life_stat_dead = NULL, spc_stat_yes = NULL, spc_stat_no = NULL, lifedat_fu_end = NULL,
                           use_lifedatmin = FALSE, check = TRUE, as_labelled_factor = FALSE){
+  
+  #check if wide_dt is data.table
+  if(!data.table::is.data.table(wide_dt)){
+    rlang::inform("You are using a data.table based function on a different data object; data has been converted to a data.table.")
+    wide_dt <- data.table::as.data.table(wide_dt)
+  }
   
   #prep - define NULL vars later calculated to avoid RMD_check error
   p_datedeath_orig <- NULL
@@ -52,10 +58,10 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       lifedatmin_var <- "p_dodmin"
     } 
     if(is.null(fcdat_var)){
-      fcdat_var <- "p_datediag.1"
+      fcdat_var <- "t_datediag.1"
     } 
     if(is.null(spcdat_var)){
-      spcdat_var <- "p_datediag.2"
+      spcdat_var <- "t_datediag.2"
     } 
     if(is.null(life_stat_alive)){
       life_stat_alive <- "Alive"
@@ -114,13 +120,14 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     } 
   }
   
+  #------ Checks start
   
   #check whether all required variables are defined and present in dataset
   defined_vars <- c(rlang::quo_name(life_var), rlang::quo_name(spc_var), rlang::quo_name(lifedat_var),
                     rlang::quo_name(birthdat_var), rlang::quo_name(fcdat_var), rlang::quo_name(spcdat_var),
                     if(use_lifedatmin){rlang::quo_name(lifedatmin_var)})
   
-  not_found <- defined_vars[!(defined_vars %in% colnames(wide_df))]
+  not_found <- defined_vars[!(defined_vars %in% colnames(wide_dt))]
   
   if(length(not_found) > 0) {
     rlang::abort(paste0("The following variables defined are not found in the provided dataframe: ", paste(not_found, collapse=", ")))
@@ -135,8 +142,8 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   statvar_label <- paste("Patient Status at end of follow-up", fu_end)
   
   #check whether spc_var is coherent with date (to catch cases where old p_spc is used and data is filtered afterwards)
-  data.table::setDT(wide_df)
-  n_errorspc <- wide_df %>%
+  
+  n_errorspc <- wide_dt %>%
     .[(get(spc_var) == spc_stat_yes & is.na(get(spcdat_var))) | 
         (get(spc_var) == spc_stat_no & !is.na(get(spcdat_var))), .N]
   
@@ -144,40 +151,42 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     rlang::abort("`spc_var` and `spcdat_var` are inconsistent. Are you sure you have calculated `spc_var` after filtering and reshaping the dataset?")
   }
   
+  #---- Calculate
+  
   #enforce option use_lifedatmin == TRUE
   
   if(use_lifedatmin == TRUE){
-    wide_df <- wide_df %>%
+    wide_dt <- wide_dt %>%
       #copy old lifedat_var
       .[, c("p_datedeath_orig") := get(lifedat_var)]  %>%
       #if lifedat_var is missing, replace with lifedatmin value
-      .[is.na(wide_df[[lifedat_var]]), (lifedat_var) := get(lifedatmin_var)]
+      .[is.na(wide_dt[[lifedat_var]]), (lifedat_var) := get(lifedatmin_var)]
   }
   
   
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
-  wide_df <- data.table::set(wide_df, i=NULL, j=status_var, value = data.table::fcase(
+  wide_dt <- data.table::set(wide_dt, i=NULL, j=status_var, value = data.table::fcase(
     #patient is not born before end of follow-up
-    wide_df[[birthdat_var]] > fu_end,    97L,
+    wide_dt[[birthdat_var]] > fu_end,    97L,
     #patient has not developed FC before end of follow-up
-    wide_df[[fcdat_var]] > fu_end,       98L, 
+    wide_dt[[fcdat_var]] > fu_end,       98L, 
     #patient date of death is missing
-    wide_df[[life_var]] == life_stat_dead & is.na(wide_df[[lifedat_var]]) & lifedat_fu_end > fu_end,   99L,
+    wide_dt[[life_var]] == life_stat_dead & is.na(wide_dt[[lifedat_var]]) & lifedat_fu_end > fu_end,   99L,
     #patient is alive after FC and before end of FU (independet of whether SPC has developed or not after FU)
-    wide_df[[spc_var]] == spc_stat_no & wide_df[[life_var]] == life_stat_alive,    1L,
-    wide_df[[spc_var]] == spc_stat_no & wide_df[[life_var]] == life_stat_dead & wide_df[[lifedat_var]] > fu_end,   1L,
-    wide_df[[spc_var]] == spc_stat_yes & wide_df[[spcdat_var]] > fu_end & wide_df[[life_var]] == life_stat_alive,  1L,
-    wide_df[[spc_var]] == spc_stat_yes & wide_df[[spcdat_var]] > fu_end & wide_df[[life_var]] == life_stat_dead & wide_df[[lifedat_var]] > fu_end,  1L,
+    wide_dt[[spc_var]] == spc_stat_no & wide_dt[[life_var]] == life_stat_alive,    1L,
+    wide_dt[[spc_var]] == spc_stat_no & wide_dt[[life_var]] == life_stat_dead & wide_dt[[lifedat_var]] > fu_end,   1L,
+    wide_dt[[spc_var]] == spc_stat_yes & wide_dt[[spcdat_var]] > fu_end & wide_dt[[life_var]] == life_stat_alive,  1L,
+    wide_dt[[spc_var]] == spc_stat_yes & wide_dt[[spcdat_var]] > fu_end & wide_dt[[life_var]] == life_stat_dead & wide_dt[[lifedat_var]] > fu_end,  1L,
     #patient is alive after SPC and before end of FU
-    wide_df[[spc_var]] == spc_stat_yes & wide_df[[spcdat_var]] <= fu_end & wide_df[[life_var]] == life_stat_alive, 2L,
-    wide_df[[spc_var]] == spc_stat_yes & wide_df[[spcdat_var]] <= fu_end & wide_df[[life_var]] == life_stat_dead & wide_df[[lifedat_var]] > fu_end, 2L,
+    wide_dt[[spc_var]] == spc_stat_yes & wide_dt[[spcdat_var]] <= fu_end & wide_dt[[life_var]] == life_stat_alive, 2L,
+    wide_dt[[spc_var]] == spc_stat_yes & wide_dt[[spcdat_var]] <= fu_end & wide_dt[[life_var]] == life_stat_dead & wide_dt[[lifedat_var]] > fu_end, 2L,
     #patient is dead after FC and before end of FU
-    wide_df[[spc_var]] == spc_stat_no & wide_df[[life_var]] == life_stat_dead & wide_df[[lifedat_var]] <= fu_end,  3L,
-    wide_df[[spc_var]] == spc_stat_no & wide_df[[life_var]] == life_stat_dead & is.na(wide_df[[lifedat_var]]) & lifedat_fu_end <= fu_end,     3L,
+    wide_dt[[spc_var]] == spc_stat_no & wide_dt[[life_var]] == life_stat_dead & wide_dt[[lifedat_var]] <= fu_end,  3L,
+    wide_dt[[spc_var]] == spc_stat_no & wide_dt[[life_var]] == life_stat_dead & is.na(wide_dt[[lifedat_var]]) & lifedat_fu_end <= fu_end,     3L,
     #patient is dead after SPC and before end of FU
-    wide_df[[spc_var]] == spc_stat_yes & wide_df[[spcdat_var]] <= fu_end & wide_df[[life_var]] == life_stat_dead & wide_df[[lifedat_var]] <= fu_end, 4L,
-    wide_df[[spc_var]] == spc_stat_yes & wide_df[[spcdat_var]] <= fu_end & wide_df[[life_var]] == life_stat_dead & is.na(wide_df[[lifedat_var]]) & lifedat_fu_end <= fu_end, 4L,
+    wide_dt[[spc_var]] == spc_stat_yes & wide_dt[[spcdat_var]] <= fu_end & wide_dt[[life_var]] == life_stat_dead & wide_dt[[lifedat_var]] <= fu_end, 4L,
+    wide_dt[[spc_var]] == spc_stat_yes & wide_dt[[spcdat_var]] <= fu_end & wide_dt[[life_var]] == life_stat_dead & is.na(wide_dt[[lifedat_var]]) & lifedat_fu_end <= fu_end, 4L,
     #missings
     default = NA_integer_
   ))
@@ -185,7 +194,7 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   #enforce option use_lifedatmin == TRUE - part 2
   
   if(use_lifedatmin == TRUE){
-    wide_df <- wide_df %>%
+    wide_dt <- wide_dt %>%
       #replace temporary lifedat_var values with values from old lifedat_var
       .[, (lifedat_var) := p_datedeath_orig] %>%
       #remove p_datedeath_orig
@@ -193,10 +202,10 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   }
   
   #add variable label to status_var
-  sjlabelled::set_label(wide_df[[status_var]]) <- statvar_label
+  sjlabelled::set_label(wide_dt[[status_var]]) <- statvar_label
   
   #add value labels to status_var
-  wide_df[[status_var]] <- sjlabelled::set_labels(wide_df[[status_var]], labels =  c("patient alive after FC (with or without following SPC after end of FU)" = 1,
+  wide_dt[[status_var]] <- sjlabelled::set_labels(wide_dt[[status_var]], labels =  c("patient alive after FC (with or without following SPC after end of FU)" = 1,
                                                                                      "patient alive after SPC" = 2,
                                                                                      "patient dead after FC" = 3,
                                                                                      "patient dead after SPC" = 4,
@@ -208,27 +217,31 @@ pat_status_dt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
-    wide_df <- data.table::set(wide_df, i=NULL, j=status_var, value =
-                                 sjlabelled::as_label(wide_df[[status_var]], keep.labels=TRUE))
+    wide_dt <- data.table::set(wide_dt, i=NULL, j=status_var, value =
+                                 sjlabelled::as_label(wide_dt[[status_var]], keep.labels=TRUE))
   }
+  
+  #---- Checks end
   
   #conduct check on new variable
   if(check == TRUE){
     #count n for life_var and status_var
-    check_tab <- wide_df %>%
+    check_tab <- wide_dt %>%
       .[, .N, by = c(life_var, status_var)]
     
     print(check_tab)
     
     #count n of new status_var
-    freq_tab <- wide_df %>%
+    freq_tab <- wide_dt %>%
       .[, .N, by = c(status_var)]
     
     print(freq_tab)
     
   }
   
-  return(wide_df)
+  #---- Return results 
+  
+  return(wide_dt)
   
 }
 
