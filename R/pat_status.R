@@ -1,5 +1,5 @@
 
-#' Calculate patient status at specific end of follow-up
+#' Calculate patient status at specific end of follow-up - tidyverse version
 #'
 #' @param wide_df dataframe in wide format
 #' @param fu_end end of follow-up in time format YYYY-MM-DD.
@@ -25,7 +25,6 @@
 #'
 
 
-
 pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd", 
                        status_var = "p_status", life_var = NULL, spc_var = NULL, birthdat_var = NULL, lifedat_var = NULL, lifedatmin_var = NULL,
                        fcdat_var = NULL, spcdat_var = NULL, 
@@ -34,8 +33,8 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   
   
   #check if wide_df is data.frame
-  if(!is.data.frame(wide_df) | data.table::is.data.table(wide_df)){
-    message("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
+  if(!is.data.frame(wide_df) & data.table::is.data.table(wide_df)){
+    rlang::inform("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
     wide_df <- as.data.frame(wide_df)
   }
   
@@ -170,6 +169,8 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     }
   }
   
+  #----- Checks
+  
   #check whether all required variables are defined and present in dataset
   defined_vars <- c(rlang::quo_name(life_var), rlang::quo_name(spc_var), rlang::quo_name(lifedat_var), 
                     if(use_lifedatmin){rlang::quo_name(lifedatmin_var)})
@@ -204,6 +205,8 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   if(n_errorspc > 0){
     rlang::abort("`spc_var` and `spcdat_var` are inconsistent. Are you sure you have calculated `spc_var` after filtering and reshaping the dataset?")
   }
+  
+  #----- Calculate
   
   #enforce option use_lifedatmin == TRUE
   
@@ -275,6 +278,8 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       dplyr::mutate(!!status_var := sjlabelled::as_label(.data[[status_var]], keep.labels=TRUE))
   }
   
+  #---- Checks end
+  
   #conduct check on new variable
   if(check == TRUE){
     check_tab <- wide_df %>%
@@ -288,6 +293,8 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     print(freq_tab)
     
   }
+  
+  #---- Return results
   
   return(wide_df)
   
