@@ -205,13 +205,14 @@ pat_status_dt <- function(wide_dt, fu_end = NULL, dattype = "zfkd",
   sjlabelled::set_label(wide_dt[[status_var]]) <- statvar_label
   
   #add value labels to status_var
-  wide_dt[[status_var]] <- sjlabelled::set_labels(wide_dt[[status_var]], labels =  c("patient alive after FC (with or without following SPC after end of FU)" = 1,
-                                                                                     "patient alive after SPC" = 2,
-                                                                                     "patient dead after FC" = 3,
-                                                                                     "patient dead after SPC" = 4,
-                                                                                     "NA - patient not born before end of FU" = 97,
-                                                                                     "NA - patient did not develop cancer before end of FU" = 98,
-                                                                                     "NA - patient date of death is missing" = 99),
+  wide_dt[[status_var]] <- sjlabelled::set_labels(wide_dt[[status_var]], 
+                                                  labels =  c("patient alive after FC (with or without following SPC after end of FU)" = 1,
+                                                              "patient alive after SPC" = 2,
+                                                              "patient dead after FC" = 3,
+                                                              "patient dead after SPC" = 4,
+                                                              "NA - patient not born before end of FU" = 97,
+                                                              "NA - patient did not develop cancer before end of FU" = 98,
+                                                              "NA - patient date of death is missing" = 99),
                                                   force.labels = TRUE)
   
   
