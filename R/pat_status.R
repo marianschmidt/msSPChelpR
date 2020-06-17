@@ -288,7 +288,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     print(check_tab)
     
     freq_tab <- wide_df %>%
-      dplyr::count(.data[[!!life_var]])
+      dplyr::count(.data[[!!status_var]])
     
     print(freq_tab)
     
