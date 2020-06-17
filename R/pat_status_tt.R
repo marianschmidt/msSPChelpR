@@ -281,7 +281,7 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     print(check_tab)
     
     freq_tab <- wide_df %>%
-      tidytable::count.(!!life_var)
+      tidytable::count.(!!status_var)
     
     print(freq_tab)
     
