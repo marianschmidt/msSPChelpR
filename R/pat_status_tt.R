@@ -208,10 +208,10 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       #option use_lifedatmin option is used and date of death is missing -> replace by lifedatamin
       tidytable::mutate.(
         #copy old lifedat_var
-        p_datedeath_orig = .data[[!!lifedat_var]],
+        p_datedeath_orig = !!lifedat_var,
         !!lifedat_var := tidytable::case.(
-          use_lifedatmin == TRUE & is.na(.data[[!!lifedat_var]]), .data[[!!lifedatmin_var]],
-          default = .data[[!!lifedat_var]])
+          is.na(rlang::eval_tidy(!!lifedat_var)), !!lifedatmin_var,
+          default = !!lifedat_var)
       ) 
   }
   
@@ -247,10 +247,10 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     wide_df <- wide_df %>%
       tidytable::mutate.(
         #replace temporary lifedat_var values with values from old lifedat_var
-        !!lifedat_var := .data$p_datedeath_orig
+        !!lifedat_var := p_datedeath_orig
       ) %>%
       #remove p_datedeath_orig
-      tidytable::select.(-tidyselect::any_of(c("p_datedeath_orig")))
+      tidytable::select.(-p_datedeath_orig)
   }
   
   wide_df <- wide_df%>%
@@ -268,7 +268,7 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
     wide_df <- wide_df %>%
-      tidytable::mutate.(!!status_var := sjlabelled::as_label(.data[[status_var]], keep.labels=TRUE))
+      tidytable::mutate.(!!status_var := sjlabelled::as_label(!!status_var, keep.labels=TRUE))
   }
   
   #----Checks end
