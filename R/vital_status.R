@@ -4,7 +4,7 @@
 #' @param wide_df dataframe in wide format
 #' @param status_var Name of the patient status variable that was previously created. Default is p_status.  
 #' @param life_var_new Name of the newly calculated variable for patient vital status. Default is p_alive.  
-#' @param check Check newly calculated variable p_status by printing frequency table. Default is TRUE.   
+#' @param check Check newly calculated variable life_var_new by printing frequency table. Default is TRUE.   
 #' @param as_labelled_factor If true, output life_var_new as labelled factor variable. Default is FALSE.
 #' @return wide_df
 #' @export
@@ -26,14 +26,13 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
   #----- Checks
   
   #check whether all required variables are defined and present in dataset
-  defined_vars <- c(rlang::quo_name(status_var))
+  defined_vars <- c(rlang::as_name(status_var))
   
   not_found <- defined_vars[!(defined_vars %in% colnames(wide_df))]
   
   if(length(not_found) > 0) {
     rlang::abort(paste0("The following variables defined are not found in the provided dataframe: ", not_found, ". Please run pat_status function beforehand."))
   }
-  
   
   
   #make label for new variable (use FU date from label of status_var)
@@ -45,10 +44,19 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
   
   #revert status_var to numeric if previously labelled
   if(is.factor(wide_df[[rlang::eval_tidy(status_var)]])){
+    changed_status_var <- TRUE
     wide_df <- wide_df %>%
-      dplyr::mutate(!!status_var := sjlabelled::as_numeric(.data[[status_var]], 
-                                                           keep.labels=FALSE, use.labels = TRUE))
+      dplyr::mutate(
+        #copy old status var
+        status_var_orig = .data[[!!status_var]],
+        #make status_var numeric
+        !!status_var := sjlabelled::as_numeric(.data[[!!status_var]], 
+                                               keep.labels=FALSE, use.labels = TRUE))
+    
+  } else{
+    changed_status_var <- FALSE
   }
+  
   
   #create new life_var
   wide_df <- wide_df %>%
@@ -61,7 +69,20 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
       .data[[!!status_var]] == 4 ~ 11,
       #copy NA codes
       #status_var needs to be converted to double to avoid error message (status_var is in some cases changed to integer during function)
-      TRUE ~ as.numeric(.data[[!!status_var]]))) %>%
+      TRUE ~ as.numeric(.data[[!!status_var]])))
+  
+  #if status_var was changed from factor to numeric, revert
+  if(changed_status_var == TRUE){
+    wide_df <- wide_df %>%
+      dplyr::mutate(
+        #replace temporary lifedat_var values with values from old lifedat_var
+        !!status_var := .data$status_var_orig
+      ) %>%
+      #remove status_var_orig
+      dplyr::select(-status_var_orig)
+  }
+  
+  wide_df <- wide_df %>%
     #label new variable 
     sjlabelled::var_labels(!!life_var_new := !!lifevar_label) %>%
     sjlabelled::val_labels(!!life_var_new := c("patient alive" = 10,
@@ -71,10 +92,11 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
                                                "NA - patient date of death is missing" = 99),
                            force.labels = TRUE) 
   
+  
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
     wide_df <- wide_df %>%
-      dplyr::mutate(!!life_var_new := sjlabelled::as_label(.data[[life_var_new]], keep.labels=TRUE))
+      dplyr::mutate(!!life_var_new := sjlabelled::as_label(.data[[!!life_var_new]], keep.labels=TRUE))
   }
   
   #---- Checks end
@@ -91,3 +113,4 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
   return(wide_df)
   
 }
+
