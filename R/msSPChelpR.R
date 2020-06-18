@@ -23,5 +23,7 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "standard_population", 
                                                         "population", 
                                                         "rates", 
+                                                        "p_datedeath_orig",
+                                                        "stat_var_orig",
                                                         "where" #temporary fix because tidyverse::where is not exported
                                                         )) 
