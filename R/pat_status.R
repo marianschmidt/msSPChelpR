@@ -254,7 +254,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     wide_df <- wide_df %>%
       dplyr::mutate(
         #replace temporary lifedat_var values with values from old lifedat_var
-        !!lifedat_var := .data[["p_datedeath_orig"]]
+        !!lifedat_var := .data$p_datedeath_orig
       ) %>%
       #remove p_datedeath_orig
       dplyr::select(-tidyselect::all_of("p_datedeath_orig"))
