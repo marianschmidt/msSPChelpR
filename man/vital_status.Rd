@@ -2,7 +2,7 @@
 % Please edit documentation in R/vital_status.R
 \name{vital_status}
 \alias{vital_status}
-\title{Calculate vital status at end of follow-up depending on pat_status}
+\title{Calculate vital status at end of follow-up depending on pat_status - tidyverse version}
 \usage{
 vital_status(
   wide_df,
@@ -27,5 +27,5 @@ vital_status(
 wide_df
 }
 \description{
-Calculate vital status at end of follow-up depending on pat_status
+Calculate vital status at end of follow-up depending on pat_status - tidyverse version
 }
