@@ -275,7 +275,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
     wide_df <- wide_df %>%
-      dplyr::mutate(!!status_var := sjlabelled::as_label(.data[[status_var]], keep.labels=TRUE))
+      dplyr::mutate(!!status_var := sjlabelled::as_label(.data[[!!status_var]], keep.labels=TRUE))
   }
   
   #---- Checks end
