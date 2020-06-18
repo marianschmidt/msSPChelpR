@@ -43,7 +43,7 @@ ir_crosstab <-
     if (exists("df") && is.data.frame(get("df"))){}
     else{
       rlang::abort(paste0("The following df for for providing the observed cases does not exist or is not a dataframe: ",
-                          rlang::quo_text(df)))
+                          rlang::as_name(df)))
     }
     
     ### remove all labels from dfs to avoid warning messages
@@ -95,9 +95,9 @@ ir_crosstab <-
     #CHK1: check whether all required variables are defined and present in dataset
     defined_vars <-
       c(
-        rlang::quo_text(count_var),
+        rlang::as_name(count_var),
         ybreak_var_names,
-        if(xbreak_var != "none"){rlang::quo_text(xbreak_var)}
+        if(xbreak_var != "none"){rlang::as_name(xbreak_var)}
       )
     
     not_found <- defined_vars[!(defined_vars %in% colnames(df))]

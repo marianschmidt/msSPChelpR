@@ -30,7 +30,7 @@ reshape_long_dt <- function(wide_dt, case_id_var, time_id_var, datsize = Inf, ch
   n_start <- wide_df %>% nrow()
   
   #get data type of case_id_var
-  class_case_id_start <- class(wide_df[[rlang::quo_text(case_id_var)]])
+  class_case_id_start <- class(wide_df[[rlang::as_name(case_id_var)]])
   
   
   #in list of variable names find variables that have a dot separator followed by digits in the end or NA in the end
@@ -68,7 +68,7 @@ reshape_long_dt <- function(wide_dt, case_id_var, time_id_var, datsize = Inf, ch
   
   #check whether final data type of case_id_var is the same as at start
   
-  class_case_id_end <- class(long_df[[rlang::quo_text(case_id_var)]])
+  class_case_id_end <- class(long_df[[rlang::as_name(case_id_var)]])
   
   if(class_case_id_end != class_case_id_start){
     rlang::inform(paste0("Data type of case_id_var has been changed to: ", class_case_id_end, 

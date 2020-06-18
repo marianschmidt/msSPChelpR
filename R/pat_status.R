@@ -172,8 +172,8 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   #----- Checks
   
   #check whether all required variables are defined and present in dataset
-  defined_vars <- c(rlang::quo_text(life_var), rlang::quo_text(spc_var), rlang::quo_text(lifedat_var), 
-                    if(use_lifedatmin){rlang::quo_text(lifedatmin_var)})
+  defined_vars <- c(rlang::quo_name(life_var), rlang::quo_name(spc_var), rlang::quo_name(lifedat_var), 
+                    if(use_lifedatmin){rlang::quo_name(lifedatmin_var)})
   
   not_found <- defined_vars[!(defined_vars %in% colnames(wide_df))]
   
@@ -188,7 +188,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   }
   
   #make label for new variable
-  statvar_label <- paste("Patient Status at end of follow-up", rlang::quo_text(fu_end))
+  statvar_label <- paste("Patient Status at end of follow-up", rlang::quo_name(fu_end))
   
   #check whether spc_var is coherent with date (to catch cases where old p_spc is used and data is filtered afterwards)
   
@@ -254,10 +254,10 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     wide_df <- wide_df %>%
       dplyr::mutate(
         #replace temporary lifedat_var values with values from old lifedat_var
-        !!lifedat_var := .data$p_datedeath_orig
+        !!lifedat_var := .data[["p_datedeath_orig"]]
       ) %>%
       #remove p_datedeath_orig
-      dplyr::select(-p_datedeath_orig)
+      dplyr::select(-tidyselect::all_of("p_datedeath_orig"))
   }
   
   wide_df <- wide_df%>%

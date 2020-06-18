@@ -165,8 +165,8 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   #---- Checks start
   
   #check whether all required variables are defined and present in dataset
-  defined_vars <- c(rlang::quo_text(life_var), rlang::quo_text(spc_var), rlang::quo_text(lifedat_var), 
-                    if(use_lifedatmin){rlang::quo_text(lifedatmin_var)})
+  defined_vars <- c(rlang::as_name(life_var), rlang::as_name(spc_var), rlang::as_name(lifedat_var), 
+                    if(use_lifedatmin){rlang::as_name(lifedatmin_var)})
   
   not_found <- defined_vars[!(defined_vars %in% colnames(wide_df))]
   
@@ -181,7 +181,7 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   }
   
   #make label for new variable
-  statvar_label <- paste("Patient Status at end of follow-up", rlang::quo_text(fu_end))
+  statvar_label <- paste("Patient Status at end of follow-up", rlang::quo_name(fu_end))
   
   #check whether spc_var is coherent with date (to catch cases where old p_spc is used and data is filtered afterwards)
   
@@ -250,7 +250,7 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
         !!lifedat_var := p_datedeath_orig
       ) %>%
       #remove p_datedeath_orig
-      tidytable::select.(-p_datedeath_orig)
+      tidytable::select.(-tidyselect::all_of("p_datedeath_orig"))
   }
   
   wide_df <- wide_df%>%

@@ -41,7 +41,7 @@ ir_crosstab_byfutime <-
     if (exists("df") && is.data.frame(get("df"))){}
     else{
       rlang::abort(paste0("The following df for for providing the observed cases does not exist or is not a dataframe: ",
-                          rlang::quo_text(df)))
+                          rlang::as_name(df)))
     }
     
     ### remove all labels from dfs to avoid warning messages
@@ -81,9 +81,9 @@ ir_crosstab_byfutime <-
     #CHK1: check whether all required variables are defined and present in dataset
     defined_vars <-
       c(
-        rlang::quo_text(count_var),
+        rlang::as_name(count_var),
         ybreak_var_names, 
-        rlang::quo_text(futime_var)
+        rlang::as_name(futime_var)
       )
     
     not_found <- defined_vars[!(defined_vars %in% colnames(df))]
@@ -186,7 +186,7 @@ ir_crosstab_byfutime <-
     }
     
     rescolnames <-
-      ratecount_result %>% colnames() %>% .[2:ncol(ratecount_result)] %>% paste0(rlang::quo_text(single_xbreak_var), "_", .) %>% c("yvar_label", .)
+      ratecount_result %>% colnames() %>% .[2:ncol(ratecount_result)] %>% paste0(rlang::as_name(single_xbreak_var), "_", .) %>% c("yvar_label", .)
     
     colnames(ratecount_result) <- rescolnames
     
@@ -227,7 +227,7 @@ ir_crosstab_byfutime <-
       }
       
       rescolnames <-
-        ratecount_result_tmp %>% colnames() %>% paste0(rlang::quo_text(single_xbreak_var), "_", .)
+        ratecount_result_tmp %>% colnames() %>% paste0(rlang::as_name(single_xbreak_var), "_", .)
       
       colnames(ratecount_result_tmp) <- rescolnames
       
@@ -237,7 +237,7 @@ ir_crosstab_byfutime <-
     }
     
     ratecount_result <- ratecount_result %>%
-      dplyr::mutate(yvar_name = rlang::quo_text(single_ybreak_var)) %>%
+      dplyr::mutate(yvar_name = rlang::as_name(single_ybreak_var)) %>%
       dplyr::select(.data$yvar_name, dplyr::everything())
     
     
@@ -285,7 +285,7 @@ ir_crosstab_byfutime <-
         }
         
         rescolnames <-
-          ratecount_result_y %>% colnames() %>% .[2:ncol(ratecount_result_y)] %>% paste0(rlang::quo_text(single_xbreak_var), "_", .) %>% c("yvar_label", .)
+          ratecount_result_y %>% colnames() %>% .[2:ncol(ratecount_result_y)] %>% paste0(rlang::as_name(single_xbreak_var), "_", .) %>% c("yvar_label", .)
         
         colnames(ratecount_result_y) <- rescolnames
         
@@ -326,7 +326,7 @@ ir_crosstab_byfutime <-
           }
           
           rescolnames <-
-            ratecount_result_ytmp %>% colnames() %>% paste0(rlang::quo_text(single_xbreak_var), "_", .)
+            ratecount_result_ytmp %>% colnames() %>% paste0(rlang::as_name(single_xbreak_var), "_", .)
           
           colnames(ratecount_result_ytmp) <- rescolnames
           
@@ -337,7 +337,7 @@ ir_crosstab_byfutime <-
         
         
         ratecount_result_y <- ratecount_result_y %>%
-          dplyr::mutate(yvar_name = rlang::quo_text(single_ybreak_var)) %>%
+          dplyr::mutate(yvar_name = rlang::as_name(single_ybreak_var)) %>%
           dplyr::select(.data$yvar_name, dplyr::everything())
         
         
@@ -393,7 +393,7 @@ ir_crosstab_byfutime <-
         }
         
         rescolnames <-
-          ratecount_result_y %>% colnames() %>% .[2:ncol(ratecount_result_y)] %>% paste0(rlang::quo_text(single_xbreak_var), "_", .) %>% c("yvar_label", .)
+          ratecount_result_y %>% colnames() %>% .[2:ncol(ratecount_result_y)] %>% paste0(rlang::as_name(single_xbreak_var), "_", .) %>% c("yvar_label", .)
         
         colnames(ratecount_result_y) <- rescolnames
         
@@ -435,7 +435,7 @@ ir_crosstab_byfutime <-
           }
           
           rescolnames <-
-            ratecount_result_ytmp %>% colnames() %>% paste0(rlang::quo_text(single_xbreak_var), "_", .)
+            ratecount_result_ytmp %>% colnames() %>% paste0(rlang::as_name(single_xbreak_var), "_", .)
           
           colnames(ratecount_result_ytmp) <- rescolnames
           
@@ -446,7 +446,7 @@ ir_crosstab_byfutime <-
         
         
         ratecount_result_y <- ratecount_result_y %>%
-          dplyr::mutate(yvar_name = rlang::quo_text(single_ybreak_var)) %>%
+          dplyr::mutate(yvar_name = rlang::as_name(single_ybreak_var)) %>%
           dplyr::select(.data$yvar_name, dplyr::everything())
         
         if(add_total == "top"){

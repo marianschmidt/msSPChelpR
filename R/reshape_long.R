@@ -28,7 +28,7 @@ reshape_long <- function(wide_df, case_id_var, time_id_var,
   n_start <- nrow(wide_df)
   
   #get data type of case_id_var
-  class_case_id_start <- class(wide_df[[rlang::quo_text(case_id_var)]])
+  class_case_id_start <- class(wide_df[[rlang::as_name(case_id_var)]])
   
   
   #in list of variable names find variables that have a dot separator followed by digits in the end or NA in the end
@@ -39,7 +39,7 @@ reshape_long <- function(wide_df, case_id_var, time_id_var,
   #split dataset in equal chunks and store in list
   rows_pc <- (nrow(wide_df) / chunks) %>% round(0)
   
-  wide_df <- split(wide_df, as.numeric(as.factor(wide_df[[rlang::quo_text(case_id_var)]])) %% chunks)
+  wide_df <- split(wide_df, as.numeric(as.factor(wide_df[[rlang::as_name(case_id_var)]])) %% chunks)
   
   #perform reshape command on each chunk
   long_df <- list()
@@ -48,7 +48,7 @@ reshape_long <- function(wide_df, case_id_var, time_id_var,
     
     long_df[[i]] <- wide_df[[i]] %>%
       as.data.frame %>%
-      stats::reshape(timevar=rlang::quo_text(time_id_var), idvar=rlang::quo_text(case_id_var), direction = "long", varying = varying_vars, sep=".")
+      stats::reshape(timevar=rlang::as_name(time_id_var), idvar=rlang::as_name(case_id_var), direction = "long", varying = varying_vars, sep=".")
     
     wide_df[[i]] <- 0
     
@@ -59,7 +59,7 @@ reshape_long <- function(wide_df, case_id_var, time_id_var,
     dplyr::arrange(as.numeric(.data[[!!case_id_var]]), .data[[!!time_id_var]])
   
   #filter empty rows
-  col_subset <- colnames(long_df)[!colnames(long_df) %in% (c(rlang::quo_text(case_id_var), rlang::quo_text(time_id_var)))]
+  col_subset <- colnames(long_df)[!colnames(long_df) %in% (c(rlang::as_name(case_id_var), rlang::as_name(time_id_var)))]
   long_df <- long_df %>%
     dplyr::filter_at(.vars = dplyr::vars(tidyselect::one_of(col_subset)),
                      dplyr::any_vars(!is.na(.))) %>%
@@ -77,7 +77,7 @@ reshape_long <- function(wide_df, case_id_var, time_id_var,
   
   #check whether final data type of case_id_var is the same as at start
   
-  class_case_id_end <- class(long_df[[rlang::quo_text(case_id_var)]])
+  class_case_id_end <- class(long_df[[rlang::as_name(case_id_var)]])
   
   if(class_case_id_end != class_case_id_start){
     rlang::inform(paste0("Data type of case_id_var has been changed to: ", class_case_id_end, 
