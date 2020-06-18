@@ -1,3 +1,4 @@
+
 #' Calculate vital status at end of follow-up depending on pat_status
 #'
 #' @param wide_df dataframe in wide format

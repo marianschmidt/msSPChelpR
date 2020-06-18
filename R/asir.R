@@ -63,13 +63,13 @@ asir <-
     if (exists("df") && is.data.frame(get("df"))){}
     else{
       rlang::abort(paste0("The following df for for providing the observed cases does not exist or is not a dataframe: ",
-                          rlang::quo_name(df)))
+                          rlang::quo_text(df)))
     }
     
     if (exists("stdpop_df") && is.data.frame(get("stdpop_df"))){}
     else{
       rlang::abort(paste0("The following stdpop_df for for providing the standard population does not exist or is not a dataframe: ",
-                          rlang::quo_name(stdpop_df)))
+                          rlang::quo_text(stdpop_df)))
     }
     
     ### remove all labels from dfs to avoid warning messages
@@ -89,7 +89,7 @@ asir <-
       }
       else{
         rlang::abort(paste0("The following refpop_df for for providing the reference population does not exist or is not a dataframe: ",
-                            rlang::quo_name(refpop_df)))
+                            rlang::quo_text(refpop_df)))
       }
       
     }
@@ -206,13 +206,13 @@ asir <-
     #CHK1: check whether all required variables are defined and present in dataset
     defined_vars <-
       c(
-        rlang::quo_name(region_var),
-        rlang::quo_name(agegroup_var),
-        rlang::quo_name(sex_var),
-        rlang::quo_name(year_var),
-        rlang::quo_name(icdcat_var),
-        rlang::quo_name(count_var),
-        if(futime_src == "cohort"){rlang::quo_name(futime_var)}
+        rlang::quo_text(region_var),
+        rlang::quo_text(agegroup_var),
+        rlang::quo_text(sex_var),
+        rlang::quo_text(year_var),
+        rlang::quo_text(icdcat_var),
+        rlang::quo_text(count_var),
+        if(futime_src == "cohort"){rlang::quo_text(futime_var)}
       )
     
     not_found <- defined_vars[!(defined_vars %in% colnames(df))]
@@ -525,7 +525,7 @@ asir <-
       max_sircalc <- sircalc_count %>%
         tidyr::expand(.data$age, .data$sex, !!region_var, !!icdcat_var, !!year_var)
       
-      sircalc_count <-  dplyr::full_join(sircalc_count, max_sircalc, by = c("age", "sex", rlang::quo_name(region_var) , rlang::quo_name(year_var), rlang::quo_name(icdcat_var)))
+      sircalc_count <-  dplyr::full_join(sircalc_count, max_sircalc, by = c("age", "sex", rlang::quo_text(region_var) , rlang::quo_text(year_var), rlang::quo_text(icdcat_var)))
       
       min_year <- stringr::str_sub(used_year, 1, 4) %>% as.numeric() %>% min()
       max_year <- stringr::str_sub(used_year, 1, 4) %>% as.numeric() %>% max()

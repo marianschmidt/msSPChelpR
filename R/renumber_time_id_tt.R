@@ -68,7 +68,7 @@ renumber_time_id_tt <- function(df, new_time_id_var, dattype = "zfkd",
   
   #CHK1: check whether all required variables are defined and present in dataset 
   #(check for time_id_var is also check for long dataset format)
-  defined_vars <- c(rlang::quo_name(case_id_var), rlang::quo_name(time_id_var), rlang::quo_name(diagdat_var))
+  defined_vars <- c(rlang::quo_text(case_id_var), rlang::quo_text(time_id_var), rlang::quo_text(diagdat_var))
   
   not_found <- defined_vars[!(defined_vars %in% colnames(df))]
   
@@ -78,8 +78,8 @@ renumber_time_id_tt <- function(df, new_time_id_var, dattype = "zfkd",
   
   #CHK2: ifs new and old id_var the same --> message that id was overwritten
   
-  if(rlang::quo_name(time_id_var) == rlang::quo_name(new_time_id_var)){
-    warning(paste0("Original time_id_var: ", rlang::quo_name(time_id_var)," has been overwritten with new renumbered values"))
+  if(rlang::quo_text(time_id_var) == rlang::quo_text(new_time_id_var)){
+    warning(paste0("Original time_id_var: ", rlang::quo_text(time_id_var)," has been overwritten with new renumbered values"))
   }
   
   #----- DM 

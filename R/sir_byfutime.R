@@ -87,7 +87,7 @@ sir_byfutime <- function(df,
   
   if(is.data.frame(get("df"))){}
   else{
-    rlang::abort(paste0("The following df you provdided is not a dataframe: ", rlang::quo_name(df)))
+    rlang::abort(paste0("The following df you provdided is not a dataframe: ", rlang::quo_text(df)))
   }
   
   # getting and setting names / preferences
@@ -257,9 +257,9 @@ sir_byfutime <- function(df,
   #CHK2: check whether all required variables are defined and present in dataset
   defined_vars <-
     c(
-      rlang::quo_name(region_var),
-      rlang::quo_name(agegroup_var),
-      rlang::quo_name(sex_var),
+      rlang::quo_text(region_var),
+      rlang::quo_text(agegroup_var),
+      rlang::quo_text(sex_var),
       rlang::quo_name(year_var),
       rlang::quo_name(icdcat_var),
       rlang::quo_name(count_var),

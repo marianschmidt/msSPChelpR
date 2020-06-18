@@ -123,9 +123,9 @@ pat_status_dt <- function(wide_dt, fu_end = NULL, dattype = "zfkd",
   #------ Checks start
   
   #check whether all required variables are defined and present in dataset
-  defined_vars <- c(rlang::quo_name(life_var), rlang::quo_name(spc_var), rlang::quo_name(lifedat_var),
-                    rlang::quo_name(birthdat_var), rlang::quo_name(fcdat_var), rlang::quo_name(spcdat_var),
-                    if(use_lifedatmin){rlang::quo_name(lifedatmin_var)})
+  defined_vars <- c(rlang::quo_text(life_var), rlang::quo_text(spc_var), rlang::quo_text(lifedat_var),
+                    rlang::quo_text(birthdat_var), rlang::quo_text(fcdat_var), rlang::quo_text(spcdat_var),
+                    if(use_lifedatmin){rlang::quo_text(lifedatmin_var)})
   
   not_found <- defined_vars[!(defined_vars %in% colnames(wide_dt))]
   

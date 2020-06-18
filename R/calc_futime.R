@@ -85,7 +85,7 @@ calc_futime <- function(wide_df,
   }
   
   #check whether all required variables are defined and present in dataset
-  defined_vars <- c(rlang::quo_name(status_var), rlang::quo_name(lifedat_var), rlang::quo_name(fcdat_var), rlang::quo_name(spcdat_var))
+  defined_vars <- c(rlang::quo_text(status_var), rlang::quo_text(lifedat_var), rlang::quo_text(fcdat_var), rlang::quo_text(spcdat_var))
   
   not_found <- defined_vars[!(defined_vars %in% colnames(wide_df))]
   
@@ -116,19 +116,19 @@ calc_futime <- function(wide_df,
   
   
   #check whether FU date provided might be too late
-  if(fu_end_param > max(wide_df[[rlang::quo_name(fcdat_var)]], na.rm = TRUE) & fu_end_param > max(wide_df[[rlang::quo_name(spcdat_var)]], na.rm = TRUE)) {
+  if(fu_end_param > max(wide_df[[rlang::quo_text(fcdat_var)]], na.rm = TRUE) & fu_end_param > max(wide_df[[rlang::quo_text(spcdat_var)]], na.rm = TRUE)) {
     rlang::abort(paste0("You have provided an end of Follow-up date that might be out of range of the collected data.",
                         "Thus events such as SPCs or deaths might not have been recorded and FU-time is overestimated.", 
                         "\nEnd of Follow-up provided: ", fu_end_param, 
-                        "\nLatest recorded First Cancer: ",  max(wide_df[[rlang::quo_name(fcdat_var)]], na.rm = TRUE),
-                        "\nLatest recorded Second Cancer: ",  max(wide_df[[rlang::quo_name(spcdat_var)]], na.rm = TRUE)
+                        "\nLatest recorded First Cancer: ",  max(wide_df[[rlang::quo_text(fcdat_var)]], na.rm = TRUE),
+                        "\nLatest recorded Second Cancer: ",  max(wide_df[[rlang::quo_text(spcdat_var)]], na.rm = TRUE)
     ))
   }
   
   #CHK2: if new and old futime_var are the same --> message that id was overwritten
   
-  if(rlang::quo_name(futime_var_new) %in% names(wide_df)){
-    warning(paste0(rlang::quo_name(futime_var_new),"is already present in dataset. Variable has been overwritten with new FU time values"))
+  if(rlang::quo_text(futime_var_new) %in% names(wide_df)){
+    warning(paste0(rlang::quo_text(futime_var_new),"is already present in dataset. Variable has been overwritten with new FU time values"))
   }
   
   

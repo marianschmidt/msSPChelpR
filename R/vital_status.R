@@ -1,4 +1,5 @@
-#' Calculate vital status at end of follow-up depending on pat_status
+
+#' Calculate vital status at end of follow-up depending on pat_status - tidyverse version
 #'
 #' @param wide_df dataframe in wide format
 #' @param status_var Name of the patient status variable that was previously created. Default is p_status.  
@@ -9,16 +10,20 @@
 #' @export
 #'
 
-vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_alive", check = TRUE, as_labelled_factor = FALSE){
+vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_alive", check = TRUE, 
+                         as_labelled_factor = FALSE){
   
   #check if wide_df is data.frame
-  if(!is.data.frame(wide_df) | data.table::is.data.table(wide_df)){
-    message("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
+  if(!is.data.frame(wide_df) & data.table::is.data.table(wide_df)){
+    rlang::inform("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
     wide_df <- as.data.frame(wide_df)
   }
   
+  #fetch variable names provided in function call
   status_var <- rlang::enquo(status_var)
   life_var_new <- rlang::enquo(life_var_new)
+  
+  #----- Checks
   
   #check whether all required variables are defined and present in dataset
   defined_vars <- c(rlang::quo_name(status_var))
@@ -29,18 +34,20 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
     rlang::abort(paste0("The following variables defined are not found in the provided dataframe: ", not_found, ". Please run pat_status function beforehand."))
   }
   
+  
+  
   #make label for new variable (use FU date from label of status_var)
   
   lifevar_label <- paste("Patient Vital Status at end of follow-up", attr(wide_df[[rlang::eval_tidy(status_var)]], "label", exact = T) %>%
                            stringr::str_sub(-10))
   
-  #calculate new status_var variable and label it
-  #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
+  #---- Calculate
   
   #revert status_var to numeric if previously labelled
   if(is.factor(wide_df[[rlang::eval_tidy(status_var)]])){
     wide_df <- wide_df %>%
-      dplyr::mutate(!!status_var := sjlabelled::as_numeric(.data[[status_var]], keep.labels=FALSE, use.labels = TRUE))
+      dplyr::mutate(!!status_var := sjlabelled::as_numeric(.data[[status_var]], 
+                                                           keep.labels=FALSE, use.labels = TRUE))
   }
   
   #create new life_var
@@ -70,6 +77,8 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
       dplyr::mutate(!!life_var_new := sjlabelled::as_label(.data[[life_var_new]], keep.labels=TRUE))
   }
   
+  #---- Checks end
+  
   #conduct check on new variable
   if(check == TRUE){
     check_tab <- wide_df %>%
@@ -82,4 +91,3 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
   return(wide_df)
   
 }
-
