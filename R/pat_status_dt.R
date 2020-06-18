@@ -218,8 +218,8 @@ pat_status_dt <- function(wide_dt, fu_end = NULL, dattype = "zfkd",
   
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
-    wide_dt <- data.table::set(wide_dt, i=NULL, j=status_var, value =
-                                 sjlabelled::as_label(wide_dt[[status_var]], keep.labels=TRUE))
+    wide_dt <- wide_dt %>%
+      .[, (status_var) := sjlabelled::as_label(wide_dt[[status_var]], keep.labels=TRUE)]
   }
   
   #---- Checks end
