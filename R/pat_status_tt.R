@@ -181,7 +181,7 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   }
   
   #make label for new variable
-  statvar_label <- paste("Patient Status at end of follow-up", rlang::quo_name(fu_end))
+  statvar_label <- paste("Patient Status at end of follow-up", rlang::as_name(fu_end))
   
   #check whether spc_var is coherent with date (to catch cases where old p_spc is used and data is filtered afterwards)
   
