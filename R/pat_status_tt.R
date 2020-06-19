@@ -188,9 +188,9 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   n_errorspc <- wide_df %>% 
     tidytable::filter.(
       #scenario 1 -> p_spc indicates SPC developed, but spcdat_var is empty
-      (.data[[!!spc_var]] == !!spc_stat_yes & is.na(.data[[!!spcdat_var]])) |
+      (!!spc_var == !!spc_stat_yes & is.na(rlang::eval_tidy(!!spcdat_var))) |
         #secnario 2 -> p_spc indicates no SPC, but spcdat_var is filled
-        (.data[[!!spc_var]] == !!spc_stat_no & !is.na(.data[[!!spcdat_var]]))
+        (!!spc_var == !!spc_stat_no & !is.na(rlang::eval_tidy(!!spcdat_var)))
     ) %>%
     nrow()
   
@@ -198,6 +198,13 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   if(n_errorspc > 0){
     rlang::abort("`spc_var` and `spcdat_var` are inconsistent. Are you sure you have calculated `spc_var` after filtering and reshaping the dataset?")
   }
+  
+  #check if new and old status_var are the same --> message that id was overwritten
+  
+  if(rlang::as_name(status_var) %in% names(wide_df)){
+    rlang::warn(paste0(rlang::as_name(status_var)," is already present in dataset. Variable has been overwritten with new values."))
+  }
+  
   
   #---- Calculate
   
