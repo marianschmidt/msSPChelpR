@@ -37,8 +37,8 @@ calc_futime <- function(wide_df,
   }
   
   #fetch variable names provided in function call
-  futime_var_new <- rlang::enquo(futime_var_new)
-  status_var <- rlang::enquo(status_var)
+  futime_var_new <- rlang::ensym(futime_var_new)
+  status_var <- rlang::ensym(status_var)
   time_unit <- rlang::enquo(time_unit)
   
   #setting default var names and values for SEER data
@@ -99,9 +99,8 @@ calc_futime <- function(wide_df,
   }
   
   #get used FU date from function parameter and from label of status_var
-  fu_end <- rlang::enquo(fu_end)
   fu_end_param <- as.Date(rlang::as_name(fu_end), date.format = "%y-%m-%d")
-  fu_end_status <- attr(wide_df[[rlang::eval_tidy(status_var)]], "label", exact = T) %>% stringr::str_sub(-10) %>% as.Date(.,  date.format = "%y-%m-%d")
+  fu_end_status <- attr(wide_df[[rlang::as_name(status_var)]], "label", exact = T) %>% stringr::str_sub(-10) %>% as.Date(.,  date.format = "%y-%m-%d")
   
   
   #check whether date was provided in correct format
@@ -142,7 +141,7 @@ calc_futime <- function(wide_df,
   #---- Calculate
   
   #revert status_var to numeric if previously labelled
-  if(is.factor(wide_df[[rlang::eval_tidy(status_var)]])){
+  if(is.factor(wide_df[[rlang::as_name(status_var)]])){
     changed_status_var <- TRUE
     wide_df <- wide_df %>%
       dplyr::mutate(
@@ -192,8 +191,6 @@ calc_futime <- function(wide_df,
   }
   
   #---- Checks end
-  
-  browser()
   
   #conduct check on new variable
   if(check == TRUE){
