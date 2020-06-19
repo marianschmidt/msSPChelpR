@@ -1,4 +1,5 @@
-#' Calculate follow-up time per case until end of follow-up depending on pat_status
+
+#' Calculate follow-up time per case until end of follow-up depending on pat_status - tidyverse version
 #'
 #' @param wide_df dataframe in wide format
 #' @param futime_var_new Name of the newly calculated variable for follow-up time. Default is p_futimeyrs.
@@ -27,31 +28,34 @@ calc_futime <- function(wide_df,
                         fcdat_var = NULL,
                         spcdat_var = NULL){
   
+  #---- Checks start
+  
   #check if wide_df is data.frame
-  if(!is.data.frame(wide_df) | data.table::is.data.table(wide_df)){
-    message("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.
-            You can also run the data.table version of this function calc_futime_dt instead.")
+  if(!is.data.frame(wide_df) & data.table::is.data.table(wide_df)){
+    rlang::inform("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
     wide_df <- as.data.frame(wide_df)
   }
   
+  #fetch variable names provided in function call
   futime_var_new <- rlang::enquo(futime_var_new)
   status_var <- rlang::enquo(status_var)
+  time_unit <- rlang::enquo(time_unit)
   
   #setting default var names and values for SEER data
   
   if (dattype == "seer"){
     if(is.null(lifedat_var)){
-      lifedat_var <- rlang::quo("p_dodeath")
+      lifedat_var <- rlang::quo("p_datedeath.1")
     } else{
       lifedat_var <- rlang::enquo(lifedat_var)
     }
     if(is.null(fcdat_var)){
-      fcdat_var <- rlang::quo("p_dofirst")
+      fcdat_var <- rlang::quo("t_datediag.1")
     } else{
       fcdat_var <- rlang::enquo(fcdat_var)
     }
     if(is.null(spcdat_var)){
-      spcdat_var <- rlang::quo("p_dospc")
+      spcdat_var <- rlang::quo("t_datediag.2")
     } else{
       spcdat_var <- rlang::enquo(spcdat_var)
     }
@@ -76,6 +80,7 @@ calc_futime <- function(wide_df,
     }
   }
   
+  #---- Checks start
   
   #check whether p_dodmin information can be used
   if("p_dobmin" %in% names(wide_df)) {
@@ -95,7 +100,7 @@ calc_futime <- function(wide_df,
   
   #get used FU date from function parameter and from label of status_var
   fu_end <- rlang::enquo(fu_end)
-  fu_end_param <- as.Date(rlang::eval_tidy(fu_end), date.format = "%y-%m-%d")
+  fu_end_param <- as.Date(rlang::as_name(fu_end), date.format = "%y-%m-%d")
   fu_end_status <- attr(wide_df[[rlang::eval_tidy(status_var)]], "label", exact = T) %>% stringr::str_sub(-10) %>% as.Date(.,  date.format = "%y-%m-%d")
   
   
@@ -105,6 +110,10 @@ calc_futime <- function(wide_df,
     rlang::abort("You have not provided a correct Follow-up date in the format YYYY-MM-DD")
   }
   
+  #check whether time_unit is provided in correct format
+  if((rlang::as_name(time_unit) %in% c("years", "months", "days")) == FALSE) {
+    rlang::abort("You can only use 'years', 'months' or 'days' as time_unit")
+  }
   
   #check whether FU date provided was the same as for pat_status function
   
@@ -125,18 +134,26 @@ calc_futime <- function(wide_df,
     ))
   }
   
-  #CHK2: if new and old futime_var are the same --> message that id was overwritten
-  
+  #check if new and old futime_var are the same --> message that id was overwritten
   if(rlang::as_name(futime_var_new) %in% names(wide_df)){
-    warning(paste0(rlang::as_name(futime_var_new),"is already present in dataset. Variable has been overwritten with new FU time values"))
+    rlang::warn(paste0(rlang::as_name(futime_var_new)," is already present in dataset. Variable has been overwritten with new values."))
   }
   
+  #---- Calculate
   
-  
-  #revert status_var to numeric if previously labeled
+  #revert status_var to numeric if previously labelled
   if(is.factor(wide_df[[rlang::eval_tidy(status_var)]])){
+    changed_status_var <- TRUE
     wide_df <- wide_df %>%
-      dplyr::mutate(!!status_var := sjlabelled::as_numeric(.data[[status_var]], keep.labels=FALSE, use.labels = TRUE))
+      dplyr::mutate(
+        #copy old status var
+        status_var_orig = .data[[!!status_var]],
+        #make status_var numeric
+        !!status_var := sjlabelled::as_numeric(.data[[!!status_var]], 
+                                               keep.labels=FALSE, use.labels = TRUE))
+    
+  } else{
+    changed_status_var <- FALSE
   }
   
   #new variable label
@@ -146,13 +163,13 @@ calc_futime <- function(wide_df,
   wide_df <- wide_df %>%
     dplyr::mutate(!!futime_var_new := dplyr::case_when(
       #patient alive, after FC
-      .data[[!!status_var]] == 1 ~ lubridate::time_length(difftime(fu_end_param, .data[[!!fcdat_var]]), "years"),
+      .data[[!!status_var]] == 1 ~ lubridate::time_length(difftime(fu_end_param, .data[[!!fcdat_var]]), !!time_unit),
       #patient alive, after SPC
-      .data[[!!status_var]] == 2 ~ lubridate::time_length(difftime(.data[[!!spcdat_var]], .data[[!!fcdat_var]]), "years"),
+      .data[[!!status_var]] == 2 ~ lubridate::time_length(difftime(.data[[!!spcdat_var]], .data[[!!fcdat_var]]), !!time_unit),
       #patient dead, after FC
-      .data[[!!status_var]] == 3 ~ lubridate::time_length(difftime(.data[[!!lifedat_var]], .data[[!!fcdat_var]]), "years"),
+      .data[[!!status_var]] == 3 ~ lubridate::time_length(difftime(.data[[!!lifedat_var]], .data[[!!fcdat_var]]), !!time_unit),
       #patient dead, after SPC
-      .data[[!!status_var]] == 4 ~ lubridate::time_length(difftime(.data[[!!spcdat_var]], .data[[!!fcdat_var]]), "years"),
+      .data[[!!status_var]] == 4 ~ lubridate::time_length(difftime(.data[[!!spcdat_var]], .data[[!!fcdat_var]]), !!time_unit),
       # NA 97 - not born
       .data[[!!status_var]] == 97 ~ NA_real_,
       # NA 98 - no FC
@@ -163,12 +180,25 @@ calc_futime <- function(wide_df,
     #label new variable
     sjlabelled::var_labels(!!futime_var_new := !!futime_var_new_label)
   
-  ##-- continue here
+  #if status_var was changed from factor to numeric, revert
+  if(changed_status_var == TRUE){
+    wide_df <- wide_df %>%
+      dplyr::mutate(
+        #replace temporary lifedat_var values with values from old lifedat_var
+        !!status_var := .data$status_var_orig
+      ) %>%
+      #remove status_var_orig
+      dplyr::select(-status_var_orig)
+  }
+  
+  #---- Checks end
+  
+  browser()
   
   #conduct check on new variable
   if(check == TRUE){
     check_tab <- wide_df %>%
-      dplyr::group_by(!!status_var)%>%
+      dplyr::group_by(.data[[!!status_var]])%>%
       dplyr::summarise(mean_futime = mean(.data[[!!futime_var_new]], na.rm = TRUE), 
                        min_futime = min(.data[[!!futime_var_new]], na.rm = TRUE),
                        max_futime = max(.data[[!!futime_var_new]], na.rm = TRUE),
@@ -182,5 +212,4 @@ calc_futime <- function(wide_df,
   return(wide_df)
   
 }
-
 
