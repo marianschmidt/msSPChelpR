@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_futime.R
 \name{calc_futime}
 \alias{calc_futime}
-\title{Calculate follow-up time per case until end of follow-up depending on pat_status}
+\title{Calculate follow-up time per case until end of follow-up depending on pat_status - tidyverse version}
 \usage{
 calc_futime(
   wide_df,
@@ -42,5 +42,5 @@ calc_futime(
 wide_df
 }
 \description{
-Calculate follow-up time per case until end of follow-up depending on pat_status
+Calculate follow-up time per case until end of follow-up depending on pat_status - tidyverse version
 }
