@@ -1,14 +1,18 @@
 # msSPChelpR (development version)
 
 ##New Features
+* tidytable variants of functions, i.e. `reshape_wide_tt()`, `renumber_time_id_tt()`, `pat_status_tt()`, `vital_status_tt()`,  `calc_futime_tt()` --> the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.
 
 ##Breaking Changes
 * breaking change in function `sir_byfutime()`; options `add_total_row` and `add_total_fu` are replaced by `calc_total_row` and `calc_total_fu`. These are logical parameters now. The positioning of total rows and colums is completely handled by the `summarize_sir_results()` function now. There total rows can be set to top and bottom and total columns to left and right.
 * function `sir()` is superseded by the use of `sir_byfutime()`. To migrate your former `sir()` functions, you can simply use `sir_byfutime(, futime_breaks = "none")` that will yield the same results.
 * now requires dplyr version 1.0.0
+* rewrite of function `reshape_long_tidyr()`, option `var_selection` is deprecated. Please select variables before running the `reshape_long_*` functions.
 
 ##Bug Fixes
 * implement new reliable routine to split df when `reshape_wide()` with option `chunks` is used. Closes #1.
+* ensure sorting in `renumer_time_id()` and make sure that `new_time_id_var` is returned as integer.
+* fix bug in `pat_status_*(., check = TRUE)`option
 
 # msSPChelpR 0.8.4 - 2020-05-21
 
