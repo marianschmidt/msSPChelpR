@@ -1,3 +1,4 @@
+
 #' Calculate standardized incidence ratios with costum grouping variables by follow-up time
 #'
 #' @param df dataframe in wide format
@@ -76,18 +77,16 @@ sir_byfutime <- function(df,
   ###----  prepwork
   
   #setting default parameters
-  na_explicit <- "_NA_explicit" # string for explicit NAs
+  na_explicit <- "zzz_NA_explicit" # string for explicit NAs
   
   options_dplyr_old <- options(dplyr.summarise.inform = TRUE) # save old setting for showing dplyr messages
   on.exit(options(options_dplyr_old), add = TRUE) #make sure old options are used when exiting function
   options(dplyr.summarise.inform = FALSE) #set new setting for not showing dplyr messages to avoid outbut by summarize()
   
-  
-  #CHK1: check if df exists and is dataframe
-  
-  if(is.data.frame(get("df"))){}
-  else{
-    rlang::abort(paste0("The following df you provdided is not a dataframe: ", rlang::quo_text(df)))
+  #check if df is data.frame
+  if(!is.data.frame(df) & data.table::is.data.table(df)){
+    rlang::inform("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
+    df <- as.data.frame(df)
   }
   
   # getting and setting names / preferences
@@ -240,7 +239,7 @@ sir_byfutime <- function(df,
   }
   
   #create empty objects for possible warnings and errors
-  notes_refcases_attr <- c()
+  
   problems_pyar_attr <- c()
   problems_not_empty_attr <- c()
   problems_missing_ref_strata_attr <- c()
@@ -257,9 +256,9 @@ sir_byfutime <- function(df,
   #CHK2: check whether all required variables are defined and present in dataset
   defined_vars <-
     c(
-      rlang::quo_text(region_var),
-      rlang::quo_text(agegroup_var),
-      rlang::quo_text(sex_var),
+      rlang::quo_name(region_var),
+      rlang::quo_name(agegroup_var),
+      rlang::quo_name(sex_var),
       rlang::quo_name(year_var),
       rlang::quo_name(icdcat_var),
       rlang::quo_name(count_var),
@@ -286,7 +285,7 @@ sir_byfutime <- function(df,
       dplyr::filter(is.na(.data[[!!futime_var]]))
     
     if (nrow(problems_missing_futime) > 0) {
-      message(
+      rlang::inform(
         paste0(
           "There are ", nrow(problems_missing_futime), "rows in the data set for which futime_var is missing.", 
           "\nPlease make sure that you have: ", 
@@ -471,7 +470,6 @@ sir_byfutime <- function(df,
   
   ### F1 Calculating Observed by group (within cohort) and PYARs
   
-  
   #start loop for iterations of ybreak_vars [y]
   for(y in 1:length_yb){
     
@@ -602,6 +600,7 @@ sir_byfutime <- function(df,
         dplyr::n_distinct() 
       
       
+      
       #not found strata in sircalc_fu
       n_not_found_fu <- n_strata_required_count - (n_strata_required_fu * n_t_icdcat)
       
@@ -622,7 +621,6 @@ sir_byfutime <- function(df,
             "The calculation of observed events was performed for: ", nrow(sircalc_fu), " strata. However ", n_strata_required_fu, " strata are required. Occured in: ", fub_var,",", syb_var)
         )
       }
-      
       
       #F1d merge
       
@@ -712,8 +710,8 @@ sir_byfutime <- function(df,
         dplyr::filter(.data$i_pyar == 0 & !(.data$i_observed == 0 & .data$n_base < 2)) 
       
       if (nrow(problems_not_empty) > 0) {
-        message(paste0("There are disambiguities where strata with 0 follow-up time have data in observed or base",
-                       paste0(utils::capture.output(problems_not_empty), collapse = "\n"), collapse = "\n"))
+        rlang::inform(paste0("There are disambiguities where strata with 0 follow-up time have data in observed or base",
+                             paste0(utils::capture.output(problems_not_empty), collapse = "\n"), collapse = "\n"))
         problems_not_empty_attr <- c(problems_not_empty_attr, 
                                      paste0("There are disambiguities where strata with 0 follow-up time have data in observed or base",
                                             paste0(utils::capture.output(problems_not_empty), collapse = "\n"), collapse = "\n"))
@@ -740,8 +738,8 @@ sir_byfutime <- function(df,
           dplyr::anti_join(refrates_df, by = c("age", "sex", "region" , "year", "t_icdcat"))
         
         if(nrow(missing_ref_strata) > 0){
-          message(paste0("For the following region, years, etc no reference rates can be found:",
-                         paste0(utils::capture.output(missing_ref_strata), collapse = "\n"), collapse = "\n"))
+          rlang::inform(paste0("For the following region, years, etc no reference rates can be found:",
+                               paste0(utils::capture.output(missing_ref_strata), collapse = "\n"), collapse = "\n"))
           problems_missing_ref_strata_attr <- c(problems_missing_ref_strata_attr,
                                                 paste0("For the following region, years, etc no reference rates can be found:",
                                                        paste0(utils::capture.output(missing_ref_strata), collapse = "\n"), collapse = "\n"))
@@ -848,6 +846,7 @@ sir_byfutime <- function(df,
     }
     
     #end loop [y] iterations
+    gc()
   }
   
   
@@ -865,8 +864,8 @@ sir_byfutime <- function(df,
     dplyr::filter(.data$min_pyar != .data$max_pyar)
   
   if(nrow(problems_pyar) > 0){
-    message(paste0("There are differing pyar values for the same age, gender, year, region strata:"
-                   ,paste0(utils::capture.output(problems_pyar), collapse = "\n"), collapse = "\n"))
+    rlang::inform(paste0("There are differing pyar values for the same age, gender, year, region strata:"
+                         ,paste0(utils::capture.output(problems_pyar), collapse = "\n"), collapse = "\n"))
     problems_pyar_attr <- c(problems_pyar_attr, 
                             paste0("There are differing pyar values for the same age, gender, year, region strata:", 
                                    utils::capture.output(problems_pyar), collapse = "\n")) #save information to write as attribute later
@@ -879,19 +878,15 @@ sir_byfutime <- function(df,
   notes_refcases <- sir_longresult %>% 
     dplyr::filter(.data$i_observed > .data$incidence_cases)
   
+  
+  
   if(nrow(notes_refcases) > 0){
-    message(paste0("There are observed cases in the results file that do not occur in the refrates_df.",
-                   "A possible explanation can be:",
-                   "- DCO cases",
-                   "- diagnosis of second cancer occured in different time period than first cancer",
-                   "The following strata are affected:", collapse = "\n"),
-            paste0(utils::capture.output(notes_refcases), collapse = "\n"))
-    notes_refcases_attr <- c(notes_refcases_attr, paste0("There are observed cases in the results file that do not occur in the refrates_df.",
-                                                         "A possible explanation can be:",
-                                                         "- DCO cases",
-                                                         "- diagnosis of second cancer occured in different time period than first cancer",
-                                                         "The following strata are affected:", collapse = "\n"), 
-                             paste0(utils::capture.output(notes_refcases), collapse = "\n"))
+    rlang::inform(paste0("There are observed cases in the results file that do not occur in the refrates_df.",
+                         "A possible explanation can be:",
+                         "- DCO cases",
+                         "- diagnosis of second cancer occured in different time period than first cancer",
+                         "The following strata are affected:", collapse = "\n"))
+    rlang::inform(paste0(utils::capture.output(notes_refcases), collapse = "\n"))
   }
   
   #final dataset should have the structure: columns
@@ -935,6 +930,11 @@ sir_byfutime <- function(df,
   
   ### F5: labeling and returning results
   
+  final_sort_var_quo <- rlang::syms(c("age", "region", "sex", "year", 
+                                      if(yb){c("yvar_sort", "yvar_label")}, 
+                                      if(xb){c("xvar_name", "xvar_label")}, 
+                                      if(fu){"fu_time_sort"}, "t_icdcat"))
+  
   sir_result <- sir_result_pre %>%
     dplyr::select(tidyselect::any_of(c("age", "region", "sex", "year", 
                                        if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
@@ -944,13 +944,12 @@ sir_byfutime <- function(df,
                                        if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
                   dplyr::everything()
     ) %>% 
-    dplyr::arrange(dplyr::across(tidyselect::any_of(c("age", "region", "sex", "year", 
-                                                      if(yb){c("yvar_sort", "yvar_label")}, 
-                                                      if(xb){c("xvar_name", "xvar_label")}, 
-                                                      if(fu){"fu_time_sort"}
-    ))))
+    dplyr::arrange(!!!final_sort_var_quo)
   
   #write attributes for error and warning messages
+  if(length(problems_missing_ref_strata_attr > 0)){
+    attr(sir_result, "problems_missing_ref_strata") <- problems_missing_ref_strata_attr
+  }
   if(length(problems_missing_futime_attr > 0)){
     attr(sir_result, "problems_missing_futime") <- problems_missing_futime_attr
   }
@@ -960,9 +959,19 @@ sir_byfutime <- function(df,
   if(length(problems_pyar_attr > 0)){
     attr(sir_result, "problems_pyar") <- problems_pyar_attr
   }
-  if(length(notes_refcases_attr > 0)){
-    attr(sir_result, "notes_refcases") <- notes_refcases_attr
-  }
+  
+  sir_result <- sir_result %>%
+    #create empty warning message
+    dplyr::mutate(warning = NA_character_) %>%
+    #write warning of CHK_R2
+    dplyr::mutate(warning = dplyr::case_when(
+      .data$observed > .data$ref_inc_cases ~ paste(
+        "This stratum contains observed cases in i_observed that do not occur in the refrates_df (ref_inc_cases).",
+        "A possible explanation can be:",
+        " * DCO cases",
+        " * diagnosis of second cancer occured in different time period than first cancer"),
+      TRUE ~ .data$warning
+    ))
   
   
   #write attributes for matched strata
