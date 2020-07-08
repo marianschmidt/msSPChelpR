@@ -25,5 +25,26 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "rates", 
                                                         "p_datedeath_orig",
                                                         "status_var_orig",
-                                                        "where" #temporary fix because tidyverse::where is not exported
+                                                        "where", #temporary fix because tidyverse::where is not exported,
+                                                        "age", #caused by sir_byfutime_tt (.SD$ predicate seems not to work)
+                                                        "fu_time", 
+                                                        "futimegroup",
+                                                        "i_expected",
+                                                        "i_observed",
+                                                        "i_pyar",
+                                                        "incidence_cases",
+                                                        "incidence_crude_rate",
+                                                        "max_pyar",
+                                                        "min_pyar",
+                                                        "n_base",
+                                                        "population_n_per_year",
+                                                        "population_pyar",
+                                                        "pyar",
+                                                        "region",
+                                                        "sex",
+                                                        "sir",
+                                                        "sir_lci",
+                                                        "sir_uci",
+                                                        "t_icdcat",
+                                                        "year"
                                                         )) 
