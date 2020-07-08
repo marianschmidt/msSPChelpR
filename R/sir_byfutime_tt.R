@@ -570,7 +570,7 @@ sir_byfutime_tt <- function(df,
       
       if(xb){
         sircalc_fu <- sircalc_fu %>% 
-          dplyr::mutate.(
+          tidytable::mutate.(
             !!sxb_var := tidytable::case.(is.na(rlang::eval_tidy(!!sxb_var)), "missing",
                                           default = !!sxb_var))
       }
