@@ -2,12 +2,15 @@
 
 ##New Features
 * tidytable variants of functions, i.e. `reshape_wide_tt()`, `renumber_time_id_tt()`, `pat_status_tt()`, `vital_status_tt()`,  `calc_futime_tt()`, `sir_byfutime_tt()` --> the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.
+* `sir_byfutime()` gained the option `race_var` to optionally stratify SIR calculations by race.
 
 ##Breaking Changes
 * breaking change in function `sir_byfutime()`; options `add_total_row` and `add_total_fu` are replaced by `calc_total_row` and `calc_total_fu`. These are logical parameters now. The positioning of total rows and colums is completely handled by the `summarize_sir_results()` function now. There total rows can be set to top and bottom and total columns to left and right.
 * function `sir()` is superseded by the use of `sir_byfutime()`. To migrate your former `sir()` functions, you can simply use `sir_byfutime(, futime_breaks = "none")` that will yield the same results.
 * now requires dplyr version 1.0.0
+* now requires tidytable package
 * rewrite of function `reshape_long_tidyr()`, option `var_selection` is deprecated. Please select variables before running the `reshape_long_*` functions.
+* the default variable name for tumor site in has been changed from `t_icdcat` to `t_site`. So the reference dataframes used will need to have a `t_site` column.
 
 ##Bug Fixes
 * implement new reliable routine to split df when `reshape_wide()` with option `chunks` is used. Closes #1.
