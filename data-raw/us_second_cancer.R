@@ -1,5 +1,6 @@
 ## code to prepare `us_second_cancer` dataset goes here
 library(tidyverse)
+library(lubridate)
 
 nn <- 100000
 
@@ -15,8 +16,30 @@ spc <- tibble(fake_id = as.character(sample(nn:(nn*10), size = nn, replace = FAL
                                   rep(1525, 1), rep(1526, 1), rep(1527, 1), rep(1529, 1), rep(1531, 1), rep(1535, 1),
                                   rep(1537, 1), rep(1541, 1), rep(1542, 1), rep(1543, 1), rep(1544, 1), rep(1547, 1)), 
                                 size = nn, replace = TRUE),
-              #Site of first cancer FC, weighted by approximated relative incidence
-              fc_site_icd = sample(c(rep("C00",  1), 
+              #age according to overall age-distribution in 2010
+              fc_agegroup = sample(c(rep("00 - 04", 20),
+                                     rep("05 - 09", 20),
+                                     rep("10 - 14", 20),
+                                     rep("15 - 19", 22),
+                                     rep("20 - 24", 21),
+                                     rep("25 - 29", 21),
+                                     rep("30 - 34", 19),
+                                     rep("35 - 39", 20),
+                                     rep("40 - 44", 20),
+                                     rep("45 - 49", 22),
+                                     rep("50 - 54", 22),
+                                     rep("55 - 59", 19),
+                                     rep("60 - 64", 16),
+                                     rep("65 - 69", 12),
+                                     rep("70 - 74", 9),
+                                     rep("75 - 79", 7),
+                                     rep("80 - 84", 5),
+                                     rep("85 - 120", 5))
+                                   ,size = nn, replace = TRUE))
+
+tumors <- tibble(fake_id = as.character(sample(spc$fake_id, size = nn * 1.14, replace = TRUE)),
+              #Site of  cancer FC, weighted by approximated relative incidence
+              site_icd = sample(c(rep("C00",  1), 
                                      rep("C01",  2), 
                                      rep("C02",  1), 
                                      rep("C03",  1), 
@@ -90,28 +113,40 @@ spc <- tibble(fake_id = as.character(sample(nn:(nn*10), size = nn, replace = FAL
                                      rep("C78",  1), 
                                      rep("C79",  1), 
                                      rep("C80",  8))
-                                   , size = nn, replace = TRUE),
-              #age according to overall age-distribution in 2010
-              agegroup = sample(c(rep("00 - 04", 20),
-                             rep("05 - 09", 20),
-                             rep("10 - 14", 20),
-                             rep("15 - 19", 22),
-                             rep("20 - 24", 21),
-                             rep("25 - 29", 21),
-                             rep("30 - 34", 19),
-                             rep("35 - 39", 20),
-                             rep("40 - 44", 20),
-                             rep("45 - 49", 22),
-                             rep("50 - 54", 22),
-                             rep("55 - 59", 19),
-                             rep("60 - 64", 16),
-                             rep("65 - 69", 12),
-                             rep("70 - 74", 9),
-                             rep("75 - 79", 7),
-                             rep("80 - 84", 5),
-                             rep("85 - 120", 5))
-                           ,size = nn, replace = TRUE))
+                                   , size = nn*1.14, replace = TRUE))
+              
 
-us_second_cancer <- spc
+tumors2 <- tumors %>%
+  mutate(t_year = 1970 + sample(1:40, size = n(), replace = TRUE),
+         t_month = sample(1:12, size = n(), replace = TRUE),
+         t_datediag = lubridate::make_date(year = t_year, month = t_month, day = 15),
+         t_yeardiag = case_when(year(t_datediag) >= 1970 &  year(t_datediag) < 1975  ~ "1970 - 1974",
+                                year(t_datediag) >= 1975 &  year(t_datediag) < 1980  ~ "1975 - 1979",   
+                                year(t_datediag) >= 2015 &  year(t_datediag) < 2020  ~ "2015 - 2019",
+                                year(t_datediag) >= 1980 &  year(t_datediag) < 1985  ~ "1980 - 1984",
+                                year(t_datediag) >= 1985 &  year(t_datediag) < 1990  ~ "1985 - 1989",
+                                year(t_datediag) >= 1990 &  year(t_datediag) < 1995  ~ "1990 - 1994",
+                                year(t_datediag) >= 1995 &  year(t_datediag) < 2000  ~ "1995 - 1999",
+                                year(t_datediag) >= 2000 &  year(t_datediag) < 2005  ~ "2000 - 2004",
+                                year(t_datediag) >= 2005 &  year(t_datediag) < 2010  ~ "2005 - 2009",
+                                year(t_datediag) >= 2010 &  year(t_datediag) < 2015  ~ "2010 - 2014",
+                                TRUE ~ NA_character_),
+         t_dco = sample(c(rep("DCO case", 1), rep("histology", 9)), size = n(), replace = TRUE)) %>%
+  #calculate new renumbered variable #group by case_id_var
+  tidytable::mutate.(SEQ_NUM := as.integer(tidytable::row_number.()), .by = fake_id)
+
+#life_var
+#birthdat_var
+#lifedat_var
+#lifedatmin_var
+
+
+cancer_pre <- tumors2 %>% 
+  as_tibble() %>%
+  left_join(., spc, by = "fake_id")
+  
+
+us_second_cancer <- cancer_pre %>%
+  select(-t_year, -t_month)
 
 usethis::use_data(us_second_cancer, overwrite = TRUE)

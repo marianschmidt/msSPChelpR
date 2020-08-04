@@ -39,3 +39,4 @@ RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Language: en-US
 Remotes: Rdatatable/data.table
+LazyData: true
