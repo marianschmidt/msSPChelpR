@@ -4,7 +4,7 @@ author: "Marian Eberl"
 date: "13 May 2020"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{pat_status_futime}
+  %\VignetteIndexEntry{Introduction to the msSPChelpR package - from long dataset to SIR analyses}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
