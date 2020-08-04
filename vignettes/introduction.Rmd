@@ -103,30 +103,76 @@ If your data has the required structure, you can calculate and summarize SIRs wi
 ### Step 1 - Long dataset {#step-long}
 
 
+```{r}
+library(dplyr)
+library(magrittr)
+library(msSPChelpR)
+data("us_second_cancer")
+```
 
 
 ### Step 2 - Filter long dataset {#step-filter}
 
+```{r}
+#filter for lung cancer
+ids <- us_second_cancer %>%
+  #detect ids with any lung cancer
+  filter(site_icd == "C34") %>%
+  select(fake_id) %>%
+  as.vector() %>%
+  unname() %>%
+  unlist()
+
+filtered_usdata <- us_second_cancer %>%
+  #filter according to above detected ids with any lung cancer diagnosis
+  filter(fake_id %in% ids) %>%
+   arrange(fake_id)
+
+filtered_usdata
+```
+
+
 ### Step 3 - Renumber `time_id` {#step-renumber}
+
+```{r}
+renumbered_usdata <- filtered_usdata %>%
+  msSPChelpR::renumber_time_id_tt(new_time_id_var = "t_tumid", 
+                                  dattype = "seer",
+                                  case_id_var = "fake_id")
+
+renumbered_usdata %>%
+   select(fake_id, sex, site_icd, t_datediag, t_tumid)
+```
+
 
 ### Step 4 - Reshape to wide dataset {#step-reshape-wide}
 
+```{r}
+usdata_wide <- renumbered_usdata %>%
+  msSPChelpR::reshape_wide_tt(case_id_var = "fake_id", time_id_var = "t_tumid", timevar_max = 10)
+
+usdata_wide
+```
+
 ### Step 5 - Recalculate `p_spc` {#step-spc}
 
-```{r, echo=TRUE, eval=FALSE}
+```{r}
 
-wide_sdata_lung <- wide_sdata_lung %>%
-  dplyr::mutate(p_spc = case_when(is.na(PRIMSITE.2)     ~ 0,
-                         !is.na(PRIMSITE.2)    ~ 1,
-                         TRUE ~ NA_real_)) %>%
-  sjlabelled::var_labels(p_spc="Patient has developed Second Primary Cancer") %>%
-  sjlabelled::set_labels(p_spc, labels = c("no SPC" = 0,
-                                           "SPC developed" = 1)) %>%
-  dplyr::mutate(p_spc =  sjlabelled::as_label(p_spc, keep.labels=TRUE)) 
+usdata_wide <- usdata_wide %>%
+  dplyr::mutate(p_spc = case_when(is.na(site_icd.2)   ~ "no SPC",
+                         !is.na(site_icd.2)           ~ "SPC developed",
+                         TRUE ~ NA_character_)) 
+usdata_wide %>%
+   select(fake_id, sex.1, p_spc, site_icd.1, t_datediag.1, site_icd.2, t_datediag.2)
 
 ```
 
 ### Step 6 - Determine patient status at end of FU {#step-pat-status}
+
+```{r}
+
+```
+
 
 ### Step 7 - Calculate FU time {#step-calc-futime}
 
