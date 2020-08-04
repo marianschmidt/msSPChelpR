@@ -136,7 +136,7 @@ filtered_usdata
 
 ```{r}
 renumbered_usdata <- filtered_usdata %>%
-  msSPChelpR::renumber_time_id_tt(new_time_id_var = "t_tumid", 
+  msSPChelpR::renumber_time_id(new_time_id_var = "t_tumid", 
                                   dattype = "seer",
                                   case_id_var = "fake_id")
 
@@ -149,7 +149,7 @@ renumbered_usdata %>%
 
 ```{r}
 usdata_wide <- renumbered_usdata %>%
-  msSPChelpR::reshape_wide_tt(case_id_var = "fake_id", time_id_var = "t_tumid", timevar_max = 10)
+  msSPChelpR::reshape_wide_tidyr(case_id_var = "fake_id", time_id_var = "t_tumid", timevar_max = 10)
 
 usdata_wide
 ```
