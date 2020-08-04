@@ -30,11 +30,6 @@ devtools::install_github("marianschmidt/msSPChelpR")
 ```
 ## How to use the package
 
-<<<<<<< HEAD
 An introductory vignette on the workflow of the package can be found [here](https://marianschmidt.github.io/msSPChelpR/articles/introduction.html). See `vignette("introduction")`.
-||||||| merged common ancestors
-An introductory vignette on the workflow of the package can be found [here](https://marianschmidt.github.io/msSPChelpR/articles/introduction.html).
-=======
-An introductory vignette on the workflow of the package can be found  [here](https://marianschmidt.github.io/msSPChelpR/articles/introduction.html). See `vignette("introduction")`.
->>>>>>> cc69f5bb2ddc4ed0ba6f3ea9d211616470e5b6dd
+
 
