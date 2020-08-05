@@ -245,7 +245,7 @@
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co">#filter for lung cancer</span>
 <span class="no">ids</span> <span class="kw">&lt;-</span> <span class="no">us_second_cancer</span> <span class="kw">%&gt;%</span>
   <span class="co">#detect ids with any lung cancer</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">site_icd</span> <span class="kw">==</span> <span class="st">"C34"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">t_site_icd</span> <span class="kw">==</span> <span class="st">"C34"</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span>() <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span>() <span class="kw">%&gt;%</span>
@@ -257,20 +257,22 @@
    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">fake_id</span>)
 
 <span class="no">filtered_usdata</span>
-<span class="co">#&gt; # A tibble: 35,757 x 10</span>
-<span class="co">#&gt;    fake_id site_icd t_datediag t_yeardiag t_dco SEQ_NUM sex   race  registry</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 100038  C34      1973-11-15 1970 - 19… DCO …       1 Male  White     1525</span>
-<span class="co">#&gt;  2 100038  C67      1989-11-15 1985 - 19… hist…       2 Male  White     1525</span>
-<span class="co">#&gt;  3 100038  C50      1989-11-15 1985 - 19… DCO …       3 Male  White     1525</span>
-<span class="co">#&gt;  4 100047  C61      1976-10-15 1975 - 19… hist…       1 Fema… White     1531</span>
-<span class="co">#&gt;  5 100047  C18      1990-09-15 1990 - 19… hist…       2 Fema… White     1531</span>
-<span class="co">#&gt;  6 100047  C34      1991-12-15 1990 - 19… hist…       3 Fema… White     1531</span>
-<span class="co">#&gt;  7 100087  C34      2005-02-15 2005 - 20… hist…       1 Fema… Black     1522</span>
-<span class="co">#&gt;  8 100087  C77      1980-01-15 1980 - 19… hist…       2 Fema… Black     1522</span>
-<span class="co">#&gt;  9 100192  C34      1987-06-15 1985 - 19… hist…       1 Fema… White     1541</span>
-<span class="co">#&gt; 10 100230  C34      1977-01-15 1975 - 19… hist…       1 Male  White     1547</span>
-<span class="co">#&gt; # … with 35,747 more rows, and 1 more variable: fc_agegroup &lt;chr&gt;</span></pre></body></html></div>
+<span class="co">#&gt; # A tibble: 35,909 x 15</span>
+<span class="co">#&gt;    fake_id SEQ_NUM registry sex   race  datebirth  t_datediag t_site_icd t_dco</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;</span>
+<span class="co">#&gt;  1 100038        1     1525 Male  White 1966-01-01 1992-08-15 C73        DCO …</span>
+<span class="co">#&gt;  2 100038        2     1525 Male  White 1966-01-01 2003-08-15 C34        hist…</span>
+<span class="co">#&gt;  3 100039        1     1544 Fema… White 1889-01-01 1983-01-15 C34        hist…</span>
+<span class="co">#&gt;  4 100039        2     1544 Fema… White 1889-01-01 1992-09-15 C21        hist…</span>
+<span class="co">#&gt;  5 100039        3     1544 Fema… White 1889-01-01 2001-03-15 C34        hist…</span>
+<span class="co">#&gt;  6 100057        1     1501 Male  Black 1972-01-01 1984-02-15 C34        hist…</span>
+<span class="co">#&gt;  7 100103        1     1502 Fema… Other 1949-01-01 1973-11-15 C61        hist…</span>
+<span class="co">#&gt;  8 100103        2     1502 Fema… Other 1949-01-01 1979-08-15 C67        hist…</span>
+<span class="co">#&gt;  9 100103        3     1502 Fema… Other 1949-01-01 1987-12-15 C34        hist…</span>
+<span class="co">#&gt; 10 100147        1     1547 Male  White 1876-01-01 1972-12-15 C34        hist…</span>
+<span class="co">#&gt; # … with 35,899 more rows, and 6 more variables: fc_age &lt;int&gt;,</span>
+<span class="co">#&gt; #   datedeath &lt;date&gt;, p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_yeardiag &lt;chr&gt;</span></pre></body></html></div>
 </div>
 <div id="step-renumber" class="section level3">
 <h3 class="hasAnchor">
@@ -282,21 +284,21 @@
                                   <span class="kw">case_id_var</span> <span class="kw">=</span> <span class="st">"fake_id"</span>)
 
 <span class="no">renumbered_usdata</span> <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">sex</span>, <span class="no">site_icd</span>, <span class="no">t_datediag</span>, <span class="no">t_tumid</span>)
-<span class="co">#&gt; # A tibble: 35,757 x 5</span>
-<span class="co">#&gt;    fake_id sex    site_icd t_datediag t_tumid</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;date&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1 100038  Male   C34      1973-11-15       1</span>
-<span class="co">#&gt;  2 100038  Male   C67      1989-11-15       2</span>
-<span class="co">#&gt;  3 100038  Male   C50      1989-11-15       3</span>
-<span class="co">#&gt;  4 100047  Female C61      1976-10-15       1</span>
-<span class="co">#&gt;  5 100047  Female C18      1990-09-15       2</span>
-<span class="co">#&gt;  6 100047  Female C34      1991-12-15       3</span>
-<span class="co">#&gt;  7 100087  Female C77      1980-01-15       1</span>
-<span class="co">#&gt;  8 100087  Female C34      2005-02-15       2</span>
-<span class="co">#&gt;  9 100192  Female C34      1987-06-15       1</span>
-<span class="co">#&gt; 10 100230  Male   C34      1977-01-15       1</span>
-<span class="co">#&gt; # … with 35,747 more rows</span></pre></body></html></div>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">sex</span>, <span class="no">t_site_icd</span>, <span class="no">t_datediag</span>, <span class="no">t_tumid</span>)
+<span class="co">#&gt; # A tibble: 35,909 x 5</span>
+<span class="co">#&gt;    fake_id sex    t_site_icd t_datediag t_tumid</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;date&gt;       &lt;int&gt;</span>
+<span class="co">#&gt;  1 100038  Male   C73        1992-08-15       1</span>
+<span class="co">#&gt;  2 100038  Male   C34        2003-08-15       2</span>
+<span class="co">#&gt;  3 100039  Female C34        1983-01-15       1</span>
+<span class="co">#&gt;  4 100039  Female C21        1992-09-15       2</span>
+<span class="co">#&gt;  5 100039  Female C34        2001-03-15       3</span>
+<span class="co">#&gt;  6 100057  Male   C34        1984-02-15       1</span>
+<span class="co">#&gt;  7 100103  Female C61        1973-11-15       1</span>
+<span class="co">#&gt;  8 100103  Female C67        1979-08-15       2</span>
+<span class="co">#&gt;  9 100103  Female C34        1987-12-15       3</span>
+<span class="co">#&gt; 10 100147  Male   C34        1972-12-15       1</span>
+<span class="co">#&gt; # … with 35,899 more rows</span></pre></body></html></div>
 </div>
 <div id="step-reshape-wide" class="section level3">
 <h3 class="hasAnchor">
@@ -305,38 +307,47 @@
   <span class="kw pkg">msSPChelpR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr</a></span>(<span class="kw">case_id_var</span> <span class="kw">=</span> <span class="st">"fake_id"</span>, <span class="kw">time_id_var</span> <span class="kw">=</span> <span class="st">"t_tumid"</span>, <span class="kw">timevar_max</span> <span class="kw">=</span> <span class="fl">10</span>)
 
 <span class="no">usdata_wide</span>
-<span class="co">#&gt; # A tibble: 17,594 x 73</span>
-<span class="co">#&gt;    fake_id site_icd.1 site_icd.2 site_icd.3 site_icd.4 site_icd.5 site_icd.6</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     </span>
-<span class="co">#&gt;  1 100038  C34        C67        C50        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt;  2 100047  C61        C18        C34        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt;  3 100087  C77        C34        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt;  4 100192  C34        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt;  5 100230  C34        C50        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt;  6 100296  C32        C34        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt;  7 100323  C34        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt;  8 100331  C04        C34        C61        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt;  9 100359  C34        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt; 10 100362  C34        C15        &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      </span>
-<span class="co">#&gt; # … with 17,584 more rows, and 66 more variables: site_icd.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   site_icd.8 &lt;chr&gt;, t_datediag.1 &lt;date&gt;, t_datediag.2 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_datediag.3 &lt;date&gt;, t_datediag.4 &lt;date&gt;, t_datediag.5 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_datediag.6 &lt;date&gt;, t_datediag.7 &lt;date&gt;, t_datediag.8 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag.1 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;, t_yeardiag.3 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag.4 &lt;chr&gt;, t_yeardiag.5 &lt;chr&gt;, t_yeardiag.6 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag.7 &lt;chr&gt;, t_yeardiag.8 &lt;chr&gt;, t_dco.1 &lt;chr&gt;, t_dco.2 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.3 &lt;chr&gt;, t_dco.4 &lt;chr&gt;, t_dco.5 &lt;chr&gt;, t_dco.6 &lt;chr&gt;, t_dco.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.8 &lt;chr&gt;, SEQ_NUM.1 &lt;int&gt;, SEQ_NUM.2 &lt;int&gt;, SEQ_NUM.3 &lt;int&gt;,</span>
-<span class="co">#&gt; #   SEQ_NUM.4 &lt;int&gt;, SEQ_NUM.5 &lt;int&gt;, SEQ_NUM.6 &lt;int&gt;, SEQ_NUM.7 &lt;int&gt;,</span>
-<span class="co">#&gt; #   SEQ_NUM.8 &lt;int&gt;, sex.1 &lt;chr&gt;, sex.2 &lt;chr&gt;, sex.3 &lt;chr&gt;, sex.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sex.5 &lt;chr&gt;, sex.6 &lt;chr&gt;, sex.7 &lt;chr&gt;, sex.8 &lt;chr&gt;, race.1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   race.2 &lt;chr&gt;, race.3 &lt;chr&gt;, race.4 &lt;chr&gt;, race.5 &lt;chr&gt;, race.6 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   race.7 &lt;chr&gt;, race.8 &lt;chr&gt;, registry.1 &lt;dbl&gt;, registry.2 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   registry.3 &lt;dbl&gt;, registry.4 &lt;dbl&gt;, registry.5 &lt;dbl&gt;, registry.6 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   registry.7 &lt;dbl&gt;, registry.8 &lt;dbl&gt;, fc_agegroup.1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   fc_agegroup.2 &lt;chr&gt;, fc_agegroup.3 &lt;chr&gt;, fc_agegroup.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   fc_agegroup.5 &lt;chr&gt;, fc_agegroup.6 &lt;chr&gt;, fc_agegroup.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   fc_agegroup.8 &lt;chr&gt;</span></pre></body></html></div>
+<span class="co">#&gt; # A tibble: 17,525 x 127</span>
+<span class="co">#&gt;    fake_id SEQ_NUM.1 SEQ_NUM.2 SEQ_NUM.3 SEQ_NUM.4 SEQ_NUM.5 SEQ_NUM.6 SEQ_NUM.7</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;</span>
+<span class="co">#&gt;  1 100038          1         2        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt;  2 100039          1         2         3        NA        NA        NA        NA</span>
+<span class="co">#&gt;  3 100057          1        NA        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt;  4 100103          1         2         3        NA        NA        NA        NA</span>
+<span class="co">#&gt;  5 100147          1         2         3        NA        NA        NA        NA</span>
+<span class="co">#&gt;  6 100175          1         2        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt;  7 100182          1         2         3        NA        NA        NA        NA</span>
+<span class="co">#&gt;  8 100187          1         2        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt;  9 100197          1         2        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt; 10 100208          1        NA        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt; # … with 17,515 more rows, and 119 more variables: SEQ_NUM.8 &lt;int&gt;,</span>
+<span class="co">#&gt; #   SEQ_NUM.9 &lt;int&gt;, registry.1 &lt;dbl&gt;, registry.2 &lt;dbl&gt;, registry.3 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   registry.4 &lt;dbl&gt;, registry.5 &lt;dbl&gt;, registry.6 &lt;dbl&gt;, registry.7 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   registry.8 &lt;dbl&gt;, registry.9 &lt;dbl&gt;, sex.1 &lt;chr&gt;, sex.2 &lt;chr&gt;, sex.3 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   sex.4 &lt;chr&gt;, sex.5 &lt;chr&gt;, sex.6 &lt;chr&gt;, sex.7 &lt;chr&gt;, sex.8 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   sex.9 &lt;chr&gt;, race.1 &lt;chr&gt;, race.2 &lt;chr&gt;, race.3 &lt;chr&gt;, race.4 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   race.5 &lt;chr&gt;, race.6 &lt;chr&gt;, race.7 &lt;chr&gt;, race.8 &lt;chr&gt;, race.9 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   datebirth.1 &lt;date&gt;, datebirth.2 &lt;date&gt;, datebirth.3 &lt;date&gt;,</span>
+<span class="co">#&gt; #   datebirth.4 &lt;date&gt;, datebirth.5 &lt;date&gt;, datebirth.6 &lt;date&gt;,</span>
+<span class="co">#&gt; #   datebirth.7 &lt;date&gt;, datebirth.8 &lt;date&gt;, datebirth.9 &lt;date&gt;,</span>
+<span class="co">#&gt; #   t_datediag.1 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_datediag.3 &lt;date&gt;,</span>
+<span class="co">#&gt; #   t_datediag.4 &lt;date&gt;, t_datediag.5 &lt;date&gt;, t_datediag.6 &lt;date&gt;,</span>
+<span class="co">#&gt; #   t_datediag.7 &lt;date&gt;, t_datediag.8 &lt;date&gt;, t_datediag.9 &lt;date&gt;,</span>
+<span class="co">#&gt; #   t_site_icd.1 &lt;chr&gt;, t_site_icd.2 &lt;chr&gt;, t_site_icd.3 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_site_icd.4 &lt;chr&gt;, t_site_icd.5 &lt;chr&gt;, t_site_icd.6 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_site_icd.7 &lt;chr&gt;, t_site_icd.8 &lt;chr&gt;, t_site_icd.9 &lt;chr&gt;, t_dco.1 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_dco.2 &lt;chr&gt;, t_dco.3 &lt;chr&gt;, t_dco.4 &lt;chr&gt;, t_dco.5 &lt;chr&gt;, t_dco.6 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_dco.7 &lt;chr&gt;, t_dco.8 &lt;chr&gt;, t_dco.9 &lt;chr&gt;, fc_age.1 &lt;int&gt;,</span>
+<span class="co">#&gt; #   fc_age.2 &lt;int&gt;, fc_age.3 &lt;int&gt;, fc_age.4 &lt;int&gt;, fc_age.5 &lt;int&gt;,</span>
+<span class="co">#&gt; #   fc_age.6 &lt;int&gt;, fc_age.7 &lt;int&gt;, fc_age.8 &lt;int&gt;, fc_age.9 &lt;int&gt;,</span>
+<span class="co">#&gt; #   datedeath.1 &lt;date&gt;, datedeath.2 &lt;date&gt;, datedeath.3 &lt;date&gt;,</span>
+<span class="co">#&gt; #   datedeath.4 &lt;date&gt;, datedeath.5 &lt;date&gt;, datedeath.6 &lt;date&gt;,</span>
+<span class="co">#&gt; #   datedeath.7 &lt;date&gt;, datedeath.8 &lt;date&gt;, datedeath.9 &lt;date&gt;,</span>
+<span class="co">#&gt; #   p_alive.1 &lt;chr&gt;, p_alive.2 &lt;chr&gt;, p_alive.3 &lt;chr&gt;, p_alive.4 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   p_alive.5 &lt;chr&gt;, p_alive.6 &lt;chr&gt;, p_alive.7 &lt;chr&gt;, p_alive.8 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   p_alive.9 &lt;chr&gt;, p_dodmin.1 &lt;date&gt;, p_dodmin.2 &lt;date&gt;, p_dodmin.3 &lt;date&gt;,</span>
+<span class="co">#&gt; #   p_dodmin.4 &lt;date&gt;, p_dodmin.5 &lt;date&gt;, p_dodmin.6 &lt;date&gt;, p_dodmin.7 &lt;date&gt;,</span>
+<span class="co">#&gt; #   p_dodmin.8 &lt;date&gt;, …</span></pre></body></html></div>
 </div>
 <div id="step-spc" class="section level3">
 <h3 class="hasAnchor">
@@ -344,25 +355,25 @@
 </h3>
 <div class="sourceCode" id="cb6"><html><body><pre class="r">
 <span class="no">usdata_wide</span> <span class="kw">&lt;-</span> <span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">p_spc</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">site_icd.2</span>)   ~ <span class="st">"no SPC"</span>,
-                         !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">site_icd.2</span>)           ~ <span class="st">"SPC developed"</span>,
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">p_spc</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">t_site_icd.2</span>)   ~ <span class="st">"no SPC"</span>,
+                         !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">t_site_icd.2</span>)           ~ <span class="st">"SPC developed"</span>,
                          <span class="fl">TRUE</span> ~ <span class="fl">NA_character_</span>))
 <span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">sex.1</span>, <span class="no">p_spc</span>, <span class="no">site_icd.1</span>, <span class="no">t_datediag.1</span>, <span class="no">site_icd.2</span>, <span class="no">t_datediag.2</span>)
-<span class="co">#&gt; # A tibble: 17,594 x 7</span>
-<span class="co">#&gt;    fake_id sex.1  p_spc         site_icd.1 t_datediag.1 site_icd.2 t_datediag.2</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;      &lt;date&gt;       &lt;chr&gt;      &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100038  Male   SPC developed C34        1973-11-15   C67        1989-11-15  </span>
-<span class="co">#&gt;  2 100047  Female SPC developed C61        1976-10-15   C18        1990-09-15  </span>
-<span class="co">#&gt;  3 100087  Female SPC developed C77        1980-01-15   C34        2005-02-15  </span>
-<span class="co">#&gt;  4 100192  Female no SPC        C34        1987-06-15   &lt;NA&gt;       NA          </span>
-<span class="co">#&gt;  5 100230  Male   SPC developed C34        1977-01-15   C50        1984-02-15  </span>
-<span class="co">#&gt;  6 100296  Female SPC developed C32        1984-10-15   C34        2008-01-15  </span>
-<span class="co">#&gt;  7 100323  Male   no SPC        C34        1986-10-15   &lt;NA&gt;       NA          </span>
-<span class="co">#&gt;  8 100331  Female SPC developed C04        1979-06-15   C34        1992-07-15  </span>
-<span class="co">#&gt;  9 100359  Female no SPC        C34        1975-02-15   &lt;NA&gt;       NA          </span>
-<span class="co">#&gt; 10 100362  Male   SPC developed C34        1985-04-15   C15        1992-05-15  </span>
-<span class="co">#&gt; # … with 17,584 more rows</span></pre></body></html></div>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">sex.1</span>, <span class="no">p_spc</span>, <span class="no">t_site_icd.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_site_icd.2</span>, <span class="no">t_datediag.2</span>)
+<span class="co">#&gt; # A tibble: 17,525 x 7</span>
+<span class="co">#&gt;    fake_id sex.1  p_spc      t_site_icd.1 t_datediag.1 t_site_icd.2 t_datediag.2</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;        &lt;date&gt;      </span>
+<span class="co">#&gt;  1 100038  Male   SPC devel… C73          1992-08-15   C34          2003-08-15  </span>
+<span class="co">#&gt;  2 100039  Female SPC devel… C34          1983-01-15   C21          1992-09-15  </span>
+<span class="co">#&gt;  3 100057  Male   no SPC     C34          1984-02-15   &lt;NA&gt;         NA          </span>
+<span class="co">#&gt;  4 100103  Female SPC devel… C61          1973-11-15   C67          1979-08-15  </span>
+<span class="co">#&gt;  5 100147  Male   SPC devel… C34          1972-12-15   C16          2005-11-15  </span>
+<span class="co">#&gt;  6 100175  Male   SPC devel… C50          1980-03-15   C34          1997-01-15  </span>
+<span class="co">#&gt;  7 100182  Male   SPC devel… C34          1978-07-15   C61          1985-08-15  </span>
+<span class="co">#&gt;  8 100187  Female SPC devel… C44          1976-11-15   C34          1995-01-15  </span>
+<span class="co">#&gt;  9 100197  Female SPC devel… C34          1984-06-15   C50          2008-11-15  </span>
+<span class="co">#&gt; 10 100208  Male   no SPC     C34          2001-12-15   &lt;NA&gt;         NA          </span>
+<span class="co">#&gt; # … with 17,515 more rows</span></pre></body></html></div>
 </div>
 <div id="step-pat-status" class="section level3">
 <h3 class="hasAnchor">
