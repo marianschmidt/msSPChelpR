@@ -16,30 +16,47 @@ spc <- tibble(fake_id = as.character(sample(nn:(nn*10), size = nn, replace = FAL
                                   rep(1525, 1), rep(1526, 1), rep(1527, 1), rep(1529, 1), rep(1531, 1), rep(1535, 1),
                                   rep(1537, 1), rep(1541, 1), rep(1542, 1), rep(1543, 1), rep(1544, 1), rep(1547, 1)), 
                                 size = nn, replace = TRUE),
-              #age according to overall age-distribution in 2010
-              fc_agegroup = sample(c(rep("00 - 04", 20),
-                                     rep("05 - 09", 20),
-                                     rep("10 - 14", 20),
-                                     rep("15 - 19", 22),
-                                     rep("20 - 24", 21),
-                                     rep("25 - 29", 21),
-                                     rep("30 - 34", 19),
-                                     rep("35 - 39", 20),
-                                     rep("40 - 44", 20),
-                                     rep("45 - 49", 22),
-                                     rep("50 - 54", 22),
-                                     rep("55 - 59", 19),
-                                     rep("60 - 64", 16),
-                                     rep("65 - 69", 12),
-                                     rep("70 - 74", 9),
-                                     rep("75 - 79", 7),
-                                     rep("80 - 84", 5),
-                                     rep("85 - 120", 5))
-                                   ,size = nn, replace = TRUE))
+              #age
+              fc_age = sample(c(rep(0:20, 5),
+                                rep(21:40, 15),
+                                rep(41:59, 20),
+                                rep(60:64, 25),
+                                rep(65:69, 30),
+                                rep(70:74, 19),
+                                rep(75:79, 17),
+                                rep(80:84, 10),
+                                rep(85:89, 6),
+                                rep(90:100, 1),
+                                rep(100:105, 1))
+                                   ,size = nn, replace = TRUE),
+              #grouping of fc_age
+              fc_agegroup = case_when(fc_age < 5                  ~ "00 - 04" ,
+                                      fc_age >= 5  & fc_age < 10  ~ "05 - 09" ,
+                                      fc_age >= 10 & fc_age < 15  ~ "10 - 14" ,
+                                      fc_age >= 15 & fc_age < 20  ~ "15 - 19" ,
+                                      fc_age >= 20 & fc_age < 25  ~ "20 - 24" ,
+                                      fc_age >= 25 & fc_age < 30  ~ "25 - 29" ,
+                                      fc_age >= 30 & fc_age < 35  ~ "30 - 34" ,
+                                      fc_age >= 35 & fc_age < 40  ~ "35 - 39" ,
+                                      fc_age >= 40 & fc_age < 45  ~ "40 - 44" ,
+                                      fc_age >= 45 & fc_age < 50  ~ "45 - 49" ,
+                                      fc_age >= 50 & fc_age < 55  ~ "50 - 54" ,
+                                      fc_age >= 55 & fc_age < 60  ~ "55 - 59" ,
+                                      fc_age >= 60 & fc_age < 65  ~ "60 - 64" ,
+                                      fc_age >= 65 & fc_age < 70  ~ "65 - 69" ,
+                                      fc_age >= 70 & fc_age < 75  ~ "70 - 74" ,
+                                      fc_age >= 75 & fc_age < 80  ~ "75 - 79" ,
+                                      fc_age >= 80 & fc_age < 85  ~ "80 - 84" ,
+                                      fc_age >= 85                ~ "85 - 120",
+                                      TRUE ~ NA_character_),
+              #tmp var for creating missings
+              miss = sample(c(1, rep(0, 500)), size = nn, replace = TRUE),
+              #tmp var for random month
+              ran_mon = sample(1:12, size = nn, replace = TRUE))
 
 tumors <- tibble(fake_id = as.character(sample(spc$fake_id, size = nn * 1.14, replace = TRUE)),
               #Site of  cancer FC, weighted by approximated relative incidence
-              site_icd = sample(c(rep("C00",  1), 
+              t_site_icd = sample(c(rep("C00",  1), 
                                      rep("C01",  2), 
                                      rep("C02",  1), 
                                      rep("C03",  1), 
@@ -133,20 +150,47 @@ tumors2 <- tumors %>%
                                 TRUE ~ NA_character_),
          t_dco = sample(c(rep("DCO case", 1), rep("histology", 9)), size = n(), replace = TRUE)) %>%
   #calculate new renumbered variable #group by case_id_var
+  arrange(fake_id, t_datediag) %>%
   tidytable::mutate.(SEQ_NUM := as.integer(tidytable::row_number.()), .by = fake_id)
-
-#life_var
-#birthdat_var
-#lifedat_var
-#lifedatmin_var
-
 
 cancer_pre <- tumors2 %>% 
   as_tibble() %>%
-  left_join(., spc, by = "fake_id")
+  left_join(., spc, by = "fake_id") %>%
+  arrange(fake_id, SEQ_NUM)
   
 
 us_second_cancer <- cancer_pre %>%
-  select(-t_year, -t_month)
+  #year of birth (first cancer diagnosis year minus age)
+  mutate(p_yeardob = case_when(SEQ_NUM == 1 ~ t_year - fc_age, TRUE ~ NA_real_)) %>%
+  fill(p_yeardob) %>%
+  #calculate year of death by taking year of last SEQ_NUM and adding a random number of years
+  group_by(fake_id) %>%
+  mutate(p_lastdiag = dplyr::last(t_datediag),
+         p_lastyear = dplyr::last(t_year)) %>%
+  ungroup() %>%
+  mutate(p_yeardod = case_when(SEQ_NUM == 1 ~ p_lastyear + sample(0:25, size = n(), replace = TRUE),
+                               TRUE ~ NA_real_))%>%
+  fill(p_yeardod) %>%
+  #add random missings to date of death
+  mutate(p_yeardod = case_when(miss == 0 ~ p_yeardod,
+                               TRUE ~ NA_real_)) %>%
+  #make dates of years
+  mutate(
+    datebirth = lubridate::make_date(year = p_yeardob, month = 01, day = 01),
+    datedeath = lubridate::make_date(year = p_yeardod, month = ran_mon, day = 01),
+    #calculate life status for year 2019
+    p_alive = case_when(p_yeardod > 2019 ~ "Alive",
+                        TRUE ~ "Dead"),
+    #set date of death missing if Alive
+    datedeath = case_when(p_alive == "Dead" ~ datedeath,
+                            TRUE ~ NA_Date_)) %>%
+  #minimum year of death for missing dod
+  mutate(p_dodmin = case_when(p_alive == "Dead" & is.na(datedeath)  ~ p_lastdiag,
+                                       TRUE ~ NA_Date_)) %>%
+  #sort columns
+  select(fake_id, SEQ_NUM, registry, sex, race, datebirth, t_datediag, t_site_icd, t_dco, fc_age, datedeath, 
+         p_alive, p_dodmin, fc_agegroup, t_yeardiag,
+         -t_year, -t_month, -p_yeardob, -p_yeardod, -p_lastyear, -p_lastdiag, -miss, -ran_mon)
+
 
 usethis::use_data(us_second_cancer, overwrite = TRUE)
