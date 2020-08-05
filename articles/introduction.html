@@ -155,7 +155,7 @@
 <li>
 <code>year_var</code> - variable in df that contains information on year or year-period when case was incident.</li>
 <li>
-<code>site_var</code> - variable in df that contains information on case (count event) diagnosis. Cases are usually the second cancers. Diagnoses can use any coding system (e.g. ICD) but coding system between dataset and reference data must be coherent.</li>
+<code>icdcat_var</code> - variable in df that contains information on case (count event) diagnosis. Cases are usually the second cancers. Diagnoses can use any coding system (e.g. ICD) but coding system between dataset and reference data must be coherent.</li>
 <li>
 <code>futime_var</code> - variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). In case you have not calculated the FU time yet, you can use the workflow described in the previous <a href="#wf-calc-fu">chapter</a>.</li>
 </ul>
@@ -164,7 +164,7 @@
 <p>If your data has the required structure, you can calculate and summarize SIRs with the following two steps:</p>
 <ol start="7" style="list-style-type: decimal">
 <li>
-<a href="#step-sir-byfutime">Calculate SIR</a> per SPC diagnosis with age, sex, region, period-specific strata using the <code><a href="../reference/sir_byfutime.html">msSPChelpR::sir_byfutime()</a></code> function. For this calculation usually a reference dataset is required that defines the population standard rates. <code>refrates_df</code> must use the same category coding of age, sex, region, year and cancer_site as <code>agegroup_var</code>, <code>sex_var</code>, <code>region_var</code>, <code>year_var</code> and <code>site_var</code>
+<a href="#step-sir-byfutime">Calculate SIR</a> per SPC diagnosis with age, sex, region, period-specific strata using the <code><a href="../reference/sir_byfutime.html">msSPChelpR::sir_byfutime()</a></code> function. For this calculation usually a reference dataset is required that defines the population standard rates. <code>refpop_df</code> must use the same category coding of age, sex, region, year and icdcat as <code>agegroup_var</code>, <code>sex_var</code>, <code>region_var</code>, <code>year_var</code> and <code>icdcat_var</code>
 </li>
 </ol>
 <ul>
