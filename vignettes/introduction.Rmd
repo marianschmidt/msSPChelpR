@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the msSPChelpR package - from long dataset to SIR analyses"
 author: "Marian Eberl"
-date: "13 May 2020"
+date: "05 August 2020"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to the msSPChelpR package - from long dataset to SIR analyses}
@@ -170,11 +170,50 @@ usdata_wide %>%
 ### Step 6 - Determine patient status at end of FU {#step-pat-status}
 
 ```{r}
+usdata_wide <- usdata_wide %>%
+  msSPChelpR::pat_status(., fu_end = "2017-12-31", dattype = "seer",
+                         status_var = "p_status", life_var = "p_alive.1",
+                         spc_var = "p_spc", birthdat_var = "datebirth.1",
+                         lifedat_var = "datedeath.1", fcdat_var = "t_datediag.1",
+                         spcdat_var = "t_datediag.2", life_stat_alive = "Alive",
+                         life_stat_dead = "Dead", spc_stat_yes = "SPC developed",
+                         spc_stat_no = "no SPC", lifedat_fu_end = "2019-12-31",
+                         use_lifedatmin = FALSE, check = TRUE, 
+                         as_labelled_factor = TRUE)
+
+usdata_wide %>%
+   select(fake_id, p_status, p_alive.1, datedeath.1, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
+
+#alternatively, you can impute the date of death using lifedatmin_var
+usdata_wide %>%
+  msSPChelpR::pat_status(., fu_end = "2017-12-31", dattype = "seer",
+                         status_var = "p_status", life_var = "p_alive.1",
+                         spc_var = "p_spc", birthdat_var = "datebirth.1",
+                         lifedat_var = "datedeath.1", fcdat_var = "t_datediag.1",
+                         spcdat_var = "t_datediag.2", life_stat_alive = "Alive",
+                         life_stat_dead = "Dead", spc_stat_yes = "SPC developed",
+                         spc_stat_no = "no SPC", lifedat_fu_end = "2019-12-31",
+                         use_lifedatmin = TRUE, lifedatmin_var = "p_dodmin.1", 
+                         check = TRUE, as_labelled_factor = TRUE)
+
 
 ```
 
 
 ### Step 7 - Calculate FU time {#step-calc-futime}
+
+```{r}
+usdata_wide <- usdata_wide %>%
+   msSPChelpR::calc_futime(., futime_var_new = "p_futimeyrs", fu_end = "2017-12-31",
+                           dattype = "seer", time_unit = "years", 
+                           lifedat_var = "datedeath.1", 
+                           fcdat_var = "t_datediag.1", spcdat_var = "t_datediag.2")
+
+usdata_wide %>%
+   select(fake_id, p_status, p_futimeyrs, p_alive.1, datedeath.1, t_datediag.1, t_datediag.2)
+
+```
+
 
 ### Step 8 - Calculate SIR {#step-sir-byfutime}
 
