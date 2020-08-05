@@ -14,6 +14,7 @@ Imports:
     data.table (>= 1.12.9),
     dplyr (>= 1.0.0),
     dtplyr,
+    haven,
     glue (>= 1.3.0),
     knitr,
     lubridate,
