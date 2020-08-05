@@ -134,7 +134,7 @@ tumors <- tibble(fake_id = as.character(sample(spc$fake_id, size = nn * 1.14, re
               
 
 tumors2 <- tumors %>%
-  mutate(t_year = 1970 + sample(1:40, size = n(), replace = TRUE),
+  mutate(t_year = 1970 + sample(1:49, size = n(), replace = TRUE),
          t_month = sample(1:12, size = n(), replace = TRUE),
          t_datediag = lubridate::make_date(year = t_year, month = t_month, day = 15),
          t_yeardiag = case_when(year(t_datediag) >= 1970 &  year(t_datediag) < 1975  ~ "1970 - 1974",
