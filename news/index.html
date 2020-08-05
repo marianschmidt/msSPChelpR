@@ -138,7 +138,7 @@
 <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> gained the option <code>race_var</code> to optionally stratify SIR calculations by race.</li>
 <li>new package website <a href="https://marianschmidt.github.io/msSPChelpR" class="uri">https://marianschmidt.github.io/msSPChelpR</a>
 </li>
-<li>new sample datasets included in the package to demonstrate examples</li>
+<li>new sample datasets included in the package to demonstrate examples (<a href='https://github.com/marianschmidt/msSPChelpR/issues/36'>#36</a>)</li>
 </ul>
 </div>
 <div id="breaking-changes" class="section level2">
@@ -150,6 +150,7 @@
 <li>now requires dplyr version 1.0.0</li>
 <li>now requires tidytable package</li>
 <li>rewrite of function <code><a href="../reference/reshape_long_tidyr.html">reshape_long_tidyr()</a></code>, option <code>var_selection</code> is deprecated. Please select variables before running the <code>reshape_long_*</code> functions.</li>
+<li>the default option name for tumor site variable changed from <code>icdcat_var</code> to <code>site_var</code>. This need manual update of function calls of <code>sir_byfutime*()</code> and <code><a href="../reference/asir.html">asir()</a></code>, if option is specified.</li>
 <li>the default variable name for tumor site in has been changed from <code>t_icdcat</code> to <code>t_site</code>. So the reference dataframes used will need to have a <code>t_site</code> column.</li>
 </ul>
 </div>
