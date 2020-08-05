@@ -85,7 +85,7 @@
       <h1 data-toc-skip>Introduction to the msSPChelpR package - from long dataset to SIR analyses</h1>
                         <h4 class="author">Marian Eberl</h4>
             
-            <h4 class="date">13 May 2020</h4>
+            <h4 class="date">05 August 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/marianschmidt/msSPChelpR/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -260,16 +260,16 @@
 <span class="co">#&gt; # A tibble: 35,909 x 15</span>
 <span class="co">#&gt;    fake_id SEQ_NUM registry sex   race  datebirth  t_datediag t_site_icd t_dco</span>
 <span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;</span>
-<span class="co">#&gt;  1 100038        1     1525 Male  White 1966-01-01 1992-08-15 C73        DCO …</span>
-<span class="co">#&gt;  2 100038        2     1525 Male  White 1966-01-01 2003-08-15 C34        hist…</span>
-<span class="co">#&gt;  3 100039        1     1544 Fema… White 1889-01-01 1983-01-15 C34        hist…</span>
-<span class="co">#&gt;  4 100039        2     1544 Fema… White 1889-01-01 1992-09-15 C21        hist…</span>
-<span class="co">#&gt;  5 100039        3     1544 Fema… White 1889-01-01 2001-03-15 C34        hist…</span>
-<span class="co">#&gt;  6 100057        1     1501 Male  Black 1972-01-01 1984-02-15 C34        hist…</span>
-<span class="co">#&gt;  7 100103        1     1502 Fema… Other 1949-01-01 1973-11-15 C61        hist…</span>
-<span class="co">#&gt;  8 100103        2     1502 Fema… Other 1949-01-01 1979-08-15 C67        hist…</span>
-<span class="co">#&gt;  9 100103        3     1502 Fema… Other 1949-01-01 1987-12-15 C34        hist…</span>
-<span class="co">#&gt; 10 100147        1     1547 Male  White 1876-01-01 1972-12-15 C34        hist…</span>
+<span class="co">#&gt;  1 100038        1     1525 Male  White 1945-01-01 1971-10-15 C34        hist…</span>
+<span class="co">#&gt;  2 100038        2     1525 Male  White 1945-01-01 1976-02-15 C73        hist…</span>
+<span class="co">#&gt;  3 100039        1     1544 Fema… White 1885-01-01 1979-03-15 C34        hist…</span>
+<span class="co">#&gt;  4 100039        2     1544 Fema… White 1885-01-01 1986-10-15 C21        hist…</span>
+<span class="co">#&gt;  5 100039        3     1544 Fema… White 1885-01-01 1997-08-15 C34        hist…</span>
+<span class="co">#&gt;  6 100057        1     1501 Male  Black 2004-01-01 2016-06-15 C34        hist…</span>
+<span class="co">#&gt;  7 100103        1     1502 Fema… Other 1967-01-01 1991-11-15 C61        hist…</span>
+<span class="co">#&gt;  8 100103        2     1502 Fema… Other 1967-01-01 2000-06-15 C34        DCO …</span>
+<span class="co">#&gt;  9 100103        3     1502 Fema… Other 1967-01-01 2008-02-15 C67        hist…</span>
+<span class="co">#&gt; 10 100147        1     1547 Male  White 1879-01-01 1975-01-15 C34        hist…</span>
 <span class="co">#&gt; # … with 35,899 more rows, and 6 more variables: fc_age &lt;int&gt;,</span>
 <span class="co">#&gt; #   datedeath &lt;date&gt;, p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;,</span>
 <span class="co">#&gt; #   t_yeardiag &lt;chr&gt;</span></pre></body></html></div>
@@ -288,16 +288,16 @@
 <span class="co">#&gt; # A tibble: 35,909 x 5</span>
 <span class="co">#&gt;    fake_id sex    t_site_icd t_datediag t_tumid</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;date&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1 100038  Male   C73        1992-08-15       1</span>
-<span class="co">#&gt;  2 100038  Male   C34        2003-08-15       2</span>
-<span class="co">#&gt;  3 100039  Female C34        1983-01-15       1</span>
-<span class="co">#&gt;  4 100039  Female C21        1992-09-15       2</span>
-<span class="co">#&gt;  5 100039  Female C34        2001-03-15       3</span>
-<span class="co">#&gt;  6 100057  Male   C34        1984-02-15       1</span>
-<span class="co">#&gt;  7 100103  Female C61        1973-11-15       1</span>
-<span class="co">#&gt;  8 100103  Female C67        1979-08-15       2</span>
-<span class="co">#&gt;  9 100103  Female C34        1987-12-15       3</span>
-<span class="co">#&gt; 10 100147  Male   C34        1972-12-15       1</span>
+<span class="co">#&gt;  1 100038  Male   C34        1971-10-15       1</span>
+<span class="co">#&gt;  2 100038  Male   C73        1976-02-15       2</span>
+<span class="co">#&gt;  3 100039  Female C34        1979-03-15       1</span>
+<span class="co">#&gt;  4 100039  Female C21        1986-10-15       2</span>
+<span class="co">#&gt;  5 100039  Female C34        1997-08-15       3</span>
+<span class="co">#&gt;  6 100057  Male   C34        2016-06-15       1</span>
+<span class="co">#&gt;  7 100103  Female C61        1991-11-15       1</span>
+<span class="co">#&gt;  8 100103  Female C34        2000-06-15       2</span>
+<span class="co">#&gt;  9 100103  Female C67        2008-02-15       3</span>
+<span class="co">#&gt; 10 100147  Male   C34        1975-01-15       1</span>
 <span class="co">#&gt; # … with 35,899 more rows</span></pre></body></html></div>
 </div>
 <div id="step-reshape-wide" class="section level3">
@@ -363,25 +363,197 @@
 <span class="co">#&gt; # A tibble: 17,525 x 7</span>
 <span class="co">#&gt;    fake_id sex.1  p_spc      t_site_icd.1 t_datediag.1 t_site_icd.2 t_datediag.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;        &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100038  Male   SPC devel… C73          1992-08-15   C34          2003-08-15  </span>
-<span class="co">#&gt;  2 100039  Female SPC devel… C34          1983-01-15   C21          1992-09-15  </span>
-<span class="co">#&gt;  3 100057  Male   no SPC     C34          1984-02-15   &lt;NA&gt;         NA          </span>
-<span class="co">#&gt;  4 100103  Female SPC devel… C61          1973-11-15   C67          1979-08-15  </span>
-<span class="co">#&gt;  5 100147  Male   SPC devel… C34          1972-12-15   C16          2005-11-15  </span>
-<span class="co">#&gt;  6 100175  Male   SPC devel… C50          1980-03-15   C34          1997-01-15  </span>
-<span class="co">#&gt;  7 100182  Male   SPC devel… C34          1978-07-15   C61          1985-08-15  </span>
-<span class="co">#&gt;  8 100187  Female SPC devel… C44          1976-11-15   C34          1995-01-15  </span>
-<span class="co">#&gt;  9 100197  Female SPC devel… C34          1984-06-15   C50          2008-11-15  </span>
-<span class="co">#&gt; 10 100208  Male   no SPC     C34          2001-12-15   &lt;NA&gt;         NA          </span>
+<span class="co">#&gt;  1 100038  Male   SPC devel… C34          1971-10-15   C73          1976-02-15  </span>
+<span class="co">#&gt;  2 100039  Female SPC devel… C34          1979-03-15   C21          1986-10-15  </span>
+<span class="co">#&gt;  3 100057  Male   no SPC     C34          2016-06-15   &lt;NA&gt;         NA          </span>
+<span class="co">#&gt;  4 100103  Female SPC devel… C61          1991-11-15   C34          2000-06-15  </span>
+<span class="co">#&gt;  5 100147  Male   SPC devel… C34          1975-01-15   C16          2001-01-15  </span>
+<span class="co">#&gt;  6 100175  Male   SPC devel… C34          1994-02-15   C50          1999-02-15  </span>
+<span class="co">#&gt;  7 100182  Male   SPC devel… C61          1976-11-15   C34          2018-06-15  </span>
+<span class="co">#&gt;  8 100187  Female SPC devel… C44          1991-03-15   C34          2019-11-15  </span>
+<span class="co">#&gt;  9 100197  Female SPC devel… C34          1975-05-15   C50          1982-12-15  </span>
+<span class="co">#&gt; 10 100208  Male   no SPC     C34          1998-01-15   &lt;NA&gt;         NA          </span>
 <span class="co">#&gt; # … with 17,515 more rows</span></pre></body></html></div>
 </div>
 <div id="step-pat-status" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-pat-status" class="anchor"></a>Step 6 - Determine patient status at end of FU</h3>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">usdata_wide</span> <span class="kw">&lt;-</span> <span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">msSPChelpR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/pat_status.html">pat_status</a></span>(<span class="no">.</span>, <span class="kw">fu_end</span> <span class="kw">=</span> <span class="st">"2017-12-31"</span>, <span class="kw">dattype</span> <span class="kw">=</span> <span class="st">"seer"</span>,
+                         <span class="kw">status_var</span> <span class="kw">=</span> <span class="st">"p_status"</span>, <span class="kw">life_var</span> <span class="kw">=</span> <span class="st">"p_alive.1"</span>,
+                         <span class="kw">spc_var</span> <span class="kw">=</span> <span class="st">"p_spc"</span>, <span class="kw">birthdat_var</span> <span class="kw">=</span> <span class="st">"datebirth.1"</span>,
+                         <span class="kw">lifedat_var</span> <span class="kw">=</span> <span class="st">"datedeath.1"</span>, <span class="kw">fcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.1"</span>,
+                         <span class="kw">spcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.2"</span>, <span class="kw">life_stat_alive</span> <span class="kw">=</span> <span class="st">"Alive"</span>,
+                         <span class="kw">life_stat_dead</span> <span class="kw">=</span> <span class="st">"Dead"</span>, <span class="kw">spc_stat_yes</span> <span class="kw">=</span> <span class="st">"SPC developed"</span>,
+                         <span class="kw">spc_stat_no</span> <span class="kw">=</span> <span class="st">"no SPC"</span>, <span class="kw">lifedat_fu_end</span> <span class="kw">=</span> <span class="st">"2019-12-31"</span>,
+                         <span class="kw">use_lifedatmin</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">check</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+                         <span class="kw">as_labelled_factor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="co">#&gt; # A tibble: 10 x 3</span>
+<span class="co">#&gt;    p_alive.1 p_status                                                          n</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;fct&gt;                                                         &lt;int&gt;</span>
+<span class="co">#&gt;  1 Alive     patient alive after FC (with or without following SPC after …  1834</span>
+<span class="co">#&gt;  2 Alive     patient alive after SPC                                        5110</span>
+<span class="co">#&gt;  3 Alive     NA - patient not born before end of FU                            2</span>
+<span class="co">#&gt;  4 Alive     NA - patient did not develop cancer before end of FU            259</span>
+<span class="co">#&gt;  5 Dead      patient alive after FC (with or without following SPC after …   233</span>
+<span class="co">#&gt;  6 Dead      patient alive after SPC                                         657</span>
+<span class="co">#&gt;  7 Dead      patient dead after FC                                          4290</span>
+<span class="co">#&gt;  8 Dead      patient dead after SPC                                         5089</span>
+<span class="co">#&gt;  9 Dead      NA - patient did not develop cancer before end of FU             17</span>
+<span class="co">#&gt; 10 Dead      NA - patient date of death is missing                            34</span>
+<span class="co">#&gt; # A tibble: 7 x 2</span>
+<span class="co">#&gt;   p_status                                                                   n</span>
+<span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
+<span class="co">#&gt; 1 patient alive after FC (with or without following SPC after end of FU)  2067</span>
+<span class="co">#&gt; 2 patient alive after SPC                                                 5767</span>
+<span class="co">#&gt; 3 patient dead after FC                                                   4290</span>
+<span class="co">#&gt; 4 patient dead after SPC                                                  5089</span>
+<span class="co">#&gt; 5 NA - patient not born before end of FU                                     2</span>
+<span class="co">#&gt; 6 NA - patient did not develop cancer before end of FU                     276</span>
+<span class="co">#&gt; 7 NA - patient date of death is missing                                     34</span>
+
+<span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">p_status</span>, <span class="no">p_alive.1</span>, <span class="no">datedeath.1</span>, <span class="no">t_site_icd.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_site_icd.2</span>, <span class="no">t_datediag.2</span>)
+<span class="co">#&gt; # A tibble: 17,525 x 8</span>
+<span class="co">#&gt;    fake_id p_status p_alive.1 datedeath.1 t_site_icd.1 t_datediag.1 t_site_icd.2</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;    &lt;chr&gt;     &lt;date&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
+<span class="co">#&gt;  1 100038  patient… Dead      1982-06-01  C34          1971-10-15   C73         </span>
+<span class="co">#&gt;  2 100039  patient… Dead      2002-10-01  C34          1979-03-15   C21         </span>
+<span class="co">#&gt;  3 100057  patient… Dead      2019-07-01  C34          2016-06-15   &lt;NA&gt;        </span>
+<span class="co">#&gt;  4 100103  patient… Dead      2013-10-01  C61          1991-11-15   C34         </span>
+<span class="co">#&gt;  5 100147  patient… Dead      2010-09-01  C34          1975-01-15   C16         </span>
+<span class="co">#&gt;  6 100175  patient… Dead      2001-05-01  C34          1994-02-15   C50         </span>
+<span class="co">#&gt;  7 100182  patient… Alive     NA          C61          1976-11-15   C34         </span>
+<span class="co">#&gt;  8 100187  patient… Alive     NA          C44          1991-03-15   C34         </span>
+<span class="co">#&gt;  9 100197  patient… Dead      1989-04-01  C34          1975-05-15   C50         </span>
+<span class="co">#&gt; 10 100208  patient… Alive     NA          C34          1998-01-15   &lt;NA&gt;        </span>
+<span class="co">#&gt; # … with 17,515 more rows, and 1 more variable: t_datediag.2 &lt;date&gt;</span>
+
+<span class="co">#alternatively, you can impute the date of death using lifedatmin_var</span>
+<span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">msSPChelpR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/pat_status.html">pat_status</a></span>(<span class="no">.</span>, <span class="kw">fu_end</span> <span class="kw">=</span> <span class="st">"2017-12-31"</span>, <span class="kw">dattype</span> <span class="kw">=</span> <span class="st">"seer"</span>,
+                         <span class="kw">status_var</span> <span class="kw">=</span> <span class="st">"p_status"</span>, <span class="kw">life_var</span> <span class="kw">=</span> <span class="st">"p_alive.1"</span>,
+                         <span class="kw">spc_var</span> <span class="kw">=</span> <span class="st">"p_spc"</span>, <span class="kw">birthdat_var</span> <span class="kw">=</span> <span class="st">"datebirth.1"</span>,
+                         <span class="kw">lifedat_var</span> <span class="kw">=</span> <span class="st">"datedeath.1"</span>, <span class="kw">fcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.1"</span>,
+                         <span class="kw">spcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.2"</span>, <span class="kw">life_stat_alive</span> <span class="kw">=</span> <span class="st">"Alive"</span>,
+                         <span class="kw">life_stat_dead</span> <span class="kw">=</span> <span class="st">"Dead"</span>, <span class="kw">spc_stat_yes</span> <span class="kw">=</span> <span class="st">"SPC developed"</span>,
+                         <span class="kw">spc_stat_no</span> <span class="kw">=</span> <span class="st">"no SPC"</span>, <span class="kw">lifedat_fu_end</span> <span class="kw">=</span> <span class="st">"2019-12-31"</span>,
+                         <span class="kw">use_lifedatmin</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">lifedatmin_var</span> <span class="kw">=</span> <span class="st">"p_dodmin.1"</span>,
+                         <span class="kw">check</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">as_labelled_factor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="co">#&gt; # A tibble: 9 x 3</span>
+<span class="co">#&gt;   p_alive.1 p_status                                                           n</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;fct&gt;                                                          &lt;int&gt;</span>
+<span class="co">#&gt; 1 Alive     patient alive after FC (with or without following SPC after e…  1834</span>
+<span class="co">#&gt; 2 Alive     patient alive after SPC                                         5110</span>
+<span class="co">#&gt; 3 Alive     NA - patient not born before end of FU                             2</span>
+<span class="co">#&gt; 4 Alive     NA - patient did not develop cancer before end of FU             259</span>
+<span class="co">#&gt; 5 Dead      patient alive after FC (with or without following SPC after e…   234</span>
+<span class="co">#&gt; 6 Dead      patient alive after SPC                                          657</span>
+<span class="co">#&gt; 7 Dead      patient dead after FC                                           4304</span>
+<span class="co">#&gt; 8 Dead      patient dead after SPC                                          5108</span>
+<span class="co">#&gt; 9 Dead      NA - patient did not develop cancer before end of FU              17</span>
+<span class="co">#&gt; # A tibble: 6 x 2</span>
+<span class="co">#&gt;   p_status                                                                   n</span>
+<span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
+<span class="co">#&gt; 1 patient alive after FC (with or without following SPC after end of FU)  2068</span>
+<span class="co">#&gt; 2 patient alive after SPC                                                 5767</span>
+<span class="co">#&gt; 3 patient dead after FC                                                   4304</span>
+<span class="co">#&gt; 4 patient dead after SPC                                                  5108</span>
+<span class="co">#&gt; 5 NA - patient not born before end of FU                                     2</span>
+<span class="co">#&gt; 6 NA - patient did not develop cancer before end of FU                     276</span>
+<span class="co">#&gt; # A tibble: 17,525 x 129</span>
+<span class="co">#&gt;    fake_id SEQ_NUM.1 SEQ_NUM.2 SEQ_NUM.3 SEQ_NUM.4 SEQ_NUM.5 SEQ_NUM.6 SEQ_NUM.7</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;</span>
+<span class="co">#&gt;  1 100038          1         2        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt;  2 100039          1         2         3        NA        NA        NA        NA</span>
+<span class="co">#&gt;  3 100057          1        NA        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt;  4 100103          1         2         3        NA        NA        NA        NA</span>
+<span class="co">#&gt;  5 100147          1         2         3        NA        NA        NA        NA</span>
+<span class="co">#&gt;  6 100175          1         2        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt;  7 100182          1         2         3        NA        NA        NA        NA</span>
+<span class="co">#&gt;  8 100187          1         2        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt;  9 100197          1         2        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt; 10 100208          1        NA        NA        NA        NA        NA        NA</span>
+<span class="co">#&gt; # … with 17,515 more rows, and 121 more variables: SEQ_NUM.8 &lt;int&gt;,</span>
+<span class="co">#&gt; #   SEQ_NUM.9 &lt;int&gt;, registry.1 &lt;dbl&gt;, registry.2 &lt;dbl&gt;, registry.3 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   registry.4 &lt;dbl&gt;, registry.5 &lt;dbl&gt;, registry.6 &lt;dbl&gt;, registry.7 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   registry.8 &lt;dbl&gt;, registry.9 &lt;dbl&gt;, sex.1 &lt;chr&gt;, sex.2 &lt;chr&gt;, sex.3 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   sex.4 &lt;chr&gt;, sex.5 &lt;chr&gt;, sex.6 &lt;chr&gt;, sex.7 &lt;chr&gt;, sex.8 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   sex.9 &lt;chr&gt;, race.1 &lt;chr&gt;, race.2 &lt;chr&gt;, race.3 &lt;chr&gt;, race.4 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   race.5 &lt;chr&gt;, race.6 &lt;chr&gt;, race.7 &lt;chr&gt;, race.8 &lt;chr&gt;, race.9 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   datebirth.1 &lt;date&gt;, datebirth.2 &lt;date&gt;, datebirth.3 &lt;date&gt;,</span>
+<span class="co">#&gt; #   datebirth.4 &lt;date&gt;, datebirth.5 &lt;date&gt;, datebirth.6 &lt;date&gt;,</span>
+<span class="co">#&gt; #   datebirth.7 &lt;date&gt;, datebirth.8 &lt;date&gt;, datebirth.9 &lt;date&gt;,</span>
+<span class="co">#&gt; #   t_datediag.1 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_datediag.3 &lt;date&gt;,</span>
+<span class="co">#&gt; #   t_datediag.4 &lt;date&gt;, t_datediag.5 &lt;date&gt;, t_datediag.6 &lt;date&gt;,</span>
+<span class="co">#&gt; #   t_datediag.7 &lt;date&gt;, t_datediag.8 &lt;date&gt;, t_datediag.9 &lt;date&gt;,</span>
+<span class="co">#&gt; #   t_site_icd.1 &lt;chr&gt;, t_site_icd.2 &lt;chr&gt;, t_site_icd.3 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_site_icd.4 &lt;chr&gt;, t_site_icd.5 &lt;chr&gt;, t_site_icd.6 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_site_icd.7 &lt;chr&gt;, t_site_icd.8 &lt;chr&gt;, t_site_icd.9 &lt;chr&gt;, t_dco.1 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_dco.2 &lt;chr&gt;, t_dco.3 &lt;chr&gt;, t_dco.4 &lt;chr&gt;, t_dco.5 &lt;chr&gt;, t_dco.6 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_dco.7 &lt;chr&gt;, t_dco.8 &lt;chr&gt;, t_dco.9 &lt;chr&gt;, fc_age.1 &lt;int&gt;,</span>
+<span class="co">#&gt; #   fc_age.2 &lt;int&gt;, fc_age.3 &lt;int&gt;, fc_age.4 &lt;int&gt;, fc_age.5 &lt;int&gt;,</span>
+<span class="co">#&gt; #   fc_age.6 &lt;int&gt;, fc_age.7 &lt;int&gt;, fc_age.8 &lt;int&gt;, fc_age.9 &lt;int&gt;,</span>
+<span class="co">#&gt; #   datedeath.1 &lt;date&gt;, datedeath.2 &lt;date&gt;, datedeath.3 &lt;date&gt;,</span>
+<span class="co">#&gt; #   datedeath.4 &lt;date&gt;, datedeath.5 &lt;date&gt;, datedeath.6 &lt;date&gt;,</span>
+<span class="co">#&gt; #   datedeath.7 &lt;date&gt;, datedeath.8 &lt;date&gt;, datedeath.9 &lt;date&gt;,</span>
+<span class="co">#&gt; #   p_alive.1 &lt;chr&gt;, p_alive.2 &lt;chr&gt;, p_alive.3 &lt;chr&gt;, p_alive.4 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   p_alive.5 &lt;chr&gt;, p_alive.6 &lt;chr&gt;, p_alive.7 &lt;chr&gt;, p_alive.8 &lt;chr&gt;,</span>
+<span class="co">#&gt; #   p_alive.9 &lt;chr&gt;, p_dodmin.1 &lt;date&gt;, p_dodmin.2 &lt;date&gt;, p_dodmin.3 &lt;date&gt;,</span>
+<span class="co">#&gt; #   p_dodmin.4 &lt;date&gt;, p_dodmin.5 &lt;date&gt;, p_dodmin.6 &lt;date&gt;, p_dodmin.7 &lt;date&gt;,</span>
+<span class="co">#&gt; #   p_dodmin.8 &lt;date&gt;, …</span></pre></body></html></div>
 </div>
 <div id="step-calc-futime" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-calc-futime" class="anchor"></a>Step 7 - Calculate FU time</h3>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">usdata_wide</span> <span class="kw">&lt;-</span> <span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
+   <span class="kw pkg">msSPChelpR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/calc_futime.html">calc_futime</a></span>(<span class="no">.</span>, <span class="kw">futime_var_new</span> <span class="kw">=</span> <span class="st">"p_futimeyrs"</span>, <span class="kw">fu_end</span> <span class="kw">=</span> <span class="st">"2017-12-31"</span>,
+                           <span class="kw">dattype</span> <span class="kw">=</span> <span class="st">"seer"</span>, <span class="kw">time_unit</span> <span class="kw">=</span> <span class="st">"years"</span>,
+                           <span class="kw">lifedat_var</span> <span class="kw">=</span> <span class="st">"datedeath.1"</span>,
+                           <span class="kw">fcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.1"</span>, <span class="kw">spcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.2"</span>)
+<span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
+<span class="co">#&gt; to min; returning Inf</span>
+
+<span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
+<span class="co">#&gt; to min; returning Inf</span>
+
+<span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
+<span class="co">#&gt; to min; returning Inf</span>
+<span class="co">#&gt; Warning in max(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
+<span class="co">#&gt; to max; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
+<span class="co">#&gt; to max; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
+<span class="co">#&gt; to max; returning -Inf</span>
+<span class="co">#&gt; # A tibble: 7 x 5</span>
+<span class="co">#&gt;   p_status                       mean_futime min_futime max_futime median_futime</span>
+<span class="co">#&gt;   &lt;fct&gt;                                &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 patient alive after FC (with …        11.8     0.0438       46.5          9.13</span>
+<span class="co">#&gt; 2 patient alive after SPC               15.7     0            46.0         13.5 </span>
+<span class="co">#&gt; 3 patient dead after FC                 10.7    -0.871        25.8          9.96</span>
+<span class="co">#&gt; 4 patient dead after SPC                11.2     0            45.1          9.25</span>
+<span class="co">#&gt; 5 NA - patient not born before …       NaN     Inf          -Inf           NA   </span>
+<span class="co">#&gt; 6 NA - patient did not develop …       NaN     Inf          -Inf           NA   </span>
+<span class="co">#&gt; 7 NA - patient date of death is…       NaN     Inf          -Inf           NA</span>
+
+<span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">p_status</span>, <span class="no">p_futimeyrs</span>, <span class="no">p_alive.1</span>, <span class="no">datedeath.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_datediag.2</span>)
+<span class="co">#&gt; # A tibble: 17,525 x 7</span>
+<span class="co">#&gt;    fake_id p_status  p_futimeyrs p_alive.1 datedeath.1 t_datediag.1 t_datediag.2</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;           &lt;dbl&gt; &lt;chr&gt;     &lt;date&gt;      &lt;date&gt;       &lt;date&gt;      </span>
+<span class="co">#&gt;  1 100038  patient …        4.34 Dead      1982-06-01  1971-10-15   1976-02-15  </span>
+<span class="co">#&gt;  2 100039  patient …        7.59 Dead      2002-10-01  1979-03-15   1986-10-15  </span>
+<span class="co">#&gt;  3 100057  patient …        1.54 Dead      2019-07-01  2016-06-15   NA          </span>
+<span class="co">#&gt;  4 100103  patient …        8.58 Dead      2013-10-01  1991-11-15   2000-06-15  </span>
+<span class="co">#&gt;  5 100147  patient …       26.0  Dead      2010-09-01  1975-01-15   2001-01-15  </span>
+<span class="co">#&gt;  6 100175  patient …        5.00 Dead      2001-05-01  1994-02-15   1999-02-15  </span>
+<span class="co">#&gt;  7 100182  patient …       41.1  Alive     NA          1976-11-15   2018-06-15  </span>
+<span class="co">#&gt;  8 100187  patient …       26.8  Alive     NA          1991-03-15   2019-11-15  </span>
+<span class="co">#&gt;  9 100197  patient …        7.59 Dead      1989-04-01  1975-05-15   1982-12-15  </span>
+<span class="co">#&gt; 10 100208  patient …       20.0  Alive     NA          1998-01-15   NA          </span>
+<span class="co">#&gt; # … with 17,515 more rows</span></pre></body></html></div>
 </div>
 <div id="step-sir-byfutime" class="section level3">
 <h3 class="hasAnchor">
@@ -424,7 +596,7 @@
 <div id="built-with" class="section level2">
 <h2 class="hasAnchor">
 <a href="#built-with" class="anchor"></a>Built with</h2>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
 <span class="co">#&gt; R version 4.0.2 (2020-06-22)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
 <span class="co">#&gt; Running under: macOS Catalina 10.15.6</span>
@@ -443,16 +615,17 @@
 <span class="co">#&gt; [1] magrittr_1.5          dplyr_1.0.1           msSPChelpR_0.8.4.9000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] knitr_1.29        MASS_7.3-51.6     tidyselect_1.1.0  R6_2.4.1         </span>
-<span class="co">#&gt;  [5] rlang_0.4.7       fansi_0.4.1       stringr_1.4.0     tools_4.0.2      </span>
-<span class="co">#&gt;  [9] data.table_1.13.1 xfun_0.16         utf8_1.1.4        cli_2.0.2        </span>
-<span class="co">#&gt; [13] ellipsis_0.3.1    htmltools_0.5.0   yaml_2.2.1        assertthat_0.2.1 </span>
-<span class="co">#&gt; [17] digest_0.6.25     rprojroot_1.3-2   tibble_3.0.3      lifecycle_0.2.0  </span>
-<span class="co">#&gt; [21] pkgdown_1.5.1     crayon_1.3.4      tidyr_1.1.1       purrr_0.3.4      </span>
-<span class="co">#&gt; [25] vctrs_0.3.2       fs_1.5.0          memoise_1.1.0     glue_1.4.1       </span>
-<span class="co">#&gt; [29] evaluate_0.14     rmarkdown_2.3     stringi_1.4.6     pillar_1.4.6     </span>
-<span class="co">#&gt; [33] compiler_4.0.2    desc_1.2.0        generics_0.0.2    backports_1.1.8  </span>
-<span class="co">#&gt; [37] pkgconfig_2.0.3</span></pre></body></html></div>
+<span class="co">#&gt;  [1] Rcpp_1.0.5        compiler_4.0.2    pillar_1.4.6      forcats_0.5.0    </span>
+<span class="co">#&gt;  [5] tools_4.0.2       digest_0.6.25     lubridate_1.7.9   evaluate_0.14    </span>
+<span class="co">#&gt;  [9] memoise_1.1.0     lifecycle_0.2.0   tibble_3.0.3      pkgconfig_2.0.3  </span>
+<span class="co">#&gt; [13] rlang_0.4.7       cli_2.0.2         yaml_2.2.1        haven_2.3.1      </span>
+<span class="co">#&gt; [17] pkgdown_1.5.1     xfun_0.16         stringr_1.4.0     knitr_1.29       </span>
+<span class="co">#&gt; [21] generics_0.0.2    desc_1.2.0        fs_1.5.0          vctrs_0.3.2      </span>
+<span class="co">#&gt; [25] hms_0.5.3         sjlabelled_1.1.6  rprojroot_1.3-2   tidyselect_1.1.0 </span>
+<span class="co">#&gt; [29] glue_1.4.1        data.table_1.13.1 R6_2.4.1          fansi_0.4.1      </span>
+<span class="co">#&gt; [33] rmarkdown_2.3     purrr_0.3.4       tidyr_1.1.1       backports_1.1.8  </span>
+<span class="co">#&gt; [37] htmltools_0.5.0   ellipsis_0.3.1    MASS_7.3-51.6     assertthat_0.2.1 </span>
+<span class="co">#&gt; [41] insight_0.9.0     utf8_1.1.4        stringi_1.4.6     crayon_1.3.4</span></pre></body></html></div>
 </div>
 </div>
   </div>
