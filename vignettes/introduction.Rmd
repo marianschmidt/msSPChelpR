@@ -117,7 +117,7 @@ data("us_second_cancer")
 #filter for lung cancer
 ids <- us_second_cancer %>%
   #detect ids with any lung cancer
-  filter(site_icd == "C34") %>%
+  filter(t_site_icd == "C34") %>%
   select(fake_id) %>%
   as.vector() %>%
   unname() %>%
@@ -141,7 +141,7 @@ renumbered_usdata <- filtered_usdata %>%
                                   case_id_var = "fake_id")
 
 renumbered_usdata %>%
-   select(fake_id, sex, site_icd, t_datediag, t_tumid)
+   select(fake_id, sex, t_site_icd, t_datediag, t_tumid)
 ```
 
 
@@ -159,11 +159,11 @@ usdata_wide
 ```{r}
 
 usdata_wide <- usdata_wide %>%
-  dplyr::mutate(p_spc = case_when(is.na(site_icd.2)   ~ "no SPC",
-                         !is.na(site_icd.2)           ~ "SPC developed",
+  dplyr::mutate(p_spc = case_when(is.na(t_site_icd.2)   ~ "no SPC",
+                         !is.na(t_site_icd.2)           ~ "SPC developed",
                          TRUE ~ NA_character_)) 
 usdata_wide %>%
-   select(fake_id, sex.1, p_spc, site_icd.1, t_datediag.1, site_icd.2, t_datediag.2)
+   select(fake_id, sex.1, p_spc, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
 
 ```
 
