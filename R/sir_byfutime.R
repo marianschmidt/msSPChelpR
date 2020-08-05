@@ -23,12 +23,12 @@
 #' @param refrates_df df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
 #'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
 #'                  "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
-#'                  refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var. 
+#'                  refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var. 
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
 #' @param agegroup_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on gender. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
-#' @param icdcat_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
+#' @param site_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
 #' @param futime_var variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.
 #' @param pyar_var variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.
 #' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
@@ -40,7 +40,7 @@
 #' @param refpop_df df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns 
 #'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
 #'                  "population_pyar" for person-years at risk in the respective age/gender/year cohort.
-#'                  refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var. 
+#'                  refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var. 
 #' @return df
 #' @importFrom rlang .data
 #' @export
@@ -68,7 +68,7 @@ sir_byfutime <- function(df,
                          agegroup_var = NULL,
                          sex_var = NULL,
                          year_var = NULL,
-                         icdcat_var = NULL,
+                         site_var = NULL,
                          futime_var = NULL,
                          pyar_var = NULL,              #optional for indirect standardization
                          alpha = 0.05) {
@@ -152,10 +152,10 @@ sir_byfutime <- function(df,
     } else{
       year_var <- rlang::ensym(year_var)
     }
-    if (is.null(icdcat_var)) {
-      icdcat_var <- rlang::sym("t_icdcat.2")
+    if (is.null(site_var)) {
+      site_var <- rlang::sym("t_icdcat.2")
     } else{
-      icdcat_var <- rlang::ensym(icdcat_var)
+      site_var <- rlang::ensym(site_var)
     }
     if (is.null(futime_var)) {
       futime_var <- rlang::sym("p_futimeyrs.1")
@@ -187,10 +187,10 @@ sir_byfutime <- function(df,
     } else{
       year_var <- rlang::ensym(year_var)
     }
-    if (is.null(icdcat_var)) {
-      icdcat_var <- rlang::sym("t_icdcat.2")
+    if (is.null(site_var)) {
+      site_var <- rlang::sym("t_icdcat.2")
     } else{
-      icdcat_var <- rlang::ensym(icdcat_var)
+      site_var <- rlang::ensym(site_var)
     }
     if (is.null(futime_var)) {
       futime_var <- rlang::sym("p_futimeyrs.1")
@@ -248,7 +248,7 @@ sir_byfutime <- function(df,
   
   #create vector with basic matching variables age, sex, region, icdcat, year
   
-  strata_var_names <- c(rlang::expr_text(agegroup_var), rlang::expr_text(sex_var), rlang::expr_text(region_var), rlang::expr_text(icdcat_var), rlang::expr_text(year_var))
+  strata_var_names <- c(rlang::expr_text(agegroup_var), rlang::expr_text(sex_var), rlang::expr_text(region_var), rlang::expr_text(site_var), rlang::expr_text(year_var))
   
   #add additional options for cohort calulations
   
@@ -260,7 +260,7 @@ sir_byfutime <- function(df,
       rlang::quo_name(agegroup_var),
       rlang::quo_name(sex_var),
       rlang::quo_name(year_var),
-      rlang::quo_name(icdcat_var),
+      rlang::quo_name(site_var),
       rlang::quo_name(count_var),
       rlang::quo_name(futime_var)
     )
@@ -315,7 +315,7 @@ sir_byfutime <- function(df,
       sex = as.character(!!sex_var),
       region = as.character(!!region_var),
       year = as.character(!!year_var),
-      t_icdcat = as.character(!!icdcat_var)) %>%
+      t_icdcat = as.character(!!site_var)) %>%
     dplyr::mutate(dplyr::across(.cols = c(.data$age, .data$sex, .data$region, .data$year, .data$t_icdcat), 
                                 .fns = ~tidyr::replace_na(., na_explicit)))
   

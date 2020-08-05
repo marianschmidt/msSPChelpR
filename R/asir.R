@@ -16,12 +16,12 @@
 #' @param refpop_df df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns 
 #'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
 #'                  "population_pyar" for person-years at risk in the respective age/gender/year cohort.
-#'                  refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var. 
+#'                  refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var. 
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
 #' @param agegroup_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on gender. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
-#' @param icdcat_var variable in df that contains information on ICD code of case diagnosis. Default is set if dattype is given.
+#' @param site_var variable in df that contains information on ICD code of case diagnosis. Default is set if dattype is given.
 #' @param futime_var variable in df that contains follow-up time per person (in years) in cohort (can only be used with futime_src = "cohort"). Default is set if dattype is given.
 #' @param pyar_var variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.
 #' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
@@ -46,7 +46,7 @@ asir <-
            agegroup_var = NULL,
            sex_var = NULL,
            year_var = NULL,
-           icdcat_var = NULL,
+           site_var = NULL,
            futime_var = NULL,
            pyar_var = NULL,
            alpha = 0.05) {
@@ -124,10 +124,10 @@ asir <-
       } else{
         year_var <- rlang::ensym(year_var)
       }
-      if (is.null(icdcat_var)) {
-        icdcat_var <- rlang::sym("t_icdcat.1")
+      if (is.null(site_var)) {
+        site_var <- rlang::sym("t_icdcat.1")
       } else{
-        icdcat_var <- rlang::ensym(icdcat_var)
+        site_var <- rlang::ensym(site_var)
       }
       if (is.null(futime_var)) {
         futime_var <- rlang::sym("p_futimeyrs.1")
@@ -159,10 +159,10 @@ asir <-
       } else{
         year_var <- rlang::ensym(year_var)
       }
-      if (is.null(icdcat_var)) {
-        icdcat_var <- rlang::sym("t_icdcat.1")
+      if (is.null(site_var)) {
+        site_var <- rlang::sym("t_icdcat.1")
       } else{
-        icdcat_var <- rlang::ensym(icdcat_var)
+        site_var <- rlang::ensym(site_var)
       }
       if (is.null(futime_var)) {
         futime_var <- rlang::sym("p_futimeyrs.1")
@@ -210,7 +210,7 @@ asir <-
         rlang::as_name(agegroup_var),
         rlang::as_name(sex_var),
         rlang::as_name(year_var),
-        rlang::as_name(icdcat_var),
+        rlang::as_name(site_var),
         rlang::as_name(count_var),
         if(futime_src == "cohort"){rlang::as_name(futime_var)}
       )
@@ -241,7 +241,7 @@ asir <-
                         !!agegroup_var,
                         !!sex_var,
                         !!year_var,
-                        !!icdcat_var) %>%
+                        !!site_var) %>%
         dplyr::summarize(i_observed = sum(!!count_var)) %>%
         dplyr::ungroup()
       
@@ -333,7 +333,7 @@ asir <-
       
       #i)making nested version of df and joining populations to each df
       sircalc_nest <- sircalc %>%
-        dplyr::group_by(!!region_var,!!year_var,!!icdcat_var) %>%
+        dplyr::group_by(!!region_var,!!year_var,!!site_var) %>%
         tidyr::nest()
       
       #ii)function for nested join
@@ -366,7 +366,7 @@ asir <-
       #vi) calculate new group proportions in standard population given that some of the younger age-groups were truncated
       
       sum_group_population <- sircalc %>%
-        dplyr::group_by(!!region_var, .data$sex, !!year_var, !!icdcat_var) %>%
+        dplyr::group_by(!!region_var, .data$sex, !!year_var, !!site_var) %>%
         dplyr::summarize(group_pop_sum = sum(.data$population_n, na.rm = TRUE)) %>%
         dplyr::ungroup() %>%
         dplyr::select(.data$group_pop_sum) %>%
@@ -403,7 +403,7 @@ asir <-
       
       #sum over all age-groups to get age standardized incidence rate
       asir_results <- sircalc %>%
-        dplyr::group_by(!!region_var, .data$sex,!!year_var,!!icdcat_var) %>%
+        dplyr::group_by(!!region_var, .data$sex,!!year_var,!!site_var) %>%
         dplyr::summarize(
           group_observed = sum(.data$i_observed, na.rm = TRUE),
           group_pyar = sum(.data$i_pyar, na.rm = TRUE),
@@ -451,7 +451,7 @@ asir <-
         dplyr::mutate(dplyr::across(.cols = c(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, 
                                               .data$asir_lci_gam, .data$asir_uci_gam), .fns = ~round(.,2))) %>%
         dplyr::mutate(dplyr::across(.cols = .data$pyar, ~ round(.,0))) %>%
-        dplyr::select(.data$age, !!region_var, .data$sex, !!year_var, !!icdcat_var, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
+        dplyr::select(.data$age, !!region_var, .data$sex, !!year_var, !!site_var, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                       .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
       
       
@@ -476,7 +476,7 @@ asir <-
                         !!agegroup_var,
                         !!sex_var,
                         !!year_var,
-                        !!icdcat_var) %>%
+                        !!site_var) %>%
         dplyr::summarize(i_observed = sum(!!count_var)) %>%
         dplyr::ungroup()
       
@@ -504,7 +504,7 @@ asir <-
         as.character()
       
       used_icdcat <- sircalc_count %>%
-        dplyr::distinct(!!icdcat_var) %>%
+        dplyr::distinct(!!site_var) %>%
         dplyr::pull()%>%
         as.character()
       
@@ -523,9 +523,9 @@ asir <-
       #o)filling-up emty categories of region, year and icdcat
       
       max_sircalc <- sircalc_count %>%
-        tidyr::expand(.data$age, .data$sex, !!region_var, !!icdcat_var, !!year_var)
+        tidyr::expand(.data$age, .data$sex, !!region_var, !!site_var, !!year_var)
       
-      sircalc_count <-  dplyr::full_join(sircalc_count, max_sircalc, by = c("age", "sex", rlang::as_name(region_var) , rlang::as_name(year_var), rlang::as_name(icdcat_var)))
+      sircalc_count <-  dplyr::full_join(sircalc_count, max_sircalc, by = c("age", "sex", rlang::as_name(region_var) , rlang::as_name(year_var), rlang::as_name(site_var)))
       
       min_year <- stringr::str_sub(used_year, 1, 4) %>% as.numeric() %>% min()
       max_year <- stringr::str_sub(used_year, 1, 4) %>% as.numeric() %>% max()
@@ -538,7 +538,7 @@ asir <-
       
       #i)making nested version of df and joining populations to each df
       sircalc_count_nest <- sircalc_count %>%
-        dplyr::group_by(!!region_var,!!year_var,!!icdcat_var) %>%
+        dplyr::group_by(!!region_var,!!year_var,!!site_var) %>%
         tidyr::nest()
       
       #ii)function for nested join
@@ -707,7 +707,7 @@ asir <-
       #2a calculate new group proportions in standard population given that some of the younger age-groups were truncated
       
       sum_group_population <- sircalc %>%
-        dplyr::group_by(.data$region, .data$sex, .data$year,!!icdcat_var) %>%
+        dplyr::group_by(.data$region, .data$sex, .data$year,!!site_var) %>%
         dplyr::summarize(group_pop_sum = sum(.data$population_n, na.rm = TRUE)) %>%
         dplyr::ungroup() %>%
         dplyr::select(.data$group_pop_sum) %>%
@@ -742,7 +742,7 @@ asir <-
       
       #sum over all age-groups to get age standardized incidence rate
       asir_results <- sircalc %>%
-        dplyr::group_by(.data$region, .data$sex, .data$year, !!icdcat_var) %>%
+        dplyr::group_by(.data$region, .data$sex, .data$year, !!site_var) %>%
         dplyr::summarize(
           group_observed = sum(.data$i_observed, na.rm = TRUE),
           group_pyar = sum(.data$i_pyar, na.rm = TRUE),
@@ -780,7 +780,7 @@ asir <-
       }
       
       asir_results <- asir_results %>%
-        dplyr::mutate(icdcat = !!icdcat_var) %>%
+        dplyr::mutate(icdcat = !!site_var) %>%
         dplyr::rename(
           observed = .data$group_observed,
           pyar = .data$group_pyar,
@@ -830,7 +830,7 @@ asir <-
         
         #3c group with age to make summary of observed, pyrs, group_proportion_recalc
         asir_results_sum_tmp <- sircalc %>%
-          dplyr::mutate(icdcat = as.character(!!icdcat_var)) %>%
+          dplyr::mutate(icdcat = as.character(!!site_var)) %>%
           dplyr::group_by(dplyr::across(tidyselect::all_of(c(grouping_vars, "age"))), .drop = FALSE) %>%
           dplyr::summarize(
             group_observed = sum(.data$i_observed, na.rm = TRUE),
