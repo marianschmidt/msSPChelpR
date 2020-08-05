@@ -63,12 +63,12 @@ In order to calculate SIR using the package functions, the following data struct
    * `agegroup_var` - variable in df that contains information on age-group.
    * `sex_var` - variable in df that contains information on biological sex.
    * `year_var` - variable in df that contains information on year or year-period when case was incident.
-   * `icdcat_var` - variable in df that contains information on case (count event) diagnosis. Cases are usually the second cancers. Diagnoses can use any coding system (e.g. ICD) but coding system between dataset and reference data must be coherent.
+   * `site_var` - variable in df that contains information on case (count event) diagnosis. Cases are usually the second cancers. Diagnoses can use any coding system (e.g. ICD) but coding system between dataset and reference data must be coherent.
    * `futime_var` - variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). In case you have not calculated the FU time yet, you can use the workflow described in the previous [chapter](#wf-calc-fu).
    
 If your data has the required structure, you can calculate and summarize SIRs with the following two steps:
 
- 7. [Calculate SIR](#step-sir-byfutime) per SPC diagnosis with age, sex, region, period-specific strata using the `msSPChelpR::sir_byfutime()` function. For this calculation usually a reference dataset is required that defines the population standard rates. `refpop_df` must use the same category coding of age, sex, region, year and icdcat as `agegroup_var`, `sex_var`, `region_var`, `year_var` and `icdcat_var`
+ 7. [Calculate SIR](#step-sir-byfutime) per SPC diagnosis with age, sex, region, period-specific strata using the `msSPChelpR::sir_byfutime()` function. For this calculation usually a reference dataset is required that defines the population standard rates. `refrates_df` must use the same category coding of age, sex, region, year and cancer_site as `agegroup_var`, `sex_var`, `region_var`, `year_var` and `site_var`
    * The theory behind calculating stratified SIRs is explained in the chapter on [basics on SIRs](#theo-sir)
    
  8. [Summarize SIR results](#step-summarize-sir) using the `msSPChelpR::summarize_sir_results()` function on the stratified sir results produced by the previous step.
