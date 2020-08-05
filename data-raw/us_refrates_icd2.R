@@ -5,7 +5,7 @@ pre_refrates <- tibble(
   region = c("SEER Reg 01 - San Francisco-Oadkland SMSA"),
   year = c(1975),
   sex = c("Male"),
-  age = c("30"),
+  age = c("30 - 34"),
   race = c("Black"),
   incidence_cases = c(5),
   population_pyar = c(15000)
