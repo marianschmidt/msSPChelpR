@@ -39,3 +39,13 @@ df
 \description{
 Renumber the time ID per case (i.e. Tumor sequence)
 }
+\examples{
+renumbered_usdata <- filtered_usdata \%>\%
+msSPChelpR::renumber_time_id(new_time_id_var = "t_tumid",
+                             dattype = "seer",
+                             case_id_var = "fake_id")
+                             
+renumbered_usdata \%>\%
+  select(fake_id, sex, t_site_icd, t_datediag, t_tumid)
+
+}
