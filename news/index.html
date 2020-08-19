@@ -145,7 +145,13 @@
 <h2 class="hasAnchor">
 <a href="#breaking-changes" class="anchor"></a>Breaking Changes</h2>
 <ul>
-<li>breaking change in function <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>; options <code>add_total_row</code> and <code>add_total_fu</code> are replaced by <code>calc_total_row</code> and <code>calc_total_fu</code>. These are logical parameters now. The positioning of total rows and colums is completely handled by the <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> function now. There total rows can be set to top and bottom and total columns to left and right.</li>
+<li>
+<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>:
+<ul>
+<li>options <code>add_total_row</code> and <code>add_total_fu</code> are replaced by <code>calc_total_row</code> and <code>calc_total_fu</code>. These are logical parameters now. The positioning of total rows and colums is completely handled by the <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> function now. There total rows can be set to top and bottom and total columns to left and right.</li>
+<li>option <code>expcount_src</code> including related parameters <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code> and <code>pyar_var</code> have been removed. Function <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> will only work calculating expected counts based on reference rates, not within the cohort of the dataset. To calculate expected based on the cohort, a new function <code>create_refrates</code> will be added in the future. (<a href='https://github.com/marianschmidt/msSPChelpR/issues/41'>#41</a>)</li>
+</ul>
+</li>
 <li>function <code>sir()</code> is superseded by the use of <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>. To migrate your former <code>sir()</code> functions, you can simply use <code><a href="../reference/sir_byfutime.html">sir_byfutime(, futime_breaks = "none")</a></code> that will yield the same results.</li>
 <li>now requires dplyr version 1.0.0</li>
 <li>now requires tidytable package</li>

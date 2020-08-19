@@ -146,7 +146,7 @@
   <span class='kw'>agegroup_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>sex_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>year_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>icdcat_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>site_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>futime_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pyar_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>
@@ -196,7 +196,7 @@ stdpop_df must use the same category coding of age and sex as agegroup_var and s
       <td><p>df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns
 "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "population_pyar" for person-years at risk in the respective age/gender/year cohort.
-refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.</p></td>
+refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var.</p></td>
     </tr>
     <tr>
       <th>region_var</th>
@@ -215,7 +215,7 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
       <td><p>variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.</p></td>
     </tr>
     <tr>
-      <th>icdcat_var</th>
+      <th>site_var</th>
       <td><p>variable in df that contains information on ICD code of case diagnosis. Default is set if dattype is given.</p></td>
     </tr>
     <tr>
