@@ -184,13 +184,27 @@ All tumors &gt; timevar_max will be deleted.</p></td>
     <p>df</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>renumbered_usdata</span> <span class='kw'>&lt;-</span> <span class='no'>filtered_usdata</span> <span class='kw'>%&gt;%</span>
-<span class='kw pkg'>msSPChelpR</span><span class='kw ns'>::</span><span class='fu'>renumber_time_id</span>(<span class='kw'>new_time_id_var</span> <span class='kw'>=</span> <span class='st'>"t_tumid"</span>,
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>us_cancer_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘us_cancer_data’ not found</span></div><div class='input'><span class='no'>us_second_cancer</span> <span class='kw'>%&gt;%</span>
+ <span class='kw pkg'>msSPChelpR</span><span class='kw ns'>::</span><span class='fu'>renumber_time_id</span>(<span class='kw'>new_time_id_var</span> <span class='kw'>=</span> <span class='st'>"t_tumid"</span>,
                              <span class='kw'>dattype</span> <span class='kw'>=</span> <span class='st'>"seer"</span>,
-                             <span class='kw'>case_id_var</span> <span class='kw'>=</span> <span class='st'>"fake_id"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'filtered_usdata' not found</span></div><div class='input'>
-<span class='no'>renumbered_usdata</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>select</span>(<span class='no'>fake_id</span>, <span class='no'>sex</span>, <span class='no'>t_site_icd</span>, <span class='no'>t_datediag</span>, <span class='no'>t_tumid</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'renumbered_usdata' not found</span></div><div class='input'>
-</div></pre>
+                             <span class='kw'>case_id_var</span> <span class='kw'>=</span> <span class='st'>"fake_id"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 113,999 x 16</span><span>
+#&gt;    fake_id SEQ_NUM registry sex   race  datebirth  t_datediag t_site_icd t_dco
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 100004        1 SEER Re… Male  White 1985-01-01 2007-03-15 C34        DCO …
+#&gt; </span><span style='color: #555555;'> 2</span><span> 100004        2 SEER Re… Male  White 1985-01-01 2012-01-15 C64        hist…
+#&gt; </span><span style='color: #555555;'> 3</span><span> 100004        3 SEER Re… Male  White 1985-01-01 2014-05-15 C18        hist…
+#&gt; </span><span style='color: #555555;'> 4</span><span> 100004        4 SEER Re… Male  White 1985-01-01 2019-08-15 C61        hist…
+#&gt; </span><span style='color: #555555;'> 5</span><span> 100032        1 SEER Re… Fema… White 1925-01-01 1992-04-15 C34        hist…
+#&gt; </span><span style='color: #555555;'> 6</span><span> 100034        1 SEER Re… Male  White 1972-01-01 2010-02-15 C61        hist…
+#&gt; </span><span style='color: #555555;'> 7</span><span> 100037        1 SEER Re… Fema… White 1928-01-01 2009-09-15 C61        hist…
+#&gt; </span><span style='color: #555555;'> 8</span><span> 100038        1 SEER Re… Male  White 1918-01-01 1991-12-15 C50        hist…
+#&gt; </span><span style='color: #555555;'> 9</span><span> 100038        2 SEER Re… Male  White 1918-01-01 2016-07-15 C18        hist…
+#&gt; </span><span style='color: #555555;'>10</span><span> 100039        1 SEER Re… Fema… White 1952-01-01 1997-10-15 C18        hist…
+#&gt; </span><span style='color: #555555;'># … with 113,989 more rows, and 7 more variables: fc_age </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   datedeath </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span style='color: #555555;'>, p_alive </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, p_dodmin </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span style='color: #555555;'>, fc_agegroup </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   t_yeardiag </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, t_tumid </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span></div><div class='input'>                             
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
