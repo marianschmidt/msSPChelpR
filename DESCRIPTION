@@ -26,7 +26,7 @@ Imports:
     stats,
     stringr,
     tidyselect, 
-    tidytable (>= 0.5.1.9),
+    tidytable (>= 0.5.4.9),
     tibble,
     tidyr (>= 1.0.0),
     utils
@@ -39,5 +39,4 @@ Encoding: UTF-8
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Language: en-US
-Remotes: Rdatatable/data.table
 LazyData: true
