@@ -23,3 +23,24 @@
 #'
 #'
 "us_second_cancer"
+
+#' US Reference Rates for Cancer using ICD-O 2digit code for cancer site
+#'
+#' Synthetic dataset of reference incidence rates for the US population to demonstrate package functions
+#'
+#' @format A data frame with the following variables:
+#' \describe{
+#' \item{\code{t_site}}{Tumor Site}
+#' \item{\code{region}}{Region / Region groups}
+#' \item{\code{year}}{Year / Periods}
+#' \item{\code{sex}}{Sex}
+#' \item{\code{age}}{Age / Age groups}
+#' \item{\code{race}}{Race}
+#' \item{\code{incidence_cases}}{Incident Cases (raw count)}
+#' \item{\code{incidence_crude_rate}}{Incidence Rate (crude rate)}
+#' \item{\code{population_pyar}}{Population Years used for rate calculation (PYAR)}
+#' \item{\code{population_n_per_year}}{Absolute Population number used for rate calculation (PYAR / 5 years)}
+#' }
+#'
+#'
+"us_refrates_icd2"
