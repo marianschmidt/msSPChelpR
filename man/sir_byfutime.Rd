@@ -25,7 +25,7 @@ sir_byfutime(
   agegroup_var = NULL,
   sex_var = NULL,
   year_var = NULL,
-  icdcat_var = NULL,
+  site_var = NULL,
   futime_var = NULL,
   pyar_var = NULL,
   alpha = 0.05
@@ -59,7 +59,7 @@ If you don't want to split by follow-up time, use futime_breaks = "none".}
 \item{refrates_df}{df where reference rate from general population are defined. It is assumed that refrates_df has the columns
 "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
-refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.}
+refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var.}
 
 \item{calc_total_row}{option to calculate a row of totals. Can be either FALSE for not adding such a row or TRUE for adding it at the first row. Default is TRUE.}
 
@@ -74,7 +74,7 @@ stdpop_df must use the same category coding of age and sex as agegroup_var and s
 \item{refpop_df}{df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns
 "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "population_pyar" for person-years at risk in the respective age/gender/year cohort.
-refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and icdcat_var.}
+refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var.}
 
 \item{std_pop}{can be either "ESP2013, ESP1976, WHO1960}
 
@@ -88,7 +88,7 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
 
 \item{year_var}{variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.}
 
-\item{icdcat_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
+\item{site_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
 
 \item{futime_var}{variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.}
 
