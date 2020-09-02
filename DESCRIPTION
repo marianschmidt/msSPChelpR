@@ -13,7 +13,6 @@ Depends:
 Imports: 
     data.table (>= 1.12.9),
     dplyr (>= 1.0.0),
-    haven,
     lubridate,
     magrittr,
     progress,
@@ -23,10 +22,11 @@ Imports:
     stringr,
     tidyselect, 
     tidytable (>= 0.5.5),
-    tibble,
     tidyr (>= 1.0.0),
     utils
 Suggests: 
+    haven,
+    tibble,
     rmarkdown,
     knitr,
     testthat (>= 2.1.0)
