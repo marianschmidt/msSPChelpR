@@ -182,7 +182,7 @@ usdata_wide <- usdata_wide %>%
                          as_labelled_factor = TRUE)
 
 usdata_wide %>%
-   select(fake_id, p_status, p_alive.1, datedeath.1, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
+   dplyr::select(fake_id, p_status, p_alive.1, datedeath.1, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
 
 #alternatively, you can impute the date of death using lifedatmin_var
 usdata_wide %>%
@@ -210,7 +210,7 @@ usdata_wide <- usdata_wide %>%
                            fcdat_var = "t_datediag.1", spcdat_var = "t_datediag.2")
 
 usdata_wide %>%
-   select(fake_id, p_status, p_futimeyrs, p_alive.1, datedeath.1, t_datediag.1, t_datediag.2)
+   dplyr::select(fake_id, p_status, p_futimeyrs, p_alive.1, datedeath.1, t_datediag.1, t_datediag.2)
 
 ```
 
