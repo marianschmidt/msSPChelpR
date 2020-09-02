@@ -14,7 +14,7 @@ Imports:
     data.table (>= 1.12.9),
     dplyr (>= 1.0.0),
     glue (>= 1.3.0),
-    knitr,
+    haven,
     lubridate,
     magrittr,
     progress,
@@ -28,9 +28,9 @@ Imports:
     tidyr (>= 1.0.0),
     utils
 Suggests: 
-    roxygen2,
-    testthat (>= 2.1.0),
-    rmarkdown
+    rmarkdown,
+    knitr,
+    testthat (>= 2.1.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1
