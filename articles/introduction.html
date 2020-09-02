@@ -413,7 +413,7 @@
 <span class="co">#&gt; 7 NA - patient date of death is missing                                     46</span>
 
 <span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">p_status</span>, <span class="no">p_alive.1</span>, <span class="no">datedeath.1</span>, <span class="no">t_site_icd.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_site_icd.2</span>, <span class="no">t_datediag.2</span>)
+   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">p_status</span>, <span class="no">p_alive.1</span>, <span class="no">datedeath.1</span>, <span class="no">t_site_icd.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_site_icd.2</span>, <span class="no">t_datediag.2</span>)
 <span class="co">#&gt; # A tibble: 25,631 x 8</span>
 <span class="co">#&gt;    fake_id p_status p_alive.1 datedeath.1 t_site_icd.1 t_datediag.1 t_site_icd.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;    &lt;chr&gt;     &lt;date&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
@@ -539,7 +539,7 @@
 <span class="co">#&gt; 7 NA - patient date of death is…      NaN      Inf          -Inf           NA</span>
 
 <span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">p_status</span>, <span class="no">p_futimeyrs</span>, <span class="no">p_alive.1</span>, <span class="no">datedeath.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_datediag.2</span>)
+   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">p_status</span>, <span class="no">p_futimeyrs</span>, <span class="no">p_alive.1</span>, <span class="no">datedeath.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_datediag.2</span>)
 <span class="co">#&gt; # A tibble: 25,631 x 7</span>
 <span class="co">#&gt;    fake_id p_status  p_futimeyrs p_alive.1 datedeath.1 t_datediag.1 t_datediag.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;           &lt;dbl&gt; &lt;chr&gt;     &lt;date&gt;      &lt;date&gt;       &lt;date&gt;      </span>
