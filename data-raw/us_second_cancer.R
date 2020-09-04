@@ -98,7 +98,7 @@ cancer_pre <- tumors2 %>%
   dplyr::arrange(fake_id, SEQ_NUM)
   
 
-us_second_cancer <- cancer_pre %>%
+cancer_pre2 <- cancer_pre %>%
   #year of birth (first cancer diagnosis year minus age)
   dplyr::mutate(p_yeardob = case_when(SEQ_NUM == 1 ~ t_year - fc_age, TRUE ~ NA_real_)) %>%
   tidyr::fill(p_yeardob) %>%
@@ -123,9 +123,15 @@ us_second_cancer <- cancer_pre %>%
     #set date of death missing if Alive
     datedeath = dplyr::case_when(p_alive == "Dead" ~ datedeath,
                             TRUE ~ NA_Date_)) %>%
+  #dod: make sure that t_diagdat > p_datedeath, if not take p_lastdiag as datedeath
+  dplyr::mutate(datedeath = dplyr::case_when(datedeath < p_lastdiag ~ p_lastdiag,
+                                             TRUE ~ datedeath)) %>%
   #minimum year of death for missing dod
   dplyr::mutate(p_dodmin = dplyr::case_when(p_alive == "Dead" & is.na(datedeath)  ~ p_lastdiag,
-                                       TRUE ~ NA_Date_)) %>%
+                                       TRUE ~ NA_Date_))
+
+  
+us_second_cancer <- cancer_pre2 %>%
   #sort columns
   dplyr::select(fake_id, SEQ_NUM, registry, sex, race, datebirth, t_datediag, t_site_icd, t_dco, fc_age, datedeath, 
          p_alive, p_dodmin, fc_agegroup, t_yeardiag,
