@@ -239,6 +239,12 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">magrittr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/markfairbanks/tidytable">tidytable</a></span>) <span class="co">#temporary import of tidytable as long as expand.() is not exported</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'tidytable'</span>
+<span class="co">#&gt; The following object is masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     dt</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://marianschmidt.github.io/msSPChelpR">msSPChelpR</a></span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"us_second_cancer"</span>)
 </pre></div>
@@ -574,6 +580,150 @@
 <div id="step-sir-byfutime" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-sir-byfutime" class="anchor"></a>Step 8 - Calculate SIR</h3>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="kw">sircalc_results</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/sir_byfutime.html">sir_byfutime</a></span>(
+    dattype = <span class="st">"seer"</span>,
+    xbreak_var = <span class="st">"none"</span>,
+    ybreak_vars = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"race.1"</span>, <span class="st">"t_dco.1"</span>),
+    futime_breaks = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">Inf</span>),
+    count_var = <span class="st">"p_spc"</span>,
+    refrates_df = <span class="kw">us_refrates_icd2</span>,
+    calc_total_row = <span class="fl">TRUE</span>,
+    calc_total_fu = <span class="fl">TRUE</span>,
+    collapse_ci = <span class="fl">FALSE</span>,
+    region_var = <span class="st">"registry.1"</span>,
+    agegroup_var = <span class="st">"fc_agegroup.1"</span>,
+    sex_var = <span class="st">"sex.1"</span>,
+    year_var = <span class="st">"t_yeardiag.1"</span>,
+    site_var = <span class="st">"t_site_icd.1"</span>, <span class="co">#using grouping by second cancer incidence</span>
+    futime_var = <span class="st">"p_futimeyrs"</span>,
+    alpha = <span class="fl">0.05</span>)
+<span class="co">#&gt; There are 812rows in the data set for which futime_var is missing.</span>
+<span class="co">#&gt; Please make sure that you have: </span>
+<span class="co">#&gt;  - calculated FU time for all cases where the index event occured and</span>
+<span class="co">#&gt;  - have removed all cases from the dataset that do not count at baseline.</span>
+<span class="co">#&gt; Warning in sir_byfutime(., dattype = "seer", xbreak_var = "none", ybreak_vars =</span>
+<span class="co">#&gt; c("race.1", : The variable for follow-up time has: 812 missings. These will be</span>
+<span class="co">#&gt; omitted when creating the crosstabs.</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 4412 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: to1month,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1067 strata.</span>
+<span class="co">#&gt; However 4412 strata are required. Occured in: to1month,total_var</span>
+<span class="co">#&gt; For the following region, years, etc no reference rates can be found:# tidytable [4,411 × 5]</span>
+<span class="co">#&gt;    age     sex    region                                   year        t_site</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;                                    &lt;chr&gt;       &lt;chr&gt; </span>
+<span class="co">#&gt;  1 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1990 - 1994 C34   </span>
+<span class="co">#&gt;  2 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1990 - 1994 C50   </span>
+<span class="co">#&gt;  3 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1990 - 1994 C61   </span>
+<span class="co">#&gt;  4 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1990 - 1994 C18   </span>
+<span class="co">#&gt;  5 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1990 - 1994 C44   </span>
+<span class="co">#&gt;  6 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1990 - 1994 C64   </span>
+<span class="co">#&gt;  7 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1995 - 1999 C50   </span>
+<span class="co">#&gt;  8 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1995 - 1999 C34   </span>
+<span class="co">#&gt;  9 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1995 - 1999 C54   </span>
+<span class="co">#&gt; 10 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 1995 - 1999 C64   </span>
+<span class="co">#&gt; # … with 4,401 more rows</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 4396 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: x0833to0167years,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1065 strata.</span>
+<span class="co">#&gt; However 4396 strata are required. Occured in: x0833to0167years,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 4379 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: x167to1years,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1064 strata.</span>
+<span class="co">#&gt; However 4379 strata are required. Occured in: x167to1years,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 4215 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: xto5years,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1055 strata.</span>
+<span class="co">#&gt; However 4215 strata are required. Occured in: xto5years,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 3275 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: xto10years,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 885 strata.</span>
+<span class="co">#&gt; However 3275 strata are required. Occured in: xto10years,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 2259 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: x0plusyears,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 699 strata.</span>
+<span class="co">#&gt; However 2259 strata are required. Occured in: x0plusyears,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 4412 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: Total0toInfyears,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1067 strata.</span>
+<span class="co">#&gt; However 4412 strata are required. Occured in: Total0toInfyears,total_var</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 7148 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: to1month,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 2773 strata.</span>
+<span class="co">#&gt; However 7148 strata are required. Occured in: to1month,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 7114 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: x0833to0167years,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 2764 strata.</span>
+<span class="co">#&gt; However 7114 strata are required. Occured in: x0833to0167years,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 7083 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: x167to1years,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 2755 strata.</span>
+<span class="co">#&gt; However 7083 strata are required. Occured in: x167to1years,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 6774 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: xto5years,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 2686 strata.</span>
+<span class="co">#&gt; However 6774 strata are required. Occured in: xto5years,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 5117 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: xto10years,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 2195 strata.</span>
+<span class="co">#&gt; However 5117 strata are required. Occured in: xto10years,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 3400 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: x0plusyears,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1631 strata.</span>
+<span class="co">#&gt; However 3400 strata are required. Occured in: x0plusyears,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 7148 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: Total0toInfyears,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 2773 strata.</span>
+<span class="co">#&gt; However 7148 strata are required. Occured in: Total0toInfyears,race.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 5626 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: to1month,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1850 strata.</span>
+<span class="co">#&gt; However 5626 strata are required. Occured in: to1month,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 5598 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: x0833to0167years,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1843 strata.</span>
+<span class="co">#&gt; However 5598 strata are required. Occured in: x0833to0167years,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 5578 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: x167to1years,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1840 strata.</span>
+<span class="co">#&gt; However 5578 strata are required. Occured in: x167to1years,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 5341 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: xto5years,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1798 strata.</span>
+<span class="co">#&gt; However 5341 strata are required. Occured in: xto5years,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 4099 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: xto10years,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1479 strata.</span>
+<span class="co">#&gt; However 4099 strata are required. Occured in: xto10years,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 2757 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: x0plusyears,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1116 strata.</span>
+<span class="co">#&gt; However 2757 strata are required. Occured in: x0plusyears,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 5626 strata.</span>
+<span class="co">#&gt; However 0 strata are required. Occured in: Total0toInfyears,t_dco.1</span>
+<span class="co">#&gt; Warning: The calculation of observed events was performed for: 1850 strata.</span>
+<span class="co">#&gt; However 5626 strata are required. Occured in: Total0toInfyears,t_dco.1</span>
+
+<span class="kw">sircalc_results</span>
+<span class="co">#&gt; # tidytable [105,737 × 22]</span>
+<span class="co">#&gt;    age   region sex   year  yvar_name yvar_label fu_time t_site observed</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C18           0</span>
+<span class="co">#&gt;  2 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C34           0</span>
+<span class="co">#&gt;  3 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C44           0</span>
+<span class="co">#&gt;  4 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C50           0</span>
+<span class="co">#&gt;  5 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C61           0</span>
+<span class="co">#&gt;  6 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C64           0</span>
+<span class="co">#&gt;  7 00 -… SEER … Fema… 1990… total_var Overall    0.0833… C18           0</span>
+<span class="co">#&gt;  8 00 -… SEER … Fema… 1990… total_var Overall    0.0833… C34           0</span>
+<span class="co">#&gt;  9 00 -… SEER … Fema… 1990… total_var Overall    0.0833… C44           0</span>
+<span class="co">#&gt; 10 00 -… SEER … Fema… 1990… total_var Overall    0.0833… C50           0</span>
+<span class="co">#&gt; # … with 105,727 more rows, and 13 more variables: expected &lt;dbl&gt;, sir &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   sir_lci &lt;dbl&gt;, sir_uci &lt;dbl&gt;, pyar &lt;dbl&gt;, n_base &lt;dbl&gt;, race &lt;chr&gt;,</span>
+<span class="co">#&gt; #   ref_inc_cases &lt;int&gt;, ref_population_pyar &lt;int&gt;, ref_inc_crude_rate &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;, warning &lt;chr&gt;</span>
+</pre></div>
 </div>
 <div id="step-summarize-sir" class="section level3">
 <h3 class="hasAnchor">
@@ -612,7 +762,7 @@
 <div id="built-with" class="section level2">
 <h2 class="hasAnchor">
 <a href="#built-with" class="anchor"></a>Built with</h2>
-<div class="sourceCode" id="cb9"><pre class="downlit">
+<div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
 <span class="co">#&gt; R version 4.0.2 (2020-06-22)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
@@ -629,21 +779,21 @@
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] magrittr_1.5       dplyr_1.0.2        msSPChelpR_0.8.4.9</span>
+<span class="co">#&gt; [1] tidytable_0.5.5    magrittr_1.5       dplyr_1.0.2        msSPChelpR_0.8.4.9</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] Rcpp_1.0.5        cpp11_0.2.1       compiler_4.0.2    pillar_1.4.6     </span>
-<span class="co">#&gt;  [5] forcats_0.5.0     tools_4.0.2       digest_0.6.25     lubridate_1.7.9  </span>
-<span class="co">#&gt;  [9] evaluate_0.14     memoise_1.1.0     lifecycle_0.2.0   tibble_3.0.3     </span>
-<span class="co">#&gt; [13] pkgconfig_2.0.3   rlang_0.4.7       cli_2.0.2         yaml_2.2.1       </span>
-<span class="co">#&gt; [17] haven_2.3.1       pkgdown_1.6.0     xfun_0.16         stringr_1.4.0    </span>
-<span class="co">#&gt; [21] knitr_1.29        hms_0.5.3         generics_0.0.2    desc_1.2.0       </span>
-<span class="co">#&gt; [25] fs_1.5.0          vctrs_0.3.4       systemfonts_0.3.0 sjlabelled_1.1.6 </span>
-<span class="co">#&gt; [29] rprojroot_1.3-2   tidyselect_1.1.0  glue_1.4.2        data.table_1.13.0</span>
-<span class="co">#&gt; [33] R6_2.4.1          fansi_0.4.1       rmarkdown_2.3     purrr_0.3.4      </span>
-<span class="co">#&gt; [37] tidyr_1.1.2       backports_1.1.9   htmltools_0.5.0   ellipsis_0.3.1   </span>
-<span class="co">#&gt; [41] assertthat_0.2.1  insight_0.9.5     ragg_0.3.1        utf8_1.1.4       </span>
-<span class="co">#&gt; [45] stringi_1.4.6     crayon_1.3.4</span>
+<span class="co">#&gt;  [5] prettyunits_1.1.1 progress_1.2.2    forcats_0.5.0     tools_4.0.2      </span>
+<span class="co">#&gt;  [9] digest_0.6.25     lubridate_1.7.9   evaluate_0.14     memoise_1.1.0    </span>
+<span class="co">#&gt; [13] lifecycle_0.2.0   tibble_3.0.3      pkgconfig_2.0.3   rlang_0.4.7      </span>
+<span class="co">#&gt; [17] cli_2.0.2         yaml_2.2.1        haven_2.3.1       pkgdown_1.6.0    </span>
+<span class="co">#&gt; [21] xfun_0.16         stringr_1.4.0     knitr_1.29        hms_0.5.3        </span>
+<span class="co">#&gt; [25] generics_0.0.2    desc_1.2.0        fs_1.5.0          vctrs_0.3.4      </span>
+<span class="co">#&gt; [29] systemfonts_0.3.0 sjlabelled_1.1.6  rprojroot_1.3-2   tidyselect_1.1.0 </span>
+<span class="co">#&gt; [33] glue_1.4.2        data.table_1.13.0 R6_2.4.1          fansi_0.4.1      </span>
+<span class="co">#&gt; [37] rmarkdown_2.3     purrr_0.3.4       tidyr_1.1.2       backports_1.1.9  </span>
+<span class="co">#&gt; [41] htmltools_0.5.0   ellipsis_0.3.1    assertthat_0.2.1  insight_0.9.5    </span>
+<span class="co">#&gt; [45] ragg_0.3.1        utf8_1.1.4        stringi_1.4.6     crayon_1.3.4</span>
 </pre></div>
 </div>
 </div>
