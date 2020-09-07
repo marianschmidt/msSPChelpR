@@ -71,9 +71,7 @@ refrates_df must use the same category coding of age, sex, region, year and icdc
 
 \item{futime_var}{variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.}
 
-\item{alpha}{signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
-
-\item{pyar_var}{variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.}
+\item{alpha}{significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
 }
 \description{
 Calculate standardized incidence ratios with costum grouping variables by follow-up time
