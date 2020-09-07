@@ -94,7 +94,9 @@
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">msSPChelpR</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://marianschmidt.github.io/msSPChelpR">msSPChelpR</a></span>)
+</pre></div>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
@@ -226,7 +228,8 @@
 <div id="step-long" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-long" class="anchor"></a>Step 1 - Long dataset</h3>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'dplyr'</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
@@ -235,28 +238,30 @@
 <span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">magrittr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">msSPChelpR</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"us_second_cancer"</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">magrittr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://marianschmidt.github.io/msSPChelpR">msSPChelpR</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"us_second_cancer"</span>)
+</pre></div>
 </div>
 <div id="step-filter" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-filter" class="anchor"></a>Step 2 - Filter long dataset</h3>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co">#filter for lung cancer</span>
-<span class="no">ids</span> <span class="kw">&lt;-</span> <span class="no">us_second_cancer</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="co">#filter for lung cancer</span>
+<span class="kw">ids</span> <span class="op">&lt;-</span> <span class="kw">us_second_cancer</span> <span class="op">%&gt;%</span>
   <span class="co">#detect ids with any lung cancer</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">t_site_icd</span> <span class="kw">==</span> <span class="st">"C34"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw">t_site_icd</span> <span class="op">==</span> <span class="st">"C34"</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span>() <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span>() <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>()
 
-<span class="no">filtered_usdata</span> <span class="kw">&lt;-</span> <span class="no">us_second_cancer</span> <span class="kw">%&gt;%</span>
+<span class="kw">filtered_usdata</span> <span class="op">&lt;-</span> <span class="kw">us_second_cancer</span> <span class="op">%&gt;%</span>
   <span class="co">#filter according to above detected ids with any lung cancer diagnosis</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">fake_id</span> <span class="kw">%in%</span> <span class="no">ids</span>) <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">fake_id</span>)
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw">fake_id</span> <span class="op">%in%</span> <span class="kw">ids</span>) <span class="op">%&gt;%</span>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw">fake_id</span>)
 
-<span class="no">filtered_usdata</span>
+<span class="kw">filtered_usdata</span>
 <span class="co">#&gt; # A tibble: 51,178 x 15</span>
 <span class="co">#&gt;    fake_id SEQ_NUM registry sex   race  datebirth  t_datediag t_site_icd t_dco</span>
 <span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;</span>
@@ -272,19 +277,21 @@
 <span class="co">#&gt; 10 100110        1 SEER Re… Male  White 1992-01-01 1997-11-15 C34        hist…</span>
 <span class="co">#&gt; # … with 51,168 more rows, and 6 more variables: fc_age &lt;int&gt;,</span>
 <span class="co">#&gt; #   datedeath &lt;date&gt;, p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag &lt;chr&gt;</span></pre></body></html></div>
+<span class="co">#&gt; #   t_yeardiag &lt;chr&gt;</span>
+</pre></div>
 </div>
 <div id="step-renumber" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-renumber" class="anchor"></a>Step 3 - Renumber <code>time_id</code>
 </h3>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">renumbered_usdata</span> <span class="kw">&lt;-</span> <span class="no">filtered_usdata</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">msSPChelpR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/renumber_time_id.html">renumber_time_id</a></span>(<span class="kw">new_time_id_var</span> <span class="kw">=</span> <span class="st">"t_tumid"</span>,
-                                  <span class="kw">dattype</span> <span class="kw">=</span> <span class="st">"seer"</span>,
-                                  <span class="kw">case_id_var</span> <span class="kw">=</span> <span class="st">"fake_id"</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">renumbered_usdata</span> <span class="op">&lt;-</span> <span class="kw">filtered_usdata</span> <span class="op">%&gt;%</span>
+  <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/renumber_time_id.html">renumber_time_id</a></span>(new_time_id_var = <span class="st">"t_tumid"</span>, 
+                                  dattype = <span class="st">"seer"</span>,
+                                  case_id_var = <span class="st">"fake_id"</span>)
 
-<span class="no">renumbered_usdata</span> <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">sex</span>, <span class="no">t_site_icd</span>, <span class="no">t_datediag</span>, <span class="no">t_tumid</span>)
+<span class="kw">renumbered_usdata</span> <span class="op">%&gt;%</span>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">sex</span>, <span class="kw">t_site_icd</span>, <span class="kw">t_datediag</span>, <span class="kw">t_tumid</span>)
 <span class="co">#&gt; # A tibble: 51,178 x 5</span>
 <span class="co">#&gt;    fake_id sex    t_site_icd t_datediag t_tumid</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;date&gt;       &lt;int&gt;</span>
@@ -298,15 +305,17 @@
 <span class="co">#&gt;  8 100073  Male   C34        1991-08-15       1</span>
 <span class="co">#&gt;  9 100073  Male   C64        2002-12-15       2</span>
 <span class="co">#&gt; 10 100110  Male   C34        1997-11-15       1</span>
-<span class="co">#&gt; # … with 51,168 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 51,168 more rows</span>
+</pre></div>
 </div>
 <div id="step-reshape-wide" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-reshape-wide" class="anchor"></a>Step 4 - Reshape to wide dataset</h3>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">usdata_wide</span> <span class="kw">&lt;-</span> <span class="no">renumbered_usdata</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">msSPChelpR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr</a></span>(<span class="kw">case_id_var</span> <span class="kw">=</span> <span class="st">"fake_id"</span>, <span class="kw">time_id_var</span> <span class="kw">=</span> <span class="st">"t_tumid"</span>, <span class="kw">timevar_max</span> <span class="kw">=</span> <span class="fl">10</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">renumbered_usdata</span> <span class="op">%&gt;%</span>
+  <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr</a></span>(case_id_var = <span class="st">"fake_id"</span>, time_id_var = <span class="st">"t_tumid"</span>, timevar_max = <span class="fl">10</span>)
 
-<span class="no">usdata_wide</span>
+<span class="kw">usdata_wide</span>
 <span class="co">#&gt; # A tibble: 25,631 x 127</span>
 <span class="co">#&gt;    fake_id SEQ_NUM.1 SEQ_NUM.2 SEQ_NUM.3 SEQ_NUM.4 SEQ_NUM.5 SEQ_NUM.6 SEQ_NUM.7</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;</span>
@@ -347,19 +356,21 @@
 <span class="co">#&gt; #   p_alive.5 &lt;chr&gt;, p_alive.6 &lt;chr&gt;, p_alive.7 &lt;chr&gt;, p_alive.8 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   p_alive.9 &lt;chr&gt;, p_dodmin.1 &lt;date&gt;, p_dodmin.2 &lt;date&gt;, p_dodmin.3 &lt;date&gt;,</span>
 <span class="co">#&gt; #   p_dodmin.4 &lt;date&gt;, p_dodmin.5 &lt;date&gt;, p_dodmin.6 &lt;date&gt;, p_dodmin.7 &lt;date&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.8 &lt;date&gt;, …</span></pre></body></html></div>
+<span class="co">#&gt; #   p_dodmin.8 &lt;date&gt;, …</span>
+</pre></div>
 </div>
 <div id="step-spc" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-spc" class="anchor"></a>Step 5 - Recalculate <code>p_spc</code>
 </h3>
-<div class="sourceCode" id="cb6"><html><body><pre class="r">
-<span class="no">usdata_wide</span> <span class="kw">&lt;-</span> <span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">p_spc</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">t_site_icd.2</span>)   ~ <span class="st">"no SPC"</span>,
-                         !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">t_site_icd.2</span>)           ~ <span class="st">"SPC developed"</span>,
-                         <span class="fl">TRUE</span> ~ <span class="fl">NA_character_</span>))
-<span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">sex.1</span>, <span class="no">p_spc</span>, <span class="no">t_site_icd.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_site_icd.2</span>, <span class="no">t_datediag.2</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit">
+
+<span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(p_spc = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)   <span class="op">~</span> <span class="st">"no SPC"</span>,
+                         <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)           <span class="op">~</span> <span class="st">"SPC developed"</span>,
+                         <span class="fl">TRUE</span> <span class="op">~</span> <span class="fl">NA_character_</span>)) 
+<span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">sex.1</span>, <span class="kw">p_spc</span>, <span class="kw">t_site_icd.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_site_icd.2</span>, <span class="kw">t_datediag.2</span>)
 <span class="co">#&gt; # A tibble: 25,631 x 7</span>
 <span class="co">#&gt;    fake_id sex.1  p_spc      t_site_icd.1 t_datediag.1 t_site_icd.2 t_datediag.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;        &lt;date&gt;      </span>
@@ -373,21 +384,23 @@
 <span class="co">#&gt;  8 100192  Female no SPC     C34          2006-11-15   &lt;NA&gt;         NA          </span>
 <span class="co">#&gt;  9 100197  Female SPC devel… C80          1999-02-15   C34          2008-11-15  </span>
 <span class="co">#&gt; 10 100234  Male   SPC devel… C61          2002-06-15   C34          2012-10-15  </span>
-<span class="co">#&gt; # … with 25,621 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 25,621 more rows</span>
+</pre></div>
 </div>
 <div id="step-pat-status" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-pat-status" class="anchor"></a>Step 6 - Determine patient status at end of FU</h3>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">usdata_wide</span> <span class="kw">&lt;-</span> <span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">msSPChelpR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/pat_status.html">pat_status</a></span>(<span class="no">.</span>, <span class="kw">fu_end</span> <span class="kw">=</span> <span class="st">"2017-12-31"</span>, <span class="kw">dattype</span> <span class="kw">=</span> <span class="st">"seer"</span>,
-                         <span class="kw">status_var</span> <span class="kw">=</span> <span class="st">"p_status"</span>, <span class="kw">life_var</span> <span class="kw">=</span> <span class="st">"p_alive.1"</span>,
-                         <span class="kw">spc_var</span> <span class="kw">=</span> <span class="st">"p_spc"</span>, <span class="kw">birthdat_var</span> <span class="kw">=</span> <span class="st">"datebirth.1"</span>,
-                         <span class="kw">lifedat_var</span> <span class="kw">=</span> <span class="st">"datedeath.1"</span>, <span class="kw">fcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.1"</span>,
-                         <span class="kw">spcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.2"</span>, <span class="kw">life_stat_alive</span> <span class="kw">=</span> <span class="st">"Alive"</span>,
-                         <span class="kw">life_stat_dead</span> <span class="kw">=</span> <span class="st">"Dead"</span>, <span class="kw">spc_stat_yes</span> <span class="kw">=</span> <span class="st">"SPC developed"</span>,
-                         <span class="kw">spc_stat_no</span> <span class="kw">=</span> <span class="st">"no SPC"</span>, <span class="kw">lifedat_fu_end</span> <span class="kw">=</span> <span class="st">"2019-12-31"</span>,
-                         <span class="kw">use_lifedatmin</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">check</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                         <span class="kw">as_labelled_factor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+  <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/pat_status.html">pat_status</a></span>(<span class="kw">.</span>, fu_end = <span class="st">"2017-12-31"</span>, dattype = <span class="st">"seer"</span>,
+                         status_var = <span class="st">"p_status"</span>, life_var = <span class="st">"p_alive.1"</span>,
+                         spc_var = <span class="st">"p_spc"</span>, birthdat_var = <span class="st">"datebirth.1"</span>,
+                         lifedat_var = <span class="st">"datedeath.1"</span>, fcdat_var = <span class="st">"t_datediag.1"</span>,
+                         spcdat_var = <span class="st">"t_datediag.2"</span>, life_stat_alive = <span class="st">"Alive"</span>,
+                         life_stat_dead = <span class="st">"Dead"</span>, spc_stat_yes = <span class="st">"SPC developed"</span>,
+                         spc_stat_no = <span class="st">"no SPC"</span>, lifedat_fu_end = <span class="st">"2019-12-31"</span>,
+                         use_lifedatmin = <span class="fl">FALSE</span>, check = <span class="fl">TRUE</span>, 
+                         as_labelled_factor = <span class="fl">TRUE</span>)
 <span class="co">#&gt; # A tibble: 10 x 3</span>
 <span class="co">#&gt;    p_alive.1 p_status                                                          n</span>
 <span class="co">#&gt;    &lt;chr&gt;     &lt;fct&gt;                                                         &lt;int&gt;</span>
@@ -412,8 +425,8 @@
 <span class="co">#&gt; 6 NA - patient did not develop cancer before end of FU                     763</span>
 <span class="co">#&gt; 7 NA - patient date of death is missing                                     46</span>
 
-<span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">p_status</span>, <span class="no">p_alive.1</span>, <span class="no">datedeath.1</span>, <span class="no">t_site_icd.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_site_icd.2</span>, <span class="no">t_datediag.2</span>)
+<span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+   <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">p_status</span>, <span class="kw">p_alive.1</span>, <span class="kw">datedeath.1</span>, <span class="kw">t_site_icd.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_site_icd.2</span>, <span class="kw">t_datediag.2</span>)
 <span class="co">#&gt; # A tibble: 25,631 x 8</span>
 <span class="co">#&gt;    fake_id p_status p_alive.1 datedeath.1 t_site_icd.1 t_datediag.1 t_site_icd.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;    &lt;chr&gt;     &lt;date&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
@@ -430,16 +443,16 @@
 <span class="co">#&gt; # … with 25,621 more rows, and 1 more variable: t_datediag.2 &lt;date&gt;</span>
 
 <span class="co">#alternatively, you can impute the date of death using lifedatmin_var</span>
-<span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">msSPChelpR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/pat_status.html">pat_status</a></span>(<span class="no">.</span>, <span class="kw">fu_end</span> <span class="kw">=</span> <span class="st">"2017-12-31"</span>, <span class="kw">dattype</span> <span class="kw">=</span> <span class="st">"seer"</span>,
-                         <span class="kw">status_var</span> <span class="kw">=</span> <span class="st">"p_status"</span>, <span class="kw">life_var</span> <span class="kw">=</span> <span class="st">"p_alive.1"</span>,
-                         <span class="kw">spc_var</span> <span class="kw">=</span> <span class="st">"p_spc"</span>, <span class="kw">birthdat_var</span> <span class="kw">=</span> <span class="st">"datebirth.1"</span>,
-                         <span class="kw">lifedat_var</span> <span class="kw">=</span> <span class="st">"datedeath.1"</span>, <span class="kw">fcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.1"</span>,
-                         <span class="kw">spcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.2"</span>, <span class="kw">life_stat_alive</span> <span class="kw">=</span> <span class="st">"Alive"</span>,
-                         <span class="kw">life_stat_dead</span> <span class="kw">=</span> <span class="st">"Dead"</span>, <span class="kw">spc_stat_yes</span> <span class="kw">=</span> <span class="st">"SPC developed"</span>,
-                         <span class="kw">spc_stat_no</span> <span class="kw">=</span> <span class="st">"no SPC"</span>, <span class="kw">lifedat_fu_end</span> <span class="kw">=</span> <span class="st">"2019-12-31"</span>,
-                         <span class="kw">use_lifedatmin</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">lifedatmin_var</span> <span class="kw">=</span> <span class="st">"p_dodmin.1"</span>,
-                         <span class="kw">check</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">as_labelled_factor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+  <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/pat_status.html">pat_status</a></span>(<span class="kw">.</span>, fu_end = <span class="st">"2017-12-31"</span>, dattype = <span class="st">"seer"</span>,
+                         status_var = <span class="st">"p_status"</span>, life_var = <span class="st">"p_alive.1"</span>,
+                         spc_var = <span class="st">"p_spc"</span>, birthdat_var = <span class="st">"datebirth.1"</span>,
+                         lifedat_var = <span class="st">"datedeath.1"</span>, fcdat_var = <span class="st">"t_datediag.1"</span>,
+                         spcdat_var = <span class="st">"t_datediag.2"</span>, life_stat_alive = <span class="st">"Alive"</span>,
+                         life_stat_dead = <span class="st">"Dead"</span>, spc_stat_yes = <span class="st">"SPC developed"</span>,
+                         spc_stat_no = <span class="st">"no SPC"</span>, lifedat_fu_end = <span class="st">"2019-12-31"</span>,
+                         use_lifedatmin = <span class="fl">TRUE</span>, lifedatmin_var = <span class="st">"p_dodmin.1"</span>, 
+                         check = <span class="fl">TRUE</span>, as_labelled_factor = <span class="fl">TRUE</span>)
 <span class="co">#&gt; # A tibble: 9 x 3</span>
 <span class="co">#&gt;   p_alive.1 p_status                                                           n</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;fct&gt;                                                          &lt;int&gt;</span>
@@ -501,16 +514,18 @@
 <span class="co">#&gt; #   p_alive.5 &lt;chr&gt;, p_alive.6 &lt;chr&gt;, p_alive.7 &lt;chr&gt;, p_alive.8 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   p_alive.9 &lt;chr&gt;, p_dodmin.1 &lt;date&gt;, p_dodmin.2 &lt;date&gt;, p_dodmin.3 &lt;date&gt;,</span>
 <span class="co">#&gt; #   p_dodmin.4 &lt;date&gt;, p_dodmin.5 &lt;date&gt;, p_dodmin.6 &lt;date&gt;, p_dodmin.7 &lt;date&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.8 &lt;date&gt;, …</span></pre></body></html></div>
+<span class="co">#&gt; #   p_dodmin.8 &lt;date&gt;, …</span>
+</pre></div>
 </div>
 <div id="step-calc-futime" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-calc-futime" class="anchor"></a>Step 7 - Calculate FU time</h3>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">usdata_wide</span> <span class="kw">&lt;-</span> <span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-   <span class="kw pkg">msSPChelpR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/calc_futime.html">calc_futime</a></span>(<span class="no">.</span>, <span class="kw">futime_var_new</span> <span class="kw">=</span> <span class="st">"p_futimeyrs"</span>, <span class="kw">fu_end</span> <span class="kw">=</span> <span class="st">"2017-12-31"</span>,
-                           <span class="kw">dattype</span> <span class="kw">=</span> <span class="st">"seer"</span>, <span class="kw">time_unit</span> <span class="kw">=</span> <span class="st">"years"</span>,
-                           <span class="kw">lifedat_var</span> <span class="kw">=</span> <span class="st">"datedeath.1"</span>,
-                           <span class="kw">fcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.1"</span>, <span class="kw">spcdat_var</span> <span class="kw">=</span> <span class="st">"t_datediag.2"</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+   <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/calc_futime.html">calc_futime</a></span>(<span class="kw">.</span>, futime_var_new = <span class="st">"p_futimeyrs"</span>, fu_end = <span class="st">"2017-12-31"</span>,
+                           dattype = <span class="st">"seer"</span>, time_unit = <span class="st">"years"</span>, 
+                           lifedat_var = <span class="st">"datedeath.1"</span>, 
+                           fcdat_var = <span class="st">"t_datediag.1"</span>, spcdat_var = <span class="st">"t_datediag.2"</span>)
 <span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
 <span class="co">#&gt; to min; returning Inf</span>
 
@@ -538,8 +553,8 @@
 <span class="co">#&gt; 6 NA - patient did not develop …      NaN      Inf          -Inf           NA   </span>
 <span class="co">#&gt; 7 NA - patient date of death is…      NaN      Inf          -Inf           NA</span>
 
-<span class="no">usdata_wide</span> <span class="kw">%&gt;%</span>
-   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">fake_id</span>, <span class="no">p_status</span>, <span class="no">p_futimeyrs</span>, <span class="no">p_alive.1</span>, <span class="no">datedeath.1</span>, <span class="no">t_datediag.1</span>, <span class="no">t_datediag.2</span>)
+<span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+   <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">p_status</span>, <span class="kw">p_futimeyrs</span>, <span class="kw">p_alive.1</span>, <span class="kw">datedeath.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_datediag.2</span>)
 <span class="co">#&gt; # A tibble: 25,631 x 7</span>
 <span class="co">#&gt;    fake_id p_status  p_futimeyrs p_alive.1 datedeath.1 t_datediag.1 t_datediag.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;           &lt;dbl&gt; &lt;chr&gt;     &lt;date&gt;      &lt;date&gt;       &lt;date&gt;      </span>
@@ -553,7 +568,8 @@
 <span class="co">#&gt;  8 100192  patient …       11.1  Alive     NA          2006-11-15   NA          </span>
 <span class="co">#&gt;  9 100197  patient …        9.75 Alive     NA          1999-02-15   2008-11-15  </span>
 <span class="co">#&gt; 10 100234  patient …       10.3  Dead      2012-10-15  2002-06-15   2012-10-15  </span>
-<span class="co">#&gt; # … with 25,621 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 25,621 more rows</span>
+</pre></div>
 </div>
 <div id="step-sir-byfutime" class="section level3">
 <h3 class="hasAnchor">
@@ -596,7 +612,8 @@
 <div id="built-with" class="section level2">
 <h2 class="hasAnchor">
 <a href="#built-with" class="anchor"></a>Built with</h2>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
 <span class="co">#&gt; R version 4.0.2 (2020-06-22)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
 <span class="co">#&gt; Running under: macOS Catalina 10.15.6</span>
@@ -615,17 +632,19 @@
 <span class="co">#&gt; [1] magrittr_1.5       dplyr_1.0.2        msSPChelpR_0.8.4.9</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rcpp_1.0.5        compiler_4.0.2    pillar_1.4.6      forcats_0.5.0    </span>
-<span class="co">#&gt;  [5] tools_4.0.2       digest_0.6.25     lubridate_1.7.9   evaluate_0.14    </span>
-<span class="co">#&gt;  [9] memoise_1.1.0     lifecycle_0.2.0   tibble_3.0.3      pkgconfig_2.0.3  </span>
-<span class="co">#&gt; [13] rlang_0.4.7       cli_2.0.2         yaml_2.2.1        haven_2.3.1      </span>
-<span class="co">#&gt; [17] pkgdown_1.5.1     xfun_0.16         stringr_1.4.0     knitr_1.29       </span>
-<span class="co">#&gt; [21] generics_0.0.2    desc_1.2.0        fs_1.5.0          vctrs_0.3.4      </span>
-<span class="co">#&gt; [25] hms_0.5.3         sjlabelled_1.1.6  rprojroot_1.3-2   tidyselect_1.1.0 </span>
-<span class="co">#&gt; [29] glue_1.4.2        data.table_1.13.0 R6_2.4.1          fansi_0.4.1      </span>
-<span class="co">#&gt; [33] rmarkdown_2.3     purrr_0.3.4       tidyr_1.1.2       backports_1.1.9  </span>
-<span class="co">#&gt; [37] htmltools_0.5.0   ellipsis_0.3.1    MASS_7.3-51.6     assertthat_0.2.1 </span>
-<span class="co">#&gt; [41] insight_0.9.1     utf8_1.1.4        stringi_1.4.6     crayon_1.3.4</span></pre></body></html></div>
+<span class="co">#&gt;  [1] Rcpp_1.0.5        cpp11_0.2.1       compiler_4.0.2    pillar_1.4.6     </span>
+<span class="co">#&gt;  [5] forcats_0.5.0     tools_4.0.2       digest_0.6.25     lubridate_1.7.9  </span>
+<span class="co">#&gt;  [9] evaluate_0.14     memoise_1.1.0     lifecycle_0.2.0   tibble_3.0.3     </span>
+<span class="co">#&gt; [13] pkgconfig_2.0.3   rlang_0.4.7       cli_2.0.2         yaml_2.2.1       </span>
+<span class="co">#&gt; [17] haven_2.3.1       pkgdown_1.6.0     xfun_0.16         stringr_1.4.0    </span>
+<span class="co">#&gt; [21] knitr_1.29        hms_0.5.3         generics_0.0.2    desc_1.2.0       </span>
+<span class="co">#&gt; [25] fs_1.5.0          vctrs_0.3.4       systemfonts_0.3.0 sjlabelled_1.1.6 </span>
+<span class="co">#&gt; [29] rprojroot_1.3-2   tidyselect_1.1.0  glue_1.4.2        data.table_1.13.0</span>
+<span class="co">#&gt; [33] R6_2.4.1          fansi_0.4.1       rmarkdown_2.3     purrr_0.3.4      </span>
+<span class="co">#&gt; [37] tidyr_1.1.2       backports_1.1.9   htmltools_0.5.0   ellipsis_0.3.1   </span>
+<span class="co">#&gt; [41] assertthat_0.2.1  insight_0.9.5     ragg_0.3.1        utf8_1.1.4       </span>
+<span class="co">#&gt; [45] stringi_1.4.6     crayon_1.3.4</span>
+</pre></div>
 </div>
 </div>
   </div>
@@ -645,7 +664,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -133,13 +133,13 @@
     </div>
 
     <pre class="usage"><span class='fu'>renumber_time_id</span>(
-  <span class='no'>df</span>,
-  <span class='no'>new_time_id_var</span>,
-  <span class='kw'>dattype</span> <span class='kw'>=</span> <span class='st'>"zfkd"</span>,
-  <span class='kw'>case_id_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>time_id_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>diagdat_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>timevar_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>
+  <span class='kw'>df</span>,
+  <span class='kw'>new_time_id_var</span>,
+  dattype = <span class='st'>"zfkd"</span>,
+  case_id_var = <span class='kw'>NULL</span>,
+  time_id_var = <span class='kw'>NULL</span>,
+  diagdat_var = <span class='kw'>NULL</span>,
+  timevar_max = <span class='fl'>Inf</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -185,14 +185,15 @@ All tumors &gt; timevar_max will be deleted.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>us_second_cancer</span>)
- <span class='no'>renumbered_usdata</span> <span class='kw'>&lt;-</span> <span class='no'>us_second_cancer</span> <span class='kw'>%&gt;%</span>
- <span class='kw pkg'>msSPChelpR</span><span class='kw ns'>::</span><span class='fu'>renumber_time_id</span>(<span class='kw'>new_time_id_var</span> <span class='kw'>=</span> <span class='st'>"t_tumid"</span>,
-                             <span class='kw'>dattype</span> <span class='kw'>=</span> <span class='st'>"seer"</span>,
-                             <span class='kw'>case_id_var</span> <span class='kw'>=</span> <span class='st'>"fake_id"</span>)
-
-<span class='no'>renumbered_usdata</span> <span class='kw'>%&gt;%</span>
- <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>fake_id</span>, <span class='no'>sex</span>, <span class='no'>t_site_icd</span>, <span class='no'>t_datediag</span>, <span class='no'>t_tumid</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 113,999 x 5</span><span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>us_second_cancer</span>)
+ <span class='kw'>renumbered_usdata</span> <span class='op'>&lt;-</span> <span class='kw'>us_second_cancer</span> <span class='op'>%&gt;%</span>
+ <span class='kw'>msSPChelpR</span>::<span class='fu'>renumber_time_id</span>(new_time_id_var = <span class='st'>"t_tumid"</span>,
+                             dattype = <span class='st'>"seer"</span>,
+                             case_id_var = <span class='st'>"fake_id"</span>)
+                             
+<span class='kw'>renumbered_usdata</span> <span class='op'>%&gt;%</span>
+ <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>fake_id</span>, <span class='kw'>sex</span>, <span class='kw'>t_site_icd</span>, <span class='kw'>t_datediag</span>, <span class='kw'>t_tumid</span>)
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 113,999 x 5</span><span>
 #&gt;    fake_id sex    t_site_icd t_datediag t_tumid
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> 100004  Male   C34        2007-03-15       1
@@ -222,7 +223,7 @@ All tumors &gt; timevar_max will be deleted.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

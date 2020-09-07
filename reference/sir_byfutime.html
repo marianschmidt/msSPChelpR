@@ -133,30 +133,24 @@
     </div>
 
     <pre class="usage"><span class='fu'>sir_byfutime</span>(
-  <span class='no'>df</span>,
-  <span class='kw'>dattype</span> <span class='kw'>=</span> <span class='st'>"zfkd"</span>,
-  <span class='kw'>expcount_src</span> <span class='kw'>=</span> <span class='st'>"refrates"</span>,
-  <span class='kw'>futime_src</span> <span class='kw'>=</span> <span class='st'>"cohort"</span>,
-  <span class='kw'>xbreak_var</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>ybreak_vars</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>futime_breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>Inf</span>),
-  <span class='no'>count_var</span>,
-  <span class='kw'>refrates_df</span> <span class='kw'>=</span> <span class='no'>rates</span>,
-  <span class='kw'>calc_total_row</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>calc_total_fu</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>collapse_ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>stdpop_df</span> <span class='kw'>=</span> <span class='no'>standard_population</span>,
-  <span class='kw'>refpop_df</span> <span class='kw'>=</span> <span class='no'>population</span>,
-  <span class='kw'>std_pop</span> <span class='kw'>=</span> <span class='st'>"ESP2013"</span>,
-  <span class='kw'>truncate_std_pop</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>region_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>agegroup_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sex_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>year_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>site_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>futime_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pyar_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>
+  <span class='kw'>df</span>,
+  dattype = <span class='st'>"zfkd"</span>,
+  ybreak_vars = <span class='st'>"none"</span>,
+  xbreak_var = <span class='st'>"none"</span>,
+  futime_breaks = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>Inf</span>),
+  <span class='kw'>count_var</span>,
+  refrates_df = <span class='kw'>rates</span>,
+  calc_total_row = <span class='fl'>TRUE</span>,
+  calc_total_fu = <span class='fl'>TRUE</span>,
+  collapse_ci = <span class='fl'>FALSE</span>,
+  region_var = <span class='kw'>NULL</span>,
+  agegroup_var = <span class='kw'>NULL</span>,
+  sex_var = <span class='kw'>NULL</span>,
+  year_var = <span class='kw'>NULL</span>,
+  race_var = <span class='kw'>NULL</span>,
+  site_var = <span class='kw'>NULL</span>,
+  futime_var = <span class='kw'>NULL</span>,
+  alpha = <span class='fl'>0.05</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -171,25 +165,17 @@
       <td><p>can be "zfkd" or "seer" or empty. Will set default variable names from dataset.</p></td>
     </tr>
     <tr>
-      <th>expcount_src</th>
-      <td><p>can bei either "refrates" or "cohort"</p></td>
-    </tr>
-    <tr>
-      <th>futime_src</th>
-      <td><p>Source of follow-up time for calculating reference ratecan bei either "refpop" or "cohort"</p></td>
+      <th>ybreak_vars</th>
+      <td><p>variables from df by which SIRs should be stratified in result df. Multiple variables will result in
+appended rows in result df.
+Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Histology of second cancer).
+If y_break_vars = "none", no stratification is performed. Default is "none".</p></td>
     </tr>
     <tr>
       <th>xbreak_var</th>
       <td><p>One variable from df by which SIRs should be stratified as a second dimension in result df. This variable will be added as
 a second stratification dimension to ybreak_vars and all variables will be calculated for subpopulations of x and y combinations.
 Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Year of second cancer).
-If y_break_vars = "none", no stratification is performed. Default is "none".</p></td>
-    </tr>
-    <tr>
-      <th>ybreak_vars</th>
-      <td><p>variables from df by which SIRs should be stratified in result df. Multiple variables will result in
-appended rows in result df.
-Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Histology of second cancer).
 If y_break_vars = "none", no stratification is performed. Default is "none".</p></td>
     </tr>
     <tr>
@@ -222,27 +208,6 @@ refrates_df must use the same category coding of age, sex, region, year and icdc
       <td><p>If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.</p></td>
     </tr>
     <tr>
-      <th>stdpop_df</th>
-      <td><p>df where standard population is defined. It is assumed that stdpop_df has the columns "sex" for gender, "age" for age-groups,
-"standard_pop" for name of standard population (e.g. "European Standard Population 2013) and "population_n" for size of standard population age-group.
-stdpop_df must use the same category coding of age and sex as agegroup_var and sex_var.</p></td>
-    </tr>
-    <tr>
-      <th>refpop_df</th>
-      <td><p>df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns
-"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
-"population_pyar" for person-years at risk in the respective age/gender/year cohort.
-refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var.</p></td>
-    </tr>
-    <tr>
-      <th>std_pop</th>
-      <td><p>can be either "ESP2013, ESP1976, WHO1960</p></td>
-    </tr>
-    <tr>
-      <th>truncate_std_pop</th>
-      <td><p>if TRUE standard population will be truncated for all age-groups that do not occur in df</p></td>
-    </tr>
-    <tr>
       <th>region_var</th>
       <td><p>variable in df that contains information on region where case was incident. Default is set if dattype is given.</p></td>
     </tr>
@@ -259,6 +224,10 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
       <td><p>variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.</p></td>
     </tr>
     <tr>
+      <th>race_var</th>
+      <td><p>optional argument for dattype="seer", if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information.</p></td>
+    </tr>
+    <tr>
       <th>site_var</th>
       <td><p>variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.</p></td>
     </tr>
@@ -267,18 +236,15 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
       <td><p>variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.</p></td>
     </tr>
     <tr>
-      <th>pyar_var</th>
-      <td><p>variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.</p></td>
-    </tr>
-    <tr>
       <th>alpha</th>
       <td><p>signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.</p></td>
     </tr>
+    <tr>
+      <th>pyar_var</th>
+      <td><p>variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.</p></td>
+    </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>df</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -295,7 +261,7 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

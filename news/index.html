@@ -133,9 +133,11 @@
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h2>
 <ul>
-<li>tidytable variants of functions, i.e. <code><a href="../reference/reshape_wide_tt.html">reshape_wide_tt()</a></code>, <code><a href="../reference/renumber_time_id_tt.html">renumber_time_id_tt()</a></code>, <code><a href="../reference/pat_status_tt.html">pat_status_tt()</a></code>, <code><a href="../reference/vital_status_tt.html">vital_status_tt()</a></code>, <code><a href="../reference/calc_futime_tt.html">calc_futime_tt()</a></code>, <code><a href="../reference/sir_byfutime_tt.html">sir_byfutime_tt()</a></code> –&gt; the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.</li>
+<li>tidytable variants of functions, i.e. <code><a href="../reference/reshape_wide_tt.html">reshape_wide_tt()</a></code>, <code><a href="../reference/renumber_time_id_tt.html">renumber_time_id_tt()</a></code>, <code><a href="../reference/pat_status_tt.html">pat_status_tt()</a></code>, <code><a href="../reference/vital_status_tt.html">vital_status_tt()</a></code>, <code><a href="../reference/calc_futime_tt.html">calc_futime_tt()</a></code> –&gt; the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.</li>
 <li>
-<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> gained the option <code>race_var</code> to optionally stratify SIR calculations by race.</li>
+<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>:</li>
+<li>is much faster using tidytable package</li>
+<li>gained the option <code>race_var</code> to optionally stratify SIR calculations by race.</li>
 <li>new package website <a href="https://marianschmidt.github.io/msSPChelpR" class="uri">https://marianschmidt.github.io/msSPChelpR</a>
 </li>
 <li>new sample datasets included in the package to demonstrate examples (<a href='https://github.com/marianschmidt/msSPChelpR/issues/36'>#36</a>)</li>
@@ -148,8 +150,9 @@
 <li>
 <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>:
 <ul>
-<li>options <code>add_total_row</code> and <code>add_total_fu</code> are replaced by <code>calc_total_row</code> and <code>calc_total_fu</code>. These are logical parameters now. The positioning of total rows and colums is completely handled by the <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> function now. There total rows can be set to top and bottom and total columns to left and right.</li>
+<li>options <code>add_total_row</code> and <code>add_total_fu</code> are replaced by <code>calc_total_row</code> and <code>calc_total_fu</code>. These are logical parameters now. The positioning of total rows and columns is completely handled by the <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> function now. There total rows can be set to top and bottom and total columns to left and right.</li>
 <li>option <code>expcount_src</code> including related parameters <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code> and <code>pyar_var</code> have been removed. Function <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> will only work calculating expected counts based on reference rates, not within the cohort of the dataset. To calculate expected based on the cohort, a new function <code>create_refrates</code> will be added in the future. (<a href='https://github.com/marianschmidt/msSPChelpR/issues/41'>#41</a>)</li>
+<li>in total the parameters <code>expcount_src</code>, <code>futime_src</code>, <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code>, <code>pyar_var</code>, <code>collapse_ci</code> have been removed to simply the function –&gt; make sure you remove these arguments from your <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> function calls.</li>
 </ul>
 </li>
 <li>function <code>sir()</code> is superseded by the use of <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>. To migrate your former <code>sir()</code> functions, you can simply use <code><a href="../reference/sir_byfutime.html">sir_byfutime(, futime_breaks = "none")</a></code> that will yield the same results.</li>
@@ -157,7 +160,7 @@
 <li>now requires tidytable package</li>
 <li>rewrite of function <code><a href="../reference/reshape_long_tidyr.html">reshape_long_tidyr()</a></code>, option <code>var_selection</code> is deprecated. Please select variables before running the <code>reshape_long_*</code> functions.</li>
 <li>the default option name for tumor site variable changed from <code>icdcat_var</code> to <code>site_var</code>. This need manual update of function calls of <code>sir_byfutime*()</code> and <code><a href="../reference/asir.html">asir()</a></code>, if option is specified.</li>
-<li>the default variable name for tumor site in has been changed from <code>t_icdcat</code> to <code>t_site</code>. So the reference dataframes used will need to have a <code>t_site</code> column.</li>
+<li>the default variable name for tumor site in has been changed from <code>t_icdcat</code> to <code>t_site</code>. So the reference data frames used will need to have a <code>t_site</code> column.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -369,7 +372,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
