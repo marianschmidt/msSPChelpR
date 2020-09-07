@@ -13,6 +13,7 @@ A data frame with the following variables:
 \item{\code{sex}}{Sex}
 \item{\code{age}}{Age / Age groups}
 \item{\code{race}}{Race}
+\item{\code{comment}}{Comment}
 \item{\code{incidence_cases}}{Incident Cases (raw count)}
 \item{\code{incidence_crude_rate}}{Incidence Rate (crude rate)}
 \item{\code{population_pyar}}{Population Years used for rate calculation (PYAR)}
