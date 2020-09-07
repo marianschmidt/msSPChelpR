@@ -1,21 +1,24 @@
 # msSPChelpR (development version)
 
 ## New Features
-* tidytable variants of functions, i.e. `reshape_wide_tt()`, `renumber_time_id_tt()`, `pat_status_tt()`, `vital_status_tt()`,  `calc_futime_tt()`, `sir_byfutime_tt()` --> the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.
-* `sir_byfutime()` gained the option `race_var` to optionally stratify SIR calculations by race.
+* tidytable variants of functions, i.e. `reshape_wide_tt()`, `renumber_time_id_tt()`, `pat_status_tt()`, `vital_status_tt()`,  `calc_futime_tt()` --> the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.
+* `sir_byfutime()`:
+ * is much faster using tidytable package
+ * gained the option `race_var` to optionally stratify SIR calculations by race.
 * new package website https://marianschmidt.github.io/msSPChelpR
 * new sample datasets included in the package to demonstrate examples (#36)
 
 ## Breaking Changes
 * `sir_byfutime()`: 
-  * options `add_total_row` and `add_total_fu` are replaced by `calc_total_row` and `calc_total_fu`. These are logical parameters now. The positioning of total rows and colums is completely handled by the `summarize_sir_results()` function now. There total rows can be set to top and bottom and total columns to left and right.
+  * options `add_total_row` and `add_total_fu` are replaced by `calc_total_row` and `calc_total_fu`. These are logical parameters now. The positioning of total rows and columns is completely handled by the `summarize_sir_results()` function now. There total rows can be set to top and bottom and total columns to left and right.
   * option `expcount_src` including related parameters `stdpop_df`, `refpop_df`, `std_pop`, `truncate_std_pop` and `pyar_var` have been removed. Function `sir_byfutime()` will only work calculating expected counts based on reference rates, not within the cohort of the dataset. To calculate expected based on the cohort, a new function `create_refrates` will be added in the future. (#41)
+  * in total the parameters `expcount_src`, `futime_src`, `stdpop_df`, `refpop_df`, `std_pop`, `truncate_std_pop`, `pyar_var`, `collapse_ci` have been removed to simply the function --> make sure you remove these arguments from your `sir_byfutime()` function calls.
 * function `sir()` is superseded by the use of `sir_byfutime()`. To migrate your former `sir()` functions, you can simply use `sir_byfutime(, futime_breaks = "none")` that will yield the same results.
 * now requires dplyr version 1.0.0
 * now requires tidytable package
 * rewrite of function `reshape_long_tidyr()`, option `var_selection` is deprecated. Please select variables before running the `reshape_long_*` functions.
 * the default option name for tumor site variable changed from `icdcat_var` to `site_var`. This need manual update of function calls of `sir_byfutime*()` and `asir()`, if option is specified.
-* the default variable name for tumor site in has been changed from `t_icdcat` to `t_site`. So the reference dataframes used will need to have a `t_site` column.
+* the default variable name for tumor site in has been changed from `t_icdcat` to `t_site`. So the reference data frames used will need to have a `t_site` column.
 
 ## Bug Fixes
 * implement new reliable routine to split df when `reshape_wide()` with option `chunks` is used. Closes #1.
