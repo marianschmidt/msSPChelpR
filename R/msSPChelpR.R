@@ -45,6 +45,11 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "sir",
                                                         "sir_lci",
                                                         "sir_uci",
-                                                        "t_icdcat",
+                                                        "t_site",
+                                                        "race",
+                                                        "yvar_name",
+                                                        "yvar_label",
+                                                        "xvar_name",
+                                                        "xvar_label",
                                                         "year"
                                                         )) 
