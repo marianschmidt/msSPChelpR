@@ -137,5 +137,6 @@ us_second_cancer <- cancer_pre2 %>%
          p_alive, p_dodmin, fc_agegroup, t_yeardiag,
          -t_year, -t_month, -p_yeardob, -p_yeardod, -p_lastyear, -p_lastdiag, -miss, -ran_mon)
 
+rm(cancer_pre, cancer_pre2, pre_refrates, spc, tumors, tumors2)
 
 usethis::use_data(us_second_cancer, overwrite = TRUE)

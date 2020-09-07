@@ -10,6 +10,7 @@ pre_refrates <- tibble(
   year = c("1990 - 1994"),
   sex = c("Male"),
   age = c("30 - 34"),
+  comment = c("including DCO"),
   race = c("Black"),
   incidence_cases = c(5),
   population_pyar = c(15000)
@@ -51,5 +52,7 @@ us_refrates_icd2 <- pre_refrates %>%
   mutate(incidence_crude_rate = incidence_cases / population_pyar * 100000) %>%
   mutate(region = as_factor(region),
          sex = as.factor(sex))
+
+rm(pre_refrates, age_levels, race_levels, region_levels, sex_levels, site_levels, year_levels)
 
 usethis::use_data(us_refrates_icd2, overwrite = TRUE)
