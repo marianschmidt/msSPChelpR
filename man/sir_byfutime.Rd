@@ -7,27 +7,21 @@
 sir_byfutime(
   df,
   dattype = "zfkd",
-  expcount_src = "refrates",
-  futime_src = "cohort",
-  xbreak_var = "none",
   ybreak_vars = "none",
+  xbreak_var = "none",
   futime_breaks = c(0, 0.5, 1, 5, 10, Inf),
   count_var,
   refrates_df = rates,
   calc_total_row = TRUE,
   calc_total_fu = TRUE,
   collapse_ci = FALSE,
-  stdpop_df = standard_population,
-  refpop_df = population,
-  std_pop = "ESP2013",
-  truncate_std_pop = NULL,
   region_var = NULL,
   agegroup_var = NULL,
   sex_var = NULL,
   year_var = NULL,
+  race_var = NULL,
   site_var = NULL,
   futime_var = NULL,
-  pyar_var = NULL,
   alpha = 0.05
 )
 }
@@ -36,18 +30,14 @@ sir_byfutime(
 
 \item{dattype}{can be "zfkd" or "seer" or empty. Will set default variable names from dataset.}
 
-\item{expcount_src}{can bei either "refrates" or "cohort"}
-
-\item{futime_src}{Source of follow-up time for calculating reference ratecan bei either "refpop" or "cohort"}
+\item{ybreak_vars}{variables from df by which SIRs should be stratified in result df. Multiple variables will result in
+appended rows in result df.
+Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Histology of second cancer).
+If y_break_vars = "none", no stratification is performed. Default is "none".}
 
 \item{xbreak_var}{One variable from df by which SIRs should be stratified as a second dimension in result df. This variable will be added as
 a second stratification dimension to ybreak_vars and all variables will be calculated for subpopulations of x and y combinations.
 Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Year of second cancer).
-If y_break_vars = "none", no stratification is performed. Default is "none".}
-
-\item{ybreak_vars}{variables from df by which SIRs should be stratified in result df. Multiple variables will result in
-appended rows in result df.
-Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Histology of second cancer).
 If y_break_vars = "none", no stratification is performed. Default is "none".}
 
 \item{futime_breaks}{vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
@@ -67,19 +57,6 @@ refrates_df must use the same category coding of age, sex, region, year and icdc
 
 \item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
 
-\item{stdpop_df}{df where standard population is defined. It is assumed that stdpop_df has the columns "sex" for gender, "age" for age-groups,
-"standard_pop" for name of standard population (e.g. "European Standard Population 2013) and "population_n" for size of standard population age-group.
-stdpop_df must use the same category coding of age and sex as agegroup_var and sex_var.}
-
-\item{refpop_df}{df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns
-"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
-"population_pyar" for person-years at risk in the respective age/gender/year cohort.
-refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var.}
-
-\item{std_pop}{can be either "ESP2013, ESP1976, WHO1960}
-
-\item{truncate_std_pop}{if TRUE standard population will be truncated for all age-groups that do not occur in df}
-
 \item{region_var}{variable in df that contains information on region where case was incident. Default is set if dattype is given.}
 
 \item{agegroup_var}{variable in df that contains information on age-group. Default is set if dattype is given.}
@@ -88,16 +65,15 @@ refpop_df must use the same category coding of age, sex, region, year and icdcat
 
 \item{year_var}{variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.}
 
+\item{race_var}{optional argument for dattype="seer", if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information.}
+
 \item{site_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
 
 \item{futime_var}{variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.}
 
-\item{pyar_var}{variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.}
-
 \item{alpha}{signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
-}
-\value{
-df
+
+\item{pyar_var}{variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.}
 }
 \description{
 Calculate standardized incidence ratios with costum grouping variables by follow-up time
