@@ -142,9 +142,8 @@
   refrates_df = <span class='kw'>rates</span>,
   calc_total_row = <span class='fl'>TRUE</span>,
   calc_total_fu = <span class='fl'>TRUE</span>,
-  collapse_ci = <span class='fl'>FALSE</span>,
   region_var = <span class='kw'>NULL</span>,
-  agegroup_var = <span class='kw'>NULL</span>,
+  age_var = <span class='kw'>NULL</span>,
   sex_var = <span class='kw'>NULL</span>,
   year_var = <span class='kw'>NULL</span>,
   race_var = <span class='kw'>NULL</span>,
@@ -193,7 +192,7 @@ If you don't want to split by follow-up time, use futime_breaks = "none".</p></t
       <td><p>df where reference rate from general population are defined. It is assumed that refrates_df has the columns
 "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
-refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var.</p></td>
+refrates_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var.</p></td>
     </tr>
     <tr>
       <th>calc_total_row</th>
@@ -204,15 +203,11 @@ refrates_df must use the same category coding of age, sex, region, year and icdc
       <td><p>option to calculate totals for follow-up time. Can be either FALSE for not adding such a column or TRUE for adding. Default is TRUE.</p></td>
     </tr>
     <tr>
-      <th>collapse_ci</th>
-      <td><p>If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.</p></td>
-    </tr>
-    <tr>
       <th>region_var</th>
       <td><p>variable in df that contains information on region where case was incident. Default is set if dattype is given.</p></td>
     </tr>
     <tr>
-      <th>agegroup_var</th>
+      <th>age_var</th>
       <td><p>variable in df that contains information on age-group. Default is set if dattype is given.</p></td>
     </tr>
     <tr>
@@ -238,6 +233,10 @@ refrates_df must use the same category coding of age, sex, region, year and icdc
     <tr>
       <th>alpha</th>
       <td><p>significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.</p></td>
+    </tr>
+    <tr>
+      <th>collapse_ci</th>
+      <td><p>If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.</p></td>
     </tr>
     </table>
 

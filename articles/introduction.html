@@ -127,8 +127,8 @@
 <li>in the long version dataset a <code>count_var</code> should indicate whether the countable incident event (SPC) has occured or not. Coded <code>0</code> for non-occurence (or not counted event) and <code>1</code> for a counted incident event.</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li><p><a href="#step-renumber">Renumber filtered long dataset</a>: In the filter long dataset, you should run the helper function <code><a href="../reference/renumber_time_id_dt.html">msSPChelpR::renumber_time_id_dt()</a></code> (or non-data.table variant <code><a href="../reference/renumber_time_id.html">msSPChelpR::renumber_time_id()</a></code>) that will renumber all events per <code>case_id</code> and (if step 1 is fulfilled) will assign each index event with <code>time_var_new = 1</code> and each second (possibly countable incidenct event) with <code>time_var_new = 2</code>. Any SIR related function will only count the second event, if additionally to <code>time_var_new = 2</code> for this row also <code>count_var = 1</code> is true.</p></li>
-<li><p><a href="#step-reshape-wide">Reshape dataset</a>: Run <code><a href="../reference/reshape_wide_dt.html">msSPChelpR::reshape_wide_dt()</a></code> or non-data.table-variant <code><a href="../reference/reshape_wide.html">msSPChelpR::reshape_wide()</a></code>, so that datset is transposed to wide format (1 row per <code>case_id</code>, creating variables such as <code>count_var.2</code>).</p></li>
+<li><p><a href="#step-renumber">Renumber filtered long dataset</a>: In the filter long dataset, you should run the helper function <code>msSPChelpR::renumber_time_id_dt()</code> (or non-data.table variant <code><a href="../reference/renumber_time_id.html">msSPChelpR::renumber_time_id()</a></code>) that will renumber all events per <code>case_id</code> and (if step 1 is fulfilled) will assign each index event with <code>time_var_new = 1</code> and each second (possibly countable incidenct event) with <code>time_var_new = 2</code>. Any SIR related function will only count the second event, if additionally to <code>time_var_new = 2</code> for this row also <code>count_var = 1</code> is true.</p></li>
+<li><p><a href="#step-reshape-wide">Reshape dataset</a>: Run <code>msSPChelpR::reshape_wide_dt()</code> or non-data.table-variant <code><a href="../reference/reshape_wide.html">msSPChelpR::reshape_wide()</a></code>, so that datset is transposed to wide format (1 row per <code>case_id</code>, creating variables such as <code>count_var.2</code>).</p></li>
 <li><p><a href="#step-spc">Set flag for Second Primary Cancer diagnosis</a>: After filtering and reshaping it is essential to set <code>p_spc</code> again. This variable will be used by later steps of the analysis.</p></li>
 <li><p><a href="#step-pat-status">Determine patient status</a> at a defined end of follow-up by using the <code><a href="../reference/pat_status.html">msSPChelpR::pat_status()</a></code> function. This date for end of follow-up must:</p></li>
 </ol>
@@ -584,16 +584,15 @@
 <span class="kw">sircalc_results</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/sir_byfutime.html">sir_byfutime</a></span>(
     dattype = <span class="st">"seer"</span>,
-    xbreak_var = <span class="st">"none"</span>,
     ybreak_vars = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"race.1"</span>, <span class="st">"t_dco.1"</span>),
+    xbreak_var = <span class="st">"none"</span>,
     futime_breaks = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">Inf</span>),
     count_var = <span class="st">"p_spc"</span>,
     refrates_df = <span class="kw">us_refrates_icd2</span>,
     calc_total_row = <span class="fl">TRUE</span>,
     calc_total_fu = <span class="fl">TRUE</span>,
-    collapse_ci = <span class="fl">FALSE</span>,
     region_var = <span class="st">"registry.1"</span>,
-    agegroup_var = <span class="st">"fc_agegroup.1"</span>,
+    age_var = <span class="st">"fc_agegroup.1"</span>,
     sex_var = <span class="st">"sex.1"</span>,
     year_var = <span class="st">"t_yeardiag.1"</span>,
     site_var = <span class="st">"t_site_icd.1"</span>, <span class="co">#using grouping by second cancer incidence</span>
@@ -603,9 +602,9 @@
 <span class="co">#&gt; Please make sure that you have: </span>
 <span class="co">#&gt;  - calculated FU time for all cases where the index event occured and</span>
 <span class="co">#&gt;  - have removed all cases from the dataset that do not count at baseline.</span>
-<span class="co">#&gt; Warning in sir_byfutime(., dattype = "seer", xbreak_var = "none", ybreak_vars =</span>
-<span class="co">#&gt; c("race.1", : The variable for follow-up time has: 812 missings. These will be</span>
-<span class="co">#&gt; omitted when creating the crosstabs.</span>
+<span class="co">#&gt; Warning in sir_byfutime(., dattype = "seer", ybreak_vars = c("race.1", "t_dco.</span>
+<span class="co">#&gt; 1"), : The variable for follow-up time has: 812 missings. These will be omitted</span>
+<span class="co">#&gt; when creating the crosstabs.</span>
 <span class="co">#&gt; Warning: The calculation of observed events was performed for: 4412 strata.</span>
 <span class="co">#&gt; However 0 strata are required. Occured in: to1month,total_var</span>
 <span class="co">#&gt; Warning: The calculation of observed events was performed for: 1067 strata.</span>
