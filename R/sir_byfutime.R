@@ -191,7 +191,7 @@ sir_byfutime <- function(df,
   problems_missing_futime_attr <- c()
   
   
-  # create vector with basic matching variables age, sex, region, icdcat, year
+  # create vector with basic matching variables age, sex, region, site_var, year
   
   strata_var_names <- c(rlang::as_string(age_var), rlang::as_string(sex_var), rlang::as_string(region_var), rlang::as_string(site_var), rlang::as_string(year_var))
   
@@ -225,7 +225,6 @@ sir_byfutime <- function(df,
     )
   }
   
-  
   #CHK3: check whether all cases used for analysis have futime calculated
   
   if (fu){
@@ -254,7 +253,6 @@ sir_byfutime <- function(df,
   }
   
   # ---- 1 data modifcations ----
-  
   
   ## --- 1a: prepare df
   
@@ -310,7 +308,7 @@ sir_byfutime <- function(df,
   used_sex <- unique(df$sex)
   used_region <- unique(df$region)
   used_year <- unique(df$year)
-  used_icdcat <- unique(df$icdcat)
+  used_t_site<- unique(df$t_site)
   if(rs){
     used_race <- unique(df$race)
   } else {
@@ -453,7 +451,7 @@ sir_byfutime <- function(df,
   refrates_df[] <- lapply(refrates_df, function(x) { attributes(x) <- NULL; x })
   
   
-  #refrates_df -> filter lines that are not needed in age, sex, region, year, but do not filter for icd_cat
+  #refrates_df -> filter lines that are not needed in age, sex, region, year, but do not filter for t_site
   refrates_df <- refrates_df %>%
     tidytable::filter.(age %in% !!used_age,
                        sex %in% !!used_sex,
@@ -575,13 +573,15 @@ sir_byfutime <- function(df,
                                      if(yb){rlang::as_string(syb_var)}, if(xb){rlang::as_string(sxb_var)}, 
                                      rlang::as_string(fub_var))))
       
-      sircalc_fu <- sircalc_fu %>% #complete groups where i_observed = 0
+      sircalc_fu <- sircalc_fu %>% #only keep relevant groups and fill NA with 0
         tidytable::filter.(!!fub_var == 1) %>%  #remove category fub_var == 0, which does not apply #incompatiblity with fu=FALSE (unclear, how to do conditional filtering)
         tidytable::mutate.(
           i_pyar = tidytable::case.(is.na(i_pyar), 0,
                                     default = i_pyar),
           n_base = tidytable::case.(is.na(n_base), 0,
                                     default = n_base))
+      
+      #fill missing syb_var and sxb_var categories with explicit "missing"
       if(yb){
         sircalc_fu <- sircalc_fu %>% 
           tidytable::mutate.(
@@ -613,7 +613,7 @@ sir_byfutime <- function(df,
       #required number of strata in fu is distinct combinations of age, sex, region, year, syb, sxb, race found in df
       n_strata_required_fu <- df %>%
         tidytable::filter.(!!fub_var == 1) %>%
-        tidytable::distinct.(tidyselect::all_of(c("age", "sex", "region", "year", "t_site",
+        tidytable::distinct.(tidyselect::all_of(c("age", "sex", "region", "year", 
                                                   if(rs){"race"},
                                                   if(yb){rlang::as_string(syb_var)}, if(xb){rlang::as_string(sxb_var)}))) %>%
         nrow()
@@ -913,7 +913,7 @@ sir_byfutime <- function(df,
   }
   
   #final dataset should have the structure: columns
-  #icdcat #yvars(1-y) #xvar1 #xvar2 #xvar3 ..#xvarx _ #n_base #observed #expected #pyar #sir #sir_uci #sir_lci
+  #t_site #yvars(1-y) #xvar1 #xvar2 #xvar3 ..#xvarx _ #n_base #observed #expected #pyar #sir #sir_uci #sir_lci
   
   
   #vi) rename vars
