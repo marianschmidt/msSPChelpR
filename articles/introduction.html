@@ -522,46 +522,47 @@
 <span class="co">#&gt; #   p_dodmin.4 &lt;date&gt;, p_dodmin.5 &lt;date&gt;, p_dodmin.6 &lt;date&gt;, p_dodmin.7 &lt;date&gt;,</span>
 <span class="co">#&gt; #   p_dodmin.8 &lt;date&gt;, …</span>
 </pre></div>
+<div id="step-6b---remove-patients-irrelevant-to-analysis-depending-on-status" class="section level4">
+<h4 class="hasAnchor">
+<a href="#step-6b---remove-patients-irrelevant-to-analysis-depending-on-status" class="anchor"></a>Step 6b - Remove patients irrelevant to analysis depending on status</h4>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">p_status</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"NA - patient not born before end of FU"</span>,
+                                 <span class="st">"NA - patient did not develop cancer before end of FU"</span>,
+                                 <span class="st">"NA - patient date of death is missing"</span>))
+
+<span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
+  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="kw">p_status</span>)
+<span class="co">#&gt; # A tibble: 4 x 2</span>
+<span class="co">#&gt;   p_status                                                                   n</span>
+<span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
+<span class="co">#&gt; 1 patient alive after FC (with or without following SPC after end of FU)  5295</span>
+<span class="co">#&gt; 2 patient alive after SPC                                                10440</span>
+<span class="co">#&gt; 3 patient dead after FC                                                   4740</span>
+<span class="co">#&gt; 4 patient dead after SPC                                                  4344</span>
+</pre></div>
+</div>
 </div>
 <div id="step-calc-futime" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-calc-futime" class="anchor"></a>Step 7 - Calculate FU time</h3>
-<div class="sourceCode" id="cb8"><pre class="downlit">
+<div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/calc_futime.html">calc_futime</a></span>(<span class="kw">.</span>, futime_var_new = <span class="st">"p_futimeyrs"</span>, fu_end = <span class="st">"2017-12-31"</span>,
                            dattype = <span class="st">"seer"</span>, time_unit = <span class="st">"years"</span>, 
                            lifedat_var = <span class="st">"datedeath.1"</span>, 
                            fcdat_var = <span class="st">"t_datediag.1"</span>, spcdat_var = <span class="st">"t_datediag.2"</span>)
-<span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to min; returning Inf</span>
-
-<span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to min; returning Inf</span>
-
-<span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to min; returning Inf</span>
-<span class="co">#&gt; Warning in max(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to max; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to max; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to max; returning -Inf</span>
-<span class="co">#&gt; # A tibble: 7 x 5</span>
+<span class="co">#&gt; # A tibble: 4 x 5</span>
 <span class="co">#&gt;   p_status                       mean_futime min_futime max_futime median_futime</span>
 <span class="co">#&gt;   &lt;fct&gt;                                &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 patient alive after FC (with …        9.70     0.0438       27.0          8.63</span>
 <span class="co">#&gt; 2 patient alive after SPC               8.62     0            26.7          7.42</span>
 <span class="co">#&gt; 3 patient dead after FC                 8.53     0            25.8          7.46</span>
 <span class="co">#&gt; 4 patient dead after SPC                6.41     0            25.3          5.17</span>
-<span class="co">#&gt; 5 NA - patient not born before …      NaN      Inf          -Inf           NA   </span>
-<span class="co">#&gt; 6 NA - patient did not develop …      NaN      Inf          -Inf           NA   </span>
-<span class="co">#&gt; 7 NA - patient date of death is…      NaN      Inf          -Inf           NA</span>
 
 <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">p_status</span>, <span class="kw">p_futimeyrs</span>, <span class="kw">p_alive.1</span>, <span class="kw">datedeath.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_datediag.2</span>)
-<span class="co">#&gt; # A tibble: 25,631 x 7</span>
+<span class="co">#&gt; # A tibble: 24,819 x 7</span>
 <span class="co">#&gt;    fake_id p_status  p_futimeyrs p_alive.1 datedeath.1 t_datediag.1 t_datediag.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;           &lt;dbl&gt; &lt;chr&gt;     &lt;date&gt;      &lt;date&gt;       &lt;date&gt;      </span>
 <span class="co">#&gt;  1 100004  patient …        4.84 Alive     NA          2007-03-15   2012-01-15  </span>
@@ -574,13 +575,13 @@
 <span class="co">#&gt;  8 100192  patient …       11.1  Alive     NA          2006-11-15   NA          </span>
 <span class="co">#&gt;  9 100197  patient …        9.75 Alive     NA          1999-02-15   2008-11-15  </span>
 <span class="co">#&gt; 10 100234  patient …       10.3  Dead      2012-10-15  2002-06-15   2012-10-15  </span>
-<span class="co">#&gt; # … with 25,621 more rows</span>
+<span class="co">#&gt; # … with 24,809 more rows</span>
 </pre></div>
 </div>
 <div id="step-sir-byfutime" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-sir-byfutime" class="anchor"></a>Step 8 - Calculate SIR</h3>
-<div class="sourceCode" id="cb9"><pre class="downlit">
+<div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="kw">sircalc_results</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/sir_byfutime.html">sir_byfutime</a></span>(
     dattype = <span class="st">"seer"</span>,
@@ -598,13 +599,6 @@
     site_var = <span class="st">"t_site_icd.1"</span>, <span class="co">#using grouping by second cancer incidence</span>
     futime_var = <span class="st">"p_futimeyrs"</span>,
     alpha = <span class="fl">0.05</span>)
-<span class="co">#&gt; There are 812rows in the data set for which futime_var is missing.</span>
-<span class="co">#&gt; Please make sure that you have: </span>
-<span class="co">#&gt;  - calculated FU time for all cases where the index event occured and</span>
-<span class="co">#&gt;  - have removed all cases from the dataset that do not count at baseline.</span>
-<span class="co">#&gt; Warning in sir_byfutime(., dattype = "seer", ybreak_vars = c("race.1", "t_dco.</span>
-<span class="co">#&gt; 1"), : The variable for follow-up time has: 812 missings. These will be omitted</span>
-<span class="co">#&gt; when creating the crosstabs.</span>
 <span class="co">#&gt; Warning: The calculation of observed events was performed for: 1067 strata.</span>
 <span class="co">#&gt; However 4412 strata are required. Occured in: to1month,total_var</span>
 <span class="co">#&gt; Warning: The number of expected missing strata for fu calc are: 130. However</span>
@@ -780,7 +774,7 @@
 <div id="built-with" class="section level2">
 <h2 class="hasAnchor">
 <a href="#built-with" class="anchor"></a>Built with</h2>
-<div class="sourceCode" id="cb10"><pre class="downlit">
+<div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
 <span class="co">#&gt; R version 4.0.2 (2020-06-22)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
