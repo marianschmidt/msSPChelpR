@@ -286,7 +286,7 @@ summarize_sir_results <- function(sir_df,
     if("sex" %in% sg_var_names == TRUE){
       if(shorten_total_cols==FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(sex = paste0("Total - All included genders: ", paste(used_sex, collapse = ", ")))
+          dplyr::mutate(sex = paste0("Total - All included sexes: ", paste(used_sex, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
           dplyr::mutate(sex = "Total")

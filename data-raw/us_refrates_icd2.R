@@ -76,7 +76,7 @@ pre_refrates2 <- bind_rows(pre_refrates, sum_rate_race)
 
 #sex groups
 sum_rate_sex <- pre_refrates2 %>%
-  mutate(sex_group = "Total - All genders") %>%
+  mutate(sex_group = "Total - All sexes") %>%
   filter(sex_group != "") %>%
   group_by(sex_group, t_site, region, year, age, race) %>%
   summarise(incidence_cases = sum(incidence_cases),

@@ -18,12 +18,12 @@
 #' @param calc_total_fu option to calculate totals for follow-up time. Can be either FALSE for not adding such a column or TRUE for adding. Default is TRUE.
 #' @param count_var variable to be counted as observed case. Cases are usually the second cancers. Should be 1 for case to be counted.
 #' @param refrates_df df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
-#'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
-#'                  "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
+#'                  "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
+#'                  "incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.
 #'                  refrates_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var. 
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
 #' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
-#' @param sex_var variable in df that contains information on gender. Default is set if dattype is given.
+#' @param sex_var variable in df that contains information on sex. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
 #' @param race_var optional argument for dattype="seer", if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information.
 #' @param site_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
@@ -879,7 +879,7 @@ sir_byfutime <- function(df,
   ### F5: Restructuring results
   
   #checking results 
-  #CHK_R1 - PYARS should be the same for all age, gender, year, region groups
+  #CHK_R1 - PYARS should be the same for all age, sex, year, region groups
   
   problems_pyar <- sir_longresult %>% 
     tidytable::summarize.(
@@ -890,10 +890,10 @@ sir_byfutime <- function(df,
     tidytable::filter.(min_pyar != max_pyar)
   
   if(nrow(problems_pyar) > 0){
-    rlang::inform(paste0("There are differing pyar values for the same age, gender, year, region strata:"
+    rlang::inform(paste0("There are differing pyar values for the same age, sex, year, region strata:"
                          ,paste0(utils::capture.output(problems_pyar), collapse = "\n"), collapse = "\n"))
     problems_pyar_attr <- c(problems_pyar_attr, 
-                            paste0("There are differing pyar values for the same age, gender, year, region strata:", 
+                            paste0("There are differing pyar values for the same age, sex, year, region strata:", 
                                    utils::capture.output(problems_pyar), collapse = "\n")) #save information to write as attribute later
   }
   

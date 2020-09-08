@@ -10,16 +10,16 @@
 #'                 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var. 
 #'                 Define multiple summarize variables by summarize_groups = c("region", "sex", "year")
 #' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
-#' @param stdpop_df df where standard population is defined. It is assumed that stdpop_df has the columns "sex" for gender, "age" for age-groups,
+#' @param stdpop_df df where standard population is defined. It is assumed that stdpop_df has the columns "sex" for biological sex, "age" for age-groups,
 #'                  "standard_pop" for name of standard population (e.g. "European Standard Population 2013) and "population_n" for size of standard population age-group.
 #'                  stdpop_df must use the same category coding of age and sex as age_var and sex_var.
 #' @param refpop_df df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns 
-#'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
-#'                  "population_pyar" for person-years at risk in the respective age/gender/year cohort.
+#'                  "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
+#'                  "population_pyar" for person-years at risk in the respective age/sex/year cohort.
 #'                  refpop_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var. 
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
 #' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
-#' @param sex_var variable in df that contains information on gender. Default is set if dattype is given.
+#' @param sex_var variable in df that contains information on biological sex. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
 #' @param site_var variable in df that contains information on ICD code of case diagnosis. Default is set if dattype is given.
 #' @param futime_var variable in df that contains follow-up time per person (in years) in cohort (can only be used with futime_src = "cohort"). Default is set if dattype is given.
@@ -235,7 +235,7 @@ asir <-
       
       #c_DM1: calc observe and follow-up times and absolute incidence rates
       
-      #c_DM1a calc observed counts per stratum i by region, age-group, gender, year of PC diagnosis and ICD-Code of canc_id
+      #c_DM1a calc observed counts per stratum i by region, age-group, sex, year of PC diagnosis and ICD-Code of canc_id
       sircalc_count <- df %>%
         dplyr::group_by(!!region_var,
                         !!age_var,
@@ -245,7 +245,7 @@ asir <-
         dplyr::summarize(i_observed = sum(!!count_var)) %>%
         dplyr::ungroup()
       
-      #c_DM1b calc follow-up times in dataset per stratum i by region, age-group, gender, year of PC diagnosis
+      #c_DM1b calc follow-up times in dataset per stratum i by region, age-group, sex, year of PC diagnosis
       sircalc_fu <- df %>%
         dplyr::group_by(!!region_var,!!age_var,!!sex_var,!!year_var) %>%
         dplyr::summarize(i_pyar = sum(!!futime_var, na.rm = TRUE)) %>%
@@ -470,7 +470,7 @@ asir <-
       
       #r_DM1: calc observe and make nested dataframe
       
-      #r_1b calc observed counts per stratum i by region, age-group, gender, year of PC diagnosis and ICD-Code of canc_id
+      #r_1b calc observed counts per stratum i by region, age-group, sex, year of PC diagnosis and ICD-Code of canc_id
       sircalc_count <- df %>%
         dplyr::group_by(!!region_var,
                         !!age_var,
@@ -557,10 +557,10 @@ asir <-
       
       #DM3: merge reference population
       
-      #CHK3: check if all regions, ages, genders, years can be found in reference population dataset and give error if not
+      #CHK3: check if all regions, ages, sexes, years can be found in reference population dataset and give error if not
       
       
-      message(paste("The following regions, age groups, years, genders and ICD codes are considered: ",
+      message(paste("The following regions, age groups, years, sexes and ICD codes are considered: ",
                     paste(used_region, collapse = ", "),
                     paste(used_year, collapse = ", "),
                     paste(used_ages, collapse = ", "),
@@ -899,7 +899,7 @@ asir <-
         
         if("sex" %in% sum_var_names == TRUE){
           asir_results_sum <- asir_results_sum %>%
-            dplyr::mutate(sex = paste0("Total - All included genders: ", paste(used_sex, collapse = ", ")))
+            dplyr::mutate(sex = paste0("Total - All included sexes: ", paste(used_sex, collapse = ", ")))
         }
         
         if("year" %in% sum_var_names == TRUE){
