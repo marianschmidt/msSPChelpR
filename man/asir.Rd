@@ -41,20 +41,20 @@ Define multiple summarize variables by summarize_groups = c("region", "sex", "ye
 
 \item{count_var}{variable to be counted as observed case. Should be 1 for case to be counted.}
 
-\item{stdpop_df}{df where standard population is defined. It is assumed that stdpop_df has the columns "sex" for gender, "age" for age-groups,
+\item{stdpop_df}{df where standard population is defined. It is assumed that stdpop_df has the columns "sex" for biological sex, "age" for age-groups,
 "standard_pop" for name of standard population (e.g. "European Standard Population 2013) and "population_n" for size of standard population age-group.
 stdpop_df must use the same category coding of age and sex as age_var and sex_var.}
 
 \item{refpop_df}{df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns
-"region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
-"population_pyar" for person-years at risk in the respective age/gender/year cohort.
+"region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
+"population_pyar" for person-years at risk in the respective age/sex/year cohort.
 refpop_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var.}
 
 \item{region_var}{variable in df that contains information on region where case was incident. Default is set if dattype is given.}
 
 \item{age_var}{variable in df that contains information on age-group. Default is set if dattype is given.}
 
-\item{sex_var}{variable in df that contains information on gender. Default is set if dattype is given.}
+\item{sex_var}{variable in df that contains information on biological sex. Default is set if dattype is given.}
 
 \item{year_var}{variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.}
 
