@@ -152,15 +152,32 @@
 <ul>
 <li>options <code>add_total_row</code> and <code>add_total_fu</code> are replaced by <code>calc_total_row</code> and <code>calc_total_fu</code>. These are logical parameters now. The positioning of total rows and columns is completely handled by the <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> function now. There total rows can be set to top and bottom and total columns to left and right.</li>
 <li>option <code>expcount_src</code> including related parameters <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code> and <code>pyar_var</code> have been removed. Function <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> will only work calculating expected counts based on reference rates, not within the cohort of the dataset. To calculate expected based on the cohort, a new function <code>create_refrates</code> will be added in the future. (<a href='https://github.com/marianschmidt/msSPChelpR/issues/41'>#41</a>)</li>
-<li>in total the parameters <code>expcount_src</code>, <code>futime_src</code>, <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code>, <code>pyar_var</code>, <code>collapse_ci</code> have been removed to simply the function –&gt; make sure you remove these arguments from your <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> function calls.</li>
+<li>option <code>collapse_ci</code> has been removed and added to <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> instead.</li>
+<li>option name for tumor site variable changed from <code>icdcat_var</code> to <code>site_var</code>
+</li>
+<li>option name for age/ageroup variable changed from <code>agegroup_var</code> to <code>age_var</code>
+</li>
+<li>in total the parameters <code>expcount_src</code>, <code>futime_src</code>, <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code>, <code>pyar_var</code>, <code>icdcat_var</code>, <code>collapse_ci</code> have been removed to simply the function –&gt; make sure you remove these arguments from your <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> function calls.</li>
 </ul>
 </li>
-<li>function <code>sir()</code> is superseded by the use of <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>. To migrate your former <code>sir()</code> functions, you can simply use <code><a href="../reference/sir_byfutime.html">sir_byfutime(, futime_breaks = "none")</a></code> that will yield the same results.</li>
+<li>
+<code>sir()</code>: is superseded by the use of <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>. To migrate your former <code>sir()</code> functions, you can simply use <code><a href="../reference/sir_byfutime.html">sir_byfutime(, futime_breaks = "none")</a></code> that will yield the same results.</li>
+<li>
+<code><a href="../reference/reshape_long_tidyr.html">reshape_long_tidyr()</a></code>: option <code>var_selection</code> is deprecated. Please select variables before running the <code>reshape_long_*</code> functions.</li>
+<li>
+<code><a href="../reference/asir.html">asir()</a></code>:
+<ul>
+<li>option name for age/ageroup variable changed from <code>agegroup_var</code> to <code>age_var</code>
+</li>
+<li>option name for tumor site variable changed from <code>icdcat_var</code> to <code>site_var</code>
+</li>
+</ul>
+</li>
 <li>now requires dplyr version 1.0.0</li>
 <li>now requires tidytable package</li>
-<li>rewrite of function <code><a href="../reference/reshape_long_tidyr.html">reshape_long_tidyr()</a></code>, option <code>var_selection</code> is deprecated. Please select variables before running the <code>reshape_long_*</code> functions.</li>
-<li>the default option name for tumor site variable changed from <code>icdcat_var</code> to <code>site_var</code>. This need manual update of function calls of <code>sir_byfutime*()</code> and <code><a href="../reference/asir.html">asir()</a></code>, if option is specified.</li>
-<li>the default variable name for tumor site in has been changed from <code>t_icdcat</code> to <code>t_site</code>. So the reference data frames used will need to have a <code>t_site</code> column.</li>
+<li>the default option name for tumor site variable changed from <code>icdcat_var</code> to <code>site_var</code>. This need manual update of function calls of <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> and <code><a href="../reference/asir.html">asir()</a></code>, if option is specified.</li>
+<li>the default variable name for tumor site in all functions has been changed from <code>t_icdcat</code> to <code>t_site</code>. So the reference data frames used will need to have a <code>t_site</code> column.</li>
+<li>the data.table variants of functions (<code>renumber_time_id_dt()</code>, <code>pat_status_dt()</code>, <code>reshape_long_dt()</code>, <code>reshape_wide_dt()</code>, <code>vital_status_dt()</code>) have been removed for simplicity, please use tidytable variants, i.e. <code><a href="../reference/reshape_wide_tt.html">reshape_wide_tt()</a></code>, <code><a href="../reference/renumber_time_id_tt.html">renumber_time_id_tt()</a></code>, <code><a href="../reference/pat_status_tt.html">pat_status_tt()</a></code>, <code><a href="../reference/vital_status_tt.html">vital_status_tt()</a></code>, <code><a href="../reference/calc_futime_tt.html">calc_futime_tt()</a></code>, instead. They will give the same data.table output and same performance.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
