@@ -222,8 +222,8 @@ usdata_wide %>%
 sircalc_results <- usdata_wide %>%
   sir_byfutime(
     dattype = "seer",
-    xbreak_var = "none",
     ybreak_vars = c("race.1", "t_dco.1"),
+    xbreak_var = "none",
     futime_breaks = c(0, 1/12, 2/12, 1, 5, 10, Inf),
     count_var = "p_spc",
     refrates_df = us_refrates_icd2,
