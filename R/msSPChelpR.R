@@ -53,3 +53,8 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "xvar_label",
                                                         "year"
                                                         )) 
+#to avoid problems at rhub check use the following code
+# rhub::check(
+#   platform="windows-x86_64-devel",
+#   env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always")
+# )
