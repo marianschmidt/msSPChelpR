@@ -14,7 +14,6 @@
 #' @param futime_breaks vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
 #'                      Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years). 
 #'                      If you don't want to split by follow-up time, use futime_breaks = "none".
-#' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
 #' @param calc_total_row option to calculate a row of totals. Can be either FALSE for not adding such a row or TRUE for adding it at the first row. Default is TRUE.
 #' @param calc_total_fu option to calculate totals for follow-up time. Can be either FALSE for not adding such a column or TRUE for adding. Default is TRUE.
 #' @param count_var variable to be counted as observed case. Cases are usually the second cancers. Should be 1 for case to be counted.
@@ -232,7 +231,7 @@ sir_byfutime <- function(df,
   if (fu){
     
     problems_missing_futime <- df %>%
-      tidytable::filter.(is.na(rlang::eval_tidy(!!futime_var, data = .)))
+      tidytable::filter.(is.na(rlang::eval_tidy(!!futime_var)))
     
     if (nrow(problems_missing_futime) > 0) {
       rlang::inform(
