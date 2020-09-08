@@ -48,7 +48,7 @@ If you don't want to split by follow-up time, use futime_breaks = "none".}
 \item{refrates_df}{df where reference rate from general population are defined. It is assumed that refrates_df has the columns
 "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.
-refrates_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var.}
+refrates_df must use the same category coding of age, sex, region, year and t_site as age_var, sex_var, region_var, year_var and site_var.}
 
 \item{calc_total_row}{option to calculate a row of totals. Can be either FALSE for not adding such a row or TRUE for adding it at the first row. Default is TRUE.}
 

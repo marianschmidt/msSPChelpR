@@ -7,7 +7,7 @@
 summarize_sir_results(
   sir_df,
   summarize_groups,
-  summarize_icdcat,
+  summarize_site,
   output = "long",
   output_information = "full",
   add_total_row = "no",
@@ -27,7 +27,7 @@ summarize_sir_results(
 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var.
 Define multiple summarize variables by summarize_groups = c("region", "sex", "year")}
 
-\item{summarize_icdcat}{option to summarize over all ICD codes}
+\item{summarize_site}{option to summarize over all ICD codes}
 
 \item{output}{Define the format of the output. Can be either "nested" for nested dataframe with fubreak_var and xbreak_var in separate sub_tables (purrr).
 Or "wide" for wide format where fubreak_var and xbreak_var are appended as columns.

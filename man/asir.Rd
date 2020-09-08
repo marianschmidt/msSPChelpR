@@ -48,7 +48,7 @@ stdpop_df must use the same category coding of age and sex as age_var and sex_va
 \item{refpop_df}{df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns
 "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "population_pyar" for person-years at risk in the respective age/sex/year cohort.
-refpop_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var.}
+refpop_df must use the same category coding of age, sex, region, year and site as age_var, sex_var, region_var, year_var and site_var.}
 
 \item{region_var}{variable in df that contains information on region where case was incident. Default is set if dattype is given.}
 
