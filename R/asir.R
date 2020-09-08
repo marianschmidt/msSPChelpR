@@ -16,7 +16,7 @@
 #' @param refpop_df df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns 
 #'                  "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
 #'                  "population_pyar" for person-years at risk in the respective age/sex/year cohort.
-#'                  refpop_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var. 
+#'                  refpop_df must use the same category coding of age, sex, region, year and site as age_var, sex_var, region_var, year_var and site_var. 
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
 #' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on biological sex. Default is set if dattype is given.
@@ -503,7 +503,7 @@ asir <-
         dplyr::pull()%>%
         as.character()
       
-      used_icdcat <- sircalc_count %>%
+      used_t_sites <- sircalc_count %>%
         dplyr::distinct(!!site_var) %>%
         dplyr::pull()%>%
         as.character()
@@ -520,7 +520,7 @@ asir <-
         dplyr::mutate(age = as.character(!!age_var),
                       sex = as.character(!!sex_var))
       
-      #o)filling-up emty categories of region, year and icdcat
+      #o)filling-up empty categories of region, year and t_site
       
       max_sircalc <- sircalc_count %>%
         tidyr::expand(.data$age, .data$sex, !!region_var, !!site_var, !!year_var)
@@ -565,7 +565,7 @@ asir <-
                     paste(used_year, collapse = ", "),
                     paste(used_ages, collapse = ", "),
                     paste(used_sex, collapse = ", "),
-                    paste(used_icdcat, collapse = ", ")))
+                    paste(used_t_sites, collapse = ", ")))
       
       ref_sex <- refpop_df %>%
         dplyr::distinct(.data$sex) %>% 
@@ -780,7 +780,7 @@ asir <-
       }
       
       asir_results <- asir_results %>%
-        dplyr::mutate(icdcat = !!site_var) %>%
+        dplyr::mutate(t_site = !!site_var) %>%
         dplyr::rename(
           observed = .data$group_observed,
           pyar = .data$group_pyar,
@@ -791,7 +791,7 @@ asir <-
         dplyr::mutate(dplyr::across(.cols = c(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, 
                                               .data$asir_lci_gam, .data$asir_uci_gam), .fns = ~round(.,2))) %>%
         dplyr::mutate(dplyr::across(.cols = .data$pyar, ~ round(.,0))) %>%
-        dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$icdcat, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
+        dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$t_site, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                       .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
       
       
@@ -823,14 +823,14 @@ asir <-
         }
         
         #all variables that could be grouping vars
-        all_grouping_vars <- c("region", "sex", "year", "icdcat")
+        all_grouping_vars <- c("region", "sex", "year", "t_site")
         
         #3b remove from grouping vars those who should be summarized
         grouping_vars <- all_grouping_vars[!(all_grouping_vars %in% sum_var_names)]
         
         #3c group with age to make summary of observed, pyrs, group_proportion_recalc
         asir_results_sum_tmp <- sircalc %>%
-          dplyr::mutate(icdcat = as.character(!!site_var)) %>%
+          dplyr::mutate(t_site = as.character(!!site_var)) %>%
           dplyr::group_by(dplyr::across(tidyselect::all_of(c(grouping_vars, "age"))), .drop = FALSE) %>%
           dplyr::summarize(
             group_observed = sum(.data$i_observed, na.rm = TRUE),
@@ -907,9 +907,9 @@ asir <-
             dplyr::mutate(year = paste0("Total - All included years: ", min_year, " - ", max_year))
         }
         
-        if("icdcat" %in% sum_var_names == TRUE){
+        if("t_site" %in% sum_var_names == TRUE){
           asir_results_sum <- asir_results_sum %>%
-            dplyr::mutate(icdcat = paste0("Total - All included ICD categories: ", paste(used_icdcat, collapse = ", ")))
+            dplyr::mutate(t_site = paste0("Total - All included ICD categories: ", paste(used_t_sites, collapse = ", ")))
         }
         
         asir_results_sum <- asir_results_sum %>%
@@ -923,7 +923,7 @@ asir <-
           dplyr::mutate(dplyr::across(.cols = c(.data$asir, .data$asir_copy, .data$abs_ir, .data$abs_ir_lci, .data$abs_ir_uci, .data$asir_lci, .data$asir_uci, .data$asir_lci_gam, 
                                                 .data$asir_uci_gam), .fns = ~ round(.,2))) %>%
           dplyr::mutate(dplyr::across(.cols = .data$pyar, ~ round(.,0))) %>%
-          dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$icdcat, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
+          dplyr::select(.data$age, .data$region, .data$sex, .data$year, .data$t_site, .data$asir, .data$observed, .data$pyar, .data$abs_ir, .data$abs_ir_lci, 
                         .data$abs_ir_uci, .data$asir_copy, .data$asir_lci, .data$asir_lci_gam, .data$asir_uci, .data$asir_uci_gam, .data$asir_e6)
         
         return(asir_results_sum)
