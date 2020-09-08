@@ -44,7 +44,6 @@ sir_byfutime <- function(df,
                          refrates_df = rates,
                          calc_total_row = TRUE,
                          calc_total_fu = TRUE,
-                         collapse_ci = FALSE,
                          region_var = NULL,
                          agegroup_var = NULL,
                          sex_var = NULL,
@@ -527,7 +526,6 @@ sir_byfutime <- function(df,
                                          if(rs){"race"},
                                          if(yb){rlang::as_string(syb_var)}, if(xb){rlang::as_string(sxb_var)}))
       
-      
       sircalc_count <- sircalc_count %>% #complete groups where i_observed = 0
         tidytable::filter.(!!fub_var == 1) %>%  #remove category fub_var == 0, which does not apply #incompatiblity with fu=FALSE (unclear, how to do conditional filtering)
         tidytable::complete.(., !!!complete_vars_quo, t_site = !!refrates_icd_all) %>%
@@ -941,18 +939,6 @@ sir_byfutime <- function(df,
   
   #collapse_ci option
   
-  if(!is.logical(collapse_ci)){
-    rlang::inform("Parameter `collapse_ci` should be logical (TRUE or FALSE). Default `collapse_ci = FALSE` will be used instead.")
-    collapse_ci <- FALSE
-  }
-  
-  if(collapse_ci == TRUE){
-    
-    sir_result_pre <- sir_result_pre %>%
-      tidytable::unite.(col = "sir_ci", sir_lci, sir_uci, sep = " - ")
-  }
-  
-  
   
   ### F5: labeling and returning results
   
@@ -967,9 +953,7 @@ sir_byfutime <- function(df,
     tidytable::select.(tidyselect::any_of(c("age", "region", "sex", if(rs){"race"}, "year", 
                                             if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
                                             if(fu){"fu_time"}, 
-                                            "t_site", "observed", "expected", "sir",
-                                            if(collapse_ci == TRUE){"sir_ci"},
-                                            if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
+                                            "t_site", "observed", "expected", "sir", "sir_lci", "sir_uci")),
                        tidyselect::everything()) %>% 
     tidytable::arrange.(!!!final_sort_var_quo)
   
