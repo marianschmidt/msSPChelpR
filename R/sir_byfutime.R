@@ -232,7 +232,7 @@ sir_byfutime <- function(df,
   if (fu){
     
     problems_missing_futime <- df %>%
-      tidytable::filter.(is.na(rlang::eval_tidy(!!futime_var)))
+      tidytable::filter.(is.na(rlang::eval_tidy(!!futime_var, data = .)))
     
     if (nrow(problems_missing_futime) > 0) {
       rlang::inform(
