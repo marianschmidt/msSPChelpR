@@ -21,9 +21,9 @@
 #' @param refrates_df df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
 #'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
 #'                  "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
-#'                  refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var. 
+#'                  refrates_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var. 
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
-#' @param agegroup_var variable in df that contains information on age-group. Default is set if dattype is given.
+#' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on gender. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
 #' @param race_var optional argument for dattype="seer", if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information.
@@ -45,7 +45,7 @@ sir_byfutime <- function(df,
                          calc_total_row = TRUE,
                          calc_total_fu = TRUE,
                          region_var = NULL,
-                         agegroup_var = NULL,
+                         age_var = NULL,
                          sex_var = NULL,
                          year_var = NULL,
                          race_var = NULL,    #optional when matching by race is wanted
@@ -118,10 +118,10 @@ sir_byfutime <- function(df,
     } else{
       region_var <- rlang::ensym(region_var)
     }
-    if (is.null(agegroup_var)) {
-      agegroup_var <- rlang::sym("t_agegroup.1")
+    if (is.null(age_var)) {
+      age_var <- rlang::sym("t_agegroup.1")
     } else{
-      agegroup_var <- rlang::ensym(agegroup_var)
+      age_var <- rlang::ensym(age_var)
     }
     if (is.null(sex_var)) {
       sex_var <- rlang::sym("SEX.1")
@@ -156,10 +156,10 @@ sir_byfutime <- function(df,
     } else{
       region_var <- rlang::ensym(region_var)
     }
-    if (is.null(agegroup_var)) {
-      agegroup_var <- rlang::sym("t_agegroupdiag.1")
+    if (is.null(age_var)) {
+      age_var <- rlang::sym("t_agegroupdiag.1")
     } else{
-      agegroup_var <- rlang::ensym(agegroup_var)
+      age_var <- rlang::ensym(age_var)
     }
     if (is.null(sex_var)) {
       sex_var <- rlang::sym("SEX.1")
@@ -194,7 +194,7 @@ sir_byfutime <- function(df,
   
   # create vector with basic matching variables age, sex, region, icdcat, year
   
-  strata_var_names <- c(rlang::as_string(agegroup_var), rlang::as_string(sex_var), rlang::as_string(region_var), rlang::as_string(site_var), rlang::as_string(year_var))
+  strata_var_names <- c(rlang::as_string(age_var), rlang::as_string(sex_var), rlang::as_string(region_var), rlang::as_string(site_var), rlang::as_string(year_var))
   
   #add additional options for cohort calculations
   
@@ -203,7 +203,7 @@ sir_byfutime <- function(df,
   defined_vars <-
     c(
       rlang::as_string(region_var),
-      rlang::as_string(agegroup_var),
+      rlang::as_string(age_var),
       rlang::as_string(sex_var),
       rlang::as_string(year_var),
       rlang::as_string(site_var),
@@ -274,7 +274,7 @@ sir_byfutime <- function(df,
   #make all important variables characters and make NAs explicit (for better matching)
   df <- df %>%
     tidytable::mutate.(
-      age = as.character(!!agegroup_var),
+      age = as.character(!!age_var),
       sex = as.character(!!sex_var),
       region = as.character(!!region_var),
       year = as.character(!!year_var),
