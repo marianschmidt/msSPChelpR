@@ -229,9 +229,8 @@ sircalc_results <- usdata_wide %>%
     refrates_df = us_refrates_icd2,
     calc_total_row = TRUE,
     calc_total_fu = TRUE,
-    collapse_ci = FALSE,
     region_var = "registry.1",
-    agegroup_var = "fc_agegroup.1",
+    age_var = "fc_agegroup.1",
     sex_var = "sex.1",
     year_var = "t_yeardiag.1",
     site_var = "t_site_icd.1", #using grouping by second cancer incidence
