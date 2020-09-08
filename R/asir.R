@@ -12,13 +12,13 @@
 #' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
 #' @param stdpop_df df where standard population is defined. It is assumed that stdpop_df has the columns "sex" for gender, "age" for age-groups,
 #'                  "standard_pop" for name of standard population (e.g. "European Standard Population 2013) and "population_n" for size of standard population age-group.
-#'                  stdpop_df must use the same category coding of age and sex as agegroup_var and sex_var.
+#'                  stdpop_df must use the same category coding of age and sex as age_var and sex_var.
 #' @param refpop_df df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns 
 #'                  "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
 #'                  "population_pyar" for person-years at risk in the respective age/gender/year cohort.
-#'                  refpop_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var. 
+#'                  refpop_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var. 
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
-#' @param agegroup_var variable in df that contains information on age-group. Default is set if dattype is given.
+#' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on gender. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
 #' @param site_var variable in df that contains information on ICD code of case diagnosis. Default is set if dattype is given.
@@ -43,7 +43,7 @@ asir <-
            stdpop_df = standard_population,
            refpop_df = population,
            region_var = NULL,
-           agegroup_var = NULL,
+           age_var = NULL,
            sex_var = NULL,
            year_var = NULL,
            site_var = NULL,
@@ -109,10 +109,10 @@ asir <-
       } else{
         region_var <- rlang::ensym(region_var)
       }
-      if (is.null(agegroup_var)) {
-        agegroup_var <- rlang::sym("t_agegroup.1")
+      if (is.null(age_var)) {
+        age_var <- rlang::sym("t_agegroup.1")
       } else{
-        agegroup_var <- rlang::ensym(agegroup_var)
+        age_var <- rlang::ensym(age_var)
       }
       if (is.null(sex_var)) {
         sex_var <- rlang::sym("SEX.1")
@@ -144,10 +144,10 @@ asir <-
       } else{
         region_var <- rlang::ensym(region_var)
       }
-      if (is.null(agegroup_var)) {
-        agegroup_var <- rlang::sym("t_agegroupdiag.1")
+      if (is.null(age_var)) {
+        age_var <- rlang::sym("t_agegroupdiag.1")
       } else{
-        agegroup_var <- rlang::ensym(agegroup_var)
+        age_var <- rlang::ensym(age_var)
       }
       if (is.null(sex_var)) {
         sex_var <- rlang::sym("SEX.1")
@@ -207,7 +207,7 @@ asir <-
     defined_vars <-
       c(
         rlang::as_name(region_var),
-        rlang::as_name(agegroup_var),
+        rlang::as_name(age_var),
         rlang::as_name(sex_var),
         rlang::as_name(year_var),
         rlang::as_name(site_var),
@@ -238,7 +238,7 @@ asir <-
       #c_DM1a calc observed counts per stratum i by region, age-group, gender, year of PC diagnosis and ICD-Code of canc_id
       sircalc_count <- df %>%
         dplyr::group_by(!!region_var,
-                        !!agegroup_var,
+                        !!age_var,
                         !!sex_var,
                         !!year_var,
                         !!site_var) %>%
@@ -247,7 +247,7 @@ asir <-
       
       #c_DM1b calc follow-up times in dataset per stratum i by region, age-group, gender, year of PC diagnosis
       sircalc_fu <- df %>%
-        dplyr::group_by(!!region_var,!!agegroup_var,!!sex_var,!!year_var) %>%
+        dplyr::group_by(!!region_var,!!age_var,!!sex_var,!!year_var) %>%
         dplyr::summarize(i_pyar = sum(!!futime_var, na.rm = TRUE)) %>%
         dplyr::ungroup()
       
@@ -258,7 +258,7 @@ asir <-
           sircalc_count,
           by = c(
             rlang::expr_text(region_var),
-            rlang::expr_text(agegroup_var),
+            rlang::expr_text(age_var),
             rlang::expr_text(sex_var),
             rlang::expr_text(year_var)
           )
@@ -282,7 +282,7 @@ asir <-
         as.character()                       
       
       used_ages <- sircalc %>%
-        dplyr::distinct(!!agegroup_var) %>%
+        dplyr::distinct(!!age_var) %>%
         dplyr::pull()%>%
         as.character()
       
@@ -327,9 +327,9 @@ asir <-
       #c_DM2b: prepare sircalc data
       
       sircalc <- sircalc %>%
-        dplyr::mutate(age = as.character(!!agegroup_var),
+        dplyr::mutate(age = as.character(!!age_var),
                       sex = as.character(!!sex_var)) %>%
-        dplyr::select(-!!agegroup_var,-!!sex_var)
+        dplyr::select(-!!age_var,-!!sex_var)
       
       #i)making nested version of df and joining populations to each df
       sircalc_nest <- sircalc %>%
@@ -473,7 +473,7 @@ asir <-
       #r_1b calc observed counts per stratum i by region, age-group, gender, year of PC diagnosis and ICD-Code of canc_id
       sircalc_count <- df %>%
         dplyr::group_by(!!region_var,
-                        !!agegroup_var,
+                        !!age_var,
                         !!sex_var,
                         !!year_var,
                         !!site_var) %>%
@@ -499,7 +499,7 @@ asir <-
         as.character()
       
       used_ages <- sircalc_count %>%
-        dplyr::distinct(!!agegroup_var) %>%
+        dplyr::distinct(!!age_var) %>%
         dplyr::pull()%>%
         as.character()
       
@@ -517,7 +517,7 @@ asir <-
       #r_DM2b: prepare sircalc data
       
       sircalc_count <- sircalc_count %>%
-        dplyr::mutate(age = as.character(!!agegroup_var),
+        dplyr::mutate(age = as.character(!!age_var),
                       sex = as.character(!!sex_var))
       
       #o)filling-up emty categories of region, year and icdcat
@@ -674,7 +674,7 @@ asir <-
       
       sircalc <- sircalc %>%
         dplyr::filter(!is.na(.data$population_pyar)) %>%
-        dplyr::select(-!!agegroup_var, -!!region_var, -!!sex_var, -!!year_var)
+        dplyr::select(-!!age_var, -!!region_var, -!!sex_var, -!!year_var)
       
       #3e: fill up observed=0 for empty groups
       
