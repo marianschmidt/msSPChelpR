@@ -14,9 +14,8 @@ sir_byfutime(
   refrates_df = rates,
   calc_total_row = TRUE,
   calc_total_fu = TRUE,
-  collapse_ci = FALSE,
   region_var = NULL,
-  agegroup_var = NULL,
+  age_var = NULL,
   sex_var = NULL,
   year_var = NULL,
   race_var = NULL,
@@ -49,17 +48,15 @@ If you don't want to split by follow-up time, use futime_breaks = "none".}
 \item{refrates_df}{df where reference rate from general population are defined. It is assumed that refrates_df has the columns
 "region" for region, "sex" for gender, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "incidence_crude_rate" for incidence rate in the respective age/gender/year cohort.
-refrates_df must use the same category coding of age, sex, region, year and icdcat as agegroup_var, sex_var, region_var, year_var and site_var.}
+refrates_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var.}
 
 \item{calc_total_row}{option to calculate a row of totals. Can be either FALSE for not adding such a row or TRUE for adding it at the first row. Default is TRUE.}
 
 \item{calc_total_fu}{option to calculate totals for follow-up time. Can be either FALSE for not adding such a column or TRUE for adding. Default is TRUE.}
 
-\item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
-
 \item{region_var}{variable in df that contains information on region where case was incident. Default is set if dattype is given.}
 
-\item{agegroup_var}{variable in df that contains information on age-group. Default is set if dattype is given.}
+\item{age_var}{variable in df that contains information on age-group. Default is set if dattype is given.}
 
 \item{sex_var}{variable in df that contains information on gender. Default is set if dattype is given.}
 
@@ -72,6 +69,8 @@ refrates_df must use the same category coding of age, sex, region, year and icdc
 \item{futime_var}{variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.}
 
 \item{alpha}{significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
+
+\item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
 }
 \description{
 Calculate standardized incidence ratios with costum grouping variables by follow-up time
