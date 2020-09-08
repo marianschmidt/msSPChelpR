@@ -5,7 +5,7 @@
 #' @param summarize_groups option to define summarizing stratified groups. Default is "none". 
 #'                 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var. 
 #'                 Define multiple summarize variables by summarize_groups = c("region", "sex", "year")
-#' @param summarize_icdcat option to summarize over all ICD codes 
+#' @param summarize_site option to summarize over all ICD codes 
 #' @param output Define the format of the output. Can be either "nested" for nested dataframe with fubreak_var and xbreak_var in separate sub_tables (purrr).
 #'               Or "wide" for wide format where fubreak_var and xbreak_var are appended as columns.
 #'               Or "long" for long format where sir_df is not reshaped, but just summarized (ybreak_var, xbreak_var and fubreak_var remain in rows).
@@ -25,7 +25,7 @@
 
 summarize_sir_results <- function(sir_df,
                                   summarize_groups,
-                                  summarize_icdcat,
+                                  summarize_site,
                                   output = "long",
                                   output_information = "full",
                                   add_total_row = "no",
@@ -130,11 +130,11 @@ summarize_sir_results <- function(sir_df,
     sg_var_names <- rlang::eval_tidy(summarize_groups)
   } else{sg <- FALSE}
   
-  #enforce summarize icdcat
+  #enforce summarize site
   
-  if(summarize_icdcat == TRUE){
+  if(summarize_site == TRUE){
     sg <- TRUE
-    sg_var_names <- rlang::eval_tidy(c(summarize_groups, "t_icdcat"))
+    sg_var_names <- rlang::eval_tidy(c(summarize_groups, "t_site"))
   }
   
   #prepare total_fu
@@ -176,7 +176,7 @@ summarize_sir_results <- function(sir_df,
   #final check sir_df
   
   required_vars <- c(if(fu){fubreak_var_name}, if(yb){ybreak_var_name}, if(xb){xbreak_var_name},
-                     if(ci){"sir_ci"}, if(!ci){c("sir_lci", "sir_uci")}, "age", "region", "sex", "year", "t_icdcat", "observed",
+                     if(ci){"sir_ci"}, if(!ci){c("sir_lci", "sir_uci")}, "age", "region", "sex", "year", "t_site", "observed",
                      "expected", "sir", "pyar", "n_base", "ref_inc_cases", "ref_population_pyar")
   
   
@@ -206,7 +206,7 @@ summarize_sir_results <- function(sir_df,
     used_region <- sir_df_mod %>% dplyr::distinct(.data$region) %>% dplyr::pull() 
     used_year <- sir_df_mod %>% dplyr::distinct(.data$year) %>% dplyr::pull() 
     used_ages <- sir_df_mod %>% dplyr::distinct(.data$age) %>% dplyr::pull() 
-    used_icdcat <- sir_df_mod %>% dplyr::distinct(.data$t_icdcat) %>% dplyr::pull() 
+    used_t_site <- sir_df_mod %>% dplyr::distinct(.data$t_site) %>% dplyr::pull() 
     
     min_year <- stringr::str_sub(used_year, 1, 4) %>% as.numeric() %>% min()
     max_year <- stringr::str_sub(used_year, 1, 4) %>% as.numeric() %>% max()
@@ -229,7 +229,7 @@ summarize_sir_results <- function(sir_df,
     }
     
     #ii) create vector with all possible grouping vars and CHK
-    all_grouping_vars <- c("age", "sex", "region", "year", "t_icdcat",
+    all_grouping_vars <- c("age", "sex", "region", "year", "t_site",
                            if(fu){c(fubreak_var_name, "fu_time_sort")},
                            if(yb){c(ybreak_var_name, ylabel_var_name, "yvar_sort", "yvar_sort_levels")}, if(xb){c(xbreak_var_name, xlabel_var_name)})
     
@@ -313,13 +313,13 @@ summarize_sir_results <- function(sir_df,
       }
     }
     
-    if("t_icdcat" %in% sg_var_names == TRUE){
+    if("t_site" %in% sg_var_names == TRUE){
       if(shorten_total_cols==FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(t_icdcat = paste0("Total - All included ICD categories: ", paste(used_icdcat, collapse = ", ")))
+          dplyr::mutate(t_site = paste0("Total - All included Tumor sites: ", paste(used_t_site, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(t_icdcat = "Total")
+          dplyr::mutate(t_site = "Total")
       }
     }
     
@@ -347,7 +347,7 @@ summarize_sir_results <- function(sir_df,
       dplyr::select(tidyselect::any_of(c("age", "region", "sex", "year", 
                                          if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
                                          if(fu){"fu_time"}, 
-                                         "t_icdcat", "observed", "expected", "sir",
+                                         "t_site", "observed", "expected", "sir",
                                          if(collapse_ci == TRUE){"sir_ci"},
                                          if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
                     dplyr::everything()
@@ -376,7 +376,7 @@ summarize_sir_results <- function(sir_df,
                                     if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
                                     if(xb){c("xvar_name", "xvar_label")}, 
                                     if(fu){c("fu_time", "fu_time_sort")}, 
-                                    "t_icdcat", "observed", "expected", "sir",
+                                    "t_site", "observed", "expected", "sir",
                                     if(collapse_ci == TRUE){"sir_ci"},
                                     if(collapse_ci == FALSE){c("sir_lci", "sir_uci")},
                                     "pyar", "n_base")))
@@ -397,7 +397,7 @@ summarize_sir_results <- function(sir_df,
                                     if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
                                     if(xb){c("xvar_name", "xvar_label")}, 
                                     if(fu){c("fu_time", "fu_time_sort")}, 
-                                    "t_icdcat", "observed", "expected", "sir", "sir_ci")))
+                                    "t_site", "observed", "expected", "sir", "sir_ci")))
   }
   
   #reshaping according to output option
@@ -411,7 +411,7 @@ summarize_sir_results <- function(sir_df,
   if(output == "wide"){
     #wide - only FU-times need to be transposed
     
-    trans_vars <- names(sum_pre2)[!names(sum_pre2) %in% c("age", "region", "sex", "year", "t_icdcat", 
+    trans_vars <- names(sum_pre2)[!names(sum_pre2) %in% c("age", "region", "sex", "year", "t_site", 
                                                           if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
                                                           if(xb){c("xvar_name", "xvar_label")}, 
                                                           if(fu){c("fu_time", "fu_time_sort")})]
@@ -483,7 +483,7 @@ summarize_sir_results <- function(sir_df,
     sum_results <- sum_results_pre %>%
       dplyr::select(dplyr::one_of(c("age", "region", "sex", "year", 
                                     if(yb & !yb_off){c("yvar_name", "yvar_label")}, 
-                                    "t_icdcat", sort)),
+                                    "t_site", sort)),
                     dplyr::everything())
     
     names(sum_results) <- names(sum_results) %>% 
