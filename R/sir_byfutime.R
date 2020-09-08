@@ -20,7 +20,7 @@
 #' @param refrates_df df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
 #'                  "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
 #'                  "incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.
-#'                  refrates_df must use the same category coding of age, sex, region, year and icdcat as age_var, sex_var, region_var, year_var and site_var. 
+#'                  refrates_df must use the same category coding of age, sex, region, year and t_site as age_var, sex_var, region_var, year_var and site_var. 
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
 #' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on sex. Default is set if dattype is given.
