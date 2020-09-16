@@ -5,11 +5,11 @@
 #' @param dattype can be "zfkd" or "seer" or empty. Will set default variable names from dataset.
 #' @param ybreak_vars variables from df by which SIRs should be stratified in result df. Multiple variables will result in
 #'                    appended rows in result df. 
-#'                    Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Histology of second cancer).
+#'                    Careful: do not chose any variables that are dependent on occurrence of count_var (e.g. Histology of second cancer).
 #'                    If y_break_vars = "none", no stratification is performed. Default is "none".
 #' @param xbreak_var One variable from df by which SIRs should be stratified as a second dimension in result df. This variable will be added as
 #'                    a second stratification dimension to ybreak_vars and all variables will be calculated for subpopulations of x and y combinations. 
-#'                    Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Year of second cancer).
+#'                    Careful: do not chose any variables that are dependent on occurrence of count_var (e.g. Year of second cancer).
 #'                    If y_break_vars = "none", no stratification is performed. Default is "none".                
 #' @param futime_breaks vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
 #'                      Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years). 
