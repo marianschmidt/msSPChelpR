@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate standardized incidence ratios with costum grouping variables by follow-up time — sir_byfutime • msSPChelpR</title>
+<title>Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time — sir_byfutime • msSPChelpR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculate standardized incidence ratios with costum grouping variables by follow-up time — sir_byfutime" />
-<meta property="og:description" content="Calculate standardized incidence ratios with costum grouping variables by follow-up time" />
+<meta property="og:title" content="Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time — sir_byfutime" />
+<meta property="og:description" content="Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time" />
 
 
 
@@ -123,13 +123,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate standardized incidence ratios with costum grouping variables by follow-up time</h1>
+    <h1>Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time</h1>
     <small class="dont-index">Source: <a href='https://github.com/marianschmidt/msSPChelpR/blob/master/R/sir_byfutime.R'><code>R/sir_byfutime.R</code></a></small>
     <div class="hidden name"><code>sir_byfutime.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate standardized incidence ratios with costum grouping variables by follow-up time</p>
+    <p>Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time</p>
     </div>
 
     <pre class="usage"><span class='fu'>sir_byfutime</span>(
@@ -167,14 +167,14 @@
       <th>ybreak_vars</th>
       <td><p>variables from df by which SIRs should be stratified in result df. Multiple variables will result in
 appended rows in result df.
-Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Histology of second cancer).
+Careful: do not chose any variables that are dependent on occurrence of count_var (e.g. Histology of second cancer).
 If y_break_vars = "none", no stratification is performed. Default is "none".</p></td>
     </tr>
     <tr>
       <th>xbreak_var</th>
       <td><p>One variable from df by which SIRs should be stratified as a second dimension in result df. This variable will be added as
 a second stratification dimension to ybreak_vars and all variables will be calculated for subpopulations of x and y combinations.
-Careful: do not chose any variables that are dependent on occurence of count_var (e.g. Year of second cancer).
+Careful: do not chose any variables that are dependent on occurrence of count_var (e.g. Year of second cancer).
 If y_break_vars = "none", no stratification is performed. Default is "none".</p></td>
     </tr>
     <tr>
@@ -252,7 +252,7 @@ refrates_df must use the same category coding of age, sex, region, year and t_si
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
