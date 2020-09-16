@@ -1,5 +1,5 @@
 #'
-#' Calculate standardized incidence ratios with costum grouping variables by follow-up time
+#' Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time
 #'
 #' @param df dataframe in wide format
 #' @param dattype can be "zfkd" or "seer" or empty. Will set default variable names from dataset.
@@ -93,15 +93,27 @@ sir_byfutime <- function(df,
   }
   
   #race stratification option
+  #check that race_var is only used with dattype = "seer"
+  
+  if(!is.null(race_var) & dattype != "seer"){
+    rlang::inform(
+      paste0("Only dattype 'seer' is compatible with stratification by race. \n",
+             "You have used dattype = ", dattype, " and race_var = ", race_var, "\n",
+             "Therefore race_var will be reset to 'none' and no stratification by race will be done.")
+    )
+    race_var <- NULL
+  }
+  
   if(!is.null(race_var) & dattype == "seer"){
     rs <- TRUE
   } else{
     rs <- FALSE
   }
   
+  
   #check param calc_total
   if(!is.logical(calc_total_fu)){
-    rlang::inform("Parameter `calc_total_fu` should be logical (TRUE or FALSE). Default `calc_total_fu = TRUE` will be used instead.")
+    rlang::inform("\n Parameter `calc_total_fu` should be logical (TRUE or FALSE). Default `calc_total_fu = TRUE` will be used instead.")
     calc_total_fu <- TRUE
   }
   
@@ -185,11 +197,12 @@ sir_byfutime <- function(df,
   
   # create empty objects for possible warnings and errors
   
-  problems_pyar_attr <- c()
-  problems_not_empty_attr <- c()
-  problems_missing_ref_strata_attr <- c()
-  problems_missing_futime_attr <- c()
-  
+  problems_pyar_attr <- data.frame()
+  problems_not_empty_attr <- data.frame()
+  problems_missing_ref_strata_attr <- data.frame()
+  problems_missing_futime_attr <- data.frame()
+  problems_missing_count_strat_attr <- data.frame()
+  problems_missing_fu_strat_attr <- data.frame()
   
   # create vector with basic matching variables age, sex, region, site_var, year
   
@@ -235,24 +248,21 @@ sir_byfutime <- function(df,
     if (nrow(problems_missing_futime) > 0) {
       rlang::inform(
         paste0(
-          "There are ", nrow(problems_missing_futime), "rows in the data set for which futime_var is missing.", 
-          "\nPlease make sure that you have: ", 
-          "\n - calculated FU time for all cases where the index event occured and", 
-          "\n - have removed all cases from the dataset that do not count at baseline."
+          "\n [INFO FU time missing] There are ", nrow(problems_missing_futime), "rows in the data set for which futime_var is missing. \n", 
+          "Please make sure that you have: \n", 
+          " - calculated FU time for all cases where the index event occured and \n", 
+          " - have removed all cases from the dataset that do not count at baseline. \n \n",
+          paste0(utils::capture.output(problems_missing_futime), collapse = "\n"),
+          "\n Check attribute `problems_missing_futime` of results to see what strata are affected.",
         )
       )
-      problems_missing_futime_attr <- c(problems_missing_futime_attr, 
-                                        paste0(
-                                          "There are ", nrow(problems_missing_futime), "rows in the data set for which futime_var is missing.", 
-                                          "\nPlease make sure that you have: ", 
-                                          "\n - calculated FU time for all cases where the index event occured and", 
-                                          "\n - have removed all cases from the dataset that do not count at baseline."
-                                        ))
+      problems_missing_futime_attr <- rbind(problems_missing_futime_attr, problems_missing_futime, fill=TRUE)
     }
     
   }
   
-  # ---- 1 data modifcations ----
+  
+  # ---- 1 data modifications ----
   
   ## --- 1a: prepare df
   
@@ -318,7 +328,7 @@ sir_byfutime <- function(df,
   ## --- 1b: prepare calc_total_row option
   
   if(!is.logical(calc_total_row)){
-    rlang::inform("Parameter `calc_total_row` should be logical (TRUE or FALSE). Default `calc_total_row = TRUE` will be used instead.")
+    rlang::inform("\n Parameter `calc_total_row` should be logical (TRUE or FALSE). Default `calc_total_row = TRUE` will be used instead.")
     calc_total_row <- TRUE
   }
   
@@ -460,9 +470,32 @@ sir_byfutime <- function(df,
   
   #prepare for race stratification option, if rs=TRUE
   if(rs){
+    ##get available race levels from refrates and compare to used in df
+    available_race <- unique(refrates_df$race)
+    miss_race <- used_race[!used_race %in% available_race]
+    ##take precautions for missing race data in df
+    if(length(miss_race > 0)){
+      rlang::inform(
+        paste0("\n The following values for race_var present in the data, is not availabe in refrates_df: \n \n",
+               " - ", miss_race, "\n \n",
+               "It is recommeded to clean race_var before running this function. \n",
+               "For all missing reference levels of race, data will be matched to the category 'Total' in refrates_df.")
+      )
+      refrates_total <- refrates_df %>%
+        tidytable::filter.(substr(race, 1, 5) == "Total")
+      #replicate refrates_total for each miss_race value and rowbind to refrates_df
+      for(lev in miss_race){
+        refrates_df <- refrates_total %>%
+          tidytable::mutate.(race = !!lev) %>%
+          tidytable::bind_rows.(refrates_df)
+      }
+      rm(refrates_total)
+    }
+    ##filter refrates to used_race
     refrates_df <- refrates_df %>%
       tidytable::filter.(race %in% !!used_race)
   }
+  
   
   #SEER only, if no race stratification is used, filter refrates so that only totals remain
   if(!rs & dattype == "seer"){
@@ -471,16 +504,23 @@ sir_byfutime <- function(df,
   }
   
   #getting all ICD codes from refrates_df
-  refrates_icd_all <- refrates_df %>%
+  refrates_site_all <- refrates_df %>%
     tidytable::select.(t_site) %>%
     tidytable::filter.(substr(t_site, 1, 5) != "Total") %>% #removing icd codes that are not based on 3 digits (e.g. Total categories)
     unique(.) %>%
     purrr::pluck(1)
   
   
+  #add missing levels that are found in data, but missing from refrates_df
+  if(length(used_t_site[!(used_t_site %in% refrates_site_all)]) > 0){
+    refrates_site_all <- c(refrates_site_all, used_t_site[!(used_t_site %in% refrates_site_all)])
+  }
+  
+  
+  
   
   # ---- 2 analysis - refrates option ----
-  ### F1 Calculating Observed by group (within cohort) and PYARs
+  ### F2 Calculating Observed by group (within cohort) and PYARs
   
   #start loop for iterations of ybreak_vars [y]
   for(y in 1:length_yb){
@@ -507,7 +547,7 @@ sir_byfutime <- function(df,
       }
       
       
-      #F1b calculate observed
+      #F2b calculate observed
       sircalc_count <- df %>%
         tidytable::mutate.(count_var_new = tidytable::case.(
           !!fu_tot_f & ((!!count_var) == 1) & ((!!futime_var) >= !!futime_breaks[1]), 1, #for iteration fu_tot_f count_var is always 1
@@ -525,37 +565,31 @@ sir_byfutime <- function(df,
       
       sircalc_count <- sircalc_count %>% #complete groups where i_observed = 0
         tidytable::filter.(!!fub_var == 1) %>%  #remove category fub_var == 0, which does not apply #incompatiblity with fu=FALSE (unclear, how to do conditional filtering)
-        tidytable::complete.(., !!!complete_vars_quo, t_site = !!refrates_icd_all) %>%
+        tidytable::complete.(., !!!complete_vars_quo, t_site = !!refrates_site_all) %>%
         tidytable::mutate.(
           i_observed = tidytable::case.(is.na(i_observed), 0,
                                         default = i_observed),
-          !!fub_var := 1) %>%
-        tidytable::filter.(!(t_site == !!na_explicit & i_observed == 0)) # remove all NA categories as they are empty with 0 observations
-      
+          !!fub_var := 1) 
       
       #for ybreak_var: make NAs explicit
       if(yb & !xb){
         sircalc_count <- sircalc_count %>% 
-          tidytable::mutate_across.(.cols = !!syb_var, .fns = ~tidytable::replace_na.(., na_explicit)) %>%
-          tidytable::filter.(!(!!syb_var == !!na_explicit & i_observed == 0)) # remove all NA categories as they are empty with 0 observations
+          tidytable::mutate_across.(.cols = !!syb_var, .fns = ~tidytable::replace_na.(., na_explicit))
       }
       
       #for xbreak_var: make NAs explicit
       if(!yb & xb){
         sircalc_count <- sircalc_count %>% 
-          tidytable::mutate_across.(.cols = !!sxb_var, ~tidytable::replace_na.(., na_explicit)) %>%
-          tidytable::filter.(!(!!sxb_var == !!na_explicit & i_observed == 0)) # remove all NA categories as they are empty with 0 observations
+          tidytable::mutate_across.(.cols = !!sxb_var, ~tidytable::replace_na.(., na_explicit))
       }
       
       #for ybreak_vars and xbreak_var: make NAs explicit
       if(yb & xb){
         sircalc_count <- sircalc_count %>% 
-          tidytable::mutate_across.(.cols = c(!!syb_var, !!sxb_var), ~tidytable::replace_na.(., na_explicit)) %>%
-          tidytable::filter.(!(!!syb_var == !!na_explicit & !!sxb_var == !!na_explicit & i_observed == 0)) # remove all NA categories as they are empty with 0 observations
-      }
+          tidytable::mutate_across.(.cols = c(!!syb_var, !!sxb_var), ~tidytable::replace_na.(., na_explicit))}
       
       
-      #F1c person-years at risk
+      #F2c person-years at risk
       sircalc_fu <- df %>%
         tidytable::mutate.(
           futime_var_new = tidytable::case.(!!fu_tot_f & ((!!futime_var) >= !!futime_breaks[1]), (!!futime_var),
@@ -607,8 +641,21 @@ sir_byfutime <- function(df,
       #CHK_sircalc_n - Check that all combinations of age, sex, region, year, t_site, syb_var, sxb_var are present in sircalc_count and sircalc_fu
       
       #required number of strata in counts is product of distinct values found in df for age, sex, region, year, syb, sxb, race multiplied with all t_sites from refrates_df
-      n_strata_required_count <- length(used_age) * length(used_sex) * length(used_region) * length(used_year) * 
-        length(used_race) * length(used_sybvar) * length(used_sxbvar) * length(refrates_icd_all)
+      n_strata_required_count <- length(unique(sircalc_count$age)) * 
+        length(unique(sircalc_count$sex)) * length(unique(sircalc_count$region)) * 
+        length(unique(sircalc_count$year)) * length(refrates_site_all)
+      
+      if(rs){
+        n_strata_required_count <- n_strata_required_count * length(unique(sircalc_count$race))
+      }
+      
+      if(xb){
+        n_strata_required_count <- n_strata_required_count * length(unique(sircalc_count[[rlang::as_string(sxb_var)]]))
+      }
+      
+      if(yb){
+        n_strata_required_count <- n_strata_required_count * length(unique(sircalc_count[[rlang::as_string(syb_var)]]))
+      }
       
       #required number of strata in fu is distinct combinations of age, sex, region, year, syb, sxb, race found in df
       n_strata_required_fu <- df %>%
@@ -620,8 +667,7 @@ sir_byfutime <- function(df,
       
       
       #not found strata in sircalc_fu
-      n_not_found_fu <- n_strata_required_count - (n_strata_required_fu * length(refrates_icd_all))
-      
+      n_not_found_fu <- n_strata_required_count - (n_strata_required_fu * length(refrates_site_all))
       
       #CHK_strata1
       
@@ -636,12 +682,12 @@ sir_byfutime <- function(df,
       if (n_strata_required_fu != nrow(sircalc_fu)) {
         rlang::warn(
           paste0(
-            "The calculation of observed events was performed for: ", nrow(sircalc_fu), " strata. However ", n_strata_required_fu, " strata are required. Occured in: ", fub_var,",", syb_var)
+            "The calculation of follow-up time was performed for: ", nrow(sircalc_fu), " strata. However ", n_strata_required_fu, " strata are required. Occured in: ", fub_var,",", syb_var)
         )
       }
       
       
-      #F1d merge
+      #F2d merge
       
       #prepare merging
       
@@ -657,97 +703,101 @@ sir_byfutime <- function(df,
       
       if (n_dist_sircalc_fu != nrow(sircalc_fu)) {
         rlang::warn(
-          "There are disambiguities in matching the follow-up time to the observed count strata!"
+          "\nThere are disambiguities in matching the follow-up time to the observed count strata!"
         )
       }
-      
-      #check that there are no unexpected missing rows in sircalc_fu
-      n_exp_miss_fu <- sircalc_count %>%
-        tidytable::anti_join.(sircalc_fu, by = match_vars) %>%
-        nrow()
-      
-      if ( n_exp_miss_fu != n_not_found_fu) {
-        rlang::warn(
-          paste0(
-            "The number of expected missing strata for fu calc are: ", n_exp_miss_fu, ". However the number of not found strata where fu cannot be matched is ", n_not_found_fu, " Check calculations! This occured in ", fub_var,",", syb_var)
-        )
-      }
-      
-      n_exp_miss_count <- sircalc_fu %>%
-        tidytable::anti_join.(sircalc_count, by = match_vars) %>%
-        nrow()
       
       #merge sircalc_count and sircalc_fu
       sircalc <- sircalc_count %>%
         tidytable::full_join.(sircalc_fu, by = match_vars)
       
+      #CHK2d check that merge worked as intended with all sircalc_count strata finding a match in sircalc_fu
+      
+      ##CHK2d-1 no unmatched sircacl_count strata
+      if(nrow(sircalc) != nrow(sircalc_count)){
+        #missing strata
+        missing_count_strat <- sircalc_fu %>%
+          tidytable::anti_join.(sircalc_count, by = match_vars)
+        #warn
+        rlang::warn(paste0("\n [WARN Merge of cases and FU mismatch] When trying to match the observed counts and follow-up times for this loop, an unexpected mismatch of strata occured. \n",
+                           "The following strata are missing from intermediate result `sircalc_count`. \n",
+                           paste0(utils::capture.output(missing_count_strat), collapse = "\n"), 
+                           " \n",
+                           "This error occured in: \n",
+                           " - Time stratum: ", rlang::as_string(fub_var), "\n",
+                           " - Y variable stratum: ", rlang::as_string(syb_var), "\n",
+                           "\n Check attribute `missing_count_strat` of results to see what strata are affected.",
+                           "It is recommended to run a debug with the same data."))
+        
+        missing_count_strat_attr <- rbind(missing_count_strat_attr, missing_count_strat, fill=TRUE)
+      }
+      
+      ##CHK2d-2 All available sircalc_fu strata were matched
+      n_i_pyar_miss <- sircalc %>% tidytable::select.(i_pyar) %>% tidytable::filter.(is.na(i_pyar)) %>% nrow()
+      
+      if(n_not_found_fu != n_i_pyar_miss){
+        #missing strata
+        missing_fu_strat <- sircalc_count %>%
+          tidytable::anti_join.(sircalc_fu, by = match_vars)
+        #warn
+        rlang::warn(paste0("\n [WARN Merge of cases and FU mismatch] When trying to match the observed counts and follow-up times for this loop, an unexpected mismatch of strata occured. \n",
+                           "The following strata are missing from intermediate result `sircalc_fu`. \n",
+                           paste0(utils::capture.output(missing_fu_strat), collapse = "\n"), 
+                           " \n",
+                           "This error occured in: \n",
+                           " - Time stratum: ", rlang::as_string(fub_var), "\n",
+                           " - Y variable stratum: ", rlang::as_string(syb_var), "\n",
+                           "\n Check attribute `problems_missing_fu_strat` of results to see what strata are affected.",
+                           "It is recommended to run a debug with the same data."))
+        
+        missing_fu_strat_attr <- rbind(missing_fu_strat_attr, missing_fu_strat_strat, fill=TRUE)
+      }
+      
       rm(sircalc_count, sircalc_fu)
       
       
-      #some missings in t_site are expected after merge for those strata where no observed case occured
+      #some missings in t_site are expected after merge for those strata where no observed case occurred
       #make NAs in t_site in sircalc explicit
       sircalc <- sircalc %>% 
         tidytable::mutate_across.(.cols = c(t_site), .fns = ~tidytable::replace_na.(., na_explicit))
       
       
+      #all strata that have missing i_pyar are not in df and therefore i_pyar = 0 and n_base = 0 
       
-      #check if empty i_pyar is equal to n_not_found_fu and set i_pyar to 0
-      n_i_pyar_miss <- sircalc %>% 
-        tidytable::filter.(is.na(i_pyar)) %>% nrow()
-      
-      if(n_i_pyar_miss == n_exp_miss_fu){
-        sircalc <- sircalc %>% #complete groups where i_observed = 0
-          tidytable::mutate.(
-            i_pyar = tidytable::case.((is.na(i_pyar) & i_observed == 0), 0,
-                                      default = i_pyar),
-            n_base = tidytable::case.((is.na(n_base) & i_observed == 0), 0,
-                                      default = n_base))
-      } else{
-        rlang::warn(
-          paste0(
-            "The number of expected missing strata for fu calc are: ", n_exp_miss_fu, ". However the number of empty strata in sircalc is ", n_i_pyar_miss, " Check calculations!")
-        )
-      }
-      
-      #check if empty i_observed is equal to n_not_found_fu and set i_observed to 0
-      n_i_observed_miss <- sircalc %>% 
-        tidytable::filter.(is.na(i_observed)) %>% nrow()
-      
-      if(n_i_observed_miss == n_exp_miss_count){
-        sircalc <- sircalc %>% #complete groups where i_observed = 0
-          tidytable::mutate.(i_observed = tidytable::case.(is.na(i_observed), 0,
-                                                           default = i_observed))
-      } else{
-        rlang::warn(
-          paste0(
-            "The number of expected missing strata for count i_observed are: ", n_exp_miss_count, ". However the number of empty strata in sircalc is ", n_i_observed_miss, " Check calculations!")
-        )
-      }
+      sircalc <- sircalc %>% #complete groups where i_observed = 0
+        tidytable::mutate.(
+          i_pyar = tidytable::case.((is.na(i_pyar) & i_observed == 0), 0,
+                                    default = i_pyar),
+          n_base = tidytable::case.((is.na(n_base) & i_observed == 0), 0,
+                                    default = n_base))
       
       
-      
-      #make check for unexpected discrepancies
+      #CHK2d-3: make check for unexpected discrepancies
       
       problems_not_empty <- sircalc %>%
-        tidytable::filter.(i_pyar == 0 & !(i_observed == 0 & n_base < 2)) 
+        tidytable::filter.(i_pyar == 0 & i_observed != 0) 
       
       if (nrow(problems_not_empty) > 0) {
-        rlang::inform(paste0("There are disambiguities where strata with 0 follow-up time have data in observed or base",
-                             paste0(utils::capture.output(problems_not_empty), collapse = "\n"), collapse = "\n"))
-        problems_not_empty_attr <- c(problems_not_empty_attr, 
-                                     paste0("There are disambiguities where strata with 0 follow-up time have data in observed or base",
-                                            paste0(utils::capture.output(problems_not_empty), collapse = "\n"), collapse = "\n"))
+        rlang::inform(paste0("\n [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. \n",
+                             paste0(utils::capture.output(problems_not_empty), collapse = "\n"), 
+                             " \n",
+                             "Check attribute `problems_not_empty` of results to see what strata are affected. \n",
+                             "This might be caused by cases where SPC occured at the same day as first cancer. \n",
+                             "You can check this by excluding all cases from wide_df, where date of first diagnosis is equal."))
+        problems_not_empty_attr <- rbind(problems_not_empty_attr, problems_not_empty, fill=TRUE) #save information to write as attribute later
       }
       
-      #remove all lines with 0 information (0 observed and 0 follow-up time)
       
+      #filter empty rows for non-matched site from sircalc_count
       sircalc <- sircalc %>%
+        tidytable::filter.(!(t_site == !!na_explicit & i_observed == 0)) %>%
+        #remove all lines with 0 information (0 observed and 0 follow-up time)
         tidytable::filter.(!(i_pyar == 0 & i_observed == 0))
       
       
-      ### F2-I: Merging reference rates (for refpop only) by t_site, region, year, sex and age 
+      ### F2e: Merging reference rates (for refpop only) by t_site, region, year, sex and age 
       
-      #CHK 3: reporting used regions and whether they can be found in rates
+      #CHK2e-1: reporting used regions and whether they can be found in rates
       
       if(f == 1 & y == 1){
         
@@ -759,16 +809,17 @@ sir_byfutime <- function(df,
           tidytable::anti_join.(refrates_df, by = c("age", "sex", "region" , "year", if(rs){"race"}, "t_site"))
         
         if(nrow(missing_ref_strata) > 0){
-          rlang::inform(paste0("For the following region, years, etc no reference rates can be found:",
-                               paste0(utils::capture.output(missing_ref_strata), collapse = "\n"), collapse = "\n"))
-          problems_missing_ref_strata_attr <- c(problems_missing_ref_strata_attr,
-                                                paste0("For the following region, years, etc no reference rates can be found:",
-                                                       paste0(utils::capture.output(missing_ref_strata), collapse = "\n"), collapse = "\n"))
+          rlang::inform(paste0("\n [INFO Refrates missing]For the following age groups, sex, regions, years, t_sites no reference rates can be found: \n",
+                               paste0(utils::capture.output(missing_ref_strata), collapse = "\n"), 
+                               " \n",
+                               "Check attribute `problems_missing_ref_strata` of results to see what strata are affected. \n",
+                               "Solution could be to add these strata to refrates_df. \n"))
+          problems_missing_ref_strata_attr <- rbind(problems_missing_ref_strata_attr, missing_ref_strata, fill = TRUE)
         }
       }
       
       
-      #F2-Ia: Do merge
+      #F2e: Do merge
       
       sir_or <- sircalc %>%
         tidytable::left_join.(refrates_df, by = c("age", "sex", "region" , "year", if(rs){"race"}, "t_site")) %>%
@@ -778,7 +829,7 @@ sir_byfutime <- function(df,
       
       
       
-      ### F3-I Calculating Expected by group (from reference rates) [refrates]
+      ### F2f Calculating Expected by group (from reference rates) [refrates]
       
       sir_basic <- sir_or %>%
         tidytable::mutate.(
@@ -789,11 +840,11 @@ sir_byfutime <- function(df,
       
       
       
-      ### F4 Making SIR calculations 
+      ### F2g Making SIR calculations 
       
       
       #SIR and Confidence intervals using calculation methods by @breslowStatisticalMethodsCancer1987
-      ##F4a: calculating SIR and confidence intervals
+      ##F2g-1: calculating SIR and confidence intervals
       sir_longresult_strat_f <- sir_basic %>%
         tidytable::mutate.(
           sir = .SD$i_observed / .SD$i_expected,
@@ -876,7 +927,7 @@ sir_byfutime <- function(df,
   
   
   
-  ### F5: Restructuring results
+  ### F2h: Restructuring results
   
   #checking results 
   #CHK_R1 - PYARS should be the same for all age, sex, year, region groups
@@ -890,11 +941,10 @@ sir_byfutime <- function(df,
     tidytable::filter.(min_pyar != max_pyar)
   
   if(nrow(problems_pyar) > 0){
-    rlang::inform(paste0("There are differing pyar values for the same age, sex, year, region strata:"
-                         ,paste0(utils::capture.output(problems_pyar), collapse = "\n"), collapse = "\n"))
-    problems_pyar_attr <- c(problems_pyar_attr, 
-                            paste0("There are differing pyar values for the same age, sex, year, region strata:", 
-                                   utils::capture.output(problems_pyar), collapse = "\n")) #save information to write as attribute later
+    rlang::inform(paste0("\n  [INFO Multiple refrates matches] There are differing pyar values for the same age, sex, year, region strata: \n",
+                         paste0(utils::capture.output(problems_pyar), collapse = "\n"), 
+                         "\n Check attribute `problems_pyar_attr` of results to see what strata are affected. \n"))
+    problems_pyar_attr <- rbind(problems_pyar_attr, problems_pyar, fill=TRUE) #save information to write as attribute later
   }
   
   
@@ -904,12 +954,14 @@ sir_byfutime <- function(df,
     tidytable::filter.(i_observed > incidence_cases)
   
   if(nrow(notes_refcases) > 0){
-    rlang::inform(paste0("There are observed cases in the results file that do not occur in the refrates_df.",
-                         "A possible explanation can be:",
-                         "- DCO cases",
-                         "- diagnosis of second cancer occured in different time period than first cancer",
-                         "The following strata are affected:", collapse = "\n"))
-    rlang::inform(paste0(utils::capture.output(notes_refcases), collapse = "\n"))
+    rlang::inform(paste0("\n There are observed cases in the results file that do not occur in the refrates_df. \n",
+                         "A possible explanation can be: \n",
+                         " - DCO cases \n",
+                         " - diagnosis of second cancer occured in different time period than first cancer \n",
+                         "The following strata are affected: \n",
+                         paste0(utils::capture.output(notes_refcases), collapse = "\n"),
+                         "\n",
+                         "\n Check attribute `notes_refcases` of results to see what strata are affected. \n"))
   }
   
   #final dataset should have the structure: columns
@@ -939,7 +991,7 @@ sir_byfutime <- function(df,
   #collapse_ci option
   
   
-  ### F5: labeling and returning results
+  ### F2i: labeling and returning results
   
   
   #since tidytable::arrange.() does not support tidyselect, we need to create a list of symbols to pass on
@@ -983,12 +1035,22 @@ sir_byfutime <- function(df,
   if(length(problems_missing_futime_attr > 0)){
     attr(sir_result, "problems_missing_futime") <- problems_missing_futime_attr
   }
+  if(length(problems_missing_count_strat_attr > 0)){
+    attr(sir_result, "problems_missing_count_strat") <- problems_missing_count_strat_attr
+  }
+  if(length(problems_missing_fu_strat_attr > 0)){
+    attr(sir_result, "problems_missing_fu_strat") <- problems_missing_fu_strat_attr
+  }
   if(length(problems_not_empty_attr > 0)){
     attr(sir_result, "problems_not_empty") <- problems_not_empty_attr
   }
   if(length(problems_pyar_attr > 0)){
     attr(sir_result, "problems_pyar") <- problems_pyar_attr
   }
+  if(length(notes_refcases > 0)){
+    attr(sir_result, "notes_refcases") <- notes_refcases
+  }
+  
   
   pb$terminate()
   
