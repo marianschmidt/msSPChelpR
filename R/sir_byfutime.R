@@ -750,7 +750,7 @@ sir_byfutime <- function(df,
                            "\n Check attribute `problems_missing_fu_strat` of results to see what strata are affected.",
                            "It is recommended to run a debug with the same data."))
         
-        missing_fu_strat_attr <- rbind(missing_fu_strat_attr, missing_fu_strat_strat, fill=TRUE)
+        missing_fu_strat_attr <- rbind(missing_fu_strat_attr, missing_fu_strat, fill=TRUE)
       }
       
       rm(sircalc_count, sircalc_fu)
