@@ -94,7 +94,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       spc_stat_yes <- rlang::enquo(spc_stat_yes)
     }
     if(is.null(spc_stat_no)){
-      spc_stat_no <- rlang::quo("no SPC")
+      spc_stat_no <- rlang::quo("No SPC")
     } else{
       spc_stat_no <- rlang::enquo(spc_stat_no)
     }
@@ -143,12 +143,12 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       spcdat_var <- rlang::enquo(spcdat_var)
     }
     if(is.null(life_stat_alive)){
-      life_stat_alive <- rlang::quo("no (patient alive)")
+      life_stat_alive <- rlang::quo("No (patient alive)")
     } else{
       life_stat_alive <- rlang::enquo(life_stat_alive)
     }
     if(is.null(life_stat_dead)){
-      life_stat_dead <- rlang::quo("yes (patient deceased)")
+      life_stat_dead <- rlang::quo("Yes (patient deceased)")
     } else{
       life_stat_dead <- rlang::enquo(life_stat_dead)
     }
@@ -158,7 +158,7 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       spc_stat_yes <- rlang::enquo(spc_stat_yes)
     }
     if(is.null(spc_stat_no)){
-      spc_stat_no <- rlang::quo("no SPC")
+      spc_stat_no <- rlang::quo("No SPC")
     } else{
       spc_stat_no <- rlang::enquo(spc_stat_no)
     }
@@ -263,13 +263,13 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   wide_df <- wide_df%>%
     #label new variable
     sjlabelled::var_labels(!!status_var := !!statvar_label) %>%
-    sjlabelled::val_labels(!!status_var := c("patient alive after FC (with or without following SPC after end of FU)" = 1,
-                                             "patient alive after SPC" = 2,
-                                             "patient dead after FC" = 3,
-                                             "patient dead after SPC" = 4,
-                                             "NA - patient not born before end of FU" = 97,
-                                             "NA - patient did not develop cancer before end of FU" = 98,
-                                             "NA - patient date of death is missing" = 99),
+    sjlabelled::val_labels(!!status_var := c("Patient alive after FC (with or without following SPC after end of FU)" = 1,
+                                             "Patient alive after SPC" = 2,
+                                             "Patient dead after FC" = 3,
+                                             "Patient dead after SPC" = 4,
+                                             "NA - Patient not born before end of FU" = 97,
+                                             "NA - Patient did not develop cancer before end of FU" = 98,
+                                             "NA - Patient date of death is missing" = 99),
                            force.labels = TRUE)
   
   #enforce option as_labelled_factor = TRUE

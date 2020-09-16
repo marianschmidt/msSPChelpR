@@ -87,7 +87,7 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       spc_stat_yes <- rlang::enquo(spc_stat_yes)
     }
     if(is.null(spc_stat_no)){
-      spc_stat_no <- rlang::quo("no SPC")
+      spc_stat_no <- rlang::quo("No SPC")
     } else{
       spc_stat_no <- rlang::enquo(spc_stat_no)
     }
@@ -151,7 +151,7 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       spc_stat_yes <- rlang::enquo(spc_stat_yes)
     }
     if(is.null(spc_stat_no)){
-      spc_stat_no <- rlang::quo("no SPC")
+      spc_stat_no <- rlang::quo("No SPC")
     } else{
       spc_stat_no <- rlang::enquo(spc_stat_no)
     }

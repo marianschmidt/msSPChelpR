@@ -160,7 +160,7 @@ usdata_wide
 ```{r}
 
 usdata_wide <- usdata_wide %>%
-  dplyr::mutate(p_spc = case_when(is.na(t_site_icd.2)   ~ "no SPC",
+  dplyr::mutate(p_spc = case_when(is.na(t_site_icd.2)   ~ "No SPC",
                          !is.na(t_site_icd.2)           ~ "SPC developed",
                          TRUE ~ NA_character_)) 
 usdata_wide %>%
@@ -178,7 +178,7 @@ usdata_wide <- usdata_wide %>%
                          lifedat_var = "datedeath.1", fcdat_var = "t_datediag.1",
                          spcdat_var = "t_datediag.2", life_stat_alive = "Alive",
                          life_stat_dead = "Dead", spc_stat_yes = "SPC developed",
-                         spc_stat_no = "no SPC", lifedat_fu_end = "2019-12-31",
+                         spc_stat_no = "No SPC", lifedat_fu_end = "2019-12-31",
                          use_lifedatmin = FALSE, check = TRUE, 
                          as_labelled_factor = TRUE)
 
@@ -193,7 +193,7 @@ usdata_wide %>%
                          lifedat_var = "datedeath.1", fcdat_var = "t_datediag.1",
                          spcdat_var = "t_datediag.2", life_stat_alive = "Alive",
                          life_stat_dead = "Dead", spc_stat_yes = "SPC developed",
-                         spc_stat_no = "no SPC", lifedat_fu_end = "2019-12-31",
+                         spc_stat_no = "No SPC", lifedat_fu_end = "2019-12-31",
                          use_lifedatmin = TRUE, lifedatmin_var = "p_dodmin.1", 
                          check = TRUE, as_labelled_factor = TRUE)
 
