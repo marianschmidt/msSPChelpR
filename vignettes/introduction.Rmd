@@ -203,9 +203,9 @@ usdata_wide %>%
 #### Step 6b - Remove patients irrelevant to analysis depending on status
 ```{r}
 usdata_wide <- usdata_wide %>%
-  dplyr::filter(!p_status %in% c("NA - patient not born before end of FU",
-                                 "NA - patient did not develop cancer before end of FU",
-                                 "NA - patient date of death is missing"))
+  dplyr::filter(!p_status %in% c("NA - Patient not born before end of FU",
+                                 "NA - Patient did not develop cancer before end of FU",
+                                 "NA - Patient date of death is missing"))
 
 usdata_wide %>%
   dplyr::count(p_status)
