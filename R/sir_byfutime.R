@@ -58,7 +58,6 @@ sir_byfutime <- function(df,
   ## --- 0a setting default parameters
   na_explicit <- "zzz_NA_explicit" # string for explicit NAs
   
-  
   ## --- 0b getting and setting names / preferences
   
   count_var <- rlang::ensym(count_var)
@@ -254,10 +253,9 @@ sir_byfutime <- function(df,
           " - calculated FU time for all cases where the index event occured and \n", 
           " - have removed all cases from the dataset that do not count at baseline. \n \n",
           paste0(utils::capture.output(problems_missing_futime), collapse = "\n"),
-          "\n Check attribute `problems_missing_futime` of results to see what strata are affected.",
-        )
+          "\n Check attribute `problems_missing_futime` of results to see what strata are affected."        )
       )
-      problems_missing_futime_attr <- rbind(problems_missing_futime_attr, problems_missing_futime, fill=TRUE)
+      problems_missing_futime_attr <- tidytable::bind_rows.(problems_missing_futime_attr, problems_missing_futime, fill=TRUE)
     }
     
   }
@@ -730,7 +728,7 @@ sir_byfutime <- function(df,
                            "\n Check attribute `missing_count_strat` of results to see what strata are affected.",
                            "It is recommended to run a debug with the same data."))
         
-        missing_count_strat_attr <- rbind(missing_count_strat_attr, missing_count_strat, fill=TRUE)
+        missing_count_strat_attr <- tidytable::bind_rows.(missing_count_strat_attr, missing_count_strat, fill=TRUE)
       }
       
       ##CHK2d-2 All available sircalc_fu strata were matched
@@ -751,7 +749,7 @@ sir_byfutime <- function(df,
                            "\n Check attribute `problems_missing_fu_strat` of results to see what strata are affected.",
                            "It is recommended to run a debug with the same data."))
         
-        missing_fu_strat_attr <- rbind(missing_fu_strat_attr, missing_fu_strat, fill=TRUE)
+        missing_fu_strat_attr <- tidytable::bind_rows.(missing_fu_strat_attr, missing_fu_strat, fill=TRUE)
       }
       
       rm(sircalc_count, sircalc_fu)
@@ -785,7 +783,7 @@ sir_byfutime <- function(df,
                              "Check attribute `problems_not_empty` of results to see what strata are affected. \n",
                              "This might be caused by cases where SPC occured at the same day as first cancer. \n",
                              "You can check this by excluding all cases from wide_df, where date of first diagnosis is equal."))
-        problems_not_empty_attr <- rbind(problems_not_empty_attr, problems_not_empty, fill=TRUE) #save information to write as attribute later
+        problems_not_empty_attr <- tidytable::bind_rows.(problems_not_empty_attr, problems_not_empty, fill=TRUE) #save information to write as attribute later
       }
       
       
@@ -815,7 +813,7 @@ sir_byfutime <- function(df,
                                " \n",
                                "Check attribute `problems_missing_ref_strata` of results to see what strata are affected. \n",
                                "Solution could be to add these strata to refrates_df. \n"))
-          problems_missing_ref_strata_attr <- rbind(problems_missing_ref_strata_attr, missing_ref_strata, fill = TRUE)
+          problems_missing_ref_strata_attr <- tidytable::bind_rows.(problems_missing_ref_strata_attr, missing_ref_strata, fill = TRUE)
         }
       }
       
@@ -945,7 +943,7 @@ sir_byfutime <- function(df,
     rlang::inform(paste0("\n  [INFO Multiple refrates matches] There are differing pyar values for the same age, sex, year, region strata: \n",
                          paste0(utils::capture.output(problems_pyar), collapse = "\n"), 
                          "\n Check attribute `problems_pyar_attr` of results to see what strata are affected. \n"))
-    problems_pyar_attr <- rbind(problems_pyar_attr, problems_pyar, fill=TRUE) #save information to write as attribute later
+    problems_pyar_attr <- tidytable::bind_rows.(problems_pyar_attr, problems_pyar, fill=TRUE) #save information to write as attribute later
   }
   
   
