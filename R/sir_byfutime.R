@@ -248,7 +248,8 @@ sir_byfutime <- function(df,
     if (nrow(problems_missing_futime) > 0) {
       rlang::inform(
         paste0(
-          "\n [INFO FU time missing] There are ", nrow(problems_missing_futime), "rows in the data set for which futime_var is missing. \n", 
+          "\n [INFO FU time missing] There are ", nrow(problems_missing_futime), 
+          "rows in the data set for which futime_var is missing. \n", 
           "Please make sure that you have: \n", 
           " - calculated FU time for all cases where the index event occured and \n", 
           " - have removed all cases from the dataset that do not count at baseline. \n \n",
