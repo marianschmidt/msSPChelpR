@@ -21,7 +21,7 @@ All tumors > timevar_max will be deleted before reshaping.}
 \item{datsize}{Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.}
 }
 \value{
-df
+wide_df
 }
 \description{
 Reshape dataset to wide format - tidytable version

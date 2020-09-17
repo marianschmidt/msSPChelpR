@@ -2,13 +2,13 @@
 % Please edit documentation in R/ir_crosstab_byfutime.R
 \name{ir_crosstab_byfutime}
 \alias{ir_crosstab_byfutime}
-\title{Calculate crude incidence rates and crosstabulate results by break variables (Copy of ir_crosstab for the special case of cumulative FU-times as xbreak_var)}
+\title{Calculate crude incidence rates and cross-tabulate results by break variables; cumulative FU-times as are used as xbreak_var}
 \usage{
 ir_crosstab_byfutime(
   df,
   dattype = "zfkd",
   count_var,
-  futime_breaks = c(6, 12, 60, 120),
+  futime_breaks = c(0, 0.5, 1, 5, 10, Inf),
   ybreak_vars,
   collapse_ci = FALSE,
   add_total = "no",
@@ -23,8 +23,8 @@ ir_crosstab_byfutime(
 
 \item{count_var}{variable to be counted as observed case. Should be 1 for case to be counted.}
 
-\item{futime_breaks}{vector that indicates split points for follow-up time groups (in months) that will be used as xbreak_var.
-Default is c(6, 12, 60, 120) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years)}
+\item{futime_breaks}{vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
+Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years).}
 
 \item{ybreak_vars}{variables from df by which rates should be stratified in rows of result df. Multiple variables will result in
 appended rows in result df. y_break_vars is required.}
@@ -41,5 +41,5 @@ appended rows in result df. y_break_vars is required.}
 df
 }
 \description{
-Calculate crude incidence rates and crosstabulate results by break variables (Copy of ir_crosstab for the special case of cumulative FU-times as xbreak_var)
+Calculate crude incidence rates and cross-tabulate results by break variables; cumulative FU-times as are used as xbreak_var
 }

@@ -7,7 +7,7 @@
 summarize_sir_results(
   sir_df,
   summarize_groups,
-  summarize_site,
+  summarize_site = FALSE,
   output = "long",
   output_information = "full",
   add_total_row = "no",
@@ -24,12 +24,13 @@ summarize_sir_results(
 \item{sir_df}{dataframe with stratified sir results created using the sir or sir_byfutime functions}
 
 \item{summarize_groups}{option to define summarizing stratified groups. Default is "none".
-If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var.
-Define multiple summarize variables by summarize_groups = c("region", "sex", "year")}
+If you want to define variables that should be summarized into one group, you can chose from age, sex, region, year.
+Define multiple summarize variables e.g. by summarize_groups = c("region", "sex", "year")}
 
-\item{summarize_site}{option to summarize over all ICD codes}
+\item{summarize_site}{If TRUE results will be summarized over all t_site categories. Default is FALSE.}
 
-\item{output}{Define the format of the output. Can be either "nested" for nested dataframe with fubreak_var and xbreak_var in separate sub_tables (purrr).
+\item{output}{Define the format of the output.
+Can be either "nested" for nested dataframe with fubreak_var and xbreak_var in separate sub_tables (purrr).
 Or "wide" for wide format where fubreak_var and xbreak_var are appended as columns.
 Or "long" for long format where sir_df is not reshaped, but just summarized (ybreak_var, xbreak_var and fubreak_var remain in rows).
 Default is "long".}
@@ -38,9 +39,11 @@ Default is "long".}
 from sir_df. "reduced" is observed, expected, sir, sir_ci / sir_lci+sir_uci, pyar, n_base. "minimal" is observed, expected, sir, sir_ci.
 Default is "full".}
 
-\item{add_total_row}{option to add a row of totals. Can be either "no" for not adding such a row or "start" or "end" for adding it at the first or last row. Default is "no".}
+\item{add_total_row}{option to add a row of totals. Can be either "no" for not adding such a row or "start" or "end" for adding it at the first or last row
+or "only" for only showing totals and no yvar. Default is "no".}
 
-\item{add_total_fu}{option to add totals for follow-up time. Can be either "no" for not adding such a column or "start" or "end" for adding it at the first or last column. Default is "no".}
+\item{add_total_fu}{option to add totals for follow-up time. Can be either "no" for not adding such a column or "start" or "end" for adding it at the first or last column
+or "only" for only showing follow-up time totals. Default is "no".}
 
 \item{collapse_ci}{If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.}
 
