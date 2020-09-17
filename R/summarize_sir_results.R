@@ -3,18 +3,21 @@
 #' 
 #' @param sir_df dataframe with stratified sir results created using the sir or sir_byfutime functions
 #' @param summarize_groups option to define summarizing stratified groups. Default is "none". 
-#'                 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var. 
-#'                 Define multiple summarize variables by summarize_groups = c("region", "sex", "year")
-#' @param summarize_site option to summarize over all ICD codes 
-#' @param output Define the format of the output. Can be either "nested" for nested dataframe with fubreak_var and xbreak_var in separate sub_tables (purrr).
+#'                 If you want to define variables that should be summarized into one group, you can chose from age, sex, region, year. 
+#'                 Define multiple summarize variables e.g. by summarize_groups = c("region", "sex", "year")
+#' @param summarize_site If TRUE results will be summarized over all t_site categories. Default is FALSE. 
+#' @param output Define the format of the output. 
+#'               Can be either "nested" for nested dataframe with fubreak_var and xbreak_var in separate sub_tables (purrr).
 #'               Or "wide" for wide format where fubreak_var and xbreak_var are appended as columns.
 #'               Or "long" for long format where sir_df is not reshaped, but just summarized (ybreak_var, xbreak_var and fubreak_var remain in rows).
 #'               Default is "long".
 #' @param output_information option to define information to be presented in final output table. Default is "full" information, i.e. all variables from
 #'                           from sir_df. "reduced" is observed, expected, sir, sir_ci / sir_lci+sir_uci, pyar, n_base. "minimal" is observed, expected, sir, sir_ci. 
 #'                           Default is "full".
-#' @param add_total_row option to add a row of totals. Can be either "no" for not adding such a row or "start" or "end" for adding it at the first or last row. Default is "no".
-#' @param add_total_fu option to add totals for follow-up time. Can be either "no" for not adding such a column or "start" or "end" for adding it at the first or last column. Default is "no".
+#' @param add_total_row option to add a row of totals. Can be either "no" for not adding such a row or "start" or "end" for adding it at the first or last row 
+#'                      or "only" for only showing totals and no yvar. Default is "no".
+#' @param add_total_fu option to add totals for follow-up time. Can be either "no" for not adding such a column or "start" or "end" for adding it at the first or last column
+#'                      or "only" for only showing follow-up time totals. Default is "no".
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
 #' @param shorten_total_cols Shorten text in all results columns that start with "Total". Default == FALSE.
 #' @param fubreak_var_name Name of variable with futime stratification. Default is "fu_time".
@@ -25,7 +28,7 @@
 
 summarize_sir_results <- function(sir_df,
                                   summarize_groups,
-                                  summarize_site,
+                                  summarize_site = FALSE,
                                   output = "long",
                                   output_information = "full",
                                   add_total_row = "no",
@@ -38,13 +41,71 @@ summarize_sir_results <- function(sir_df,
                                   alpha = 0.05
 ) {
   
-  #---prework
+  #---prepwork
   #get arguments
   
-  #set defaults
-  options_dplyr_old <- options(dplyr.summarise.inform = TRUE) # save old setting for showing dplyr messages
-  on.exit(options(options_dplyr_old), add = TRUE) #make sure old options are used when exiting function
-  options(dplyr.summarise.inform = FALSE) #set new setting for not showing dplyr messages to avoid outbut by summarize()
+  #check that provided arguments are in correct format
+  
+  if(!is.character(summarize_groups)){
+    rlang::abort("Parameter `summarize_groups` must be character vector.")
+  }
+  
+  if(!is.logical(summarize_site)){
+    rlang::warn("Parameter `summarize_site` must be logical (TRUE or FALSE). Default `summarize_site = FALSE` will be used instead.")
+    summarize_site <- FALSE
+  }
+  
+  if(!is.character(output)){
+    rlang::warn("Parameter `output` must be character vector. Default `output = \"long\"` will be used instead.")
+    output <- "long"
+  }
+  if(!(output %in% c("nested", "wide", "long"))){
+    rlang::warn(paste0(
+      "Parameter `output` must be \"wide\", \"long\" or \"nested\". \n", 
+      "Default `output = \"long\"` will be used instead of: ", output))
+    output <- "long"
+  }
+  
+  
+  if(!is.character(output_information)){
+    rlang::warn("Parameter `output_information` must be character vector. Default `output = \"full\"` will be used instead.")
+    output_information <- "full"
+  }
+  if(!(output_information %in% c("full", "reduced", "minimal"))){
+    rlang::warn(paste0(
+      "Parameter `output_information` must be \"full\", \"reduced\" or \"minimal\". \n", 
+      "Default `output_information = \"full\"` will be used instead of: ", output_information))
+    output_information <- "full"
+  }
+  
+  
+  if(!is.character(add_total_row)){
+    rlang::warn("Parameter `add_total_row` must be character vector. Default `output = \"no\"` will be used instead.")
+    add_total_row <- "no"
+  }
+  if(!(add_total_row %in% c("no", "start", "end"))){
+    rlang::warn(paste0(
+      "Parameter `add_total_row` must be \"start\", \"end\" or \"no\". \n", 
+      "Default `add_total_row = \"no\"` will be used instead of: ", add_total_row))
+    add_total_row <- "full"
+  }
+  
+  if(!is.character(add_total_fu)){
+    rlang::warn("Parameter `add_total_fu` must be character vector. Default `output = \"no\"` will be used instead.")
+    add_total_fu <- "no"
+  }
+  if(!(add_total_fu %in% c("no", "start", "end"))){
+    rlang::warn(paste0(
+      "Parameter `add_total_fu` must be \"start\", \"end\" or \"no\". \n", 
+      "Default `add_total_fu = \"no\"` will be used instead of: ", add_total_fu))
+    add_total_fu <- "full"
+  }
+  
+  if(!is.logical(collapse_ci)){
+    rlang::warn("Parameter `collapse_ci` must be logical (TRUE or FALSE). Default `collapse_ci = FALSE` will be used instead.")
+    collapse_ci <- FALSE
+  }
+  
   
   #prepare fubreak_var_name
   
@@ -56,10 +117,10 @@ summarize_sir_results <- function(sir_df,
     } else{
       fubreak_var_name <- "fu_time"
       if(fubreak_var_name %in% colnames(sir_df)){
-        warning("Provided fubreak_var_name does not exit in sir_df. Default column 'fu_time' does exist and is used instead.")
+        warning("Provided `fubreak_var_name` does not exit in sir_df. Default column 'fu_time' does exist and is used instead.")
         fu <- TRUE
       } else{
-        warning("Provided fubreak_var_name does not exit in sir_df. Results can not by summarized by fu_time.")
+        warning("Provided `fubreak_var_name` does not exit in sir_df. Results can not by summarized by fu_time.")
         fu <- FALSE
       }
     }
@@ -77,10 +138,10 @@ summarize_sir_results <- function(sir_df,
     } else{
       ybreak_var_name <- "yvar_name"
       if((ybreak_var_name %in% colnames(sir_df)) & (ylabel_var_name %in% colnames(sir_df))){
-        warning("Provided ybreak_var_name does not exit in sir_df. Default column 'yvar_name' does exist and is used instead.")
+        warning("Provided `ybreak_var_name` does not exist in sir_df. Default column 'yvar_name' does exist and is used instead.")
         yb <- TRUE
       } else{
-        warning("Provided ybreak_var_name or yvar_label column does not exit in sir_df. Results can not by summarized by ybreak_vars.")
+        warning("Provided `ybreak_var_name` or `yvar_label` column does not exit in sir_df. Results can not by summarized by ybreak_vars.")
         yb <- FALSE
       }
     }
@@ -97,29 +158,45 @@ summarize_sir_results <- function(sir_df,
     } else{
       xbreak_var_name <- "xvar_name"
       if((xbreak_var_name %in% colnames(sir_df)) & (xlabel_var_name %in% colnames(sir_df))){
-        warning("Provided xbreak_var_name does not exit in sir_df. Default column 'xvar_name' does exist and is used instead.")
+        warning("Provided `xbreak_var_name` does not exit in sir_df. Default column 'xvar_name' does exist and is used instead.")
         xb <- TRUE
       } else{
-        warning("Provided xbreak_var_name or xvar_label column does not exit in sir_df. Results can not by summarized by xbreak_vars.")
+        warning("Provided `xbreak_var_name` or xvar_label column does not exit in sir_df. Results can not by summarized by xbreak_vars.")
         xb <- FALSE
       }
     }
   }
   
+  #rename variables futime_var, xbreak_var and ybreak_var for normalized output
+  if(fu){
+    sir_df <- sir_df %>%
+      tidytable::rename.(fu_time = !!rlang::sym(fubreak_var_name))
+  }
+  
+  if(xb){
+    sir_df <- sir_df %>%
+      tidytable::rename.(xvar_name = !!rlang::sym(xbreak_var_name))
+  }
+  
+  if(yb){
+    sir_df <- sir_df %>%
+      tidytable::rename.(yvar_name = !!rlang::sym(ybreak_var_name))
+  }
+  
   #prepare sorting
   if(yb & !("yvar_sort" %in% colnames(sir_df))){
     sir_df <- sir_df %>%
-      dplyr::mutate(yvar_sort = as.numeric(as.factor(.data[[!!ybreak_var_name]]))) 
+      tidytable::mutate.(yvar_sort = as.numeric(as.factor(.SD$yvar_name))) 
   }
   
   if(yb & !("yvar_sort_levels" %in% colnames(sir_df))){
     sir_df <- sir_df %>%
-      dplyr::mutate(yvar_sort_levels = as.numeric(as.factor(.data[[!!ylabel_var_name]]))) 
+      tidytable::mutate.(yvar_sort_levels = as.numeric(as.factor(.SD$yvar_label))) 
   }
   
   if(fu & !("fu_time_sort" %in% colnames(sir_df))){
     sir_df <- sir_df %>%
-      dplyr::mutate(fu_time_sort = as.numeric(as.factor(.data[[!!fubreak_var_name]]))) 
+      tidytable::mutate.(fu_time_sort = as.numeric(as.factor(.SD$fu_time))) 
   }
   
   
@@ -130,7 +207,14 @@ summarize_sir_results <- function(sir_df,
     sg_var_names <- rlang::eval_tidy(summarize_groups)
   } else{sg <- FALSE}
   
+  #check if race is in dataset
+  if("race" %in% colnames(sir_df)){
+    rs <- TRUE
+  } else(rs <- FALSE)
+  
+  
   #enforce summarize site
+  #BUG? Check whether this implementation of t_site is really okay (count too many pyar?)
   
   if(summarize_site == TRUE){
     sg <- TRUE
@@ -139,99 +223,116 @@ summarize_sir_results <- function(sir_df,
   
   #prepare total_fu
   
-  if(add_total_fu == "start" | add_total_fu == "end"){
+  if(add_total_fu == "start" | add_total_fu == "end" | add_total_fu == "only"){
     ft <- TRUE
-  } else{ft <- FALSE} #dummy to show loop for Total line
+  } else{ft <- FALSE}
   
   #prepare total_row
   
-  if(add_total_row == "start" | add_total_row == "end"){
-    
-    #BUG: do something here
-    
-  }
+  if(add_total_row == "start" | add_total_row == "end" | add_total_row == "only"){
+    rt <- TRUE
+  } else{rt <- FALSE}
   
   #prepare collapse_ci option
   
-  if(collapse_ci == FALSE & !is.null(sir_df$sir_lci) & !is.null(sir_df$sir_uci)){
-    sir_df_mod <- sir_df
-    ci <- FALSE
-  } else{
-    
-    if(collapse_ci == TRUE & !is.null(sir_df$sir_lci) & !is.null(sir_df$sir_uci)){
-      sir_df_mod <- sir_df 
-      ci <- TRUE
-    } else{
-      
-      if(collapse_ci == TRUE & !is.null(sir_df$sir_ci)){
-        sir_df_mod <- sir_df %>% 
-          tidyr::separate(.data$sir_ci, into = c("sir_lci", "sir_uci"), sep = " - ")
-        ci <- TRUE
-      } else{
-        warning("There is a problem with the collapse_ci setting. If FALSE, sir_lci and sir_uci must exist in sir_df. If TRUE, eiter sir_ci or sir_lci and sir_uci must exist in sir_df.")
-      }
-    }
-  }
+  ci <- collapse_ci
+  
   
   #final check sir_df
   
   required_vars <- c(if(fu){fubreak_var_name}, if(yb){ybreak_var_name}, if(xb){xbreak_var_name},
-                     if(ci){"sir_ci"}, if(!ci){c("sir_lci", "sir_uci")}, "age", "region", "sex", "year", "t_site", "observed",
-                     "expected", "sir", "pyar", "n_base", "ref_inc_cases", "ref_population_pyar")
+                     "sir_lci", "sir_uci", "age", "region", "sex", "year", "t_site", "observed",
+                     "expected", "sir", "pyar", "n_base", "ref_inc_cases", "ref_population_pyar",
+                     if(rs){"race"})
   
   
-  not_found_vars <- required_vars[!(required_vars %in% colnames(sir_df_mod))]
+  not_found_vars <- required_vars[!(required_vars %in% colnames(sir_df))]
   
   if (length(not_found_vars) > 0) {
     rlang::abort(
       paste0(
-        "The following variables defined are not found in the provided dataframe sir_df: ",
-        paste(not_found_vars, collapse = ", ")
+        "The following variables required are not found in the provided dataframe `sir_df`: \n",
+        paste(not_found_vars, collapse = ", "),
+        "\n make sure that `sir_df` provided is a results file from `msSPChelpR::sir_byfutime()`"
       )
     )
+  }
+  
+  
+  #check that FU totals are present, if ft == TRUE
+  
+  if(ft){
+    if(any(str_detect(unique(sir_df$fu_time), "Total")) == FALSE) {
+      rlang::warn(
+        paste0(
+          "There is are no follow-up time totals found in `sir_df` in variable ", fubreak_var_name, ".\n",
+          "\n Make sure that when you run the function `msSPChelpR::sir_byfutime()` the option `calc_total_fu = TRUE` is used. \n",
+          "Default `add_total_fu = no` will be used instead."))
+      ft <- FALSE
+      add_total_fu <- "no"
+    }
+  }
+  
+  #check that row totals are present, if rt == TRUE
+  
+  if(rt){
+    if(any(str_detect(unique(sir_df$yvar_name), "total_var")) == FALSE) {
+      rlang::warn(
+        paste0(
+          "There is are no row totals found in `sir_df` in variable ", ybreak_var_name, ".\n",
+          "\n Make sure that when you run the function `msSPChelpR::sir_byfutime()` the option `calc_total_row = TRUE` is used. \n",
+          "Default `add_total_row = no` will be used instead."))
+      rt <- FALSE
+      add_total_row <- "no"
+    }
   }
   
   
   #---- summarize option
   
   if(!sg){
-    sum_pre <-  sir_df_mod
+    #if no summarize option is chosen, then just rename variables for easier handling later
+    if(fu){
+      sum_pre <-  sir_df
+    }
   }
   
+  #else do the summarizing
   if(sg){
     
     #o) get used values for labels
     
-    used_sex <- sir_df_mod %>% dplyr::distinct(.data$sex) %>% dplyr::pull() 
-    used_region <- sir_df_mod %>% dplyr::distinct(.data$region) %>% dplyr::pull() 
-    used_year <- sir_df_mod %>% dplyr::distinct(.data$year) %>% dplyr::pull() 
-    used_ages <- sir_df_mod %>% dplyr::distinct(.data$age) %>% dplyr::pull() 
-    used_t_site <- sir_df_mod %>% dplyr::distinct(.data$t_site) %>% dplyr::pull() 
+    used_sex <- unique(sir_df$sex) 
+    used_region <- unique(sir_df$region)  
+    used_year <- unique(sir_df$year)  
+    used_age <- unique(sir_df$age)  
+    if(rs){used_race <- unique(sir_df$race)}
+    used_t_site <- unique(sir_df$t_site)  
     
     min_year <- stringr::str_sub(used_year, 1, 4) %>% as.numeric() %>% min()
     max_year <- stringr::str_sub(used_year, 1, 4) %>% as.numeric() %>% max()
     
-    min_age <- stringr::str_sub(used_ages, 1, 2) %>% as.numeric() %>% min()
-    max_age <- stringr::str_sub(used_ages, -3) %>% as.numeric() %>% max()
+    min_age <- stringr::str_sub(used_age, 1, 2) %>% as.numeric() %>% min()
+    max_age <- stringr::str_sub(used_age, -3) %>% as.numeric() %>% max()
     
     
     #i) CHK for missing summarize vars
-    sg_not_found <- sg_var_names[!(sg_var_names %in% colnames(sir_df_mod))]
+    sg_not_found <- sg_var_names[!(sg_var_names %in% colnames(sir_df))]
     
     
     if (length(sg_not_found) > 0) {
       rlang::abort(
         paste0(
-          "The following variables defined in summarize_groups are not found in the results dataframe: ",
+          "The following variables defined in `summarize_groups` are not found in the results dataframe: \n",
           paste(sg_not_found, collapse = ", ")
         )
       )
     }
     
     #ii) create vector with all possible grouping vars and CHK
-    all_grouping_vars <- c("age", "sex", "region", "year", "t_site",
-                           if(fu){c(fubreak_var_name, "fu_time_sort")},
-                           if(yb){c(ybreak_var_name, ylabel_var_name, "yvar_sort", "yvar_sort_levels")}, if(xb){c(xbreak_var_name, xlabel_var_name)})
+    all_grouping_vars <- c("age", "sex", "region", "year", if(rs){"race"}, "t_site",
+                           if(fu){c("fu_time", "fu_time_sort")},
+                           if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, if(xb){c("xvar_name", "xvar_label")})
     
     sg_not_possible <- sg_var_names[!(sg_var_names %in% all_grouping_vars)]
     
@@ -239,7 +340,7 @@ summarize_sir_results <- function(sir_df,
     if (length(sg_not_possible) > 0) {
       rlang::abort(
         paste0(
-          "The following variables defined in summarize_groups are not possible or meaningful to use: ",
+          "The following variables defined in `summarize_groups` are not possible or meaningful to use: ",
           paste(sg_not_possible, collapse = ", ")
         )
       )
@@ -250,121 +351,235 @@ summarize_sir_results <- function(sir_df,
     
     
     #iv) summarize over grouping vars
-    sum_pre_tmp <- sir_df_mod %>%
-      dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_vars))) %>%
-      dplyr::summarize(
-        group_observed = sum(.data$observed, na.rm = TRUE),
-        group_pyar = sum(.data$pyar, na.rm = TRUE),
-        group_n_base = sum(.data$n_base, na.rm = TRUE),
-        group_incidence_cases = sum(.data$ref_inc_cases, na.rm = TRUE),
-        group_population_pyar = sum(.data$ref_population_pyar, na.rm = TRUE),
-        group_expected = sum(.data$expected, na.rm = TRUE)) %>%
-      dplyr::ungroup() %>%
+    sum_pre_tmp <- sir_df %>%
+      tidytable::summarize_across.(
+        .cols = c(observed, pyar, n_base, ref_inc_cases, ref_population_pyar, expected),
+        .fns =  ~ sum(.x, na.rm = TRUE),
+        .names = "group_{.col}",
+        .by = !!grouping_vars) %>%
       #calculate sir
-      dplyr::mutate(
-        sir = .data$group_observed / .data$group_expected,
-        sir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$group_observed) / 2) / .data$group_expected,
-        sir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$group_observed + 1)) / 2) / .data$group_expected,
-        group_incidence_crude_rate = .data$group_incidence_cases / .data$group_population_pyar * 100000
+      tidytable::mutate.(
+        sir = .SD$group_observed / .SD$group_expected,
+        sir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .SD$group_observed) / 2) / .SD$group_expected,
+        sir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.SD$group_observed + 1)) / 2) / .SD$group_expected,
+        group_incidence_crude_rate = .SD$group_ref_inc_cases / .SD$group_ref_population_pyar * 100000
       ) %>%
-      dplyr::distinct()
+      tidytable::distinct.()
     
     
     #v) #add grouping information for summarized variables
     
     
     if("age" %in% sg_var_names == TRUE){
-      if(shorten_total_cols==FALSE){
+      if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(age = paste0("Total - All included ages: ",  min_age, " - ", max_age))
+          tidytable::mutate.(age = paste0("Total - All included ages: ",  min_age, " - ", max_age))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(age = "Total")
+          tidytable::mutate.(age = "Total")
       }
     }
     
     if("sex" %in% sg_var_names == TRUE){
-      if(shorten_total_cols==FALSE){
+      if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(sex = paste0("Total - All included sexes: ", paste(used_sex, collapse = ", ")))
+          tidytable::mutate.(sex = paste0("Total - All included sexes: ", paste(used_sex, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(sex = "Total")
+          tidytable::mutate.(sex = "Total")
       }
     }
     
     if("region" %in% sg_var_names == TRUE){
-      if(shorten_total_cols==FALSE){
+      if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(region = paste0("Total - All included regions: ", paste(used_region, collapse = ", ")))
+          tidytable::mutate.(region = paste0("Total - All included regions: ", paste(used_region, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(region = "Total")
+          tidytable::mutate.(region = "Total")
       }
     }
     
     if("year" %in% sg_var_names == TRUE){
-      if(shorten_total_cols==FALSE){
+      if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(year = paste0("Total - All included years: ", min_year, " - ", max_year))
+          tidytable::mutate.(year = paste0("Total - All included years: ", min_year, " - ", max_year))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(year = "Total")
+          tidytable::mutate.(year = "Total")
+      }
+    }
+    
+    if("race" %in% sg_var_names == TRUE){
+      if(shorten_total_cols == FALSE){
+        sum_pre_tmp <- sum_pre_tmp %>%
+          tidytable::mutate.(race = paste0("Total - All included races: ", paste(used_race, collapse = ", ")))
+      } else{
+        sum_pre_tmp <- sum_pre_tmp %>%
+          tidytable::mutate.(race = "Total")
       }
     }
     
     if("t_site" %in% sg_var_names == TRUE){
-      if(shorten_total_cols==FALSE){
+      if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(t_site = paste0("Total - All included Tumor sites: ", paste(used_t_site, collapse = ", ")))
+          tidytable::mutate.(t_site = paste0("Total - All included Tumor sites: ", paste(used_t_site, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          dplyr::mutate(t_site = "Total")
+          tidytable::mutate.(t_site = "Total")
       }
     }
     
     #rounding
     
     sum_pre_tmp <- sum_pre_tmp %>%
-      dplyr::mutate(dplyr::across(.cols = c(.data$group_pyar, .data$sir, .data$sir_lci, .data$sir_uci), 
-                                  .fns = ~ round(.x,2)))
+      tidytable::mutate_across.(.cols = c(group_pyar, sir, sir_lci, sir_uci), 
+                                .fns = ~ round(.x, 2))
     
     #do collapse_ci
     if(ci){
       sum_pre_tmp <- sum_pre_tmp %>% 
-        tidyr::unite("sir_ci", .data$sir_lci, .data$sir_uci, sep = " - ")
+        tidytable::unite.("sir_ci", sir_lci, sir_uci, sep = " - ")
     } 
     
-    #label and sort
+    
+    #label
     
     sum_pre <- sum_pre_tmp %>%
-      dplyr::rename(observed = .data$group_observed,
-                    expected = .data$group_expected,
-                    pyar = .data$group_pyar,
-                    ref_inc_cases = .data$group_incidence_cases,
-                    ref_population_pyar = .data$group_population_pyar,
-                    ref_inc_crude_rate = .data$group_incidence_crude_rate) %>%
-      dplyr::select(tidyselect::any_of(c("age", "region", "sex", "year", 
-                                         if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
-                                         if(fu){"fu_time"}, 
-                                         "t_site", "observed", "expected", "sir",
-                                         if(collapse_ci == TRUE){"sir_ci"},
-                                         if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
-                    dplyr::everything()
-      ) %>% 
-      dplyr::arrange(dplyr::across(tidyselect::any_of(c("age", "region", "sex", "year", 
-                                                        if(yb){c("yvar_sort", "yvar_sort_levels")}, if(xb){c("xvar_name", "xvar_label")}, 
-                                                        if(fu){"fu_time_sort"}
-      ))))
+      tidytable::rename.(observed = group_observed,
+                         expected = group_expected,
+                         pyar = group_pyar,
+                         ref_inc_cases = group_ref_inc_cases,
+                         ref_population_pyar = group_ref_population_pyar,
+                         ref_inc_crude_rate = group_incidence_crude_rate) %>%
+      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"},
+                                              if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
+                                              if(fu){"fu_time"}, 
+                                              "t_site", "observed", "expected", "sir",
+                                              if(collapse_ci == TRUE){"sir_ci"},
+                                              if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
+                         tidyselect::everything()
+      ) 
     
     
   }
   
   
   
+  
   #change output information required
   
+  ##--- enforce add_total_fu
   
+  if(add_total_fu == "only"){
+    sum_pre <- sum_pre %>%
+      tidytable::filter.(substr(fu_time, 1, 5) == "Total")
+  }
+  
+  if(add_total_fu == "start"){
+    sum_pre <- sum_pre %>%
+      #set sorting value for Totals to 0, so it appears first
+      tidytable::mutate.(fu_time_sort = tidytable::case.(substr(.SD$fu_time, 1, 5) == "Total", 0,
+                                                         default = .SD$fu_time_sort))
+  }
+  
+  if(add_total_fu == "end"){
+    sum_pre <- sum_pre %>%
+      #set sorting value for Totals to 999, so it appears last
+      tidytable::mutate.(fu_time_sort = tidytable::case.(substr(.SD$fu_time, 1, 5) == "Total", 999,
+                                                         default = .SD$fu_time_sort))
+  }
+  
+  ##--- sort
+  
+  #since tidytable::arrange.() does not support tidyselect, we need to create a list of symbols to pass on
+  arrange_vars <- rlang::syms(c("age", "region", "sex", "year", if(rs){"race"},
+                                if(yb){c("yvar_sort", "yvar_sort_levels")}, if(xb){c("xvar_name", "xvar_label")}, 
+                                if(fu){"fu_time_sort"}, "t_site"))
+  
+  sum_pre <- sum_pre %>% 
+    tidytable::arrange.(!!!arrange_vars)
+  
+  ##--- enforce add_total_row
+  if(rt){
+    
+    #calculate totals
+    totals <- sum_pre %>%
+      tidytable::filter.(yvar_name == "total_var") %>%
+      tidytable::summarize.(
+        yvar_name = first(yvar_name),
+        group_observed = sum(observed, na.rm = TRUE),
+        group_pyar = first(pyar),
+        group_n_base = first(group_n_base),
+        group_ref_inc_cases = sum(ref_inc_cases),
+        group_ref_population_pyar = first(ref_population_pyar),
+        group_expected = sum(expected, na.rm = TRUE),
+        .by = c(yvar_label, fu_time))%>%
+      #calculate sir
+      tidytable::mutate.(
+        sir = .SD$group_observed / .SD$group_expected,
+        sir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .SD$group_observed) / 2) / .SD$group_expected,
+        sir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.SD$group_observed + 1)) / 2) / .SD$group_expected,
+        group_incidence_crude_rate = .SD$group_ref_inc_cases / .SD$group_ref_population_pyar * 100000
+      ) %>%
+      #rename and select required vars
+      tidytable::rename.(observed = group_observed,
+                         expected = group_expected,
+                         pyar = group_pyar,
+                         ref_inc_cases = group_ref_inc_cases,
+                         ref_population_pyar = group_ref_population_pyar,
+                         ref_inc_crude_rate = group_incidence_crude_rate) %>%
+      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"},
+                                              if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
+                                              if(fu){"fu_time"}, 
+                                              "t_site", "observed", "expected", "sir",
+                                              if(collapse_ci == TRUE){"sir_ci"},
+                                              if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
+                         tidyselect::everything()
+      ) %>%
+      tidytable::mutate.(age = "Total",
+                         region = "Total",
+                         sex = "Total",
+                         year = "Total",
+                         t_site = "Total") %>%
+      tidytable::mutate_across.(.cols = c(pyar, sir, sir_lci, sir_uci), 
+                                .fns = ~ round(.x, 2))
+    
+    if(rs){
+      totals <- totals %>%
+        tidytable::mutate.(race = "Total")
+    }
+    
+    if(fu){
+      totals <- totals %>%
+        tidytable::mutate.(fu_time_sort = tidytable::row_number.())
+    }
+    
+    # "only" --> only keep totals
+    if(add_total_row == "only"){
+      sum_pre <- totals
+    }
+    
+    # "start" --> bind totals to start
+    if(add_total_row == "start"){
+      sum_pre <- tidytable::bind_rows.(totals, sum_pre) %>%
+        tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"},
+                                                if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
+                                                if(fu){"fu_time"}, 
+                                                "t_site", "observed", "expected", "sir",
+                                                if(collapse_ci == TRUE){"sir_ci"},
+                                                if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
+                           tidyselect::everything())
+    }
+    
+    # "end" --> bind totals to end
+    if(add_total_row == "end"){
+      sum_pre <- tidytable::bind_rows.(sum_pre, totals)
+    }
+    
+  }
+  
+  ##--- enforce option output_information
   #full
   if(output_information == "full"){
     sum_pre2 <- sum_pre
@@ -372,34 +587,35 @@ summarize_sir_results <- function(sir_df,
   #reduced
   if(output_information == "reduced"){
     sum_pre2 <- sum_pre %>%
-      dplyr::select(dplyr::one_of(c("age", "region", "sex", "year", 
-                                    if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
-                                    if(xb){c("xvar_name", "xvar_label")}, 
-                                    if(fu){c("fu_time", "fu_time_sort")}, 
-                                    "t_site", "observed", "expected", "sir",
-                                    if(collapse_ci == TRUE){"sir_ci"},
-                                    if(collapse_ci == FALSE){c("sir_lci", "sir_uci")},
-                                    "pyar", "n_base")))
+      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
+                                              if(yb){c("yvar_name", "yvar_label")}, 
+                                              if(xb){c("xvar_name", "xvar_label")}, 
+                                              if(fu){c("fu_time", "fu_time_sort")}, 
+                                              "t_site", "observed", "expected", "sir",
+                                              if(collapse_ci == TRUE){"sir_ci"},
+                                              if(collapse_ci == FALSE){c("sir_lci", "sir_uci")},
+                                              "pyar", "n_base")))
   }
   #minimal
   if(output_information == "minimal"){
     if(!ci){
       sum_pre <- sum_pre %>%
         #make sure CIs are minimal
-        tidyr::unite("sir_ci", .data$sir_lci, .data$sir_uci, sep = " - ")
+        tidytable::unite.("sir_ci", sir_lci, sir_uci, sep = " - ")
       
       ci <- TRUE
     }
     
     #select only required vars
     sum_pre2 <- sum_pre %>%
-      dplyr::select(dplyr::one_of(c("age", "region", "sex", "year", 
-                                    if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
-                                    if(xb){c("xvar_name", "xvar_label")}, 
-                                    if(fu){c("fu_time", "fu_time_sort")}, 
-                                    "t_site", "observed", "expected", "sir", "sir_ci")))
+      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
+                                              if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
+                                              if(xb){c("xvar_name", "xvar_label")}, 
+                                              if(fu){c("fu_time", "fu_time_sort")}, 
+                                              "t_site", "observed", "expected", "sir", "sir_ci")))
   }
   
+  ##--- enforce option output
   #reshaping according to output option
   
   #output == "long"
@@ -457,7 +673,7 @@ summarize_sir_results <- function(sir_df,
     }
     
     if(!fu & !xb & !yb){
-      warning("No break variables (futime, xvar, yvar) provided. Nothing to reshape. Returning long results.")
+      rlang::warn("No break variables (futime, xvar, yvar) provided. Nothing to reshape. Returning long results.")
       sum_results <- sum_pre2
       
       return(sum_results)
@@ -481,10 +697,11 @@ summarize_sir_results <- function(sir_df,
     
     #sort dataframe
     sum_results <- sum_results_pre %>%
-      dplyr::select(dplyr::one_of(c("age", "region", "sex", "year", 
-                                    if(yb & !yb_off){c("yvar_name", "yvar_label")}, 
-                                    "t_site", sort)),
-                    dplyr::everything())
+      #sort columns
+      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
+                                              if(yb & !yb_off){c("yvar_name", "yvar_label")}, 
+                                              "t_site", sort)),
+                         tidyselect::everything())
     
     names(sum_results) <- names(sum_results) %>% 
       stringr::str_replace_all(stringr::regex("[:digit:]\\*\\*"), "")
@@ -494,11 +711,30 @@ summarize_sir_results <- function(sir_df,
   #output = "nested"
   if(output == "nested"){
     
-    sum_results <- sum_pre %>%
-      dplyr::group_by(dplyr::across(tidyselect::all_of(grouping_vars))) %>%
-      {if (xb){dplyr::group_by(., .data$xvar_name, .add = TRUE)} else{.}} %>% # add x grouping variable if present
-      {if (fu){dplyr::group_by(., .data$fu_time, .add = TRUE)} else{.}} %>% # add fub grouping variable
-      tidyr::nest()
+    # determine nesting variables
+    nesting_vars <- c("")
+    
+    if(sg){
+      nesting_vars <- sg_var_names
+    }
+    if(fu){
+      nesting_vars <- c(nesting_vars, "fu_time", "fu_time_sort")
+    }
+    if(yb){
+      nesting_vars <- c(nesting_vars, "yvar_name", "yvar_sort", "yvar_label", "yvar_label_sort")
+    }
+    if(xb){
+      nesting_vars <- c(nesting_vars, "xvar_name", "xvar_sort")
+    }
+    
+    #only do nesting when nesting_vars present
+    if(length(nesting_vars) > 0){
+      sum_results <- sum_pre %>%
+        tidytable::nest_by.(tidyselect::any_of(nesting_vars))
+    }else{
+      rlang::warn("No nesting variables found. Nothing to reshape. Returning long results.")
+      sum_results <- sum_pre
+    }
   }
   
   return(sum_results) 
