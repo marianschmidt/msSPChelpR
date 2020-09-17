@@ -56,9 +56,11 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "ref_inc_cases", 
                                                         "ref_population_pyar",
                                                         "expected",
+                                                        "group_pyar",
                                                         "group_observed",
                                                         "group_expected",
                                                         "group_ref_inc_cases",
+                                                        "group_incidence_crude_rate", 
                                                         "group_ref_population_pyar",
                                                         "group_n_base"
                                                         )) 
