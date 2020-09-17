@@ -189,6 +189,13 @@
 <li>This might break code that relied on using the labels coming out of these functions in later filter or mutate functions.</li>
 </ul>
 </li>
+<li>
+<code><a href="../reference/ir_crosstab_byfutime.html">ir_crosstab_byfutime()</a></code>:
+<ul>
+<li>option <code>futime_breaks</code> now uses breaks in years instead of months as previously.</li>
+<li>default <code>futime_var</code> is now follow-up time in years</li>
+</ul>
+</li>
 <li>now requires dplyr version 1.0.0</li>
 <li>now requires tidytable package</li>
 <li>the default option name for tumor site variable changed from <code>icdcat_var</code> to <code>site_var</code>. This need manual update of function calls of <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> and <code><a href="../reference/asir.html">asir()</a></code>, if option is specified.</li>

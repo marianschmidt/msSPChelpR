@@ -135,7 +135,7 @@
     <pre class="usage"><span class='fu'>summarize_sir_results</span>(
   <span class='kw'>sir_df</span>,
   <span class='kw'>summarize_groups</span>,
-  <span class='kw'>summarize_site</span>,
+  summarize_site = <span class='fl'>FALSE</span>,
   output = <span class='st'>"long"</span>,
   output_information = <span class='st'>"full"</span>,
   add_total_row = <span class='st'>"no"</span>,
@@ -158,16 +158,17 @@
     <tr>
       <th>summarize_groups</th>
       <td><p>option to define summarizing stratified groups. Default is "none".
-If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var.
-Define multiple summarize variables by summarize_groups = c("region", "sex", "year")</p></td>
+If you want to define variables that should be summarized into one group, you can chose from age, sex, region, year.
+Define multiple summarize variables e.g. by summarize_groups = c("region", "sex", "year")</p></td>
     </tr>
     <tr>
       <th>summarize_site</th>
-      <td><p>option to summarize over all ICD codes</p></td>
+      <td><p>If TRUE results will be summarized over all t_site categories. Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>output</th>
-      <td><p>Define the format of the output. Can be either "nested" for nested dataframe with fubreak_var and xbreak_var in separate sub_tables (purrr).
+      <td><p>Define the format of the output.
+Can be either "nested" for nested dataframe with fubreak_var and xbreak_var in separate sub_tables (purrr).
 Or "wide" for wide format where fubreak_var and xbreak_var are appended as columns.
 Or "long" for long format where sir_df is not reshaped, but just summarized (ybreak_var, xbreak_var and fubreak_var remain in rows).
 Default is "long".</p></td>
@@ -180,11 +181,13 @@ Default is "full".</p></td>
     </tr>
     <tr>
       <th>add_total_row</th>
-      <td><p>option to add a row of totals. Can be either "no" for not adding such a row or "start" or "end" for adding it at the first or last row. Default is "no".</p></td>
+      <td><p>option to add a row of totals. Can be either "no" for not adding such a row or "start" or "end" for adding it at the first or last row
+or "only" for only showing totals and no yvar. Default is "no".</p></td>
     </tr>
     <tr>
       <th>add_total_fu</th>
-      <td><p>option to add totals for follow-up time. Can be either "no" for not adding such a column or "start" or "end" for adding it at the first or last column. Default is "no".</p></td>
+      <td><p>option to add totals for follow-up time. Can be either "no" for not adding such a column or "start" or "end" for adding it at the first or last column
+or "only" for only showing follow-up time totals. Default is "no".</p></td>
     </tr>
     <tr>
       <th>collapse_ci</th>

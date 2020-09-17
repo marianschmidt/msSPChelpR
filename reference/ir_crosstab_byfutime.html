@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate crude incidence rates and crosstabulate results by break variables (Copy of ir_crosstab for the special case of cumulative FU-times as xbreak_var) — ir_crosstab_byfutime • msSPChelpR</title>
+<title>Calculate crude incidence rates and cross-tabulate results by break variables; cumulative FU-times as are used as xbreak_var — ir_crosstab_byfutime • msSPChelpR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculate crude incidence rates and crosstabulate results by break variables (Copy of ir_crosstab for the special case of cumulative FU-times as xbreak_var) — ir_crosstab_byfutime" />
-<meta property="og:description" content="Calculate crude incidence rates and crosstabulate results by break variables (Copy of ir_crosstab for the special case of cumulative FU-times as xbreak_var)" />
+<meta property="og:title" content="Calculate crude incidence rates and cross-tabulate results by break variables; cumulative FU-times as are used as xbreak_var — ir_crosstab_byfutime" />
+<meta property="og:description" content="Calculate crude incidence rates and cross-tabulate results by break variables; cumulative FU-times as are used as xbreak_var" />
 
 
 
@@ -123,20 +123,20 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate crude incidence rates and crosstabulate results by break variables (Copy of ir_crosstab for the special case of cumulative FU-times as xbreak_var)</h1>
+    <h1>Calculate crude incidence rates and cross-tabulate results by break variables; cumulative FU-times as are used as xbreak_var</h1>
     <small class="dont-index">Source: <a href='https://github.com/marianschmidt/msSPChelpR/blob/master/R/ir_crosstab_byfutime.R'><code>R/ir_crosstab_byfutime.R</code></a></small>
     <div class="hidden name"><code>ir_crosstab_byfutime.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate crude incidence rates and crosstabulate results by break variables (Copy of ir_crosstab for the special case of cumulative FU-times as xbreak_var)</p>
+    <p>Calculate crude incidence rates and cross-tabulate results by break variables; cumulative FU-times as are used as xbreak_var</p>
     </div>
 
     <pre class="usage"><span class='fu'>ir_crosstab_byfutime</span>(
   <span class='kw'>df</span>,
   dattype = <span class='st'>"zfkd"</span>,
   <span class='kw'>count_var</span>,
-  futime_breaks = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>6</span>, <span class='fl'>12</span>, <span class='fl'>60</span>, <span class='fl'>120</span>),
+  futime_breaks = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>Inf</span>),
   <span class='kw'>ybreak_vars</span>,
   collapse_ci = <span class='fl'>FALSE</span>,
   add_total = <span class='st'>"no"</span>,
@@ -161,8 +161,8 @@
     </tr>
     <tr>
       <th>futime_breaks</th>
-      <td><p>vector that indicates split points for follow-up time groups (in months) that will be used as xbreak_var.
-Default is c(6, 12, 60, 120) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years)</p></td>
+      <td><p>vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
+Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years).</p></td>
     </tr>
     <tr>
       <th>ybreak_vars</th>
