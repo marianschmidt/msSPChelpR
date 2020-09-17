@@ -51,7 +51,16 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "yvar_label",
                                                         "xvar_name",
                                                         "xvar_label",
-                                                        "year"
+                                                        "year",
+                                                        "observed",
+                                                        "ref_inc_cases", 
+                                                        "ref_population_pyar",
+                                                        "expected",
+                                                        "group_observed",
+                                                        "group_expected",
+                                                        "group_ref_inc_cases",
+                                                        "group_ref_population_pyar",
+                                                        "group_n_base"
                                                         )) 
 #to avoid problems at rhub check use the following code
 # rhub::check(
