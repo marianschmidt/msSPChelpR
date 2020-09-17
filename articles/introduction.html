@@ -527,22 +527,19 @@
 <a href="#step-6b---remove-patients-irrelevant-to-analysis-depending-on-status" class="anchor"></a>Step 6b - Remove patients irrelevant to analysis depending on status</h4>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
-  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">p_status</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"NA - patient not born before end of FU"</span>,
-                                 <span class="st">"NA - patient did not develop cancer before end of FU"</span>,
-                                 <span class="st">"NA - patient date of death is missing"</span>))
+  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">p_status</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"NA - Patient not born before end of FU"</span>,
+                                 <span class="st">"NA - Patient did not develop cancer before end of FU"</span>,
+                                 <span class="st">"NA - Patient date of death is missing"</span>))
 
 <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="kw">p_status</span>)
-<span class="co">#&gt; # A tibble: 7 x 2</span>
+<span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;   p_status                                                                   n</span>
 <span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
 <span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  5295</span>
 <span class="co">#&gt; 2 Patient alive after SPC                                                10440</span>
 <span class="co">#&gt; 3 Patient dead after FC                                                   4740</span>
 <span class="co">#&gt; 4 Patient dead after SPC                                                  4344</span>
-<span class="co">#&gt; 5 NA - Patient not born before end of FU                                     3</span>
-<span class="co">#&gt; 6 NA - Patient did not develop cancer before end of FU                     763</span>
-<span class="co">#&gt; 7 NA - Patient date of death is missing                                     46</span>
 </pre></div>
 </div>
 </div>
@@ -555,36 +552,17 @@
                            dattype = <span class="st">"seer"</span>, time_unit = <span class="st">"years"</span>, 
                            lifedat_var = <span class="st">"datedeath.1"</span>, 
                            fcdat_var = <span class="st">"t_datediag.1"</span>, spcdat_var = <span class="st">"t_datediag.2"</span>)
-<span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to min; returning Inf</span>
-
-<span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to min; returning Inf</span>
-
-<span class="co">#&gt; Warning in min(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to min; returning Inf</span>
-<span class="co">#&gt; Warning in max(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to max; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to max; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(.data[["p_futimeyrs"]], na.rm = TRUE): no non-missing arguments</span>
-<span class="co">#&gt; to max; returning -Inf</span>
-<span class="co">#&gt; # A tibble: 7 x 5</span>
+<span class="co">#&gt; # A tibble: 4 x 5</span>
 <span class="co">#&gt;   p_status                       mean_futime min_futime max_futime median_futime</span>
 <span class="co">#&gt;   &lt;fct&gt;                                &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Patient alive after FC (with …        9.70     0.0438       27.0          8.63</span>
 <span class="co">#&gt; 2 Patient alive after SPC               8.62     0            26.7          7.42</span>
 <span class="co">#&gt; 3 Patient dead after FC                 8.53     0            25.8          7.46</span>
 <span class="co">#&gt; 4 Patient dead after SPC                6.41     0            25.3          5.17</span>
-<span class="co">#&gt; 5 NA - Patient not born before …      NaN      Inf          -Inf           NA   </span>
-<span class="co">#&gt; 6 NA - Patient did not develop …      NaN      Inf          -Inf           NA   </span>
-<span class="co">#&gt; 7 NA - Patient date of death is…      NaN      Inf          -Inf           NA</span>
 
 <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">p_status</span>, <span class="kw">p_futimeyrs</span>, <span class="kw">p_alive.1</span>, <span class="kw">datedeath.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_datediag.2</span>)
-<span class="co">#&gt; # A tibble: 25,631 x 7</span>
+<span class="co">#&gt; # A tibble: 24,819 x 7</span>
 <span class="co">#&gt;    fake_id p_status  p_futimeyrs p_alive.1 datedeath.1 t_datediag.1 t_datediag.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;           &lt;dbl&gt; &lt;chr&gt;     &lt;date&gt;      &lt;date&gt;       &lt;date&gt;      </span>
 <span class="co">#&gt;  1 100004  Patient …        4.84 Alive     NA          2007-03-15   2012-01-15  </span>
@@ -597,7 +575,7 @@
 <span class="co">#&gt;  8 100192  Patient …       11.1  Alive     NA          2006-11-15   NA          </span>
 <span class="co">#&gt;  9 100197  Patient …        9.75 Alive     NA          1999-02-15   2008-11-15  </span>
 <span class="co">#&gt; 10 100234  Patient …       10.3  Dead      2012-10-15  2002-06-15   2012-10-15  </span>
-<span class="co">#&gt; # … with 25,621 more rows</span>
+<span class="co">#&gt; # … with 24,809 more rows</span>
 </pre></div>
 </div>
 <div id="step-sir-byfutime" class="section level3">
@@ -621,58 +599,6 @@
     site_var = <span class="st">"t_site_icd.1"</span>, <span class="co">#using grouping by second cancer incidence</span>
     futime_var = <span class="st">"p_futimeyrs"</span>,
     alpha = <span class="fl">0.05</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  [INFO FU time missing] There are 812rows in the data set for which futime_var is missing. </span>
-<span class="co">#&gt; Please make sure that you have: </span>
-<span class="co">#&gt;  - calculated FU time for all cases where the index event occured and </span>
-<span class="co">#&gt;  - have removed all cases from the dataset that do not count at baseline. </span>
-<span class="co">#&gt;  </span>
-<span class="co">#&gt; # tidytable [812 × 130]</span>
-<span class="co">#&gt;    fake_id SEQ_NUM.1 SEQ_NUM.2 SEQ_NUM.3 SEQ_NUM.4 SEQ_NUM.5 SEQ_NUM.6 SEQ_NUM.7</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;</span>
-<span class="co">#&gt;  1 102660          1        NA        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt;  2 103006          1         2        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt;  3 104057          1        NA        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt;  4 105069          1        NA        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt;  5 105988          1        NA        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt;  6 107671          1         2        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt;  7 108282          1        NA        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt;  8 109255          1        NA        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt;  9 110743          1         2        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt; 10 111010          1        NA        NA        NA        NA        NA        NA</span>
-<span class="co">#&gt; # … with 802 more rows, and 122 more variables: SEQ_NUM.8 &lt;int&gt;,</span>
-<span class="co">#&gt; #   SEQ_NUM.9 &lt;int&gt;, registry.1 &lt;chr&gt;, registry.2 &lt;chr&gt;, registry.3 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   registry.4 &lt;chr&gt;, registry.5 &lt;chr&gt;, registry.6 &lt;chr&gt;, registry.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   registry.8 &lt;chr&gt;, registry.9 &lt;chr&gt;, sex.1 &lt;chr&gt;, sex.2 &lt;chr&gt;, sex.3 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sex.4 &lt;chr&gt;, sex.5 &lt;chr&gt;, sex.6 &lt;chr&gt;, sex.7 &lt;chr&gt;, sex.8 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sex.9 &lt;chr&gt;, race.1 &lt;chr&gt;, race.2 &lt;chr&gt;, race.3 &lt;chr&gt;, race.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   race.5 &lt;chr&gt;, race.6 &lt;chr&gt;, race.7 &lt;chr&gt;, race.8 &lt;chr&gt;, race.9 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   datebirth.1 &lt;date&gt;, datebirth.2 &lt;date&gt;, datebirth.3 &lt;date&gt;,</span>
-<span class="co">#&gt; #   datebirth.4 &lt;date&gt;, datebirth.5 &lt;date&gt;, datebirth.6 &lt;date&gt;,</span>
-<span class="co">#&gt; #   datebirth.7 &lt;date&gt;, datebirth.8 &lt;date&gt;, datebirth.9 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_datediag.1 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_datediag.3 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_datediag.4 &lt;date&gt;, t_datediag.5 &lt;date&gt;, t_datediag.6 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_datediag.7 &lt;date&gt;, t_datediag.8 &lt;date&gt;, t_datediag.9 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_site_icd.1 &lt;chr&gt;, t_site_icd.2 &lt;chr&gt;, t_site_icd.3 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_site_icd.4 &lt;chr&gt;, t_site_icd.5 &lt;chr&gt;, t_site_icd.6 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_site_icd.7 &lt;chr&gt;, t_site_icd.8 &lt;chr&gt;, t_site_icd.9 &lt;chr&gt;, t_dco.1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.2 &lt;chr&gt;, t_dco.3 &lt;chr&gt;, t_dco.4 &lt;chr&gt;, t_dco.5 &lt;chr&gt;, t_dco.6 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.7 &lt;chr&gt;, t_dco.8 &lt;chr&gt;, t_dco.9 &lt;chr&gt;, fc_age.1 &lt;int&gt;,</span>
-<span class="co">#&gt; #   fc_age.2 &lt;int&gt;, fc_age.3 &lt;int&gt;, fc_age.4 &lt;int&gt;, fc_age.5 &lt;int&gt;,</span>
-<span class="co">#&gt; #   fc_age.6 &lt;int&gt;, fc_age.7 &lt;int&gt;, fc_age.8 &lt;int&gt;, fc_age.9 &lt;int&gt;,</span>
-<span class="co">#&gt; #   datedeath.1 &lt;date&gt;, datedeath.2 &lt;date&gt;, datedeath.3 &lt;date&gt;,</span>
-<span class="co">#&gt; #   datedeath.4 &lt;date&gt;, datedeath.5 &lt;date&gt;, datedeath.6 &lt;date&gt;,</span>
-<span class="co">#&gt; #   datedeath.7 &lt;date&gt;, datedeath.8 &lt;date&gt;, datedeath.9 &lt;date&gt;,</span>
-<span class="co">#&gt; #   p_alive.1 &lt;chr&gt;, p_alive.2 &lt;chr&gt;, p_alive.3 &lt;chr&gt;, p_alive.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   p_alive.5 &lt;chr&gt;, p_alive.6 &lt;chr&gt;, p_alive.7 &lt;chr&gt;, p_alive.8 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   p_alive.9 &lt;chr&gt;, p_dodmin.1 &lt;date&gt;, p_dodmin.2 &lt;date&gt;, p_dodmin.3 &lt;date&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.4 &lt;date&gt;, p_dodmin.5 &lt;date&gt;, p_dodmin.6 &lt;date&gt;, p_dodmin.7 &lt;date&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.8 &lt;date&gt;, …</span>
-<span class="co">#&gt;  Check attribute `problems_missing_futime` of results to see what strata are affected.</span>
-<span class="co">#&gt; Warning in sir_byfutime(., dattype = "seer", ybreak_vars = c("race.1", "t_dco.</span>
-<span class="co">#&gt; 1"), : The variable for follow-up time has: 812 missings. These will be omitted</span>
-<span class="co">#&gt; when creating the crosstabs.</span>
-<span class="co">#&gt; Warning in Ops.factor(left, right): '&gt;' not meaningful for factors</span>
 
 <span class="kw">sircalc_results</span>
 <span class="co">#&gt; # tidytable [362,350 × 22]</span>
