@@ -24,15 +24,11 @@ reshape_wide_tidyr <- function(df, case_id_var, time_id_var, timevar_max = 6, da
   }
   
   ### get names from df to provide to pivot function
-  trans_vars <- names(df)[!names(df) %in% c(rlang::quo_text(case_id_var), rlang::quo_text(time_id_var))]
+  trans_vars <- names(df)[!names(df) %in% c(rlang::as_name(case_id_var), rlang::as_name(time_id_var))]
   
   
   ### determine maximum number of cases per patient and deleting all cases > timevar_max
-  max_time <- df %>%
-    dplyr::select(!!time_id_var) %>%
-    unlist %>%
-    as.numeric %>%
-    max(na.rm = TRUE)
+  max_time <- max(as.numeric(df[[rlang::as_name(time_id_var)]]), na.rm = TRUE)
   
   
   if(max_time > timevar_max){
@@ -51,8 +47,17 @@ reshape_wide_tidyr <- function(df, case_id_var, time_id_var, timevar_max = 6, da
       dplyr::filter(counter <= timevar_max) %>%
       dplyr::select(-counter)
     
-    
+    max_time <- timevar_max
   }
+  
+  ### prepare name order of cols with all vars per time_id sorted together
+  
+  col_order <- 
+    #create outer product of trans_vars and time_ids
+    outer(trans_vars, 1:max_time, paste, sep = ".") %>%
+    #make vector binding rows, one col after the other
+    c(.)
+  
   
   ### perform tidyr::pivot_wider
   df %>% tidyr::pivot_wider(
@@ -61,8 +66,10 @@ reshape_wide_tidyr <- function(df, case_id_var, time_id_var, timevar_max = 6, da
     names_sep = "."
   ) %>%  
     #sort by case_id_var
-    dplyr::arrange(as.numeric(rlang::eval_tidy(rlang::ensym(case_id_var))))
-  
+    dplyr::arrange(as.numeric(rlang::eval_tidy(rlang::ensym(case_id_var)))) %>%
+    #order columns by old col order 
+    dplyr::relocate(tidyselect::all_of(c(rlang::as_name(case_id_var), 
+                                         col_order)))
   
 }
 
