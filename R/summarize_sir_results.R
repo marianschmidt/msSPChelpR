@@ -83,9 +83,9 @@ summarize_sir_results <- function(sir_df,
     rlang::warn("Parameter `add_total_row` must be character vector. Default `output = \"no\"` will be used instead.")
     add_total_row <- "no"
   }
-  if(!(add_total_row %in% c("no", "start", "end"))){
+  if(!(add_total_row %in% c("no", "start", "end", "only"))){
     rlang::warn(paste0(
-      "Parameter `add_total_row` must be \"start\", \"end\" or \"no\". \n", 
+      "Parameter `add_total_row` must be \"start\", \"end\", \"only\", or \"no\". \n", 
       "Default `add_total_row = \"no\"` will be used instead of: ", add_total_row))
     add_total_row <- "full"
   }
@@ -94,9 +94,9 @@ summarize_sir_results <- function(sir_df,
     rlang::warn("Parameter `add_total_fu` must be character vector. Default `output = \"no\"` will be used instead.")
     add_total_fu <- "no"
   }
-  if(!(add_total_fu %in% c("no", "start", "end"))){
+  if(!(add_total_fu %in% c("no", "start", "end", "only"))){
     rlang::warn(paste0(
-      "Parameter `add_total_fu` must be \"start\", \"end\" or \"no\". \n", 
+      "Parameter `add_total_fu` must be \"start\", \"end\", \"only\", or \"no\". \n", 
       "Default `add_total_fu = \"no\"` will be used instead of: ", add_total_fu))
     add_total_fu <- "full"
   }
@@ -262,7 +262,7 @@ summarize_sir_results <- function(sir_df,
   #check that FU totals are present, if ft == TRUE
   
   if(ft){
-    if(any(str_detect(unique(sir_df$fu_time), "Total")) == FALSE) {
+    if(any(stringr::str_detect(unique(sir_df$fu_time), "Total")) == FALSE) {
       rlang::warn(
         paste0(
           "There is are no follow-up time totals found in `sir_df` in variable ", fubreak_var_name, ".\n",
@@ -276,7 +276,7 @@ summarize_sir_results <- function(sir_df,
   #check that row totals are present, if rt == TRUE
   
   if(rt){
-    if(any(str_detect(unique(sir_df$yvar_name), "total_var")) == FALSE) {
+    if(any(stringr::str_detect(unique(sir_df$yvar_name), "total_var")) == FALSE) {
       rlang::warn(
         paste0(
           "There is are no row totals found in `sir_df` in variable ", ybreak_var_name, ".\n",
@@ -507,12 +507,12 @@ summarize_sir_results <- function(sir_df,
     totals <- sum_pre %>%
       tidytable::filter.(yvar_name == "total_var") %>%
       tidytable::summarize.(
-        yvar_name = first(yvar_name),
+        yvar_name = data.table::first(yvar_name),
         group_observed = sum(observed, na.rm = TRUE),
-        group_pyar = first(pyar),
-        group_n_base = first(group_n_base),
+        group_pyar = data.table::first(pyar),
+        group_n_base = data.table::first(group_n_base),
         group_ref_inc_cases = sum(ref_inc_cases),
-        group_ref_population_pyar = first(ref_population_pyar),
+        group_ref_population_pyar = data.table::first(ref_population_pyar),
         group_expected = sum(expected, na.rm = TRUE),
         .by = c(yvar_label, fu_time))%>%
       #calculate sir
@@ -740,4 +740,3 @@ summarize_sir_results <- function(sir_df,
   return(sum_results) 
   
 }
-
