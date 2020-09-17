@@ -28,6 +28,9 @@
 * `pat_status()`, `pat_status_tt()`, `vital_status()`, and `vital_status_tt()`:
   * Capitalized default variable labelling. 
   * This might break code that relied on using the labels coming out of these functions in later filter or mutate functions.
+* `ir_crosstab_byfutime()`: 
+  * option `futime_breaks` now uses breaks in years instead of months as previously.
+  * default `futime_var` is now follow-up time in years
 * now requires dplyr version 1.0.0
 * now requires tidytable package
 * the default option name for tumor site variable changed from `icdcat_var` to `site_var`. This need manual update of function calls of `sir_byfutime()` and `asir()`, if option is specified.
