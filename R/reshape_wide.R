@@ -29,11 +29,7 @@ reshape_wide <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize 
   n_start <- df %>% dplyr::select(!!case_id_var) %>% dplyr::n_distinct()
   
   #determine maximum number of cases per patient and deleting all cases > timevar_max
-  max_time <- df %>%
-    dplyr::select(!!time_id_var) %>%
-    unlist %>%
-    as.numeric %>%
-    max(na.rm = TRUE)
+  max_time <- max(as.numeric(df[[rlang::as_name(time_id_var)]]), na.rm = TRUE)
   
   if(max_time > timevar_max){
     rlang::inform(paste("Long dataset had too many cases per patient. Wide dataset is limited to ", timevar_max," cases per id as defined in timevar_max option."))    
@@ -54,7 +50,7 @@ reshape_wide <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize 
   
   # split dataset in equal chunks and store in list
   
-  df <- split(df, as.numeric(as.factor(df[[rlang::quo_text(case_id_var)]])) %% chunks)
+  df <- split(df, as.numeric(as.factor(df[[rlang::as_name(case_id_var)]])) %% chunks)
   
   
   #perform reshape command on each chunk
@@ -64,7 +60,7 @@ reshape_wide <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize 
     
     wide_df[[i]] <- df[[i]] %>%
       as.data.frame %>%
-      stats::reshape(timevar=rlang::quo_text(time_id_var), idvar=rlang::quo_text(case_id_var), direction = "wide", sep=".")
+      stats::reshape(timevar=rlang::as_name(time_id_var), idvar=rlang::as_name(case_id_var), direction = "wide", sep=".")
     
     df[[i]] <- 0
     
@@ -79,7 +75,7 @@ reshape_wide <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize 
   n_end <- wide_df %>% nrow()
   
   if(n_end != n_start){
-    warning('Unique n in long and wide dataset do not match. Possibly dataset was split between cases of same ID. Multiple entries for same ID still need to be merged')
+    rlang::warn('Unique n in long and wide dataset do not match. Possibly dataset was split between cases of same ID. Multiple entries for same ID still need to be merged')
   }
   
   return(wide_df)
