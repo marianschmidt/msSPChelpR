@@ -39,6 +39,7 @@
 
 ## Bug Fixes
 * implement new reliable routine to split df when `reshape_wide()` with option `chunks` is used. Closes #1.
+* Sorting of columns in wide datasets by `reshape_wide_tidyr()` and `reshape_wide_tt()` is now preserved. Closes #31.
 * ensure sorting in `renumer_time_id()` and make sure that `new_time_id_var` is returned as integer.
 * fix bug in `pat_status_*(., check = TRUE)`option
 * improve internal tests in `sir_byfutime()` so that PYARs do not get lost before running summary function
