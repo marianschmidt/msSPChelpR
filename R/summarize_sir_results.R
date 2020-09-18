@@ -117,10 +117,10 @@ summarize_sir_results <- function(sir_df,
     } else{
       fubreak_var_name <- "fu_time"
       if(fubreak_var_name %in% colnames(sir_df)){
-        warning("Provided `fubreak_var_name` does not exit in sir_df. Default column 'fu_time' does exist and is used instead.")
+        rlang::warn("Provided `fubreak_var_name` does not exit in sir_df. Default column 'fu_time' does exist and is used instead.")
         fu <- TRUE
       } else{
-        warning("Provided `fubreak_var_name` does not exit in sir_df. Results can not by summarized by fu_time.")
+        rlang::warn("Provided `fubreak_var_name` does not exit in sir_df. Results can not by summarized by fu_time.")
         fu <- FALSE
       }
     }
@@ -138,10 +138,10 @@ summarize_sir_results <- function(sir_df,
     } else{
       ybreak_var_name <- "yvar_name"
       if((ybreak_var_name %in% colnames(sir_df)) & (ylabel_var_name %in% colnames(sir_df))){
-        warning("Provided `ybreak_var_name` does not exist in sir_df. Default column 'yvar_name' does exist and is used instead.")
+        rlang::warn("Provided `ybreak_var_name` does not exist in sir_df. Default column 'yvar_name' does exist and is used instead.")
         yb <- TRUE
       } else{
-        warning("Provided `ybreak_var_name` or `yvar_label` column does not exit in sir_df. Results can not by summarized by ybreak_vars.")
+        rlang::warn("Provided `ybreak_var_name` or `yvar_label` column does not exit in sir_df. Results can not by summarized by ybreak_vars.")
         yb <- FALSE
       }
     }
@@ -158,10 +158,10 @@ summarize_sir_results <- function(sir_df,
     } else{
       xbreak_var_name <- "xvar_name"
       if((xbreak_var_name %in% colnames(sir_df)) & (xlabel_var_name %in% colnames(sir_df))){
-        warning("Provided `xbreak_var_name` does not exit in sir_df. Default column 'xvar_name' does exist and is used instead.")
+        rlang::warn("Provided `xbreak_var_name` does not exit in sir_df. Default column 'xvar_name' does exist and is used instead.")
         xb <- TRUE
       } else{
-        warning("Provided `xbreak_var_name` or xvar_label column does not exit in sir_df. Results can not by summarized by xbreak_vars.")
+        rlang::warn("Provided `xbreak_var_name` or xvar_label column does not exit in sir_df. Results can not by summarized by xbreak_vars.")
         xb <- FALSE
       }
     }
@@ -231,6 +231,12 @@ summarize_sir_results <- function(sir_df,
   
   if(add_total_row == "start" | add_total_row == "end" | add_total_row == "only"){
     rt <- TRUE
+    if(rt & !yb){
+      rlang::warn(paste0("You try to use `add_total_row` option with `ybreak_var_name = \"none\"`.\n",
+                         "Please provide `ybreak_var_name`. \n",
+                         "Default `add_total_row = \"no\"` will be used instead of: ", add_total_row))
+      rt <- FALSE
+    }
   } else{rt <- FALSE}
   
   #prepare collapse_ci option
@@ -514,7 +520,7 @@ summarize_sir_results <- function(sir_df,
         group_ref_inc_cases = sum(ref_inc_cases),
         group_ref_population_pyar = data.table::first(ref_population_pyar),
         group_expected = sum(expected, na.rm = TRUE),
-        .by = c(yvar_label, fu_time))%>%
+        .by = tidyselect::any_of(c("yvar_label", "fu_time")))%>%
       #calculate sir
       tidytable::mutate.(
         sir = .SD$group_observed / .SD$group_expected,
@@ -740,3 +746,4 @@ summarize_sir_results <- function(sir_df,
   return(sum_results) 
   
 }
+
