@@ -208,6 +208,7 @@
 <a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>implement new reliable routine to split df when <code><a href="../reference/reshape_wide.html">reshape_wide()</a></code> with option <code>chunks</code> is used. Closes <a href='https://github.com/marianschmidt/msSPChelpR/issues/1'>#1</a>.</li>
+<li>Sorting of columns in wide datasets by <code><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr()</a></code> and <code><a href="../reference/reshape_wide_tt.html">reshape_wide_tt()</a></code> is now preserved. Closes <a href='https://github.com/marianschmidt/msSPChelpR/issues/31'>#31</a>.</li>
 <li>ensure sorting in <code>renumer_time_id()</code> and make sure that <code>new_time_id_var</code> is returned as integer.</li>
 <li>fix bug in <code>pat_status_*(., check = TRUE)</code>option</li>
 <li>improve internal tests in <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> so that PYARs do not get lost before running summary function</li>
