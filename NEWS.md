@@ -46,6 +46,7 @@
 * ensure sorting in `renumer_time_id()` and make sure that `new_time_id_var` is returned as integer.
 * fix bug in `pat_status_*(., check = TRUE)`option
 * improve internal tests in `sir_byfutime()` so that PYARs do not get lost before running summary function
+* `sir_byfutime()` now also gives correct results if range of `futime_breaks` is not 0-Inf but smaller
 
 # msSPChelpR 0.8.4 - 2020-05-21
 
