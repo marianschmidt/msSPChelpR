@@ -17,6 +17,7 @@ summarize_sir_results(
   fubreak_var_name = "fu_time",
   ybreak_var_name = "yvar_name",
   xbreak_var_name = "none",
+  site_var_name = "t_site",
   alpha = 0.05
 )
 }
@@ -54,6 +55,8 @@ or "only" for only showing follow-up time totals. Default is "no".}
 \item{ybreak_var_name}{Name of variable with futime stratification. Default is "yvar_name".}
 
 \item{xbreak_var_name}{Name of variable with futime stratification. Default is "xvar_name".}
+
+\item{site_var_name}{Name of variable with site stratification. Default is "t_site".}
 
 \item{alpha}{significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
 }
