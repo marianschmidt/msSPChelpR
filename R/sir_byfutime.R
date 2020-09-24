@@ -415,12 +415,25 @@ sir_byfutime <- function(df,
     
     #CHK - check that there are no missing values for futimegroups
     
-    chk_na <- df %>% tidytable::filter.(is.na(futimegroup)) %>% nrow()
+    chk_na <- df %>% tidytable::filter.(is.na(rlang::eval_tidy(!!futime_var))) %>% nrow()
     
     if (chk_na > 0) {
       warning(
         paste0(
           "The variable for follow-up time has: ", chk_na, " missings. These will be omitted when creating the crosstabs.")
+      )
+    }
+    
+    chk_futimegroups <- df %>% tidytable::filter.(is.na(futimegroup)) %>% nrow()
+    
+    if (chk_futimegroups > 0) {
+      rlang::warn(
+        paste0(
+          "There are: ", chk_futimegroups, " cases that do not belong to a follow-up time group. \n",
+          "These cases will be omitted when calculating sir_byfutime and the totals. \n",
+          "It is recommeded to either: \n",
+          " - filter cases by futime_var that are out of the range of futime_breaks or \n",
+          " - adjust futime_breaks so that it's range includes all available fu_times.")
       )
     }
     
@@ -549,7 +562,7 @@ sir_byfutime <- function(df,
       #F2b calculate observed
       sircalc_count <- df %>%
         tidytable::mutate.(count_var_new = tidytable::case.(
-          !!fu_tot_f & ((!!count_var) == 1) & ((!!futime_var) >= !!futime_breaks[1]), 1, #for iteration fu_tot_f count_var is always 1
+          !!fu_tot_f & ((!!count_var) == 1) & ((!!futime_var) >= !!futime_breaks[1]) & ((!!futime_var) < !!futime_breaks[length(!!futime_breaks)]), 1, #for iteration fu_tot_f count_var is 1 if it occurs between first and last futime_break
           ((!!count_var) == 1) & ((!!futime_var) >= !!futime_breaks[f]) & ((!!futime_var) < !!futime_breaks[f+1]), 1, #otherwise only count cases occurring between futime_breaks
           default = 0)) %>% 
         tidytable::summarize.(i_observed = sum(.SD$count_var_new, na.rm = TRUE), 
@@ -591,7 +604,9 @@ sir_byfutime <- function(df,
       #F2c person-years at risk
       sircalc_fu <- df %>%
         tidytable::mutate.(
-          futime_var_new = tidytable::case.(!!fu_tot_f & ((!!futime_var) >= !!futime_breaks[1]), (!!futime_var),
+          futime_var_new = tidytable::case.(!!fu_tot_f & ((!!futime_var) < !!futime_breaks[1]), 0,
+                                            !!fu_tot_f & ((!!futime_var) < !!futime_breaks[length(futime_breaks)]), ((!!futime_var) - !!futime_breaks[1]),
+                                            !!fu_tot_f & ((!!futime_var) >= !!futime_breaks[length(futime_breaks)]), ((!!futime_breaks[length(futime_breaks)]) - !!futime_breaks[1]),
                                             (!!futime_var) < !!futime_breaks[f], 0,
                                             (!!futime_var) < !!futime_breaks[f+1], ((!!futime_var) - !!futime_breaks[f]),
                                             (!!futime_var) >= !!futime_breaks[f+1], (!!futime_breaks[f+1] - !!futime_breaks[f]),
@@ -1056,4 +1071,5 @@ sir_byfutime <- function(df,
   return(sir_result)
   
 }
+
 
