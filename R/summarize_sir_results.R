@@ -20,6 +20,7 @@
 #'                      or "only" for only showing follow-up time totals. Default is "no".
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
 #' @param shorten_total_cols Shorten text in all results columns that start with "Total". Default == FALSE.
+#' @param site_var_name Name of variable with site stratification. Default is "t_site".
 #' @param fubreak_var_name Name of variable with futime stratification. Default is "fu_time".
 #' @param ybreak_var_name Name of variable with futime stratification. Default is "yvar_name".
 #' @param xbreak_var_name Name of variable with futime stratification. Default is "xvar_name".
@@ -38,6 +39,7 @@ summarize_sir_results <- function(sir_df,
                                   fubreak_var_name = "fu_time",
                                   ybreak_var_name = "yvar_name",
                                   xbreak_var_name = "none",
+                                  site_var_name = "t_site",
                                   alpha = 0.05
 ) {
   
@@ -106,6 +108,25 @@ summarize_sir_results <- function(sir_df,
     collapse_ci <- FALSE
   }
   
+  #prepare site_var_name
+  
+  if(!is.character(site_var_name)){
+    rlang::warn("Parameter `site_var_name` must be character vector. Default `site_var_name = \"t_site\"` will be used instead.")
+    site_var_name <- "t_site"
+  }else{
+    if(site_var_name == "t_site"){
+      cs <- FALSE
+    }else{
+      if((site_var_name %in% colnames(sir_df))){
+        cs <- TRUE
+      }else{
+        rlang::warn("Provided `site_var_name` does not exit in sir_df. Default `site_var_name = \"t_site\"` will be used instead.")
+        site_var_name <- "t_site"
+        cs <- FALSE
+      }
+    }
+  }
+  
   
   #prepare fubreak_var_name
   
@@ -166,6 +187,15 @@ summarize_sir_results <- function(sir_df,
       }
     }
   }
+  
+  #prepare site_var_name
+  #in case t_site var need to be changed
+  if(cs){
+    sir_df <- sir_df %>%
+      tidytable::select.(-t_site) %>%
+      tidytable::rename.(t_site = !!rlang::sym(site_var_name))
+  }
+  
   
   #rename variables futime_var, xbreak_var and ybreak_var for normalized output
   if(fu){
