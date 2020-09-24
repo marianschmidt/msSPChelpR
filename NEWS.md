@@ -5,6 +5,9 @@
 * `sir_byfutime()`:
  * is much faster using tidytable package
  * gained the option `race_var` to optionally stratify SIR calculations by race.
+* `summarize_sir_results()`:
+ * new function that increases functionality in summarizing results from `sir_byfutime()` function
+ * new option to define custom `site_var_name`
 * new package website https://marianschmidt.github.io/msSPChelpR
 * new sample datasets included in the package to demonstrate examples (#36)
 
