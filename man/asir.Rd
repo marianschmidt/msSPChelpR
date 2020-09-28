@@ -33,7 +33,7 @@ asir(
 
 \item{truncate_std_pop}{if TRUE standard population will be truncated for all age-groups that do not occur in df}
 
-\item{futime_src}{can bei either "refpop" or "cohort"}
+\item{futime_src}{can be either "refpop" or "cohort"}
 
 \item{summarize_groups}{option to define summarizing stratified groups. Default is "none".
 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var.
@@ -64,7 +64,7 @@ refpop_df must use the same category coding of age, sex, region, year and site a
 
 \item{pyar_var}{variable in refpop_df that contains person-years-at-risk in reference population (can only be used with futime_src = "refpop") Default is set if dattype is given.}
 
-\item{alpha}{signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
+\item{alpha}{significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
 }
 \value{
 df

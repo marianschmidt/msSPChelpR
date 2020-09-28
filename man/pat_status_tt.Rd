@@ -53,7 +53,7 @@ pat_status_tt(
 
 \item{life_stat_dead}{Value for dead status in life_var. Will override dattype preset.}
 
-\item{spc_stat_yes}{Value for SPC occured in spc_var. Will override dattype preset.}
+\item{spc_stat_yes}{Value for SPC occurred in spc_var. Will override dattype preset.}
 
 \item{spc_stat_no}{Value for no SPC in spc_var. Will override dattype preset.}
 
