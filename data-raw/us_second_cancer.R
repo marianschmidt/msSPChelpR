@@ -15,8 +15,7 @@ spc <- tibble::tibble(fake_id = as.character(sample(nn:(nn*10), size = nn, repla
               registry = sample(c(rep("SEER Reg 01 - San Francisco-Oakland SMSA", 3),
                                   rep("SEER Reg 20 - Detroit (Metropolitan)", 3),
                                   rep("SEER Reg 02 - Connecticut", 2),
-                                  rep("SEER Reg 21 - Hawaii", 1),
-                                  rep("SEER Reg 22 - Iowa", 3)
+                                  rep("SEER Reg 21 - Hawaii", 1)
                                   ), 
                                 size = nn, replace = TRUE),
               #age
@@ -61,12 +60,10 @@ tumors <- tibble::tibble(fake_id = as.character(sample(spc$fake_id, size = nn * 
               #Site of  cancer FC, weighted by approximated relative incidence
               t_site_icd = sample(c( rep("C14",  1), 
                                      rep("C18", 31), 
-                                     rep("C21",  2), 
                                      rep("C34", 91), 
                                      rep("C44", 30), 
                                      rep("C50", 75), 
                                      rep("C54", 14), 
-                                     rep("C61", 83), 
                                      rep("C64", 19), 
                                      rep("C80",  8))
                                    , size = nn*1.14, replace = TRUE))
@@ -137,6 +134,6 @@ us_second_cancer <- cancer_pre2 %>%
          p_alive, p_dodmin, fc_agegroup, t_yeardiag,
          -t_year, -t_month, -p_yeardob, -p_yeardod, -p_lastyear, -p_lastdiag, -miss, -ran_mon)
 
-rm(cancer_pre, cancer_pre2, pre_refrates, spc, tumors, tumors2)
+rm(cancer_pre, cancer_pre2, spc, tumors, tumors2)
 
 usethis::use_data(us_second_cancer, overwrite = TRUE)

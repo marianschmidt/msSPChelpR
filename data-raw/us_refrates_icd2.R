@@ -16,13 +16,12 @@ pre_refrates <- tibble(
   population_pyar = c(15000)
 )
 
-site_levels <- c("C14", "C18", "C21", "C34", "C44",
-                 "C50", "C54", "C61", "C64", "C80")
+site_levels <- c("C14", "C18", "C34", "C44",
+                 "C50", "C54", "C64", "C80")
 region_levels <- c("SEER Reg 01 - San Francisco-Oakland SMSA",
                    "SEER Reg 02 - Connecticut",
                    "SEER Reg 20 - Detroit (Metropolitan)",
-                   "SEER Reg 21 - Hawaii",
-                   "SEER Reg 22 - Iowa")
+                   "SEER Reg 21 - Hawaii")
 
 year_levels <- c("1990 - 1994", "1995 - 1999", "2000 - 2004",
                  "2005 - 2009", "2010 - 2014", "2015 - 2019")
