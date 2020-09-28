@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">msSPChelpR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.4.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5</span>
       </span>
     </div>
 
@@ -124,17 +124,17 @@
 <ul>
 <li>for each <code>case_id</code> the index event (e.g. First Cancer FC) is still included and is the one remaining row in the dataset with the smallest <code>case_id</code> (<code>TUMID3</code> variable for ZfKD data, and <code>SEQ_NUM</code> for SEER data)</li>
 <li>all <code>case_id</code>s might or might not get a countable incident event (e.g. Second Primary Cancer SPC). This event should be the second entry per <code>case_id</code> (second smallest <code>case_id</code>) if it is to be counted</li>
-<li>in the long version dataset a <code>count_var</code> should indicate whether the countable incident event (SPC) has occured or not. Coded <code>0</code> for non-occurence (or not counted event) and <code>1</code> for a counted incident event.</li>
+<li>in the long version dataset a <code>count_var</code> should indicate whether the countable incident event (SPC) has occurred or not. Coded <code>0</code> for non-occurrence (or not counted event) and <code>1</code> for a counted incident event.</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li><p><a href="#step-renumber">Renumber filtered long dataset</a>: In the filter long dataset, you should run the helper function <code>msSPChelpR::renumber_time_id_dt()</code> (or non-data.table variant <code><a href="../reference/renumber_time_id.html">msSPChelpR::renumber_time_id()</a></code>) that will renumber all events per <code>case_id</code> and (if step 1 is fulfilled) will assign each index event with <code>time_var_new = 1</code> and each second (possibly countable incidenct event) with <code>time_var_new = 2</code>. Any SIR related function will only count the second event, if additionally to <code>time_var_new = 2</code> for this row also <code>count_var = 1</code> is true.</p></li>
-<li><p><a href="#step-reshape-wide">Reshape dataset</a>: Run <code>msSPChelpR::reshape_wide_dt()</code> or non-data.table-variant <code><a href="../reference/reshape_wide.html">msSPChelpR::reshape_wide()</a></code>, so that datset is transposed to wide format (1 row per <code>case_id</code>, creating variables such as <code>count_var.2</code>).</p></li>
+<li><p><a href="#step-renumber">Renumber filtered long dataset</a>: In the filter long dataset, you should run the helper function <code>msSPChelpR::renumber_time_id_dt()</code> (or non-data.table variant <code><a href="../reference/renumber_time_id.html">msSPChelpR::renumber_time_id()</a></code>) that will renumber all events per <code>case_id</code> and (if step 1 is fulfilled) will assign each index event with <code>time_var_new = 1</code> and each second (possibly countable incident event) with <code>time_var_new = 2</code>. Any SIR related function will only count the second event, if additionally to <code>time_var_new = 2</code> for this row also <code>count_var = 1</code> is true.</p></li>
+<li><p><a href="#step-reshape-wide">Reshape dataset</a>: Run <code>msSPChelpR::reshape_wide_dt()</code> or non-data.table-variant <code><a href="../reference/reshape_wide.html">msSPChelpR::reshape_wide()</a></code>, so that dataset is transposed to wide format (1 row per <code>case_id</code>, creating variables such as <code>count_var.2</code>).</p></li>
 <li><p><a href="#step-spc">Set flag for Second Primary Cancer diagnosis</a>: After filtering and reshaping it is essential to set <code>p_spc</code> again. This variable will be used by later steps of the analysis.</p></li>
 <li><p><a href="#step-pat-status">Determine patient status</a> at a defined end of follow-up by using the <code><a href="../reference/pat_status.html">msSPChelpR::pat_status()</a></code> function. This date for end of follow-up must:</p></li>
 </ol>
 <ul>
 <li>be in “YYYY-MM-DD” format and is always defined via the <code>fu_end =</code> parameter</li>
-<li>must preceed the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your <code>fu_end</code> must be <code>fu_end = "2014-12-15"</code> or earlier.</li>
+<li>must precede the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your <code>fu_end</code> must be <code>fu_end = "2014-12-15"</code> or earlier.</li>
 </ul>
 <ol start="6" style="list-style-type: decimal">
 <li>
@@ -674,7 +674,7 @@
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] tidytable_0.5.5    magrittr_1.5       dplyr_1.0.2        msSPChelpR_0.8.4.9</span>
+<span class="co">#&gt; [1] tidytable_0.5.5  magrittr_1.5     dplyr_1.0.2      msSPChelpR_0.8.5</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] Rcpp_1.0.5        cpp11_0.2.1       compiler_4.0.2    pillar_1.4.6     </span>
