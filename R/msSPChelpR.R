@@ -64,6 +64,12 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "group_ref_population_pyar",
                                                         "group_n_base"
                                                         )) 
+release_questions <- function() {
+  c(
+    "Is the version number updated in DESCRIPTION, NEWS, and README?"
+  )
+}
+
 #to avoid problems at rhub check use the following code
 # rhub::check(
 #   platform="windows-x86_64-devel",
