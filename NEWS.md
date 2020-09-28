@@ -26,7 +26,7 @@
 * `reshape_long_tidyr()`: 
  * option `var_selection` is deprecated. Please select variables before running the `reshape_long_*` functions.
 * `asir()`:
-  * option name for age/ageroup variable changed from `agegroup_var` to `age_var`
+  * option name for age/agegroup variable changed from `agegroup_var` to `age_var`
   * option name for tumor site variable changed from `icdcat_var` to `site_var`
 * `pat_status()`, `pat_status_tt()`, `vital_status()`, and `vital_status_tt()`:
   * Capitalized default variable labelling. 
@@ -130,7 +130,7 @@
 
 # msSPChelpR 0.6.6
 
-* Make use of time_id_var and case_id_var use coherent across reshape funtions
+* Make use of time_id_var and case_id_var use coherent across reshape functions
 
 # msSPChelpR 0.6.5
 

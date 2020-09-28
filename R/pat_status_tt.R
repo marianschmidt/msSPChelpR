@@ -14,7 +14,7 @@
 #' @param spcdat_var Name of variable containing Date of SPC diagnosis Will override dattype preset.
 #' @param life_stat_alive Value for alive status in life_var. Will override dattype preset.
 #' @param life_stat_dead Value for dead status in life_var. Will override dattype preset.
-#' @param spc_stat_yes Value for SPC occured in spc_var. Will override dattype preset.
+#' @param spc_stat_yes Value for SPC occurred in spc_var. Will override dattype preset.
 #' @param spc_stat_no Value for no SPC in spc_var. Will override dattype preset.
 #' @param lifedat_fu_end Date of last FU of alive status in registry data. Will override dattype preset (2017-03-31 for zfkd; 2018-12-31 for seer).
 #' @param use_lifedatmin If TRUE, option to use Date of Death from lifedatmin_var when DOD is missing. Default is FALSE.

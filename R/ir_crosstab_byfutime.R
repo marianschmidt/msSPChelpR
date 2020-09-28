@@ -9,7 +9,7 @@
 #' @param ybreak_vars variables from df by which rates should be stratified in rows of result df. Multiple variables will result in
 #'                    appended rows in result df. y_break_vars is required.
 #' @param collapse_ci If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.
-#' @param add_total option to add a row of totals. Can bei either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
+#' @param add_total option to add a row of totals. Can be either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
 #' @param futime_var variable in df that contains follow-up time per person (in years). Default is set if dattype is given.
 #' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @return df
