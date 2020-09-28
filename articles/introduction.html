@@ -268,20 +268,20 @@
    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw">fake_id</span>)
 
 <span class="kw">filtered_usdata</span>
-<span class="co">#&gt; # A tibble: 51,178 x 15</span>
+<span class="co">#&gt; # A tibble: 62,661 x 15</span>
 <span class="co">#&gt;    fake_id SEQ_NUM registry sex   race  datebirth  t_datediag t_site_icd t_dco</span>
 <span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;</span>
-<span class="co">#&gt;  1 100004        1 SEER Re… Male  White 1985-01-01 2007-03-15 C34        DCO …</span>
-<span class="co">#&gt;  2 100004        2 SEER Re… Male  White 1985-01-01 2012-01-15 C64        hist…</span>
-<span class="co">#&gt;  3 100004        3 SEER Re… Male  White 1985-01-01 2014-05-15 C18        hist…</span>
-<span class="co">#&gt;  4 100004        4 SEER Re… Male  White 1985-01-01 2019-08-15 C61        hist…</span>
-<span class="co">#&gt;  5 100032        1 SEER Re… Fema… White 1925-01-01 1992-04-15 C34        hist…</span>
-<span class="co">#&gt;  6 100060        1 SEER Re… Fema… White 1982-01-01 2003-05-15 C34        hist…</span>
-<span class="co">#&gt;  7 100060        2 SEER Re… Fema… White 1982-01-01 2006-02-15 C44        hist…</span>
-<span class="co">#&gt;  8 100073        1 SEER Re… Male  White 1910-01-01 1991-08-15 C34        hist…</span>
-<span class="co">#&gt;  9 100073        2 SEER Re… Male  White 1910-01-01 2002-12-15 C64        hist…</span>
-<span class="co">#&gt; 10 100110        1 SEER Re… Male  White 1992-01-01 1997-11-15 C34        hist…</span>
-<span class="co">#&gt; # … with 51,168 more rows, and 6 more variables: fc_age &lt;int&gt;,</span>
+<span class="co">#&gt;  1 100004        1 SEER Re… Male  White 1926-01-01 1992-07-15 C50        hist…</span>
+<span class="co">#&gt;  2 100004        2 SEER Re… Male  White 1926-01-01 2004-01-15 C54        hist…</span>
+<span class="co">#&gt;  3 100004        3 SEER Re… Male  White 1926-01-01 2006-06-15 C34        hist…</span>
+<span class="co">#&gt;  4 100004        4 SEER Re… Male  White 1926-01-01 2018-06-15 C14        DCO …</span>
+<span class="co">#&gt;  5 100039        1 SEER Re… Fema… White 1946-01-01 2003-08-15 C50        hist…</span>
+<span class="co">#&gt;  6 100039        2 SEER Re… Fema… White 1946-01-01 2011-04-15 C34        hist…</span>
+<span class="co">#&gt;  7 100039        3 SEER Re… Fema… White 1946-01-01 2018-01-15 C80        hist…</span>
+<span class="co">#&gt;  8 100073        1 SEER Re… Male  White 1960-01-01 1993-11-15 C44        hist…</span>
+<span class="co">#&gt;  9 100073        2 SEER Re… Male  White 1960-01-01 2003-12-15 C34        hist…</span>
+<span class="co">#&gt; 10 100143        1 SEER Re… Male  White 1944-01-01 1992-03-15 C50        hist…</span>
+<span class="co">#&gt; # … with 62,651 more rows, and 6 more variables: fc_age &lt;int&gt;,</span>
 <span class="co">#&gt; #   datedeath &lt;date&gt;, p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;,</span>
 <span class="co">#&gt; #   t_yeardiag &lt;chr&gt;</span>
 </pre></div>
@@ -298,20 +298,20 @@
 
 <span class="kw">renumbered_usdata</span> <span class="op">%&gt;%</span>
    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">sex</span>, <span class="kw">t_site_icd</span>, <span class="kw">t_datediag</span>, <span class="kw">t_tumid</span>)
-<span class="co">#&gt; # A tibble: 51,178 x 5</span>
+<span class="co">#&gt; # A tibble: 62,661 x 5</span>
 <span class="co">#&gt;    fake_id sex    t_site_icd t_datediag t_tumid</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;date&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1 100004  Male   C34        2007-03-15       1</span>
-<span class="co">#&gt;  2 100004  Male   C64        2012-01-15       2</span>
-<span class="co">#&gt;  3 100004  Male   C18        2014-05-15       3</span>
-<span class="co">#&gt;  4 100004  Male   C61        2019-08-15       4</span>
-<span class="co">#&gt;  5 100032  Female C34        1992-04-15       1</span>
-<span class="co">#&gt;  6 100060  Female C34        2003-05-15       1</span>
-<span class="co">#&gt;  7 100060  Female C44        2006-02-15       2</span>
-<span class="co">#&gt;  8 100073  Male   C34        1991-08-15       1</span>
-<span class="co">#&gt;  9 100073  Male   C64        2002-12-15       2</span>
-<span class="co">#&gt; 10 100110  Male   C34        1997-11-15       1</span>
-<span class="co">#&gt; # … with 51,168 more rows</span>
+<span class="co">#&gt;  1 100004  Male   C50        1992-07-15       1</span>
+<span class="co">#&gt;  2 100004  Male   C54        2004-01-15       2</span>
+<span class="co">#&gt;  3 100004  Male   C34        2006-06-15       3</span>
+<span class="co">#&gt;  4 100004  Male   C14        2018-06-15       4</span>
+<span class="co">#&gt;  5 100039  Female C50        2003-08-15       1</span>
+<span class="co">#&gt;  6 100039  Female C34        2011-04-15       2</span>
+<span class="co">#&gt;  7 100039  Female C80        2018-01-15       3</span>
+<span class="co">#&gt;  8 100073  Male   C44        1993-11-15       1</span>
+<span class="co">#&gt;  9 100073  Male   C34        2003-12-15       2</span>
+<span class="co">#&gt; 10 100143  Male   C50        1992-03-15       1</span>
+<span class="co">#&gt; # … with 62,651 more rows</span>
 </pre></div>
 </div>
 <div id="step-reshape-wide" class="section level3">
@@ -322,20 +322,20 @@
   <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr</a></span>(case_id_var = <span class="st">"fake_id"</span>, time_id_var = <span class="st">"t_tumid"</span>, timevar_max = <span class="fl">10</span>)
 
 <span class="kw">usdata_wide</span>
-<span class="co">#&gt; # A tibble: 25,631 x 127</span>
+<span class="co">#&gt; # A tibble: 31,997 x 127</span>
 <span class="co">#&gt;    fake_id SEQ_NUM.1 registry.1 sex.1 race.1 datebirth.1 t_datediag.1</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100004          1 SEER Reg … Male  White  1985-01-01  2007-03-15  </span>
-<span class="co">#&gt;  2 100032          1 SEER Reg … Fema… White  1925-01-01  1992-04-15  </span>
-<span class="co">#&gt;  3 100060          1 SEER Reg … Fema… White  1982-01-01  2003-05-15  </span>
-<span class="co">#&gt;  4 100073          1 SEER Reg … Male  White  1910-01-01  1991-08-15  </span>
-<span class="co">#&gt;  5 100110          1 SEER Reg … Male  White  1992-01-01  1997-11-15  </span>
-<span class="co">#&gt;  6 100143          1 SEER Reg … Male  White  1926-01-01  1996-01-15  </span>
-<span class="co">#&gt;  7 100187          1 SEER Reg … Fema… Black  2001-01-01  2011-09-15  </span>
-<span class="co">#&gt;  8 100192          1 SEER Reg … Fema… White  1977-01-01  2006-11-15  </span>
-<span class="co">#&gt;  9 100197          1 SEER Reg … Fema… White  1924-01-01  1999-02-15  </span>
-<span class="co">#&gt; 10 100234          1 SEER Reg … Male  White  1936-01-01  2002-06-15  </span>
-<span class="co">#&gt; # … with 25,621 more rows, and 120 more variables: t_site_icd.1 &lt;chr&gt;,</span>
+<span class="co">#&gt;  1 100004          1 SEER Reg … Male  White  1926-01-01  1992-07-15  </span>
+<span class="co">#&gt;  2 100039          1 SEER Reg … Fema… White  1946-01-01  2003-08-15  </span>
+<span class="co">#&gt;  3 100073          1 SEER Reg … Male  White  1960-01-01  1993-11-15  </span>
+<span class="co">#&gt;  4 100143          1 SEER Reg … Male  White  1944-01-01  1992-03-15  </span>
+<span class="co">#&gt;  5 100182          1 SEER Reg … Male  Other  1927-01-01  1991-09-15  </span>
+<span class="co">#&gt;  6 100197          1 SEER Reg … Fema… White  1945-01-01  2012-06-15  </span>
+<span class="co">#&gt;  7 100208          1 SEER Reg … Male  White  1970-01-01  2019-11-15  </span>
+<span class="co">#&gt;  8 100230          1 SEER Reg … Male  White  1947-01-01  1992-11-15  </span>
+<span class="co">#&gt;  9 100234          1 SEER Reg … Male  White  1988-01-01  2010-02-15  </span>
+<span class="co">#&gt; 10 100266          1 SEER Reg … Fema… White  1956-01-01  2010-07-15  </span>
+<span class="co">#&gt; # … with 31,987 more rows, and 120 more variables: t_site_icd.1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   t_dco.1 &lt;chr&gt;, fc_age.1 &lt;int&gt;, datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   p_dodmin.1 &lt;date&gt;, fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   SEQ_NUM.2 &lt;int&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span>
@@ -377,20 +377,20 @@
                          <span class="fl">TRUE</span> <span class="op">~</span> <span class="fl">NA_character_</span>)) 
 <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">sex.1</span>, <span class="kw">p_spc</span>, <span class="kw">t_site_icd.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_site_icd.2</span>, <span class="kw">t_datediag.2</span>)
-<span class="co">#&gt; # A tibble: 25,631 x 7</span>
+<span class="co">#&gt; # A tibble: 31,997 x 7</span>
 <span class="co">#&gt;    fake_id sex.1  p_spc      t_site_icd.1 t_datediag.1 t_site_icd.2 t_datediag.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;        &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100004  Male   SPC devel… C34          2007-03-15   C64          2012-01-15  </span>
-<span class="co">#&gt;  2 100032  Female No SPC     C34          1992-04-15   &lt;NA&gt;         NA          </span>
-<span class="co">#&gt;  3 100060  Female SPC devel… C34          2003-05-15   C44          2006-02-15  </span>
-<span class="co">#&gt;  4 100073  Male   SPC devel… C34          1991-08-15   C64          2002-12-15  </span>
-<span class="co">#&gt;  5 100110  Male   No SPC     C34          1997-11-15   &lt;NA&gt;         NA          </span>
-<span class="co">#&gt;  6 100143  Male   SPC devel… C54          1996-01-15   C34          2018-01-15  </span>
-<span class="co">#&gt;  7 100187  Female SPC devel… C61          2011-09-15   C34          2019-10-15  </span>
-<span class="co">#&gt;  8 100192  Female No SPC     C34          2006-11-15   &lt;NA&gt;         NA          </span>
-<span class="co">#&gt;  9 100197  Female SPC devel… C80          1999-02-15   C34          2008-11-15  </span>
-<span class="co">#&gt; 10 100234  Male   SPC devel… C61          2002-06-15   C34          2012-10-15  </span>
-<span class="co">#&gt; # … with 25,621 more rows</span>
+<span class="co">#&gt;  1 100004  Male   SPC devel… C50          1992-07-15   C54          2004-01-15  </span>
+<span class="co">#&gt;  2 100039  Female SPC devel… C50          2003-08-15   C34          2011-04-15  </span>
+<span class="co">#&gt;  3 100073  Male   SPC devel… C44          1993-11-15   C34          2003-12-15  </span>
+<span class="co">#&gt;  4 100143  Male   SPC devel… C50          1992-03-15   C34          1995-07-15  </span>
+<span class="co">#&gt;  5 100182  Male   SPC devel… C18          1991-09-15   C34          1998-10-15  </span>
+<span class="co">#&gt;  6 100197  Female SPC devel… C34          2012-06-15   C50          2017-04-15  </span>
+<span class="co">#&gt;  7 100208  Male   No SPC     C34          2019-11-15   &lt;NA&gt;         NA          </span>
+<span class="co">#&gt;  8 100230  Male   SPC devel… C44          1992-11-15   C34          2003-11-15  </span>
+<span class="co">#&gt;  9 100234  Male   No SPC     C34          2010-02-15   &lt;NA&gt;         NA          </span>
+<span class="co">#&gt; 10 100266  Female No SPC     C34          2010-07-15   &lt;NA&gt;         NA          </span>
+<span class="co">#&gt; # … with 31,987 more rows</span>
 </pre></div>
 </div>
 <div id="step-pat-status" class="section level3">
@@ -410,43 +410,43 @@
 <span class="co">#&gt; # A tibble: 10 x 3</span>
 <span class="co">#&gt;    p_alive.1 p_status                                                          n</span>
 <span class="co">#&gt;    &lt;chr&gt;     &lt;fct&gt;                                                         &lt;int&gt;</span>
-<span class="co">#&gt;  1 Alive     Patient alive after FC (with or without following SPC after …  4602</span>
-<span class="co">#&gt;  2 Alive     Patient alive after SPC                                        9349</span>
-<span class="co">#&gt;  3 Alive     NA - Patient not born before end of FU                            3</span>
-<span class="co">#&gt;  4 Alive     NA - Patient did not develop cancer before end of FU            712</span>
-<span class="co">#&gt;  5 Dead      Patient alive after FC (with or without following SPC after …   693</span>
-<span class="co">#&gt;  6 Dead      Patient alive after SPC                                        1091</span>
-<span class="co">#&gt;  7 Dead      Patient dead after FC                                          4740</span>
-<span class="co">#&gt;  8 Dead      Patient dead after SPC                                         4344</span>
-<span class="co">#&gt;  9 Dead      NA - Patient did not develop cancer before end of FU             51</span>
-<span class="co">#&gt; 10 Dead      NA - Patient date of death is missing                            46</span>
+<span class="co">#&gt;  1 Alive     Patient alive after FC (with or without following SPC after …  5940</span>
+<span class="co">#&gt;  2 Alive     Patient alive after SPC                                       11316</span>
+<span class="co">#&gt;  3 Alive     NA - Patient not born before end of FU                            4</span>
+<span class="co">#&gt;  4 Alive     NA - Patient did not develop cancer before end of FU            849</span>
+<span class="co">#&gt;  5 Dead      Patient alive after FC (with or without following SPC after …   863</span>
+<span class="co">#&gt;  6 Dead      Patient alive after SPC                                        1360</span>
+<span class="co">#&gt;  7 Dead      Patient dead after FC                                          6208</span>
+<span class="co">#&gt;  8 Dead      Patient dead after SPC                                         5325</span>
+<span class="co">#&gt;  9 Dead      NA - Patient did not develop cancer before end of FU             68</span>
+<span class="co">#&gt; 10 Dead      NA - Patient date of death is missing                            64</span>
 <span class="co">#&gt; # A tibble: 7 x 2</span>
 <span class="co">#&gt;   p_status                                                                   n</span>
 <span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
-<span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  5295</span>
-<span class="co">#&gt; 2 Patient alive after SPC                                                10440</span>
-<span class="co">#&gt; 3 Patient dead after FC                                                   4740</span>
-<span class="co">#&gt; 4 Patient dead after SPC                                                  4344</span>
-<span class="co">#&gt; 5 NA - Patient not born before end of FU                                     3</span>
-<span class="co">#&gt; 6 NA - Patient did not develop cancer before end of FU                     763</span>
-<span class="co">#&gt; 7 NA - Patient date of death is missing                                     46</span>
+<span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  6803</span>
+<span class="co">#&gt; 2 Patient alive after SPC                                                12676</span>
+<span class="co">#&gt; 3 Patient dead after FC                                                   6208</span>
+<span class="co">#&gt; 4 Patient dead after SPC                                                  5325</span>
+<span class="co">#&gt; 5 NA - Patient not born before end of FU                                     4</span>
+<span class="co">#&gt; 6 NA - Patient did not develop cancer before end of FU                     917</span>
+<span class="co">#&gt; 7 NA - Patient date of death is missing                                     64</span>
 
 <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">p_status</span>, <span class="kw">p_alive.1</span>, <span class="kw">datedeath.1</span>, <span class="kw">t_site_icd.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_site_icd.2</span>, <span class="kw">t_datediag.2</span>)
-<span class="co">#&gt; # A tibble: 25,631 x 8</span>
+<span class="co">#&gt; # A tibble: 31,997 x 8</span>
 <span class="co">#&gt;    fake_id p_status p_alive.1 datedeath.1 t_site_icd.1 t_datediag.1 t_site_icd.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;    &lt;chr&gt;     &lt;date&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
-<span class="co">#&gt;  1 100004  Patient… Alive     NA          C34          2007-03-15   C64         </span>
-<span class="co">#&gt;  2 100032  Patient… Dead      2016-11-01  C34          1992-04-15   &lt;NA&gt;        </span>
-<span class="co">#&gt;  3 100060  Patient… Dead      2007-03-01  C34          2003-05-15   C44         </span>
-<span class="co">#&gt;  4 100073  Patient… Alive     NA          C34          1991-08-15   C64         </span>
-<span class="co">#&gt;  5 100110  Patient… Dead      2016-03-01  C34          1997-11-15   &lt;NA&gt;        </span>
-<span class="co">#&gt;  6 100143  Patient… Alive     NA          C54          1996-01-15   C34         </span>
-<span class="co">#&gt;  7 100187  Patient… Alive     NA          C61          2011-09-15   C34         </span>
-<span class="co">#&gt;  8 100192  Patient… Alive     NA          C34          2006-11-15   &lt;NA&gt;        </span>
-<span class="co">#&gt;  9 100197  Patient… Alive     NA          C80          1999-02-15   C34         </span>
-<span class="co">#&gt; 10 100234  Patient… Dead      2012-10-15  C61          2002-06-15   C34         </span>
-<span class="co">#&gt; # … with 25,621 more rows, and 1 more variable: t_datediag.2 &lt;date&gt;</span>
+<span class="co">#&gt;  1 100004  Patient… Alive     NA          C50          1992-07-15   C54         </span>
+<span class="co">#&gt;  2 100039  Patient… Alive     NA          C50          2003-08-15   C34         </span>
+<span class="co">#&gt;  3 100073  Patient… Dead      2005-06-01  C44          1993-11-15   C34         </span>
+<span class="co">#&gt;  4 100143  Patient… Alive     NA          C50          1992-03-15   C34         </span>
+<span class="co">#&gt;  5 100182  Patient… Dead      2007-05-01  C18          1991-09-15   C34         </span>
+<span class="co">#&gt;  6 100197  Patient… Alive     NA          C34          2012-06-15   C50         </span>
+<span class="co">#&gt;  7 100208  NA - Pa… Alive     NA          C34          2019-11-15   &lt;NA&gt;        </span>
+<span class="co">#&gt;  8 100230  Patient… Dead      2008-05-01  C44          1992-11-15   C34         </span>
+<span class="co">#&gt;  9 100234  Patient… Dead      2015-07-01  C34          2010-02-15   &lt;NA&gt;        </span>
+<span class="co">#&gt; 10 100266  Patient… Alive     NA          C34          2010-07-15   &lt;NA&gt;        </span>
+<span class="co">#&gt; # … with 31,987 more rows, and 1 more variable: t_datediag.2 &lt;date&gt;</span>
 
 <span class="co">#alternatively, you can impute the date of death using lifedatmin_var</span>
 <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
@@ -462,38 +462,38 @@
 <span class="co">#&gt; # A tibble: 9 x 3</span>
 <span class="co">#&gt;   p_alive.1 p_status                                                           n</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;fct&gt;                                                          &lt;int&gt;</span>
-<span class="co">#&gt; 1 Alive     Patient alive after FC (with or without following SPC after e…  4602</span>
-<span class="co">#&gt; 2 Alive     Patient alive after SPC                                         9349</span>
-<span class="co">#&gt; 3 Alive     NA - Patient not born before end of FU                             3</span>
-<span class="co">#&gt; 4 Alive     NA - Patient did not develop cancer before end of FU             712</span>
-<span class="co">#&gt; 5 Dead      Patient alive after FC (with or without following SPC after e…   695</span>
-<span class="co">#&gt; 6 Dead      Patient alive after SPC                                         1096</span>
-<span class="co">#&gt; 7 Dead      Patient dead after FC                                           4756</span>
-<span class="co">#&gt; 8 Dead      Patient dead after SPC                                          4367</span>
-<span class="co">#&gt; 9 Dead      NA - Patient did not develop cancer before end of FU              51</span>
+<span class="co">#&gt; 1 Alive     Patient alive after FC (with or without following SPC after e…  5940</span>
+<span class="co">#&gt; 2 Alive     Patient alive after SPC                                        11316</span>
+<span class="co">#&gt; 3 Alive     NA - Patient not born before end of FU                             4</span>
+<span class="co">#&gt; 4 Alive     NA - Patient did not develop cancer before end of FU             849</span>
+<span class="co">#&gt; 5 Dead      Patient alive after FC (with or without following SPC after e…   867</span>
+<span class="co">#&gt; 6 Dead      Patient alive after SPC                                         1361</span>
+<span class="co">#&gt; 7 Dead      Patient dead after FC                                           6230</span>
+<span class="co">#&gt; 8 Dead      Patient dead after SPC                                          5362</span>
+<span class="co">#&gt; 9 Dead      NA - Patient did not develop cancer before end of FU              68</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
 <span class="co">#&gt;   p_status                                                                   n</span>
 <span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
-<span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  5297</span>
-<span class="co">#&gt; 2 Patient alive after SPC                                                10445</span>
-<span class="co">#&gt; 3 Patient dead after FC                                                   4756</span>
-<span class="co">#&gt; 4 Patient dead after SPC                                                  4367</span>
-<span class="co">#&gt; 5 NA - Patient not born before end of FU                                     3</span>
-<span class="co">#&gt; 6 NA - Patient did not develop cancer before end of FU                     763</span>
-<span class="co">#&gt; # A tibble: 25,631 x 129</span>
+<span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  6807</span>
+<span class="co">#&gt; 2 Patient alive after SPC                                                12677</span>
+<span class="co">#&gt; 3 Patient dead after FC                                                   6230</span>
+<span class="co">#&gt; 4 Patient dead after SPC                                                  5362</span>
+<span class="co">#&gt; 5 NA - Patient not born before end of FU                                     4</span>
+<span class="co">#&gt; 6 NA - Patient did not develop cancer before end of FU                     917</span>
+<span class="co">#&gt; # A tibble: 31,997 x 129</span>
 <span class="co">#&gt;    fake_id SEQ_NUM.1 registry.1 sex.1 race.1 datebirth.1 t_datediag.1</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100004          1 SEER Reg … Male  White  1985-01-01  2007-03-15  </span>
-<span class="co">#&gt;  2 100032          1 SEER Reg … Fema… White  1925-01-01  1992-04-15  </span>
-<span class="co">#&gt;  3 100060          1 SEER Reg … Fema… White  1982-01-01  2003-05-15  </span>
-<span class="co">#&gt;  4 100073          1 SEER Reg … Male  White  1910-01-01  1991-08-15  </span>
-<span class="co">#&gt;  5 100110          1 SEER Reg … Male  White  1992-01-01  1997-11-15  </span>
-<span class="co">#&gt;  6 100143          1 SEER Reg … Male  White  1926-01-01  1996-01-15  </span>
-<span class="co">#&gt;  7 100187          1 SEER Reg … Fema… Black  2001-01-01  2011-09-15  </span>
-<span class="co">#&gt;  8 100192          1 SEER Reg … Fema… White  1977-01-01  2006-11-15  </span>
-<span class="co">#&gt;  9 100197          1 SEER Reg … Fema… White  1924-01-01  1999-02-15  </span>
-<span class="co">#&gt; 10 100234          1 SEER Reg … Male  White  1936-01-01  2002-06-15  </span>
-<span class="co">#&gt; # … with 25,621 more rows, and 122 more variables: t_site_icd.1 &lt;chr&gt;,</span>
+<span class="co">#&gt;  1 100004          1 SEER Reg … Male  White  1926-01-01  1992-07-15  </span>
+<span class="co">#&gt;  2 100039          1 SEER Reg … Fema… White  1946-01-01  2003-08-15  </span>
+<span class="co">#&gt;  3 100073          1 SEER Reg … Male  White  1960-01-01  1993-11-15  </span>
+<span class="co">#&gt;  4 100143          1 SEER Reg … Male  White  1944-01-01  1992-03-15  </span>
+<span class="co">#&gt;  5 100182          1 SEER Reg … Male  Other  1927-01-01  1991-09-15  </span>
+<span class="co">#&gt;  6 100197          1 SEER Reg … Fema… White  1945-01-01  2012-06-15  </span>
+<span class="co">#&gt;  7 100208          1 SEER Reg … Male  White  1970-01-01  2019-11-15  </span>
+<span class="co">#&gt;  8 100230          1 SEER Reg … Male  White  1947-01-01  1992-11-15  </span>
+<span class="co">#&gt;  9 100234          1 SEER Reg … Male  White  1988-01-01  2010-02-15  </span>
+<span class="co">#&gt; 10 100266          1 SEER Reg … Fema… White  1956-01-01  2010-07-15  </span>
+<span class="co">#&gt; # … with 31,987 more rows, and 122 more variables: t_site_icd.1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   t_dco.1 &lt;chr&gt;, fc_age.1 &lt;int&gt;, datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   p_dodmin.1 &lt;date&gt;, fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   SEQ_NUM.2 &lt;int&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span>
@@ -536,10 +536,10 @@
 <span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;   p_status                                                                   n</span>
 <span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
-<span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  5295</span>
-<span class="co">#&gt; 2 Patient alive after SPC                                                10440</span>
-<span class="co">#&gt; 3 Patient dead after FC                                                   4740</span>
-<span class="co">#&gt; 4 Patient dead after SPC                                                  4344</span>
+<span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  6803</span>
+<span class="co">#&gt; 2 Patient alive after SPC                                                12676</span>
+<span class="co">#&gt; 3 Patient dead after FC                                                   6208</span>
+<span class="co">#&gt; 4 Patient dead after SPC                                                  5325</span>
 </pre></div>
 </div>
 </div>
@@ -555,27 +555,27 @@
 <span class="co">#&gt; # A tibble: 4 x 5</span>
 <span class="co">#&gt;   p_status                       mean_futime min_futime max_futime median_futime</span>
 <span class="co">#&gt;   &lt;fct&gt;                                &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Patient alive after FC (with …        9.70     0.0438       27.0          8.63</span>
-<span class="co">#&gt; 2 Patient alive after SPC               8.62     0            26.7          7.42</span>
-<span class="co">#&gt; 3 Patient dead after FC                 8.53     0            25.8          7.46</span>
-<span class="co">#&gt; 4 Patient dead after SPC                6.41     0            25.3          5.17</span>
+<span class="co">#&gt; 1 Patient alive after FC (with …        9.58     0.0438       27.0          8.29</span>
+<span class="co">#&gt; 2 Patient alive after SPC               8.69     0            26.9          7.50</span>
+<span class="co">#&gt; 3 Patient dead after FC                 8.54     0            25.8          7.47</span>
+<span class="co">#&gt; 4 Patient dead after SPC                6.33     0            26.5          5.08</span>
 
 <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">p_status</span>, <span class="kw">p_futimeyrs</span>, <span class="kw">p_alive.1</span>, <span class="kw">datedeath.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_datediag.2</span>)
-<span class="co">#&gt; # A tibble: 24,819 x 7</span>
+<span class="co">#&gt; # A tibble: 31,012 x 7</span>
 <span class="co">#&gt;    fake_id p_status  p_futimeyrs p_alive.1 datedeath.1 t_datediag.1 t_datediag.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;           &lt;dbl&gt; &lt;chr&gt;     &lt;date&gt;      &lt;date&gt;       &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100004  Patient …        4.84 Alive     NA          2007-03-15   2012-01-15  </span>
-<span class="co">#&gt;  2 100032  Patient …       24.5  Dead      2016-11-01  1992-04-15   NA          </span>
-<span class="co">#&gt;  3 100060  Patient …        2.76 Dead      2007-03-01  2003-05-15   2006-02-15  </span>
-<span class="co">#&gt;  4 100073  Patient …       11.3  Alive     NA          1991-08-15   2002-12-15  </span>
-<span class="co">#&gt;  5 100110  Patient …       18.3  Dead      2016-03-01  1997-11-15   NA          </span>
-<span class="co">#&gt;  6 100143  Patient …       22.0  Alive     NA          1996-01-15   2018-01-15  </span>
-<span class="co">#&gt;  7 100187  Patient …        6.29 Alive     NA          2011-09-15   2019-10-15  </span>
-<span class="co">#&gt;  8 100192  Patient …       11.1  Alive     NA          2006-11-15   NA          </span>
-<span class="co">#&gt;  9 100197  Patient …        9.75 Alive     NA          1999-02-15   2008-11-15  </span>
-<span class="co">#&gt; 10 100234  Patient …       10.3  Dead      2012-10-15  2002-06-15   2012-10-15  </span>
-<span class="co">#&gt; # … with 24,809 more rows</span>
+<span class="co">#&gt;  1 100004  Patient …       11.5  Alive     NA          1992-07-15   2004-01-15  </span>
+<span class="co">#&gt;  2 100039  Patient …        7.67 Alive     NA          2003-08-15   2011-04-15  </span>
+<span class="co">#&gt;  3 100073  Patient …       10.1  Dead      2005-06-01  1993-11-15   2003-12-15  </span>
+<span class="co">#&gt;  4 100143  Patient …        3.33 Alive     NA          1992-03-15   1995-07-15  </span>
+<span class="co">#&gt;  5 100182  Patient …        7.08 Dead      2007-05-01  1991-09-15   1998-10-15  </span>
+<span class="co">#&gt;  6 100197  Patient …        4.83 Alive     NA          2012-06-15   2017-04-15  </span>
+<span class="co">#&gt;  7 100230  Patient …       11.0  Dead      2008-05-01  1992-11-15   2003-11-15  </span>
+<span class="co">#&gt;  8 100234  Patient …        5.37 Dead      2015-07-01  2010-02-15   NA          </span>
+<span class="co">#&gt;  9 100266  Patient …        7.46 Alive     NA          2010-07-15   NA          </span>
+<span class="co">#&gt; 10 100274  Patient …        2.38 Dead      2006-06-01  2004-01-15   NA          </span>
+<span class="co">#&gt; # … with 31,002 more rows</span>
 </pre></div>
 </div>
 <div id="step-sir-byfutime" class="section level3">
@@ -601,20 +601,20 @@
     alpha = <span class="fl">0.05</span>)
 
 <span class="kw">sircalc_results</span>
-<span class="co">#&gt; # tidytable [362,350 × 22]</span>
+<span class="co">#&gt; # tidytable [246,952 × 22]</span>
 <span class="co">#&gt;    age   region sex   year  yvar_name yvar_label fu_time t_site observed</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C14           0</span>
 <span class="co">#&gt;  2 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C18           0</span>
-<span class="co">#&gt;  3 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C21           0</span>
-<span class="co">#&gt;  4 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C34           0</span>
-<span class="co">#&gt;  5 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C44           0</span>
-<span class="co">#&gt;  6 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C50           0</span>
-<span class="co">#&gt;  7 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C54           0</span>
-<span class="co">#&gt;  8 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C61           0</span>
-<span class="co">#&gt;  9 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C64           0</span>
-<span class="co">#&gt; 10 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C80           0</span>
-<span class="co">#&gt; # … with 362,340 more rows, and 13 more variables: expected &lt;dbl&gt;, sir &lt;dbl&gt;,</span>
+<span class="co">#&gt;  3 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C34           0</span>
+<span class="co">#&gt;  4 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C44           0</span>
+<span class="co">#&gt;  5 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C50           0</span>
+<span class="co">#&gt;  6 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C54           0</span>
+<span class="co">#&gt;  7 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C64           0</span>
+<span class="co">#&gt;  8 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C80           0</span>
+<span class="co">#&gt;  9 00 -… SEER … Fema… 1990… total_var Overall    0.0833… C14           0</span>
+<span class="co">#&gt; 10 00 -… SEER … Fema… 1990… total_var Overall    0.0833… C18           0</span>
+<span class="co">#&gt; # … with 246,942 more rows, and 13 more variables: expected &lt;dbl&gt;, sir &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   sir_lci &lt;dbl&gt;, sir_uci &lt;dbl&gt;, pyar &lt;dbl&gt;, n_base &lt;dbl&gt;, race &lt;chr&gt;,</span>
 <span class="co">#&gt; #   ref_inc_cases &lt;int&gt;, ref_population_pyar &lt;int&gt;, ref_inc_crude_rate &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;, warning &lt;chr&gt;</span>
