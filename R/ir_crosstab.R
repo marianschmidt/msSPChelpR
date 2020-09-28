@@ -11,7 +11,7 @@
 #' @param add_total option to add a row of totals. Can be either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".
 #' @param add_n_percentages option to add a column of percentages for n_base in its respective yvar_group. Can only be used when xbreak_var = "none". Default is FALSE.
 #' @param futime_var variable in df that contains follow-up time per person (in years). Default is set if dattype is given.
-#' @param alpha signifcance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
+#' @param alpha significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @return df
 #' @importFrom rlang .data
 #' @export 
