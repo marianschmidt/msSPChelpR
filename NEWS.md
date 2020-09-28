@@ -1,4 +1,4 @@
-# msSPChelpR (development version)
+# msSPChelpR 0.8.5 - 2020-09-28
 
 ## New Features
 * tidytable variants of functions, i.e. `reshape_wide_tt()`, `renumber_time_id_tt()`, `pat_status_tt()`, `vital_status_tt()`,  `calc_futime_tt()` --> the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.

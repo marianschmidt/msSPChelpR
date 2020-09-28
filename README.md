@@ -4,7 +4,7 @@
 
 <!-- badges: start -->
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/msSPChelpR)](https://cran.r-project.org/package=msSPChelpR) -->
-[![](https://img.shields.io/badge/dev%20-0.8.4.9-green.svg)](https://github.com/marianschmidt/msSPChelpR) 
+[![](https://img.shields.io/badge/dev%20-0.8.5-green.svg)](https://github.com/marianschmidt/msSPChelpR) 
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/msSPChelpR?color=grey)](https://marianschmidt.github.io/msSPChelpR/) -->
 <!-- badges: end -->
