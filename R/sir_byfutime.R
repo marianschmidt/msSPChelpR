@@ -29,7 +29,6 @@
 #' @param site_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
 #' @param futime_var variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.
 #' @param alpha significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
-#' @importFrom rlang .data
 #' @export
 #'
 #'
@@ -97,7 +96,7 @@ sir_byfutime <- function(df,
   if(!is.null(race_var) & dattype != "seer"){
     rlang::inform(
       paste0("Only dattype 'seer' is compatible with stratification by race. \n",
-             "You have used dattype = ", dattype, " and race_var = ", race_var, "\n",
+             "You have used `dattype = \"", dattype, "\"` and `race_var = \"", race_var, "\"`\n",
              "Therefore race_var will be reset to 'none' and no stratification by race will be done.")
     )
     race_var <- NULL
@@ -259,6 +258,25 @@ sir_byfutime <- function(df,
     }
     
   }
+  
+  #Check that count_var is in correct format
+  
+  if(!is.numeric(df[[rlang::as_name(count_var)]])){
+    rlang::abort(  
+      paste0("The column defined in `count_var` is not numeric. \n",
+             "You have used `count_var = \"", rlang::as_name(count_var), "\"`\n",
+             "Please make sure that the column of df defined as `count_var` is numeric and coded 1 for observed cases.")
+    )
+  }
+  
+  if(!( c(1) %in% (unique(df[[rlang::as_name(count_var)]])))){
+    rlang::warn(  
+      paste0("The column defined in `count_var` does not contain any rows where count_var == 1. So no observed cases are found. \n",
+             "You have used `count_var = \"", rlang::as_name(count_var), "\"`\n",
+             "Please make sure that the column of df defined as `count_var` is numeric and coded 1 for observed cases.")
+    )
+  }
+  
   
   
   # ---- 1 data modifications ----
@@ -1071,5 +1089,3 @@ sir_byfutime <- function(df,
   return(sir_result)
   
 }
-
-
