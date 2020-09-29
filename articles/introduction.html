@@ -94,9 +94,6 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://marianschmidt.github.io/msSPChelpR">msSPChelpR</a></span>)
-</pre></div>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
@@ -228,7 +225,7 @@
 <div id="step-long" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-long" class="anchor"></a>Step 1 - Long dataset</h3>
-<div class="sourceCode" id="cb2"><pre class="downlit">
+<div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'dplyr'</span>
@@ -252,7 +249,7 @@
 <div id="step-filter" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-filter" class="anchor"></a>Step 2 - Filter long dataset</h3>
-<div class="sourceCode" id="cb3"><pre class="downlit">
+<div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="co">#filter for lung cancer</span>
 <span class="kw">ids</span> <span class="op">&lt;-</span> <span class="kw">us_second_cancer</span> <span class="op">%&gt;%</span>
   <span class="co">#detect ids with any lung cancer</span>
@@ -290,7 +287,7 @@
 <h3 class="hasAnchor">
 <a href="#step-renumber" class="anchor"></a>Step 3 - Renumber <code>time_id</code>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit">
+<div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw">renumbered_usdata</span> <span class="op">&lt;-</span> <span class="kw">filtered_usdata</span> <span class="op">%&gt;%</span>
   <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/renumber_time_id.html">renumber_time_id</a></span>(new_time_id_var = <span class="st">"t_tumid"</span>, 
                                   dattype = <span class="st">"seer"</span>,
@@ -317,7 +314,7 @@
 <div id="step-reshape-wide" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-reshape-wide" class="anchor"></a>Step 4 - Reshape to wide dataset</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit">
+<div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">renumbered_usdata</span> <span class="op">%&gt;%</span>
   <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr</a></span>(case_id_var = <span class="st">"fake_id"</span>, time_id_var = <span class="st">"t_tumid"</span>, timevar_max = <span class="fl">10</span>)
 
@@ -369,7 +366,7 @@
 <h3 class="hasAnchor">
 <a href="#step-spc" class="anchor"></a>Step 5 - Recalculate <code>p_spc</code>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit">
+<div class="sourceCode" id="cb5"><pre class="downlit">
 
 <span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(p_spc = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)   <span class="op">~</span> <span class="st">"No SPC"</span>,
@@ -396,7 +393,7 @@
 <div id="step-pat-status" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-pat-status" class="anchor"></a>Step 6 - Determine patient status at end of FU</h3>
-<div class="sourceCode" id="cb7"><pre class="downlit">
+<div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/pat_status.html">pat_status</a></span>(<span class="kw">.</span>, fu_end = <span class="st">"2017-12-31"</span>, dattype = <span class="st">"seer"</span>,
                          status_var = <span class="st">"p_status"</span>, life_var = <span class="st">"p_alive.1"</span>,
@@ -525,7 +522,7 @@
 <div id="step-6b---remove-patients-irrelevant-to-analysis-depending-on-status" class="section level4">
 <h4 class="hasAnchor">
 <a href="#step-6b---remove-patients-irrelevant-to-analysis-depending-on-status" class="anchor"></a>Step 6b - Remove patients irrelevant to analysis depending on status</h4>
-<div class="sourceCode" id="cb8"><pre class="downlit">
+<div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">p_status</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"NA - Patient not born before end of FU"</span>,
                                  <span class="st">"NA - Patient did not develop cancer before end of FU"</span>,
@@ -546,7 +543,7 @@
 <div id="step-calc-futime" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-calc-futime" class="anchor"></a>Step 7 - Calculate FU time</h3>
-<div class="sourceCode" id="cb9"><pre class="downlit">
+<div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/calc_futime.html">calc_futime</a></span>(<span class="kw">.</span>, futime_var_new = <span class="st">"p_futimeyrs"</span>, fu_end = <span class="st">"2017-12-31"</span>,
                            dattype = <span class="st">"seer"</span>, time_unit = <span class="st">"years"</span>, 
@@ -581,7 +578,7 @@
 <div id="step-sir-byfutime" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-sir-byfutime" class="anchor"></a>Step 8 - Calculate SIR</h3>
-<div class="sourceCode" id="cb10"><pre class="downlit">
+<div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="kw">sircalc_results</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/sir_byfutime.html">sir_byfutime</a></span>(
     dattype = <span class="st">"seer"</span>,
@@ -600,24 +597,7 @@
     futime_var = <span class="st">"p_futimeyrs"</span>,
     alpha = <span class="fl">0.05</span>)
 
-<span class="kw">sircalc_results</span>
-<span class="co">#&gt; # tidytable [246,952 × 22]</span>
-<span class="co">#&gt;    age   region sex   year  yvar_name yvar_label fu_time t_site observed</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C14           0</span>
-<span class="co">#&gt;  2 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C18           0</span>
-<span class="co">#&gt;  3 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C34           0</span>
-<span class="co">#&gt;  4 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C44           0</span>
-<span class="co">#&gt;  5 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C50           0</span>
-<span class="co">#&gt;  6 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C54           0</span>
-<span class="co">#&gt;  7 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C64           0</span>
-<span class="co">#&gt;  8 00 -… SEER … Fema… 1990… total_var Overall    to 1 m… C80           0</span>
-<span class="co">#&gt;  9 00 -… SEER … Fema… 1990… total_var Overall    0.0833… C14           0</span>
-<span class="co">#&gt; 10 00 -… SEER … Fema… 1990… total_var Overall    0.0833… C18           0</span>
-<span class="co">#&gt; # … with 246,942 more rows, and 13 more variables: expected &lt;dbl&gt;, sir &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   sir_lci &lt;dbl&gt;, sir_uci &lt;dbl&gt;, pyar &lt;dbl&gt;, n_base &lt;dbl&gt;, race &lt;chr&gt;,</span>
-<span class="co">#&gt; #   ref_inc_cases &lt;int&gt;, ref_population_pyar &lt;int&gt;, ref_inc_crude_rate &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;, warning &lt;chr&gt;</span>
+<span class="co"># sircalc_results %&gt;% print(n = 100) # uncomment after tidytable 0.5.6 release</span>
 </pre></div>
 </div>
 <div id="step-summarize-sir" class="section level3">
@@ -657,7 +637,7 @@
 <div id="built-with" class="section level2">
 <h2 class="hasAnchor">
 <a href="#built-with" class="anchor"></a>Built with</h2>
-<div class="sourceCode" id="cb11"><pre class="downlit">
+<div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
 <span class="co">#&gt; R version 4.0.2 (2020-06-22)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
@@ -674,7 +654,7 @@
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] tidytable_0.5.5  magrittr_1.5     dplyr_1.0.2      msSPChelpR_0.8.5</span>
+<span class="co">#&gt; [1] msSPChelpR_0.8.5 tidytable_0.5.5  magrittr_1.5     dplyr_1.0.2     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] Rcpp_1.0.5        cpp11_0.2.1       compiler_4.0.2    pillar_1.4.6     </span>
