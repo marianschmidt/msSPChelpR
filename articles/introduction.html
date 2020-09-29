@@ -85,7 +85,7 @@
       <h1 data-toc-skip>Introduction to the msSPChelpR package - from long dataset to SIR analyses</h1>
                         <h4 class="author">Marian Eberl</h4>
             
-            <h4 class="date">05 August 2020</h4>
+            <h4 class="date">29 September 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/marianschmidt/msSPChelpR/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -372,13 +372,13 @@
   <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(p_spc = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)   <span class="op">~</span> <span class="st">"No SPC"</span>,
                          <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)           <span class="op">~</span> <span class="st">"SPC developed"</span>,
                          <span class="fl">TRUE</span> <span class="op">~</span> <span class="fl">NA_character_</span>)) <span class="op">%&gt;%</span>
-  <span class="co">#create the same information as numeric variable</span>
-  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(spc_count = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)   <span class="op">~</span> <span class="fl">1</span>,
+  <span class="co">#create the same information as numeric variable count_spc</span>
+  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(count_spc = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)   <span class="op">~</span> <span class="fl">1</span>,
                             <span class="fl">TRUE</span> <span class="op">~</span> <span class="fl">0</span>))
 <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">sex.1</span>, <span class="kw">p_spc</span>, <span class="kw">spc_count</span>, <span class="kw">t_site_icd.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_site_icd.2</span>, <span class="kw">t_datediag.2</span>)
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">sex.1</span>, <span class="kw">p_spc</span>, <span class="kw">count_spc</span>, <span class="kw">t_site_icd.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_site_icd.2</span>, <span class="kw">t_datediag.2</span>)
 <span class="co">#&gt; # A tibble: 31,997 x 8</span>
-<span class="co">#&gt;    fake_id sex.1 p_spc spc_count t_site_icd.1 t_datediag.1 t_site_icd.2</span>
+<span class="co">#&gt;    fake_id sex.1 p_spc count_spc t_site_icd.1 t_datediag.1 t_site_icd.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
 <span class="co">#&gt;  1 100004  Male  SPC …         0 C50          1992-07-15   C54         </span>
 <span class="co">#&gt;  2 100039  Fema… SPC …         0 C50          2003-08-15   C34         </span>
@@ -588,7 +588,7 @@
     ybreak_vars = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"race.1"</span>, <span class="st">"t_dco.1"</span>),
     xbreak_var = <span class="st">"none"</span>,
     futime_breaks = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">Inf</span>),
-    count_var = <span class="st">"spc_count"</span>,
+    count_var = <span class="st">"count_spc"</span>,
     refrates_df = <span class="kw">us_refrates_icd2</span>,
     calc_total_row = <span class="fl">TRUE</span>,
     calc_total_fu = <span class="fl">TRUE</span>,
