@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the msSPChelpR package - from long dataset to SIR analyses"
 author: "Marian Eberl"
-date: "05 August 2020"
+date: "29 September 2020"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to the msSPChelpR package - from long dataset to SIR analyses}
@@ -160,11 +160,11 @@ usdata_wide <- usdata_wide %>%
   dplyr::mutate(p_spc = case_when(is.na(t_site_icd.2)   ~ "No SPC",
                          !is.na(t_site_icd.2)           ~ "SPC developed",
                          TRUE ~ NA_character_)) %>%
-  #create the same information as numeric variable
-  dplyr::mutate(spc_count = case_when(is.na(t_site_icd.2)   ~ 1,
+  #create the same information as numeric variable count_spc
+  dplyr::mutate(count_spc = case_when(is.na(t_site_icd.2)   ~ 1,
                             TRUE ~ 0))
 usdata_wide %>%
-   select(fake_id, sex.1, p_spc, spc_count, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
+   select(fake_id, sex.1, p_spc, count_spc, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
 
 ```
 
@@ -236,7 +236,7 @@ sircalc_results <- usdata_wide %>%
     ybreak_vars = c("race.1", "t_dco.1"),
     xbreak_var = "none",
     futime_breaks = c(0, 1/12, 2/12, 1, 5, 10, Inf),
-    count_var = "spc_count",
+    count_var = "count_spc",
     refrates_df = us_refrates_icd2,
     calc_total_row = TRUE,
     calc_total_fu = TRUE,
