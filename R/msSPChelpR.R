@@ -73,12 +73,8 @@ release_questions <- function() {
 
 # #to avoid problems at rhub check use the following code
 # rhub::check(platform="windows-x86_64-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
+# rhub::check_for_cran(env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
 
-
-# rhub::check_with_sanitizers(platform="windows-x86_64-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
-# rhub::check_on_linux()
-# rhub::check_for_cran(platform="fedora-clang-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
-# cran_prep <- rhub::check_for_cran(env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
 
 # previous_checks <- rhub::list_my_checks(email = "marian.eberl@tum.de")
 # previous_checks[[3]][[15]]
