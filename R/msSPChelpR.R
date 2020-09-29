@@ -72,11 +72,6 @@ release_questions <- function() {
 
 
 # #to avoid problems at rhub check use the following code
-# rhub::check(
-#   platform="windows-x86_64-devel",
-#   env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always")
-# )
-# rhub::check_with_sanitizers(
-#   platform="windows-x86_64-devel",
-#   env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always")
-# )
+# rhub::check(platform="windows-x86_64-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
+# rhub::check_with_sanitizers(platform="windows-x86_64-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
+# rhub::check_for_cran(env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))
