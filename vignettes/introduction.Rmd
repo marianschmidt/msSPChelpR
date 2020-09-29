@@ -159,9 +159,12 @@ usdata_wide
 usdata_wide <- usdata_wide %>%
   dplyr::mutate(p_spc = case_when(is.na(t_site_icd.2)   ~ "No SPC",
                          !is.na(t_site_icd.2)           ~ "SPC developed",
-                         TRUE ~ NA_character_)) 
+                         TRUE ~ NA_character_)) %>%
+  #create the same information as numeric variable
+  dplyr::mutate(spc_count = case_when(is.na(t_site_icd.2)   ~ 1,
+                            TRUE ~ 0))
 usdata_wide %>%
-   select(fake_id, sex.1, p_spc, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
+   select(fake_id, sex.1, p_spc, spc_count, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
 
 ```
 
@@ -233,7 +236,7 @@ sircalc_results <- usdata_wide %>%
     ybreak_vars = c("race.1", "t_dco.1"),
     xbreak_var = "none",
     futime_breaks = c(0, 1/12, 2/12, 1, 5, 10, Inf),
-    count_var = "p_spc",
+    count_var = "spc_count",
     refrates_df = us_refrates_icd2,
     calc_total_row = TRUE,
     calc_total_fu = TRUE,
@@ -250,6 +253,25 @@ sircalc_results <- usdata_wide %>%
 ```
 
 ### Step 9 - Summarize SIR results {#step-summarize-sir}
+
+```{r}
+#The summarize function is versatile. Her for example the summary by
+
+sircalc_results %>%
+  #summarize results across region, age, year and t_site
+  msSPChelpR::summarize_sir_results(.,
+                                    summarize_groups = c("region", "age", "year", "race"),
+                                    summarize_site = TRUE,
+                                    output = "long",  output_information = "minimal",
+                                    add_total_row = "only",  add_total_fu = "no",
+                                    collapse_ci = FALSE,  shorten_total_cols = TRUE,
+                                    fubreak_var_name = "fu_time", ybreak_var_name = "yvar_name",
+                                    xbreak_var_name = "none", site_var_name = "t_site",
+                                    alpha = 0.05
+                                    ) %>%
+  dplyr::select(-region, -age, -year, -race, -sex, -yvar_name)
+```
+
 
 
 ## ZfKD melanoma
