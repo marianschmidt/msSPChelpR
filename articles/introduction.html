@@ -371,23 +371,26 @@
 <span class="kw">usdata_wide</span> <span class="op">&lt;-</span> <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(p_spc = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)   <span class="op">~</span> <span class="st">"No SPC"</span>,
                          <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)           <span class="op">~</span> <span class="st">"SPC developed"</span>,
-                         <span class="fl">TRUE</span> <span class="op">~</span> <span class="fl">NA_character_</span>)) 
+                         <span class="fl">TRUE</span> <span class="op">~</span> <span class="fl">NA_character_</span>)) <span class="op">%&gt;%</span>
+  <span class="co">#create the same information as numeric variable</span>
+  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(spc_count = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">t_site_icd.2</span>)   <span class="op">~</span> <span class="fl">1</span>,
+                            <span class="fl">TRUE</span> <span class="op">~</span> <span class="fl">0</span>))
 <span class="kw">usdata_wide</span> <span class="op">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">sex.1</span>, <span class="kw">p_spc</span>, <span class="kw">t_site_icd.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_site_icd.2</span>, <span class="kw">t_datediag.2</span>)
-<span class="co">#&gt; # A tibble: 31,997 x 7</span>
-<span class="co">#&gt;    fake_id sex.1  p_spc      t_site_icd.1 t_datediag.1 t_site_icd.2 t_datediag.2</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;        &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100004  Male   SPC devel… C50          1992-07-15   C54          2004-01-15  </span>
-<span class="co">#&gt;  2 100039  Female SPC devel… C50          2003-08-15   C34          2011-04-15  </span>
-<span class="co">#&gt;  3 100073  Male   SPC devel… C44          1993-11-15   C34          2003-12-15  </span>
-<span class="co">#&gt;  4 100143  Male   SPC devel… C50          1992-03-15   C34          1995-07-15  </span>
-<span class="co">#&gt;  5 100182  Male   SPC devel… C18          1991-09-15   C34          1998-10-15  </span>
-<span class="co">#&gt;  6 100197  Female SPC devel… C34          2012-06-15   C50          2017-04-15  </span>
-<span class="co">#&gt;  7 100208  Male   No SPC     C34          2019-11-15   &lt;NA&gt;         NA          </span>
-<span class="co">#&gt;  8 100230  Male   SPC devel… C44          1992-11-15   C34          2003-11-15  </span>
-<span class="co">#&gt;  9 100234  Male   No SPC     C34          2010-02-15   &lt;NA&gt;         NA          </span>
-<span class="co">#&gt; 10 100266  Female No SPC     C34          2010-07-15   &lt;NA&gt;         NA          </span>
-<span class="co">#&gt; # … with 31,987 more rows</span>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">fake_id</span>, <span class="kw">sex.1</span>, <span class="kw">p_spc</span>, <span class="kw">spc_count</span>, <span class="kw">t_site_icd.1</span>, <span class="kw">t_datediag.1</span>, <span class="kw">t_site_icd.2</span>, <span class="kw">t_datediag.2</span>)
+<span class="co">#&gt; # A tibble: 31,997 x 8</span>
+<span class="co">#&gt;    fake_id sex.1 p_spc spc_count t_site_icd.1 t_datediag.1 t_site_icd.2</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
+<span class="co">#&gt;  1 100004  Male  SPC …         0 C50          1992-07-15   C54         </span>
+<span class="co">#&gt;  2 100039  Fema… SPC …         0 C50          2003-08-15   C34         </span>
+<span class="co">#&gt;  3 100073  Male  SPC …         0 C44          1993-11-15   C34         </span>
+<span class="co">#&gt;  4 100143  Male  SPC …         0 C50          1992-03-15   C34         </span>
+<span class="co">#&gt;  5 100182  Male  SPC …         0 C18          1991-09-15   C34         </span>
+<span class="co">#&gt;  6 100197  Fema… SPC …         0 C34          2012-06-15   C50         </span>
+<span class="co">#&gt;  7 100208  Male  No S…         1 C34          2019-11-15   &lt;NA&gt;        </span>
+<span class="co">#&gt;  8 100230  Male  SPC …         0 C44          1992-11-15   C34         </span>
+<span class="co">#&gt;  9 100234  Male  No S…         1 C34          2010-02-15   &lt;NA&gt;        </span>
+<span class="co">#&gt; 10 100266  Fema… No S…         1 C34          2010-07-15   &lt;NA&gt;        </span>
+<span class="co">#&gt; # … with 31,987 more rows, and 1 more variable: t_datediag.2 &lt;date&gt;</span>
 </pre></div>
 </div>
 <div id="step-pat-status" class="section level3">
@@ -477,7 +480,7 @@
 <span class="co">#&gt; 4 Patient dead after SPC                                                  5362</span>
 <span class="co">#&gt; 5 NA - Patient not born before end of FU                                     4</span>
 <span class="co">#&gt; 6 NA - Patient did not develop cancer before end of FU                     917</span>
-<span class="co">#&gt; # A tibble: 31,997 x 129</span>
+<span class="co">#&gt; # A tibble: 31,997 x 130</span>
 <span class="co">#&gt;    fake_id SEQ_NUM.1 registry.1 sex.1 race.1 datebirth.1 t_datediag.1</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;date&gt;      </span>
 <span class="co">#&gt;  1 100004          1 SEER Reg … Male  White  1926-01-01  1992-07-15  </span>
@@ -490,7 +493,7 @@
 <span class="co">#&gt;  8 100230          1 SEER Reg … Male  White  1947-01-01  1992-11-15  </span>
 <span class="co">#&gt;  9 100234          1 SEER Reg … Male  White  1988-01-01  2010-02-15  </span>
 <span class="co">#&gt; 10 100266          1 SEER Reg … Fema… White  1956-01-01  2010-07-15  </span>
-<span class="co">#&gt; # … with 31,987 more rows, and 122 more variables: t_site_icd.1 &lt;chr&gt;,</span>
+<span class="co">#&gt; # … with 31,987 more rows, and 123 more variables: t_site_icd.1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   t_dco.1 &lt;chr&gt;, fc_age.1 &lt;int&gt;, datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   p_dodmin.1 &lt;date&gt;, fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   SEQ_NUM.2 &lt;int&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span>
@@ -585,7 +588,7 @@
     ybreak_vars = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"race.1"</span>, <span class="st">"t_dco.1"</span>),
     xbreak_var = <span class="st">"none"</span>,
     futime_breaks = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">Inf</span>),
-    count_var = <span class="st">"p_spc"</span>,
+    count_var = <span class="st">"spc_count"</span>,
     refrates_df = <span class="kw">us_refrates_icd2</span>,
     calc_total_row = <span class="fl">TRUE</span>,
     calc_total_fu = <span class="fl">TRUE</span>,
@@ -596,6 +599,75 @@
     site_var = <span class="st">"t_site_icd.1"</span>, <span class="co">#using grouping by second cancer incidence</span>
     futime_var = <span class="st">"p_futimeyrs"</span>,
     alpha = <span class="fl">0.05</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. </span>
+<span class="co">#&gt; # tidytable [4 × 10]</span>
+<span class="co">#&gt;   age    sex    region     year  race.1 t_site to1month i_observed i_pyar n_base</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 05 - … Male   SEER Reg … 2015… Other  C34           1          1      0      1</span>
+<span class="co">#&gt; 2 15 - … Male   SEER Reg … 2005… Black  C34           1          1      0      1</span>
+<span class="co">#&gt; 3 85 - … Female SEER Reg … 1995… Black  C34           1          2      0      2</span>
+<span class="co">#&gt; 4 85 - … Male   SEER Reg … 2010… Other  C34           1          1      0      1 </span>
+<span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
+<span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
+<span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. </span>
+<span class="co">#&gt; # tidytable [4 × 10]</span>
+<span class="co">#&gt;   age   sex   region year  race.1 t_site Total0toInfyears i_observed i_pyar</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 05 -… Male  SEER … 2015… Other  C34                   1          1      0</span>
+<span class="co">#&gt; 2 15 -… Male  SEER … 2005… Black  C34                   1          1      0</span>
+<span class="co">#&gt; 3 85 -… Fema… SEER … 1995… Black  C34                   1          2      0</span>
+<span class="co">#&gt; 4 85 -… Male  SEER … 2010… Other  C34                   1          1      0</span>
+<span class="co">#&gt; # … with 1 more variable: n_base &lt;dbl&gt; </span>
+<span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
+<span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
+<span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. </span>
+<span class="co">#&gt; # tidytable [1 × 10]</span>
+<span class="co">#&gt;   age    sex   region     year  t_dco.1 t_site to1month i_observed i_pyar n_base</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 80 - … Male  SEER Reg … 2010… DCO ca… C34           1          1      0      1 </span>
+<span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
+<span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
+<span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. </span>
+<span class="co">#&gt; # tidytable [1 × 10]</span>
+<span class="co">#&gt;   age   sex   region year  t_dco.1 t_site Total0toInfyears i_observed i_pyar</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 80 -… Male  SEER … 2010… DCO ca… C34                   1          1      0</span>
+<span class="co">#&gt; # … with 1 more variable: n_base &lt;dbl&gt; </span>
+<span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
+<span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
+<span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  There are observed cases in the results file that do not occur in the refrates_df. </span>
+<span class="co">#&gt; A possible explanation can be: </span>
+<span class="co">#&gt;  - DCO cases </span>
+<span class="co">#&gt;  - diagnosis of second cancer occured in different time period than first cancer </span>
+<span class="co">#&gt; The following strata are affected: </span>
+<span class="co">#&gt; # tidytable [166 × 21]</span>
+<span class="co">#&gt;    yvar_name yvar_label fu_time age   sex   region year  t_site i_observed</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 total_var Overall    1-5 ye… 60 -… Male  SEER … 2010… C34            17</span>
+<span class="co">#&gt;  2 total_var Overall    1-5 ye… 65 -… Male  SEER … 2015… C34            18</span>
+<span class="co">#&gt;  3 total_var Overall    5-10 y… 60 -… Male  SEER … 2010… C34            20</span>
+<span class="co">#&gt;  4 total_var Overall    5-10 y… 60 -… Male  SEER … 2010… C34            22</span>
+<span class="co">#&gt;  5 total_var Overall    5-10 y… 70 -… Male  SEER … 2005… C34            12</span>
+<span class="co">#&gt;  6 total_var Overall    5-10 y… 75 -… Fema… SEER … 2005… C34            13</span>
+<span class="co">#&gt;  7 total_var Overall    10+ ye… 25 -… Fema… SEER … 1995… C34            14</span>
+<span class="co">#&gt;  8 total_var Overall    10+ ye… 60 -… Fema… SEER … 1995… C34            18</span>
+<span class="co">#&gt;  9 total_var Overall    10+ ye… 60 -… Fema… SEER … 1995… C34            16</span>
+<span class="co">#&gt; 10 total_var Overall    10+ ye… 65 -… Male  SEER … 2000… C34            29</span>
+<span class="co">#&gt; # … with 156 more rows, and 12 more variables: i_pyar &lt;dbl&gt;, n_base &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   race &lt;chr&gt;, incidence_cases &lt;int&gt;, population_pyar &lt;int&gt;,</span>
+<span class="co">#&gt; #   incidence_crude_rate &lt;dbl&gt;, i_expected &lt;dbl&gt;, sir &lt;dbl&gt;, sir_lci &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   sir_uci &lt;dbl&gt;, fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Check attribute `notes_refcases` of results to see what strata are affected.</span>
 
 <span class="co"># sircalc_results %&gt;% print(n = 100) # uncomment after tidytable 0.5.6 release</span>
 </pre></div>
@@ -603,6 +675,33 @@
 <div id="step-summarize-sir" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-summarize-sir" class="anchor"></a>Step 9 - Summarize SIR results</h3>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="co">#The summarize function is versatile. Her for example the summary by</span>
+
+<span class="kw">sircalc_results</span> <span class="op">%&gt;%</span>
+  <span class="co">#summarize results across region, age, year and t_site</span>
+  <span class="kw">msSPChelpR</span>::<span class="fu"><a href="../reference/summarize_sir_results.html">summarize_sir_results</a></span>(<span class="kw">.</span>,
+                                    summarize_groups = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"region"</span>, <span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"race"</span>),
+                                    summarize_site = <span class="fl">TRUE</span>,
+                                    output = <span class="st">"long"</span>,  output_information = <span class="st">"minimal"</span>,
+                                    add_total_row = <span class="st">"only"</span>,  add_total_fu = <span class="st">"no"</span>,
+                                    collapse_ci = <span class="fl">FALSE</span>,  shorten_total_cols = <span class="fl">TRUE</span>,
+                                    fubreak_var_name = <span class="st">"fu_time"</span>, ybreak_var_name = <span class="st">"yvar_name"</span>,
+                                    xbreak_var_name = <span class="st">"none"</span>, site_var_name = <span class="st">"t_site"</span>,
+                                    alpha = <span class="fl">0.05</span>
+                                    ) <span class="op">%&gt;%</span>
+  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="kw">region</span>, <span class="op">-</span><span class="kw">age</span>, <span class="op">-</span><span class="kw">year</span>, <span class="op">-</span><span class="kw">race</span>, <span class="op">-</span><span class="kw">sex</span>, <span class="op">-</span><span class="kw">yvar_name</span>)
+<span class="co">#&gt; # tidytable [7 × 8]</span>
+<span class="co">#&gt;   yvar_label fu_time       fu_time_sort t_site observed expected   sir sir_ci   </span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 Overall    to 1 month               1 Total       327     18.1 18.1  16.19 - …</span>
+<span class="co">#&gt; 2 Overall    0.0833-0.167…            2 Total        80     17.9  4.46 3.54 - 5…</span>
+<span class="co">#&gt; 3 Overall    0.167-1 years            3 Total       724    172.   4.2  3.9 - 4.…</span>
+<span class="co">#&gt; 4 Overall    1-5 years                4 Total      2998    668.   4.49 4.33 - 4…</span>
+<span class="co">#&gt; 5 Overall    5-10 years               5 Total      3089    531.   5.82 5.61 - 6…</span>
+<span class="co">#&gt; 6 Overall    10+ years                6 Total      4241    438.   9.69 9.4 - 9.…</span>
+<span class="co">#&gt; 7 Overall    Total 0 to I…            7 Total     11459   1845.   6.21 6.1 - 6.…</span>
+</pre></div>
 </div>
 </div>
 <div id="zfkd-melanoma" class="section level2">
@@ -637,7 +736,7 @@
 <div id="built-with" class="section level2">
 <h2 class="hasAnchor">
 <a href="#built-with" class="anchor"></a>Built with</h2>
-<div class="sourceCode" id="cb10"><pre class="downlit">
+<div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
 <span class="co">#&gt; R version 4.0.2 (2020-06-22)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
