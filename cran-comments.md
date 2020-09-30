@@ -13,12 +13,14 @@ This is a new package that provides functions for Second Primary Cancer analyses
 * travis-ci (Ubuntu 16.04.6 LTS, xenial, R 4.0.2_1_amd64)
 
 ## R CMD check results
-0 errors | 0 warnings | 1 notes
+0 errors | 0 warnings | 2 notes
 
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Marian Eberl’
 New submission
 
-    
+* checking for future file timestamps ... NOTE
+unable to verify current time
+
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.
