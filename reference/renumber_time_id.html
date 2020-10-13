@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">msSPChelpR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5.9000</span>
       </span>
     </div>
 
@@ -132,15 +132,15 @@
     <p>Renumber the time ID per case (i.e. Tumor sequence)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>renumber_time_id</span>(
-  <span class='kw'>df</span>,
-  <span class='kw'>new_time_id_var</span>,
-  dattype = <span class='st'>"zfkd"</span>,
-  case_id_var = <span class='kw'>NULL</span>,
-  time_id_var = <span class='kw'>NULL</span>,
-  diagdat_var = <span class='kw'>NULL</span>,
-  timevar_max = <span class='fl'>Inf</span>
-)</pre>
+    <pre class="usage"><span class='fu'>renumber_time_id</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  <span class='va'>new_time_id_var</span>,
+  dattype <span class='op'>=</span> <span class='st'>"zfkd"</span>,
+  case_id_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  time_id_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  diagdat_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  timevar_max <span class='op'>=</span> <span class='cn'>Inf</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,16 +185,16 @@ All tumors &gt; timevar_max will be deleted.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>us_second_cancer</span>)
- <span class='kw'>renumbered_usdata</span> <span class='op'>&lt;-</span> <span class='kw'>us_second_cancer</span> <span class='op'>%&gt;%</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>us_second_cancer</span><span class='op'>)</span>
+ <span class='va'>renumbered_usdata</span> <span class='op'>&lt;-</span> <span class='va'>us_second_cancer</span> <span class='op'>%&gt;%</span>
  <span class='co'>#only select first 10000 rows so example runs faster</span>
- <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10000</span>) <span class='op'>%&gt;%</span>
- <span class='kw'>msSPChelpR</span>::<span class='fu'>renumber_time_id</span>(new_time_id_var = <span class='st'>"t_tumid"</span>,
-                             dattype = <span class='st'>"seer"</span>,
-                             case_id_var = <span class='st'>"fake_id"</span>)
+ <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10000</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+ <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>renumber_time_id</span><span class='op'>(</span>new_time_id_var <span class='op'>=</span> <span class='st'>"t_tumid"</span>,
+                             dattype <span class='op'>=</span> <span class='st'>"seer"</span>,
+                             case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span><span class='op'>)</span>
                              
-<span class='kw'>renumbered_usdata</span> <span class='op'>%&gt;%</span>
- <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>fake_id</span>, <span class='kw'>sex</span>, <span class='kw'>t_site_icd</span>, <span class='kw'>t_datediag</span>, <span class='kw'>t_tumid</span>)
+<span class='va'>renumbered_usdata</span> <span class='op'>%&gt;%</span>
+ <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>fake_id</span>, <span class='va'>sex</span>, <span class='va'>t_site_icd</span>, <span class='va'>t_datediag</span>, <span class='va'>t_tumid</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10,000 x 5</span><span>
 #&gt;    fake_id sex    t_site_icd t_datediag t_tumid
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>

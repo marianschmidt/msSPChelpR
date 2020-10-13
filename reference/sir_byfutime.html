@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">msSPChelpR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5.9000</span>
       </span>
     </div>
 
@@ -132,25 +132,25 @@
     <p>Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sir_byfutime</span>(
-  <span class='kw'>df</span>,
-  dattype = <span class='st'>"zfkd"</span>,
-  ybreak_vars = <span class='st'>"none"</span>,
-  xbreak_var = <span class='st'>"none"</span>,
-  futime_breaks = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>Inf</span>),
-  <span class='kw'>count_var</span>,
-  refrates_df = <span class='kw'>rates</span>,
-  calc_total_row = <span class='fl'>TRUE</span>,
-  calc_total_fu = <span class='fl'>TRUE</span>,
-  region_var = <span class='kw'>NULL</span>,
-  age_var = <span class='kw'>NULL</span>,
-  sex_var = <span class='kw'>NULL</span>,
-  year_var = <span class='kw'>NULL</span>,
-  race_var = <span class='kw'>NULL</span>,
-  site_var = <span class='kw'>NULL</span>,
-  futime_var = <span class='kw'>NULL</span>,
-  alpha = <span class='fl'>0.05</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sir_byfutime</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  dattype <span class='op'>=</span> <span class='st'>"zfkd"</span>,
+  ybreak_vars <span class='op'>=</span> <span class='st'>"none"</span>,
+  xbreak_var <span class='op'>=</span> <span class='st'>"none"</span>,
+  futime_breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='cn'>Inf</span><span class='op'>)</span>,
+  <span class='va'>count_var</span>,
+  refrates_df <span class='op'>=</span> <span class='va'>rates</span>,
+  calc_total_row <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  calc_total_fu <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  region_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  age_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sex_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  year_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  race_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  site_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  futime_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  alpha <span class='op'>=</span> <span class='fl'>0.05</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

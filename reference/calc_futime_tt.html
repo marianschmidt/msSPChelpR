@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">msSPChelpR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5.9000</span>
       </span>
     </div>
 
@@ -132,18 +132,18 @@
     <p>Calculate follow-up time per case until end of follow-up depending on pat_status - tidytable version</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calc_futime_tt</span>(
-  <span class='kw'>wide_df</span>,
-  futime_var_new = <span class='st'>"p_futimeyrs"</span>,
-  <span class='kw'>fu_end</span>,
-  dattype = <span class='st'>"zfkd"</span>,
-  check = <span class='fl'>TRUE</span>,
-  time_unit = <span class='st'>"years"</span>,
-  status_var = <span class='st'>"p_status"</span>,
-  lifedat_var = <span class='kw'>NULL</span>,
-  fcdat_var = <span class='kw'>NULL</span>,
-  spcdat_var = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>calc_futime_tt</span><span class='op'>(</span>
+  <span class='va'>wide_df</span>,
+  futime_var_new <span class='op'>=</span> <span class='st'>"p_futimeyrs"</span>,
+  <span class='va'>fu_end</span>,
+  dattype <span class='op'>=</span> <span class='st'>"zfkd"</span>,
+  check <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  time_unit <span class='op'>=</span> <span class='st'>"years"</span>,
+  status_var <span class='op'>=</span> <span class='st'>"p_status"</span>,
+  lifedat_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fcdat_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  spcdat_var <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
