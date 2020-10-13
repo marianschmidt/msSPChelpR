@@ -1,5 +1,18 @@
 # CRAN comments for msSPChelpR
 
+## Resubmission
+
+### Reviewer comments on initial submission by CRAN 2020-10-05
+
+ * Please omit the redundant "R" from your title.
+
+ * The Description field is intended to be a (one paragraph) description of what the package does and why it may be useful. Please add more details about the package functionality and implemented methods in your Description text.
+
+ * If there are references describing the methods in your package, please add these in the description field of your DESCRIPTION file in the form authors (year) <doi:...> authors (year) <arXiv:...> authors (year, ISBN:...) or if those are not available: <https:...> with no space after 'doi:', 'arXiv:', 'https:' and angle brackets for auto-linking. (If you want to add a title as well please put it in quotes: "Title")
+
+ * Please add a few more small executable examples in your Rd-files to illustrate the use of the exported function but also enable automatic testing.
+
+
 ## Initial submission notes
 This is a new package that provides functions for Second Primary Cancer analyses.
 
