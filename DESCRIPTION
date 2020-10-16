@@ -1,5 +1,5 @@
 Package: msSPChelpR
-Title: R Helper Functions for Second Primary Cancer Analyses
+Title: Helper functions for Second Primary Cancer Analyses
 Version: 0.8.5.9000
 Authors@R: c(
     person(given = "Marian", family = "Eberl", role = c("aut", "cre"), email = "marian.eberl@tum.de", comment = c(ORCID = "0000-0001-6584-3197"))

@@ -12,7 +12,7 @@
 
 #### What is `msSPChelpR`?
 
-R helper functions for Second Primary Cancer analyses
+Helper functions for Second Primary Cancer analyses.
 
 
 ## Installation
