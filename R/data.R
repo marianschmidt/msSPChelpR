@@ -45,3 +45,19 @@
 #'
 #'
 "us_refrates_icd2"
+
+#' Standard Populations
+#'
+#' Dataset that contains different standard populations needed to run some package functions
+#'
+#' @format A data frame with the following variables:
+#' \describe{
+#' \item{\code{standard_pop}}{Standard Population}
+#' \item{\code{sex}}{Sex}
+#' \item{\code{age}}{Age group}
+#' \item{\code{population_n}}{Absolute Population number in standard population age group}
+#' \item{\code{group_proportion}}{Proportion of age-group in gender-specific total population}
+#' }
+#'
+#'
+"standard_population"
