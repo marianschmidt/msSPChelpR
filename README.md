@@ -12,7 +12,8 @@
 
 #### What is `msSPChelpR`?
 
-Helper functions for Second Primary Cancer analyses.
+This package is a collection of helper functions for analyzing Second Primary Cancer (SPC) data, 
+including functions to reshape data, to calculate patient states and analyze cancer incidence.
 
 
 ## Installation
