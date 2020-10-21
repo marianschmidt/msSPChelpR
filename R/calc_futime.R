@@ -17,7 +17,7 @@
 #' #load sample data
 #' data("us_second_cancer")
 #' 
-#' #make wide data as this is the required format
+#' #prep step - make wide data as this is the required format
 #' usdata_wide <- us_second_cancer %>%
 #'                     msSPChelpR::reshape_wide_tidyr(case_id_var = "fake_id", 
 #'                     time_id_var = "SEQ_NUM", timevar_max = 10)
