@@ -9,6 +9,21 @@
 #' @param datsize Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
 #' @return long_df
 #' @export
+#' @examples 
+#' 
+#' data(us_second_cancer)
+#' 
+#' #prep step - reshape wide
+#' usdata_wide <- msSPChelpR::reshape_wide(us_second_cancer,
+#'                          case_id_var = "fake_id", 
+#'                          time_id_var = "SEQ_NUM", 
+#'                          timevar_max = 2)
+#'
+#' #now we can reshape long again
+#' msSPChelpR::reshape_long_tidyr(usdata_wide,
+#'                          case_id_var = "fake_id", 
+#'                          time_id_var = "SEQ_NUM")
+#' 
 #'
 
 reshape_long_tidyr <- function(wide_df, case_id_var, time_id_var, datsize = Inf){

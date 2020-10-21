@@ -12,6 +12,14 @@
 #' @param chunks Numeric; default 10. Technical parameter how the data is split during reshaping.
 #' @return df
 #' @export
+#' @examples 
+#' 
+#' data(us_second_cancer)
+#' 
+#' msSPChelpR::reshape_wide(us_second_cancer,
+#'                          case_id_var = "fake_id", 
+#'                          time_id_var = "SEQ_NUM", 
+#'                          timevar_max = 2)
 #'
 
 

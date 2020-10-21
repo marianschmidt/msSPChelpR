@@ -30,7 +30,10 @@
 #' @param futime_var variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.
 #' @param alpha significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @export
-#'
+#' @examples 
+#' #There are various preparation steps required, before you can run this function (see vignette)
+#' 
+#' 
 #'
 
 sir_byfutime <- function(df,

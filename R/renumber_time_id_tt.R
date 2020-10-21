@@ -14,6 +14,15 @@
 #'                    All tumors > timevar_max will be deleted. 
 #' @return df
 #' @export
+#' @examples 
+#' 
+#' data(us_second_cancer)
+#' us_second_cancer %>%
+#'  #only select first 10000 rows so example runs faster
+#'  dplyr::slice(1:10000) %>%
+#'  msSPChelpR::renumber_time_id_tt(new_time_id_var = "t_tumid",
+#'                              dattype = "seer",
+#'                              case_id_var = "fake_id")
 #'
 
 renumber_time_id_tt <- function(df, new_time_id_var, dattype = "zfkd", 

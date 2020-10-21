@@ -11,6 +11,14 @@
 #' @param datsize Number of rows to be taken from df. This parameter is mainly for testing. Default is Inf so that df is fully processed.
 #' @return wide_df
 #' @export
+#' @examples 
+#' 
+#' data(us_second_cancer)
+#' 
+#' msSPChelpR::reshape_wide_tt(us_second_cancer,
+#'                          case_id_var = "fake_id", 
+#'                          time_id_var = "SEQ_NUM", 
+#'                          timevar_max = 2)
 #'
 
 reshape_wide_tt <- function(df, case_id_var, time_id_var, timevar_max = 6, datsize = Inf){

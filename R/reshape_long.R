@@ -10,6 +10,21 @@
 #' @param chunks Numeric; default 1. Technical parameter how the data is split during reshaping.
 #' @return long df
 #' @export
+#' @examples 
+#' 
+#' data(us_second_cancer)
+#' 
+#' #prep step - reshape wide
+#' usdata_wide <- msSPChelpR::reshape_wide(us_second_cancer,
+#'                          case_id_var = "fake_id", 
+#'                          time_id_var = "SEQ_NUM", 
+#'                          timevar_max = 2)
+#'
+#' #now we can reshape long again
+#' msSPChelpR::reshape_long(usdata_wide,
+#'                          case_id_var = "fake_id", 
+#'                          time_id_var = "SEQ_NUM")
+#' 
 #'
 
 
