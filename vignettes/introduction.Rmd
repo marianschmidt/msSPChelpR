@@ -157,14 +157,14 @@ usdata_wide
 ```{r}
 
 usdata_wide <- usdata_wide %>%
-  dplyr::mutate(p_spc = case_when(is.na(t_site_icd.2)   ~ "No SPC",
+  dplyr::mutate(p_spc = dplyr::case_when(is.na(t_site_icd.2)   ~ "No SPC",
                          !is.na(t_site_icd.2)           ~ "SPC developed",
                          TRUE ~ NA_character_)) %>%
   #create the same information as numeric variable count_spc
-  dplyr::mutate(count_spc = case_when(is.na(t_site_icd.2)   ~ 1,
+  dplyr::mutate(count_spc = dplyr::case_when(is.na(t_site_icd.2)   ~ 1,
                             TRUE ~ 0))
 usdata_wide %>%
-   select(fake_id, sex.1, p_spc, count_spc, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
+   dplyr::select(fake_id, sex.1, p_spc, count_spc, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
 
 ```
 
