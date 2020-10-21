@@ -61,3 +61,22 @@
 #'
 #'
 "standard_population"
+
+
+#' US Populations
+#'
+#' Dataset that contains different standard populations needed to run some package functions
+#'
+#' @format A data frame with the following variables:
+#' \describe{
+#' \item{\code{region}}{Region / Registry}
+#' \item{\code{year}}{Year group}
+#' \item{\code{sex}}{Sex}
+#' \item{\code{age}}{Age group}
+#' \item{\code{race}}{Race}
+#' \item{\code{population_pyar}}{Population Years used for rate calculation (PYAR)}
+#' \item{\code{population_n_per_year}}{Absolute Population in single years or periods (PYAR / 5 years)]}
+#' }
+#'
+#'
+"population_us"
