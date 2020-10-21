@@ -28,7 +28,44 @@
 #' @return df
 #' @importFrom rlang .data
 #' @export
-#'
+#' @examples 
+#' #load sample data
+#' data("us_second_cancer")
+#' data("standard_population")
+#' data("population_us")
+#' 
+#' #make wide data as this is the required format
+#' usdata_wide <- us_second_cancer %>%
+#'                     msSPChelpR::reshape_wide_tidyr(case_id_var = "fake_id", 
+#'                     time_id_var = "SEQ_NUM", timevar_max = 10)
+#'                     
+#' #create count variable
+#' usdata_wide <- usdata_wide %>%
+#'                     dplyr::mutate(count_spc = dplyr::case_when(is.na(t_site_icd.2)   ~ 1,
+#'                     TRUE ~ 0))
+#'  
+#' #remove cases for which no reference population exists
+#' usdata_wide <- usdata_wide %>%
+#'                     dplyr::filter(t_yeardiag.2 %in% c("1990 - 1994", "1995 - 1999", "2000 - 2004",
+#'                                                        "2005 - 2009", "2010 - 2014"))
+#'                     
+#' 
+#' #now we can run the function
+#' msSPChelpR::asir(usdata_wide,
+#'       dattype = "seer",
+#'       std_pop = "ESP2013",
+#'       truncate_std_pop = FALSE,
+#'       futime_src = "refpop",
+#'       summarize_groups = "none",
+#'       count_var = "count_spc",
+#'       refpop_df = population_us,
+#'       region_var = "registry.1", 
+#'       age_var = "fc_agegroup.1",
+#'       sex_var = "sex.1",
+#'       year_var = "t_yeardiag.2", 
+#'       site_var = "t_site_icd.2",
+#'       pyar_var = "population_pyar")
+#' 
 #'
 
 
