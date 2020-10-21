@@ -73,3 +73,9 @@ refrates_df must use the same category coding of age, sex, region, year and t_si
 \description{
 Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time
 }
+\examples{
+#There are various preparation steps required, before you can run this function (see vignette)
+
+
+
+}

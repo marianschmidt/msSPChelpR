@@ -42,14 +42,11 @@ Renumber the time ID per case (i.e. Tumor sequence)
 \examples{
 
 data(us_second_cancer)
- renumbered_usdata <- us_second_cancer \%>\%
+us_second_cancer \%>\%
  #only select first 10000 rows so example runs faster
  dplyr::slice(1:10000) \%>\%
  msSPChelpR::renumber_time_id(new_time_id_var = "t_tumid",
                              dattype = "seer",
                              case_id_var = "fake_id")
-                             
-renumbered_usdata \%>\%
- dplyr::select(fake_id, sex, t_site_icd, t_datediag, t_tumid)
                              
 }

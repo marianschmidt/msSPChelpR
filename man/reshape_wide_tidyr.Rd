@@ -32,3 +32,13 @@ df
 \description{
 Reshape dataset to wide format - tidyr version
 }
+\examples{
+
+data(us_second_cancer)
+
+msSPChelpR::reshape_wide_tidyr(us_second_cancer,
+                         case_id_var = "fake_id", 
+                         time_id_var = "SEQ_NUM", 
+                         timevar_max = 2)
+
+}
