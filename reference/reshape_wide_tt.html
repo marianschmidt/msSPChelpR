@@ -166,6 +166,34 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></td>
 
     <p>wide_df</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>us_second_cancer</span><span class='op'>)</span>
+
+<span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>reshape_wide_tt</span><span class='op'>(</span><span class='va'>us_second_cancer</span>,
+                         case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span>, 
+                         time_id_var <span class='op'>=</span> <span class='st'>"SEQ_NUM"</span>, 
+                         timevar_max <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span></div><div class='output co'>#&gt; <span style='color: #555555;'># tidytable [68,060 × 27]</span><span>
+#&gt;    fake_id registry.1 sex.1 race.1 datebirth.1 t_datediag.1 t_site_icd.1 t_dco.1
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span> 100004  SEER Reg … Male  White  1926-01-01  1992-07-15   C50          histol…
+#&gt; </span><span style='color: #555555;'> 2</span><span> 100034  SEER Reg … Male  White  1979-01-01  2000-06-15   C50          histol…
+#&gt; </span><span style='color: #555555;'> 3</span><span> 100037  SEER Reg … Fema… White  1938-01-01  1996-01-15   C54          histol…
+#&gt; </span><span style='color: #555555;'> 4</span><span> 100038  SEER Reg … Male  White  1989-01-01  1991-04-15   C50          histol…
+#&gt; </span><span style='color: #555555;'> 5</span><span> 100039  SEER Reg … Fema… White  1946-01-01  2003-08-15   C50          histol…
+#&gt; </span><span style='color: #555555;'> 6</span><span> 100047  SEER Reg … Fema… White  1927-01-01  1998-04-15   C50          histol…
+#&gt; </span><span style='color: #555555;'> 7</span><span> 100057  SEER Reg … Male  Black  1961-01-01  2010-04-15   C18          histol…
+#&gt; </span><span style='color: #555555;'> 8</span><span> 100060  SEER Reg … Fema… White  1947-01-01  2003-08-15   C50          histol…
+#&gt; </span><span style='color: #555555;'> 9</span><span> 100063  SEER Reg … Fema… Black  1938-01-01  1995-12-15   C50          histol…
+#&gt; </span><span style='color: #555555;'>10</span><span> 100073  SEER Reg … Male  White  1960-01-01  1993-11-15   C44          histol…
+#&gt; </span><span style='color: #555555;'># … with 68,050 more rows, and 19 more variables: fc_age.1 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   datedeath.1 </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span style='color: #555555;'>, p_alive.1 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, p_dodmin.1 </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   fc_agegroup.1 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, t_yeardiag.1 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, registry.2 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, sex.2 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   race.2 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, datebirth.2 </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span style='color: #555555;'>, t_datediag.2 </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span style='color: #555555;'>, t_site_icd.2 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   t_dco.2 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, fc_age.2 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, datedeath.2 </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span style='color: #555555;'>, p_alive.2 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   p_dodmin.2 </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span style='color: #555555;'>, fc_agegroup.2 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, t_yeardiag.2 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
