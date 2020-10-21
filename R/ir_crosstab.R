@@ -50,7 +50,7 @@
 #'                         fcdat_var = "t_datediag.1", 
 #'                         spcdat_var = "t_datediag.2")
 #'                     
-#' #for example, you can calculate incidence and summarize by sex and
+#' #for example, you can calculate incidence and summarize by sex and registry
 #' msSPChelpR::ir_crosstab(usdata_wide,
 #'       dattype = "seer",
 #'       count_var = "count_spc",

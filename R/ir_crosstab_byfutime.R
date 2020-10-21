@@ -15,6 +15,52 @@
 #' @return df
 #' @importFrom rlang .data
 #' @export 
+#' @examples 
+#' #load sample data
+#' data("us_second_cancer")
+#' 
+#' #prep step - make wide data as this is the required format
+#' usdata_wide <- us_second_cancer %>%
+#'                     msSPChelpR::reshape_wide_tidyr(case_id_var = "fake_id", 
+#'                     time_id_var = "SEQ_NUM", timevar_max = 10)
+#'                     
+#' #prep step - calculate p_spc variable
+#' usdata_wide <- usdata_wide %>%
+#'                  dplyr::mutate(p_spc = dplyr::case_when(is.na(t_site_icd.2)   ~ "No SPC",
+#'                                                        !is.na(t_site_icd.2)   ~ "SPC developed",
+#'                                                        TRUE ~ NA_character_)) %>%
+#'                  dplyr::mutate(count_spc = dplyr::case_when(is.na(t_site_icd.2)   ~ 1,
+#'                                                               TRUE ~ 0))
+#'                                                               
+#' #prep step - create patient status variable
+#' usdata_wide <- usdata_wide %>%
+#'                   msSPChelpR::pat_status(., fu_end = "2017-12-31", dattype = "seer",
+#'                                          status_var = "p_status", life_var = "p_alive.1",
+#'                                          birthdat_var = "datebirth.1", lifedat_var = "datedeath.1")
+#'  
+#' #now we can run the function
+#' usdata_wide <- usdata_wide %>%
+#'                  msSPChelpR::calc_futime(., 
+#'                         futime_var_new = "p_futimeyrs", 
+#'                         fu_end = "2017-12-31",
+#'                         dattype = "seer", 
+#'                         time_unit = "years",
+#'                         status_var = "p_status",
+#'                         lifedat_var = "datedeath.1", 
+#'                         fcdat_var = "t_datediag.1", 
+#'                         spcdat_var = "t_datediag.2")
+#'                     
+#' #for example, you can calculate incidence and summarize by sex and registry
+#' msSPChelpR::ir_crosstab_byfutime(usdata_wide,
+#'       dattype = "seer",
+#'       count_var = "count_spc",
+#'       futime_breaks = c(0, .5, 1, 5, 10, Inf),
+#'       ybreak_vars = c("sex.1", "registry.1"),
+#'       collapse_ci = FALSE,
+#'       add_total = "no",
+#'       futime_var = "p_futimeyrs",
+#'       alpha = 0.05)
+#' 
 #'
 
 
