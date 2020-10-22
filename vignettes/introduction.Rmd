@@ -103,7 +103,6 @@ If your data has the required structure, you can calculate and summarize SIRs wi
 ```{r}
 library(dplyr)
 library(magrittr)
-library(tidytable) #temporary import of tidytable as long as expand.() is not exported
 library(msSPChelpR)
 data("us_second_cancer")
 ```
