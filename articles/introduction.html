@@ -79,7 +79,8 @@
 
       
 
-      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="introduction_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="introduction_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to the msSPChelpR package - from long dataset to SIR analyses</h1>
@@ -236,12 +237,6 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">magrittr</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/markfairbanks/tidytable">tidytable</a></span><span class="op">)</span> <span class="co">#temporary import of tidytable as long as expand.() is not exported</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'tidytable'</span>
-<span class="co">#&gt; The following object is masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     dt</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marianschmidt.github.io/msSPChelpR/">msSPChelpR</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span></pre></div>
 </div>
@@ -743,8 +738,7 @@
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] msSPChelpR_0.8.5.9000 tidytable_0.5.6       magrittr_1.5         </span>
-<span class="co">#&gt; [4] dplyr_1.0.2          </span>
+<span class="co">#&gt; [1] msSPChelpR_0.8.5.9000 magrittr_1.5          dplyr_1.0.2          </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] Rcpp_1.0.5        compiler_4.0.3    pillar_1.4.6      prettyunits_1.1.1</span>
@@ -756,9 +750,10 @@
 <span class="co">#&gt; [25] desc_1.2.0        fs_1.5.0          vctrs_0.3.4       systemfonts_0.3.2</span>
 <span class="co">#&gt; [29] sjlabelled_1.1.7  rprojroot_1.3-2   tidyselect_1.1.0  glue_1.4.2       </span>
 <span class="co">#&gt; [33] data.table_1.13.2 R6_2.4.1          textshaping_0.1.2 fansi_0.4.1      </span>
-<span class="co">#&gt; [37] rmarkdown_2.4     purrr_0.3.4       tidyr_1.1.2       backports_1.1.10 </span>
-<span class="co">#&gt; [41] htmltools_0.5.0   ellipsis_0.3.1    assertthat_0.2.1  insight_0.9.6    </span>
-<span class="co">#&gt; [45] ragg_0.4.0        utf8_1.1.4        stringi_1.5.3     crayon_1.3.4</span></pre></div>
+<span class="co">#&gt; [37] rmarkdown_2.5     purrr_0.3.4       tidyr_1.1.2       backports_1.1.10 </span>
+<span class="co">#&gt; [41] htmltools_0.5.0   ellipsis_0.3.1    assertthat_0.2.1  insight_0.10.0   </span>
+<span class="co">#&gt; [45] tidytable_0.5.6   ragg_0.4.0        utf8_1.1.4        stringi_1.5.3    </span>
+<span class="co">#&gt; [49] crayon_1.3.4</span></pre></div>
 </div>
 </div>
   </div>
