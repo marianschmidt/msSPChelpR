@@ -454,7 +454,7 @@ sir_byfutime <- function(df,
           "These cases will be omitted when calculating sir_byfutime and the totals. \n",
           "It is recommeded to either: \n",
           " - filter cases by futime_var that are out of the range of futime_breaks or \n",
-          " - adjust futime_breaks so that it's range includes all available fu_times.")
+          " - adjust futime_breaks so that its range includes all available fu_times.")
       )
     }
     
