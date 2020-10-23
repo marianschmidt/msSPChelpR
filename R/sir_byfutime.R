@@ -1021,7 +1021,10 @@ sir_byfutime <- function(df,
   
   sir_result_pre <- sir_result_pre %>%
     tidytable::mutate_across.(.cols = c(pyar, sir, sir_lci, sir_uci), 
-                              .fns = ~round(.,2))
+                              .fns = ~round(.,2)) %>%
+    #ensure that all vars are exported as numeric
+    tidytable::mutate_across.(.cols = c(observed, expected, n_base, ref_inc_cases, ref_inc_crude_rate, ref_population_pyar), 
+                              .fns = ~as.numeric(.)) 
   
   #collapse_ci option
   

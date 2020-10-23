@@ -1,5 +1,15 @@
 # msSPChelpR (development version)
 
+## New Features
+* add examples to function documentation (Closes #56)
+* new sample data set for standard populations -> `data("standard_population")`
+* new sample data set for us population -> `data("population_us")`
+
+## Breaking Changes
+
+## Bug fixes
+* `sir_byfutime()`: change output of integer columns to numeric to fix bug in `summarize_sir_results()` (Close #59)
+
 # msSPChelpR 0.8.5 - 2020-09-28
 
 ## New Features
