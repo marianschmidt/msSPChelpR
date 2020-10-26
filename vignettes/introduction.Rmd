@@ -60,7 +60,7 @@ It is recommended to run the following steps in the correct order to obtain accu
    * be in "YYYY-MM-DD" format and is always defined via the `fu_end =` parameter
    * must precede the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your `fu_end` must be `fu_end = "2014-12-15"` or earlier.
    
-Based on the newly calculated patient status, you might want to [exclude cases for which patient status cannot be determined](#step-filter-pat-status)
+   Based on the newly calculated patient status, you might want to [exclude cases for which patient status cannot be determined](#step-filter-pat-status)
    
  7. [Calculate follow-up time](#step-calc-futime) for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 4. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
  
