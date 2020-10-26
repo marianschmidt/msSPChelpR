@@ -74,8 +74,26 @@ refrates_df must use the same category coding of age, sex, region, year and t_si
 Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time
 }
 \examples{
-#There are various preparation steps required, before you can run this function (see vignette)
-
-
+#There are various preparation steps required, before you can run this function.
+#Please refer to the Introduction vignette to see how to prepare your data
+\dontrun{
+usdata_wide \%>\%
+  sir_byfutime(
+        dattype = "seer",
+        ybreak_vars = c("race.1", "t_dco.1"),
+        xbreak_var = "none",
+        futime_breaks = c(0, 1/12, 2/12, 1, 5, 10, Inf),
+        count_var = "count_spc",
+        refrates_df = us_refrates_icd2,
+        calc_total_row = TRUE,
+        calc_total_fu = TRUE,
+        region_var = "registry.1",
+        age_var = "fc_agegroup.1",
+        sex_var = "sex.1",
+        year_var = "t_yeardiag.1",
+        site_var = "t_site_icd.1", #using grouping by second cancer incidence
+        futime_var = "p_futimeyrs",
+        alpha = 0.05)
+        }
 
 }

@@ -26,6 +26,22 @@
 #' @param xbreak_var_name Name of variable with futime stratification. Default is "xvar_name".
 #' @param alpha significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
 #' @export
+#' @examples 
+#' #There are various preparation steps required, before you can run this function.
+#' #Please refer to the Introduction vignette to see how to prepare your data
+#' \dontrun{
+#' summarize_sir_results(.,
+#'     summarize_groups = c("region", "age", "year", "race"),
+#'     summarize_site = TRUE,
+#'     output = "long",  output_information = "minimal",
+#'     add_total_row = "only",  add_total_fu = "no",
+#'     collapse_ci = FALSE,  shorten_total_cols = TRUE,
+#'     fubreak_var_name = "fu_time", ybreak_var_name = "yvar_name",
+#'     xbreak_var_name = "none", site_var_name = "t_site",
+#'     alpha = 0.05
+#'     )
+#'     }
+#'     
 
 summarize_sir_results <- function(sir_df,
                                   summarize_groups,
