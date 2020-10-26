@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">msSPChelpR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5.9</span>
       </span>
     </div>
 
@@ -197,9 +197,11 @@ appended rows in result df. y_break_vars is required.</p></td>
 
 <span class='co'>#prep step - make wide data as this is the required format</span>
 <span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>us_second_cancer</span> <span class='op'>%&gt;%</span>
+                    <span class='co'>#only use sample</span>
+                    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>fake_id</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>300000</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
                     <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'><a href='reshape_wide_tidyr.html'>reshape_wide_tidyr</a></span><span class='op'>(</span>case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span>, 
-                    time_id_var <span class='op'>=</span> <span class='st'>"SEQ_NUM"</span>, timevar_max <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
-                    
+                    time_id_var <span class='op'>=</span> <span class='st'>"SEQ_NUM"</span>, timevar_max <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span></div><div class='input'>                    
 <span class='co'>#prep step - calculate p_spc variable</span>
 <span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'>%&gt;%</span>
                  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>p_spc <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>t_site_icd.2</span><span class='op'>)</span>   <span class='op'>~</span> <span class='st'>"No SPC"</span>,
@@ -213,30 +215,28 @@ appended rows in result df. y_break_vars is required.</p></td>
                   <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'><a href='pat_status.html'>pat_status</a></span><span class='op'>(</span><span class='va'>.</span>, fu_end <span class='op'>=</span> <span class='st'>"2017-12-31"</span>, dattype <span class='op'>=</span> <span class='st'>"seer"</span>,
                                          status_var <span class='op'>=</span> <span class='st'>"p_status"</span>, life_var <span class='op'>=</span> <span class='st'>"p_alive.1"</span>,
                                          birthdat_var <span class='op'>=</span> <span class='st'>"datebirth.1"</span>, lifedat_var <span class='op'>=</span> <span class='st'>"datedeath.1"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 11 x 3</span><span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 3</span><span>
 #&gt;    p_alive.1 p_status     n
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Alive            1 </span><span style='text-decoration: underline;'>15</span><span>884
-#&gt; </span><span style='color: #555555;'> 2</span><span> Alive            2 </span><span style='text-decoration: underline;'>17</span><span>609
-#&gt; </span><span style='color: #555555;'> 3</span><span> Alive           97    19
-#&gt; </span><span style='color: #555555;'> 4</span><span> Alive           98  </span><span style='text-decoration: underline;'>2</span><span>488
-#&gt; </span><span style='color: #555555;'> 5</span><span> Dead             1  </span><span style='text-decoration: underline;'>2</span><span>544
-#&gt; </span><span style='color: #555555;'> 6</span><span> Dead             2  </span><span style='text-decoration: underline;'>2</span><span>147
-#&gt; </span><span style='color: #555555;'> 7</span><span> Dead             3 </span><span style='text-decoration: underline;'>18</span><span>358
-#&gt; </span><span style='color: #555555;'> 8</span><span> Dead             4  </span><span style='text-decoration: underline;'>8</span><span>822
-#&gt; </span><span style='color: #555555;'> 9</span><span> Dead            97     2
-#&gt; </span><span style='color: #555555;'>10</span><span> Dead            98   182
-#&gt; </span><span style='color: #555555;'>11</span><span> Dead            </span><span style='color: #BB0000;'>NA</span><span>     5
-#&gt; </span><span style='color: #555555;'># A tibble: 7 x 2</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Alive            1  </span><span style='text-decoration: underline;'>3</span><span>477
+#&gt; </span><span style='color: #555555;'> 2</span><span> Alive            2  </span><span style='text-decoration: underline;'>3</span><span>892
+#&gt; </span><span style='color: #555555;'> 3</span><span> Alive           97     1
+#&gt; </span><span style='color: #555555;'> 4</span><span> Alive           98   529
+#&gt; </span><span style='color: #555555;'> 5</span><span> Dead             1   537
+#&gt; </span><span style='color: #555555;'> 6</span><span> Dead             2   481
+#&gt; </span><span style='color: #555555;'> 7</span><span> Dead             3  </span><span style='text-decoration: underline;'>4</span><span>052
+#&gt; </span><span style='color: #555555;'> 8</span><span> Dead             4  </span><span style='text-decoration: underline;'>1</span><span>975
+#&gt; </span><span style='color: #555555;'> 9</span><span> Dead            97     1
+#&gt; </span><span style='color: #555555;'>10</span><span> Dead            98    52
+#&gt; </span><span style='color: #555555;'># A tibble: 6 x 2</span><span>
 #&gt;   p_status     n
 #&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>        1 </span><span style='text-decoration: underline;'>18</span><span>428
-#&gt; </span><span style='color: #555555;'>2</span><span>        2 </span><span style='text-decoration: underline;'>19</span><span>756
-#&gt; </span><span style='color: #555555;'>3</span><span>        3 </span><span style='text-decoration: underline;'>18</span><span>358
-#&gt; </span><span style='color: #555555;'>4</span><span>        4  </span><span style='text-decoration: underline;'>8</span><span>822
-#&gt; </span><span style='color: #555555;'>5</span><span>       97    21
-#&gt; </span><span style='color: #555555;'>6</span><span>       98  </span><span style='text-decoration: underline;'>2</span><span>670
-#&gt; </span><span style='color: #555555;'>7</span><span>       </span><span style='color: #BB0000;'>NA</span><span>     5</div><div class='input'> 
+#&gt; </span><span style='color: #555555;'>1</span><span>        1  </span><span style='text-decoration: underline;'>4</span><span>014
+#&gt; </span><span style='color: #555555;'>2</span><span>        2  </span><span style='text-decoration: underline;'>4</span><span>373
+#&gt; </span><span style='color: #555555;'>3</span><span>        3  </span><span style='text-decoration: underline;'>4</span><span>052
+#&gt; </span><span style='color: #555555;'>4</span><span>        4  </span><span style='text-decoration: underline;'>1</span><span>975
+#&gt; </span><span style='color: #555555;'>5</span><span>       97     2
+#&gt; </span><span style='color: #555555;'>6</span><span>       98   581</div><div class='input'> 
 <span class='co'>#now we can run the function</span>
 <span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'>%&gt;%</span>
                  <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'><a href='calc_futime.html'>calc_futime</a></span><span class='op'>(</span><span class='va'>.</span>, 
@@ -248,16 +248,15 @@ appended rows in result df. y_break_vars is required.</p></td>
                         lifedat_var <span class='op'>=</span> <span class='st'>"datedeath.1"</span>, 
                         fcdat_var <span class='op'>=</span> <span class='st'>"t_datediag.1"</span>, 
                         spcdat_var <span class='op'>=</span> <span class='st'>"t_datediag.2"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 7 x 5</span><span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
 #&gt;   p_status mean_futime min_futime max_futime median_futime
 #&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>        1        9.23     0.043</span><span style='text-decoration: underline;'>8</span><span>       27.0          8.04
-#&gt; </span><span style='color: #555555;'>2</span><span>        2        8.94     0            26.9          7.83
-#&gt; </span><span style='color: #555555;'>3</span><span>        3        8.60     0            25.8          7.55
-#&gt; </span><span style='color: #555555;'>4</span><span>        4        6.46     0            26.5          5.25
+#&gt; </span><span style='color: #555555;'>1</span><span>        1        9.08     0.043</span><span style='text-decoration: underline;'>8</span><span>       27.0          7.96
+#&gt; </span><span style='color: #555555;'>2</span><span>        2        8.97     0            26.8          7.84
+#&gt; </span><span style='color: #555555;'>3</span><span>        3        8.43     0            25.5          7.46
+#&gt; </span><span style='color: #555555;'>4</span><span>        4        6.34     0            25.5          5.17
 #&gt; </span><span style='color: #555555;'>5</span><span>       97      </span><span style='color: #BB0000;'>NaN</span><span>      </span><span style='color: #BB0000;'>Inf</span><span>          -</span><span style='color: #BB0000;'>Inf</span><span>           </span><span style='color: #BB0000;'>NA</span><span>   
-#&gt; </span><span style='color: #555555;'>6</span><span>       98      </span><span style='color: #BB0000;'>NaN</span><span>      </span><span style='color: #BB0000;'>Inf</span><span>          -</span><span style='color: #BB0000;'>Inf</span><span>           </span><span style='color: #BB0000;'>NA</span><span>   
-#&gt; </span><span style='color: #555555;'>7</span><span>       </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NaN</span><span>      </span><span style='color: #BB0000;'>Inf</span><span>          -</span><span style='color: #BB0000;'>Inf</span><span>           </span><span style='color: #BB0000;'>NA</span><span>   </div><div class='input'>                    
+#&gt; </span><span style='color: #555555;'>6</span><span>       98      </span><span style='color: #BB0000;'>NaN</span><span>      </span><span style='color: #BB0000;'>Inf</span><span>          -</span><span style='color: #BB0000;'>Inf</span><span>           </span><span style='color: #BB0000;'>NA</span><span>   </div><div class='input'>                    
 <span class='co'>#for example, you can calculate incidence and summarize by sex and registry</span>
 <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>ir_crosstab_byfutime</span><span class='op'>(</span><span class='va'>usdata_wide</span>,
       dattype <span class='op'>=</span> <span class='st'>"seer"</span>,
@@ -268,76 +267,76 @@ appended rows in result df. y_break_vars is required.</p></td>
       add_total <span class='op'>=</span> <span class='st'>"no"</span>,
       futime_var <span class='op'>=</span> <span class='st'>"p_futimeyrs"</span>,
       alpha <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: The variable for follow-up time has: 2762 missings. These will be omitted when creating the crosstabs.</span></div><div class='output co'>#&gt;    yvar_name                               yvar_label to 6 months_n_base
-#&gt; 1      sex.1                                   Female              32418
-#&gt; 2      sex.1                                     Male              32880
-#&gt; 3 registry.1 SEER Reg 01 - San Francisco-Oakland SMSA              21812
-#&gt; 4 registry.1                SEER Reg 02 - Connecticut              14513
-#&gt; 5 registry.1     SEER Reg 20 - Detroit (Metropolitan)              21836
-#&gt; 6 registry.1                     SEER Reg 21 - Hawaii               7137
+</div><div class='output co'>#&gt; <span class='warning'>Warning: The variable for follow-up time has: 600 missings. These will be omitted when creating the crosstabs.</span></div><div class='output co'>#&gt;    yvar_name                               yvar_label to 6 months_n_base
+#&gt; 1      sex.1                                   Female               7240
+#&gt; 2      sex.1                                     Male               7157
+#&gt; 3 registry.1 SEER Reg 01 - San Francisco-Oakland SMSA               4792
+#&gt; 4 registry.1                SEER Reg 02 - Connecticut               3184
+#&gt; 5 registry.1     SEER Reg 20 - Detroit (Metropolitan)               4813
+#&gt; 6 registry.1                     SEER Reg 21 - Hawaii               1608
 #&gt;   to 6 months_observed to 6 months_pyar to 6 months_abs_ir
-#&gt; 1                  997            15712            6345.66
-#&gt; 2                 1051            15926            6599.17
-#&gt; 3                  690            10563            6532.01
-#&gt; 4                  454             7034            6454.12
-#&gt; 5                  701            10573            6630.05
-#&gt; 6                  203             3467            5855.10
+#&gt; 1                  201             3513            5722.34
+#&gt; 2                  250             3457            7232.69
+#&gt; 3                  137             2328            5883.70
+#&gt; 4                  121             1533            7894.92
+#&gt; 5                  142             2333            6087.62
+#&gt; 6                   51              775            6577.49
 #&gt;   to 6 months_abs_ir_lci to 6 months_abs_ir_uci 6-12 months_n_base
-#&gt; 1                5957.83                6752.11              30779
-#&gt; 2                6206.18                7010.51              31176
-#&gt; 3                6053.65                7038.11              20684
-#&gt; 4                5874.01                7076.03              13770
-#&gt; 5                6148.26                7139.55              20706
-#&gt; 6                5077.31                6718.33               6795
+#&gt; 1                4958.56                6570.48               6884
+#&gt; 2                6363.84                8187.05               6753
+#&gt; 3                4939.75                6955.49               4573
+#&gt; 4                6550.99                9433.42               2985
+#&gt; 5                5127.55                7175.24               4571
+#&gt; 6                4897.37                8648.19               1508
 #&gt;   6-12 months_observed 6-12 months_pyar 6-12 months_abs_ir
-#&gt; 1                  595            15075            3946.97
-#&gt; 2                  614            15272            4020.37
-#&gt; 3                  388            10137            3827.75
-#&gt; 4                  273             6748            4045.69
-#&gt; 5                  406            10142            4003.19
-#&gt; 6                  142             3321            4276.13
+#&gt; 1                  127             3370            3768.50
+#&gt; 2                  158             3305            4781.08
+#&gt; 3                   85             2242            3790.97
+#&gt; 4                   76             1456            5220.35
+#&gt; 5                   98             2238            4378.60
+#&gt; 6                   26              739            3520.37
 #&gt;   6-12 months_abs_ir_lci 6-12 months_abs_ir_uci 1-5 years_n_base
-#&gt; 1                3636.16                4277.25            29513
-#&gt; 2                3708.61                4351.33            29902
-#&gt; 3                3456.31                4228.23            19858
-#&gt; 4                3579.96                4555.17            13212
-#&gt; 5                3623.22                4412.18            19856
-#&gt; 6                3601.75                5040.11             6489
+#&gt; 1                3141.63                4483.81             6590
+#&gt; 2                4064.64                5587.42             6458
+#&gt; 3                3028.09                4687.59             4394
+#&gt; 4                4113.04                6534.04             2831
+#&gt; 5                3554.76                5336.11             4376
+#&gt; 6                2299.63                5158.16             1447
 #&gt;   1-5 years_observed 1-5 years_pyar 1-5 years_abs_ir 1-5 years_abs_ir_lci
-#&gt; 1               4328         100154          4321.34              4193.54
-#&gt; 2               4489         101038          4442.90              4313.87
-#&gt; 3               2878          67430          4268.12              4113.59
-#&gt; 4               2022          44612          4532.41              4336.99
-#&gt; 5               2988          67249          4443.22              4285.31
-#&gt; 6                929          21901          4241.84              3973.42
+#&gt; 1                937          22336          4194.95              3930.61
+#&gt; 2               1001          21763          4599.58              4319.02
+#&gt; 3                638          14953          4266.81              3942.11
+#&gt; 4                419           9568          4379.08              3969.77
+#&gt; 5                673          14752          4562.10              4223.89
+#&gt; 6                208           4826          4309.58              3743.78
 #&gt;   1-5 years_abs_ir_uci 5-10 years_n_base 5-10 years_observed 5-10 years_pyar
-#&gt; 1              4452.04             20830                4570           80883
-#&gt; 2              4574.81             20960                4611           81640
-#&gt; 3              4426.96             14064                3126           54439
-#&gt; 4              4734.37              9203                1999           35909
-#&gt; 5              4605.45             13963                3039           54500
-#&gt; 6              4523.62              4560                1017           17674
+#&gt; 1              4472.38              4644                1066           17978
+#&gt; 2              4893.58              4509                1025           17460
+#&gt; 3              4611.13              3126                 723           12153
+#&gt; 4              4819.14              1974                 430            7683
+#&gt; 5              4920.18              3050                 702           11751
+#&gt; 6              4936.75              1003                 236            3851
 #&gt;   5-10 years_abs_ir 5-10 years_abs_ir_lci 5-10 years_abs_ir_uci
-#&gt; 1           5650.12               5487.48               5816.35
-#&gt; 2           5647.96               5486.10               5813.38
-#&gt; 3           5742.16               5542.61               5947.06
-#&gt; 4           5566.81               5325.42               5816.31
-#&gt; 5           5576.11               5379.60               5777.96
-#&gt; 6           5754.10               5405.85               6118.90
+#&gt; 1           5929.63               5578.97               6296.56
+#&gt; 2           5870.43               5516.50               6241.10
+#&gt; 3           5949.37               5523.55               6399.30
+#&gt; 4           5596.45               5079.92               6151.26
+#&gt; 5           5974.04               5540.23               6432.79
+#&gt; 6           6128.17               5371.20               6961.94
 #&gt;   10+ years_n_base 10+ years_observed 10+ years_pyar 10+ years_abs_ir
-#&gt; 1            11998               6417          67402          9520.48
-#&gt; 2            12139               6278          68054          9225.09
-#&gt; 3             8088               4238          45328          9349.59
-#&gt; 4             5360               2863          30208          9477.63
-#&gt; 5             8101               4256          45561          9341.26
-#&gt; 6             2588               1338          14358          9318.79
+#&gt; 1             2613               1350          14539          9285.63
+#&gt; 2             2576               1344          14481          9281.14
+#&gt; 3             1771                907           9819          9237.63
+#&gt; 4             1129                603           6410          9407.88
+#&gt; 5             1736                908           9701          9360.34
+#&gt; 6              553                276           3091          8929.08
 #&gt;   10+ years_abs_ir_lci 10+ years_abs_ir_uci
-#&gt; 1              9288.95              9756.33
-#&gt; 2              8998.29              9456.16
-#&gt; 3              9070.20              9635.41
-#&gt; 4              9133.61              9831.29
-#&gt; 5              9062.70              9626.20
-#&gt; 6              8826.09              9831.82</div><div class='input'>
+#&gt; 1              8796.85              9794.50
+#&gt; 2              8791.52              9790.93
+#&gt; 3              8646.15              9858.92
+#&gt; 4              8671.86             10189.66
+#&gt; 5              8761.33              9989.52
+#&gt; 6              7906.63             10047.06</div><div class='input'>
 
 </div></span></pre>
   </div>

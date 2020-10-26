@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">msSPChelpR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5.9</span>
       </span>
     </div>
 
@@ -184,7 +184,8 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></td>
 <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>reshape_wide</span><span class='op'>(</span><span class='va'>us_second_cancer</span>,
                          case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span>, 
                          time_id_var <span class='op'>=</span> <span class='st'>"SEQ_NUM"</span>, 
-                         timevar_max <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+                         timevar_max <span class='op'>=</span> <span class='fl'>2</span>,
+                         datsize <span class='op'>=</span> <span class='fl'>10000</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span></div><div class='output co'>#&gt;      fake_id                               registry.1  sex.1 race.1 datebirth.1
 #&gt; 1     100004     SEER Reg 20 - Detroit (Metropolitan)   Male  White  1926-01-01
 #&gt; 2     100034                     SEER Reg 21 - Hawaii   Male  White  1979-01-01
@@ -22409,7 +22410,7 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></td>
 #&gt; 3701       &lt;NA&gt;       50 - 54  2000 - 2004
 #&gt; 3702       &lt;NA&gt;          &lt;NA&gt;         &lt;NA&gt;
 #&gt; 3703       &lt;NA&gt;       50 - 54  2010 - 2014
-#&gt;  [ reached 'max' / getOption("max.print") -- omitted 64357 rows ]</div><div class='input'>
+#&gt;  [ reached 'max' / getOption("max.print") -- omitted 2300 rows ]</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
