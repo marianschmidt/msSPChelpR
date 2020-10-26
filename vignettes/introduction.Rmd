@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the msSPChelpR package - from long dataset to SIR analyses"
 author: "Marian Eberl"
-date: "29 September 2020"
+date: "26 October 2020"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to the msSPChelpR package - from long dataset to SIR analyses}
@@ -21,9 +21,20 @@ knitr::opts_chunk$set(
 
 This vignette explains how to use the functions:
 
- * `pat_status` to determine patient status at end of follow-up
- * `vital_status` to determine vital status whether patient is alive or dead at end of follow-up
- * `calc_futime` to calculate follow-up time from index event until next event, death or end of follow-up date
+ * `calc_futime()` to calculate follow-up time from index event until next event, death or end of follow-up date
+ * `pat_status()` to determine patient status at end of follow-up
+ * `renumber_time_id()` to calculate a consecutive index of events per case ID
+ * `reshape_long()` to transpose dataset in wide format to data in long format
+ * `reshape_wide()` to transpose dataset in long format to data in wide format (the wide format is required for many package functions)
+ * `sir_byfutime()` to calculate standardized incidence ratios (SIRs) with custom grouping variables stratified by follow-up time
+ * `summarize_sir_results()` to summarize detailed SIR results produced by `sir_byfutime()`
+ * `vital_status()` to determine vital status whether patient is alive or dead at end of follow-up
+
+For some functions there are multiple variants of the same function using varying frameworks. They give the same results but will differ in execution time and memory use: 
+ 
+ * [`tidytable`](https://markfairbanks.github.io/tidytable/) variants carry the suffix `_tt()`
+ * [`tidyr`](https://tidyr.tidyverse.org) variants carry the suffix `_tidyr()`
+ 
 
 # Recommended Workflows
 
@@ -31,23 +42,27 @@ This vignette explains how to use the functions:
 
 It is recommended to run the following steps in the correct order to obtain accurate follow-up time calculations
 
- 1. [Use the long version dataset](#step-long) to [filter all cases](#step-filter) that are relevant for your analysis. Make sure that: 
+ 1. [Use the long version dataset](#step-long)
+
+ 2. [Filter all cases](#step-filter) in the long version of the dataset that are relevant for your analysis. Make sure that: 
  
    * for each `case_id` the index event (e.g. First Cancer FC) is still included and is the one remaining row in the dataset with the smallest `case_id` (`TUMID3` variable for ZfKD data, and `SEQ_NUM` for SEER data)
    * all `case_id`s might or might not get a countable incident event (e.g. Second Primary Cancer SPC). This event should be the second entry per `case_id` (second smallest `case_id`) if it is to be counted
    * in the long version dataset a `count_var` should indicate whether the countable incident event (SPC) has occurred or not. Coded `0` for non-occurrence (or not counted event) and `1` for a counted incident event.
    
- 2. [Renumber filtered long dataset](#step-renumber): In the filter long dataset, you should run the helper function `msSPChelpR::renumber_time_id_dt()` (or non-data.table variant `msSPChelpR::renumber_time_id()`) that will renumber all events per `case_id` and (if step 1 is fulfilled) will assign each index event with `time_var_new = 1` and each second (possibly countable incident event) with `time_var_new = 2`. Any SIR related function will only count the second event, if additionally to `time_var_new = 2` for this row also `count_var = 1` is true.
+ 3. [Renumber filtered long dataset](#step-renumber): In the filter long dataset, you should run the helper function `msSPChelpR::renumber_time_id_dt()` (or non-data.table variant `msSPChelpR::renumber_time_id()`) that will renumber all events per `case_id` and (if step 1 is fulfilled) will assign each index event with `time_var_new = 1` and each second (possibly countable incident event) with `time_var_new = 2`. Any SIR related function will only count the second event, if additionally to `time_var_new = 2` for this row also `count_var = 1` is true.
  
- 3. [Reshape dataset](#step-reshape-wide): Run  `msSPChelpR::reshape_wide_dt()` or non-data.table-variant `msSPChelpR::reshape_wide()`, so that dataset is transposed to wide format (1 row per `case_id`, creating variables such as `count_var.2`).
+ 4. [Reshape dataset](#step-reshape-wide): Run  `msSPChelpR::reshape_wide_dt()` or non-data.table-variant `msSPChelpR::reshape_wide()`, so that dataset is transposed to wide format (1 row per `case_id`, creating variables such as `count_var.2`).
  
- 4. [Set flag for Second Primary Cancer diagnosis](#step-spc): After filtering and reshaping it is essential to set `p_spc` again. This variable will be used by later steps of the analysis.
+ 5. [Set flag for Second Primary Cancer diagnosis](#step-spc): After filtering and reshaping it is essential to set `p_spc` again. This variable will be used by later steps of the analysis.
  
- 5. [Determine patient status](#step-pat-status) at a defined end of follow-up by using the `msSPChelpR::pat_status()` function. This date for end of follow-up must:
+ 6. [Determine patient status](#step-pat-status) at a defined end of follow-up by using the `msSPChelpR::pat_status()` function. This date for end of follow-up must:
    * be in "YYYY-MM-DD" format and is always defined via the `fu_end =` parameter
    * must precede the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your `fu_end` must be `fu_end = "2014-12-15"` or earlier.
    
- 6. [Calculate follow-up time](#step-calc-futime) for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 4. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
+Based on the newly calculated patient status, you might want to [exclude cases for which patient status cannot be determined](#step-filter-pat-status)
+   
+ 7. [Calculate follow-up time](#step-calc-futime) for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 4. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
  
 
 ## Calculate Standardized Incidence Ratios (SIR) 
@@ -65,33 +80,10 @@ In order to calculate SIR using the package functions, the following data struct
    
 If your data has the required structure, you can calculate and summarize SIRs with the following two steps:
 
- 7. [Calculate SIR](#step-sir-byfutime) per SPC diagnosis with age, sex, region, period-specific strata using the `msSPChelpR::sir_byfutime()` function. For this calculation usually a reference dataset is required that defines the population standard rates. `refrates_df` must use the same category coding of age, sex, region, year and cancer_site as `agegroup_var`, `sex_var`, `region_var`, `year_var` and `site_var`
+ 8. [Calculate SIR](#step-sir-byfutime) per SPC diagnosis with age, sex, region, period-specific strata using the `msSPChelpR::sir_byfutime()` function. For this calculation usually a reference dataset is required that defines the population standard rates. `refrates_df` must use the same category coding of age, sex, region, year and cancer_site as `agegroup_var`, `sex_var`, `region_var`, `year_var` and `site_var`
    * The theory behind calculating stratified SIRs is explained in the chapter on [basics on SIRs](#theo-sir)
    
- 8. [Summarize SIR results](#step-summarize-sir) using the `msSPChelpR::summarize_sir_results()` function on the stratified sir results produced by the previous step.
-
-
-# Details on single functions
-
-## `renumber_time_id()` function
-
-## `reshape_wide()` function
-
-## `reshape_long()` function
-
-## `pat_status()` function
-
-## `vital_status()` function
-
-## `calc_futime()` function
-
-## `sir_byfutime()` function
-
-## `summarize_sir_results()` function
-
-
-
-# Theory behind SIRs {#theo-sir}
+ 9. [Summarize SIR results](#step-summarize-sir) using the `msSPChelpR::summarize_sir_results()` function on the stratified sir results produced by the previous step.
 
 # Examples
 
@@ -104,7 +96,11 @@ If your data has the required structure, you can calculate and summarize SIRs wi
 library(dplyr)
 library(magrittr)
 library(msSPChelpR)
+#Load synthetic dataset of patients with cancer to demonstrate package functions
 data("us_second_cancer")
+
+#This dataset is in long format, so each tumor is a separate row in the data
+us_second_cancer
 ```
 
 
@@ -133,9 +129,9 @@ filtered_usdata
 
 ```{r}
 renumbered_usdata <- filtered_usdata %>%
-  msSPChelpR::renumber_time_id(new_time_id_var = "t_tumid", 
-                                  dattype = "seer",
-                                  case_id_var = "fake_id")
+  renumber_time_id(new_time_id_var = "t_tumid", 
+                   dattype = "seer",
+                   case_id_var = "fake_id")
 
 renumbered_usdata %>%
    select(fake_id, sex, t_site_icd, t_datediag, t_tumid)
@@ -146,8 +142,11 @@ renumbered_usdata %>%
 
 ```{r}
 usdata_wide <- renumbered_usdata %>%
-  msSPChelpR::reshape_wide_tidyr(case_id_var = "fake_id", time_id_var = "t_tumid", timevar_max = 10)
+  reshape_wide_tidyr(case_id_var = "fake_id", time_id_var = "t_tumid", timevar_max = 10)
 
+#now the data is in the wide format as required by many package functions. 
+#This means, each case is a row and several tumors per case ID are 
+#add new columns to the data using the time_id as column name suffix.
 usdata_wide
 ```
 
@@ -163,7 +162,8 @@ usdata_wide <- usdata_wide %>%
   dplyr::mutate(count_spc = dplyr::case_when(is.na(t_site_icd.2)   ~ 1,
                             TRUE ~ 0))
 usdata_wide %>%
-   dplyr::select(fake_id, sex.1, p_spc, count_spc, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
+   dplyr::select(fake_id, sex.1, p_spc, count_spc, t_site_icd.1, 
+                 t_datediag.1, t_site_icd.2, t_datediag.2)
 
 ```
 
@@ -171,35 +171,36 @@ usdata_wide %>%
 
 ```{r}
 usdata_wide <- usdata_wide %>%
-  msSPChelpR::pat_status(., fu_end = "2017-12-31", dattype = "seer",
-                         status_var = "p_status", life_var = "p_alive.1",
-                         spc_var = "p_spc", birthdat_var = "datebirth.1",
-                         lifedat_var = "datedeath.1", fcdat_var = "t_datediag.1",
-                         spcdat_var = "t_datediag.2", life_stat_alive = "Alive",
-                         life_stat_dead = "Dead", spc_stat_yes = "SPC developed",
-                         spc_stat_no = "No SPC", lifedat_fu_end = "2019-12-31",
-                         use_lifedatmin = FALSE, check = TRUE, 
-                         as_labelled_factor = TRUE)
+  pat_status(., fu_end = "2017-12-31", dattype = "seer",
+             status_var = "p_status", life_var = "p_alive.1",
+             spc_var = "p_spc", birthdat_var = "datebirth.1",
+             lifedat_var = "datedeath.1", fcdat_var = "t_datediag.1",
+             spcdat_var = "t_datediag.2", life_stat_alive = "Alive",
+             life_stat_dead = "Dead", spc_stat_yes = "SPC developed",
+             spc_stat_no = "No SPC", lifedat_fu_end = "2019-12-31",
+             use_lifedatmin = FALSE, check = TRUE, 
+             as_labelled_factor = TRUE)
 
 usdata_wide %>%
-   dplyr::select(fake_id, p_status, p_alive.1, datedeath.1, t_site_icd.1, t_datediag.1, t_site_icd.2, t_datediag.2)
+   dplyr::select(fake_id, p_status, p_alive.1, datedeath.1, t_site_icd.1, t_datediag.1, 
+                 t_site_icd.2, t_datediag.2)
 
 #alternatively, you can impute the date of death using lifedatmin_var
 usdata_wide %>%
-  msSPChelpR::pat_status(., fu_end = "2017-12-31", dattype = "seer",
-                         status_var = "p_status", life_var = "p_alive.1",
-                         spc_var = "p_spc", birthdat_var = "datebirth.1",
-                         lifedat_var = "datedeath.1", fcdat_var = "t_datediag.1",
-                         spcdat_var = "t_datediag.2", life_stat_alive = "Alive",
-                         life_stat_dead = "Dead", spc_stat_yes = "SPC developed",
-                         spc_stat_no = "No SPC", lifedat_fu_end = "2019-12-31",
-                         use_lifedatmin = TRUE, lifedatmin_var = "p_dodmin.1", 
-                         check = TRUE, as_labelled_factor = TRUE)
+  pat_status(., fu_end = "2017-12-31", dattype = "seer",
+             status_var = "p_status", life_var = "p_alive.1",
+             spc_var = "p_spc", birthdat_var = "datebirth.1",
+             lifedat_var = "datedeath.1", fcdat_var = "t_datediag.1",
+             spcdat_var = "t_datediag.2", life_stat_alive = "Alive",
+             life_stat_dead = "Dead", spc_stat_yes = "SPC developed",
+             spc_stat_no = "No SPC", lifedat_fu_end = "2019-12-31",
+             use_lifedatmin = TRUE, lifedatmin_var = "p_dodmin.1", 
+             check = TRUE, as_labelled_factor = TRUE)
 
 
 ```
 
-#### Step 6b - Remove patients irrelevant to analysis depending on status
+#### Step 6b - Remove patients irrelevant to analysis depending on status {#step-filter-pat-status}
 ```{r}
 usdata_wide <- usdata_wide %>%
   dplyr::filter(!p_status %in% c("NA - Patient not born before end of FU",
@@ -215,10 +216,10 @@ usdata_wide %>%
 
 ```{r}
 usdata_wide <- usdata_wide %>%
-   msSPChelpR::calc_futime(., futime_var_new = "p_futimeyrs", fu_end = "2017-12-31",
-                           dattype = "seer", time_unit = "years", 
-                           lifedat_var = "datedeath.1", 
-                           fcdat_var = "t_datediag.1", spcdat_var = "t_datediag.2")
+   calc_futime(., futime_var_new = "p_futimeyrs", fu_end = "2017-12-31",
+               dattype = "seer", time_unit = "years", 
+               lifedat_var = "datedeath.1", 
+               fcdat_var = "t_datediag.1", spcdat_var = "t_datediag.2")
 
 usdata_wide %>%
    dplyr::select(fake_id, p_status, p_futimeyrs, p_alive.1, datedeath.1, t_datediag.1, t_datediag.2)
@@ -258,34 +259,19 @@ sircalc_results <- usdata_wide %>%
 
 sircalc_results %>%
   #summarize results across region, age, year and t_site
-  msSPChelpR::summarize_sir_results(.,
-                                    summarize_groups = c("region", "age", "year", "race"),
-                                    summarize_site = TRUE,
-                                    output = "long",  output_information = "minimal",
-                                    add_total_row = "only",  add_total_fu = "no",
-                                    collapse_ci = FALSE,  shorten_total_cols = TRUE,
-                                    fubreak_var_name = "fu_time", ybreak_var_name = "yvar_name",
-                                    xbreak_var_name = "none", site_var_name = "t_site",
-                                    alpha = 0.05
-                                    ) %>%
+  summarize_sir_results(.,
+                        summarize_groups = c("region", "age", "year", "race"),
+                        summarize_site = TRUE,
+                        output = "long",  output_information = "minimal",
+                        add_total_row = "only",  add_total_fu = "no",
+                        collapse_ci = FALSE,  shorten_total_cols = TRUE,
+                        fubreak_var_name = "fu_time", ybreak_var_name = "yvar_name",
+                        xbreak_var_name = "none", site_var_name = "t_site",
+                        alpha = 0.05
+                        ) %>%
   dplyr::select(-region, -age, -year, -race, -sex, -yvar_name)
 ```
 
-
-
-## ZfKD melanoma
-
-### Step 1 - Long dataset
-
-### Step 2 - Filter long dataset
-
-### Step 3 - Renumber `time_id`
-
-### Step 4 - Reshape to wide dataset
-
-### Step 5 - Determine patient status at end of FU
-
-### Step 6 - Calculate FU time
 
 
 ## Built with
