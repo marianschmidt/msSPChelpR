@@ -2,7 +2,7 @@
 
 ## Resubmission
 
-This is a resubmission of a new package, adressing the comments made by CRAN on 2020-10-05 and fixing a bug.
+This is a resubmission of a new package, addressing the comments made by CRAN on 2020-10-05, adding new sample data and fixing a bug.
 
 ### Reviewer comments on initial submission by CRAN 2020-10-05
 
@@ -29,6 +29,7 @@ I have added examples to all exported functions.
 * add examples to function documentation (Closes #56)
 * remove "R" from package title (Closes #57)
 * update package description (Closes #54)
+* update introduction vignette `vignette("introduction")`
 
 
 ### Test environments
