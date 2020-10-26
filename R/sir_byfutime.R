@@ -756,7 +756,7 @@ sir_byfutime <- function(df,
       
       if (n_dist_sircalc_fu != nrow(sircalc_fu)) {
         rlang::warn(
-          "\nThere are disambiguities in matching the follow-up time to the observed count strata!"
+          "\nThere are conflicts in matching the follow-up time to the observed count strata!"
         )
       }
       
@@ -831,7 +831,7 @@ sir_byfutime <- function(df,
         tidytable::filter.(i_pyar == 0 & i_observed != 0) 
       
       if (nrow(problems_not_empty) > 0) {
-        rlang::inform(paste0("\n [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. \n",
+        rlang::inform(paste0("\n [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. \n",
                              paste0(utils::capture.output(problems_not_empty), collapse = "\n"), 
                              " \n",
                              "Check attribute `problems_not_empty` of results to see what strata are affected. \n",
