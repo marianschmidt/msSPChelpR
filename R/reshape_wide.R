@@ -19,7 +19,8 @@
 #' msSPChelpR::reshape_wide(us_second_cancer,
 #'                          case_id_var = "fake_id", 
 #'                          time_id_var = "SEQ_NUM", 
-#'                          timevar_max = 2)
+#'                          timevar_max = 2,
+#'                          datsize = 10000)
 #'
 
 

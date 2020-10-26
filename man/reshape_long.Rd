@@ -29,14 +29,15 @@ Reshape dataset to long format - stats::reshape version
 
 data(us_second_cancer)
 
-#prep step - reshape wide
-usdata_wide <- msSPChelpR::reshape_wide(us_second_cancer,
+#prep step - reshape wide a sample of 10000 rows from us_second_cancer
+usdata_wide_sample <- msSPChelpR::reshape_wide(us_second_cancer,
                          case_id_var = "fake_id", 
                          time_id_var = "SEQ_NUM", 
-                         timevar_max = 2)
+                         timevar_max = 2,
+                         datsize = 10000)
 
 #now we can reshape long again
-msSPChelpR::reshape_long(usdata_wide,
+msSPChelpR::reshape_long(usdata_wide_sample,
                          case_id_var = "fake_id", 
                          time_id_var = "SEQ_NUM")
 
