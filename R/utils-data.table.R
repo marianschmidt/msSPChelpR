@@ -1,4 +1,4 @@
-#' Data.table helprs
+#' Data.table helpers
 #'
 #' See data.table package for details.
 #'
