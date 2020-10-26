@@ -86,7 +86,7 @@
       <h1 data-toc-skip>Introduction to the msSPChelpR package - from long dataset to SIR analyses</h1>
                         <h4 class="author">Marian Eberl</h4>
             
-            <h4 class="date">29 September 2020</h4>
+            <h4 class="date">26 October 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/marianschmidt/msSPChelpR/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -101,11 +101,31 @@
 <p>This vignette explains how to use the functions:</p>
 <ul>
 <li>
-<code>pat_status</code> to determine patient status at end of follow-up</li>
+<code><a href="../reference/calc_futime.html">calc_futime()</a></code> to calculate follow-up time from index event until next event, death or end of follow-up date</li>
 <li>
-<code>vital_status</code> to determine vital status whether patient is alive or dead at end of follow-up</li>
+<code><a href="../reference/pat_status.html">pat_status()</a></code> to determine patient status at end of follow-up</li>
 <li>
-<code>calc_futime</code> to calculate follow-up time from index event until next event, death or end of follow-up date</li>
+<code><a href="../reference/renumber_time_id.html">renumber_time_id()</a></code> to calculate a consecutive index of events per case ID</li>
+<li>
+<code><a href="../reference/reshape_long.html">reshape_long()</a></code> to transpose dataset in wide format to data in long format</li>
+<li>
+<code><a href="../reference/reshape_wide.html">reshape_wide()</a></code> to transpose dataset in long format to data in wide format (the wide format is required for many package functions)</li>
+<li>
+<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> to calculate standardized incidence ratios (SIRs) with custom grouping variables stratified by follow-up time</li>
+<li>
+<code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> to summarize detailed SIR results produced by <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>
+</li>
+<li>
+<code><a href="../reference/vital_status.html">vital_status()</a></code> to determine vital status whether patient is alive or dead at end of follow-up</li>
+</ul>
+<p>For some functions there are multiple variants of the same function using varying frameworks. They give the same results but will differ in execution time and memory use:</p>
+<ul>
+<li>
+<a href="https://markfairbanks.github.io/tidytable/"><code>tidytable</code></a> variants carry the suffix <code>_tt()</code>
+</li>
+<li>
+<a href="https://tidyr.tidyverse.org"><code>tidyr</code></a> variants carry the suffix <code>_tidyr()</code>
+</li>
 </ul>
 </div>
 <div id="recommended-workflows" class="section level1">
@@ -116,15 +136,15 @@
 <a href="#wf-calc-fu" class="anchor"></a>Calculate follow-up times</h2>
 <p>It is recommended to run the following steps in the correct order to obtain accurate follow-up time calculations</p>
 <ol style="list-style-type: decimal">
-<li>
-<a href="#step-long">Use the long version dataset</a> to <a href="#step-filter">filter all cases</a> that are relevant for your analysis. Make sure that:</li>
+<li><p><a href="#step-long">Use the long version dataset</a></p></li>
+<li><p><a href="#step-filter">Filter all cases</a> in the long version of the dataset that are relevant for your analysis. Make sure that:</p></li>
 </ol>
 <ul>
 <li>for each <code>case_id</code> the index event (e.g. First Cancer FC) is still included and is the one remaining row in the dataset with the smallest <code>case_id</code> (<code>TUMID3</code> variable for ZfKD data, and <code>SEQ_NUM</code> for SEER data)</li>
 <li>all <code>case_id</code>s might or might not get a countable incident event (e.g. Second Primary Cancer SPC). This event should be the second entry per <code>case_id</code> (second smallest <code>case_id</code>) if it is to be counted</li>
 <li>in the long version dataset a <code>count_var</code> should indicate whether the countable incident event (SPC) has occurred or not. Coded <code>0</code> for non-occurrence (or not counted event) and <code>1</code> for a counted incident event.</li>
 </ul>
-<ol start="2" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li><p><a href="#step-renumber">Renumber filtered long dataset</a>: In the filter long dataset, you should run the helper function <code>msSPChelpR::renumber_time_id_dt()</code> (or non-data.table variant <code><a href="../reference/renumber_time_id.html">msSPChelpR::renumber_time_id()</a></code>) that will renumber all events per <code>case_id</code> and (if step 1 is fulfilled) will assign each index event with <code>time_var_new = 1</code> and each second (possibly countable incident event) with <code>time_var_new = 2</code>. Any SIR related function will only count the second event, if additionally to <code>time_var_new = 2</code> for this row also <code>count_var = 1</code> is true.</p></li>
 <li><p><a href="#step-reshape-wide">Reshape dataset</a>: Run <code>msSPChelpR::reshape_wide_dt()</code> or non-data.table-variant <code><a href="../reference/reshape_wide.html">msSPChelpR::reshape_wide()</a></code>, so that dataset is transposed to wide format (1 row per <code>case_id</code>, creating variables such as <code>count_var.2</code>).</p></li>
 <li><p><a href="#step-spc">Set flag for Second Primary Cancer diagnosis</a>: After filtering and reshaping it is essential to set <code>p_spc</code> again. This variable will be used by later steps of the analysis.</p></li>
@@ -134,7 +154,8 @@
 <li>be in “YYYY-MM-DD” format and is always defined via the <code>fu_end =</code> parameter</li>
 <li>must precede the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your <code>fu_end</code> must be <code>fu_end = "2014-12-15"</code> or earlier.</li>
 </ul>
-<ol start="6" style="list-style-type: decimal">
+<p>Based on the newly calculated patient status, you might want to <a href="#step-filter-pat-status">exclude cases for which patient status cannot be determined</a></p>
+<ol start="7" style="list-style-type: decimal">
 <li>
 <a href="#step-calc-futime">Calculate follow-up time</a> for the same dataset by using the <code><a href="../reference/calc_futime.html">msSPChelpR::calc_futime()</a></code> function and the same <code>fu_end</code> as for step 4. By standard all functions of the <code>msSPChelpR</code> package require follow-up times as numeric years.</li>
 </ol>
@@ -162,7 +183,7 @@
 </li>
 </ul>
 <p>If your data has the required structure, you can calculate and summarize SIRs with the following two steps:</p>
-<ol start="7" style="list-style-type: decimal">
+<ol start="8" style="list-style-type: decimal">
 <li>
 <a href="#step-sir-byfutime">Calculate SIR</a> per SPC diagnosis with age, sex, region, period-specific strata using the <code><a href="../reference/sir_byfutime.html">msSPChelpR::sir_byfutime()</a></code> function. For this calculation usually a reference dataset is required that defines the population standard rates. <code>refrates_df</code> must use the same category coding of age, sex, region, year and cancer_site as <code>agegroup_var</code>, <code>sex_var</code>, <code>region_var</code>, <code>year_var</code> and <code>site_var</code>
 </li>
@@ -171,51 +192,11 @@
 <li>The theory behind calculating stratified SIRs is explained in the chapter on <a href="#theo-sir">basics on SIRs</a>
 </li>
 </ul>
-<ol start="8" style="list-style-type: decimal">
+<ol start="9" style="list-style-type: decimal">
 <li>
 <a href="#step-summarize-sir">Summarize SIR results</a> using the <code><a href="../reference/summarize_sir_results.html">msSPChelpR::summarize_sir_results()</a></code> function on the stratified sir results produced by the previous step.</li>
 </ol>
 </div>
-</div>
-<div id="details-on-single-functions" class="section level1">
-<h1 class="hasAnchor">
-<a href="#details-on-single-functions" class="anchor"></a>Details on single functions</h1>
-<div id="renumber_time_id-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#renumber_time_id-function" class="anchor"></a><code>renumber_time_id()</code> function</h2>
-</div>
-<div id="reshape_wide-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reshape_wide-function" class="anchor"></a><code>reshape_wide()</code> function</h2>
-</div>
-<div id="reshape_long-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reshape_long-function" class="anchor"></a><code>reshape_long()</code> function</h2>
-</div>
-<div id="pat_status-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#pat_status-function" class="anchor"></a><code>pat_status()</code> function</h2>
-</div>
-<div id="vital_status-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#vital_status-function" class="anchor"></a><code>vital_status()</code> function</h2>
-</div>
-<div id="calc_futime-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#calc_futime-function" class="anchor"></a><code>calc_futime()</code> function</h2>
-</div>
-<div id="sir_byfutime-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#sir_byfutime-function" class="anchor"></a><code>sir_byfutime()</code> function</h2>
-</div>
-<div id="summarize_sir_results-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#summarize_sir_results-function" class="anchor"></a><code>summarize_sir_results()</code> function</h2>
-</div>
-</div>
-<div id="theo-sir" class="section level1">
-<h1 class="hasAnchor">
-<a href="#theo-sir" class="anchor"></a>Theory behind SIRs</h1>
 </div>
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
@@ -238,7 +219,27 @@
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">magrittr</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marianschmidt.github.io/msSPChelpR/">msSPChelpR</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span></pre></div>
+<span class="co">#Load synthetic dataset of patients with cancer to demonstrate package functions</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span>
+
+<span class="co">#This dataset is in long format, so each tumor is a separate row in the data</span>
+<span class="va">us_second_cancer</span>
+<span class="co">#&gt; # A tibble: 113,999 x 15</span>
+<span class="co">#&gt;    fake_id SEQ_NUM registry sex   race  datebirth  t_datediag t_site_icd t_dco</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;</span>
+<span class="co">#&gt;  1 100004        1 SEER Re… Male  White 1926-01-01 1992-07-15 C50        hist…</span>
+<span class="co">#&gt;  2 100004        2 SEER Re… Male  White 1926-01-01 2004-01-15 C54        hist…</span>
+<span class="co">#&gt;  3 100004        3 SEER Re… Male  White 1926-01-01 2006-06-15 C34        hist…</span>
+<span class="co">#&gt;  4 100004        4 SEER Re… Male  White 1926-01-01 2018-06-15 C14        DCO …</span>
+<span class="co">#&gt;  5 100034        1 SEER Re… Male  White 1979-01-01 2000-06-15 C50        hist…</span>
+<span class="co">#&gt;  6 100037        1 SEER Re… Fema… White 1938-01-01 1996-01-15 C54        hist…</span>
+<span class="co">#&gt;  7 100038        1 SEER Re… Male  White 1989-01-01 1991-04-15 C50        hist…</span>
+<span class="co">#&gt;  8 100038        2 SEER Re… Male  White 1989-01-01 2000-03-15 C80        hist…</span>
+<span class="co">#&gt;  9 100039        1 SEER Re… Fema… White 1946-01-01 2003-08-15 C50        hist…</span>
+<span class="co">#&gt; 10 100039        2 SEER Re… Fema… White 1946-01-01 2011-04-15 C34        hist…</span>
+<span class="co">#&gt; # … with 113,989 more rows, and 6 more variables: fc_age &lt;int&gt;,</span>
+<span class="co">#&gt; #   datedeath &lt;date&gt;, p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;,</span>
+<span class="co">#&gt; #   t_yeardiag &lt;chr&gt;</span></pre></div>
 </div>
 <div id="step-filter" class="section level3">
 <h3 class="hasAnchor">
@@ -282,9 +283,9 @@
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="va">renumbered_usdata</span> <span class="op">&lt;-</span> <span class="va">filtered_usdata</span> <span class="op">%&gt;%</span>
-  <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="../reference/renumber_time_id.html">renumber_time_id</a></span><span class="op">(</span>new_time_id_var <span class="op">=</span> <span class="st">"t_tumid"</span>, 
-                                  dattype <span class="op">=</span> <span class="st">"seer"</span>,
-                                  case_id_var <span class="op">=</span> <span class="st">"fake_id"</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/renumber_time_id.html">renumber_time_id</a></span><span class="op">(</span>new_time_id_var <span class="op">=</span> <span class="st">"t_tumid"</span>, 
+                   dattype <span class="op">=</span> <span class="st">"seer"</span>,
+                   case_id_var <span class="op">=</span> <span class="st">"fake_id"</span><span class="op">)</span>
 
 <span class="va">renumbered_usdata</span> <span class="op">%&gt;%</span>
    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">sex</span>, <span class="va">t_site_icd</span>, <span class="va">t_datediag</span>, <span class="va">t_tumid</span><span class="op">)</span>
@@ -308,8 +309,11 @@
 <a href="#step-reshape-wide" class="anchor"></a>Step 4 - Reshape to wide dataset</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">renumbered_usdata</span> <span class="op">%&gt;%</span>
-  <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr</a></span><span class="op">(</span>case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, time_id_var <span class="op">=</span> <span class="st">"t_tumid"</span>, timevar_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr</a></span><span class="op">(</span>case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, time_id_var <span class="op">=</span> <span class="st">"t_tumid"</span>, timevar_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 
+<span class="co">#now the data is in the wide format as required by many package functions. </span>
+<span class="co">#This means, each case is a row and several tumors per case ID are </span>
+<span class="co">#add new columns to the data using the time_id as column name suffix.</span>
 <span class="va">usdata_wide</span>
 <span class="co">#&gt; # A tibble: 31,997 x 127</span>
 <span class="co">#&gt;    fake_id SEQ_NUM.1 registry.1 sex.1 race.1 datebirth.1 t_datediag.1</span>
@@ -367,7 +371,8 @@
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>count_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="fl">1</span>,
                             <span class="cn">TRUE</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
 <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
-   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">sex.1</span>, <span class="va">p_spc</span>, <span class="va">count_spc</span>, <span class="va">t_site_icd.1</span>, <span class="va">t_datediag.1</span>, <span class="va">t_site_icd.2</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
+   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">sex.1</span>, <span class="va">p_spc</span>, <span class="va">count_spc</span>, <span class="va">t_site_icd.1</span>, 
+                 <span class="va">t_datediag.1</span>, <span class="va">t_site_icd.2</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 31,997 x 8</span>
 <span class="co">#&gt;    fake_id sex.1 p_spc count_spc t_site_icd.1 t_datediag.1 t_site_icd.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
@@ -388,15 +393,15 @@
 <a href="#step-pat-status" class="anchor"></a>Step 6 - Determine patient status at end of FU</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
-  <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="../reference/pat_status.html">pat_status</a></span><span class="op">(</span><span class="va">.</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>, dattype <span class="op">=</span> <span class="st">"seer"</span>,
-                         status_var <span class="op">=</span> <span class="st">"p_status"</span>, life_var <span class="op">=</span> <span class="st">"p_alive.1"</span>,
-                         spc_var <span class="op">=</span> <span class="st">"p_spc"</span>, birthdat_var <span class="op">=</span> <span class="st">"datebirth.1"</span>,
-                         lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>,
-                         spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span>, life_stat_alive <span class="op">=</span> <span class="st">"Alive"</span>,
-                         life_stat_dead <span class="op">=</span> <span class="st">"Dead"</span>, spc_stat_yes <span class="op">=</span> <span class="st">"SPC developed"</span>,
-                         spc_stat_no <span class="op">=</span> <span class="st">"No SPC"</span>, lifedat_fu_end <span class="op">=</span> <span class="st">"2019-12-31"</span>,
-                         use_lifedatmin <span class="op">=</span> <span class="cn">FALSE</span>, check <span class="op">=</span> <span class="cn">TRUE</span>, 
-                         as_labelled_factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/pat_status.html">pat_status</a></span><span class="op">(</span><span class="va">.</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>, dattype <span class="op">=</span> <span class="st">"seer"</span>,
+             status_var <span class="op">=</span> <span class="st">"p_status"</span>, life_var <span class="op">=</span> <span class="st">"p_alive.1"</span>,
+             spc_var <span class="op">=</span> <span class="st">"p_spc"</span>, birthdat_var <span class="op">=</span> <span class="st">"datebirth.1"</span>,
+             lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>,
+             spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span>, life_stat_alive <span class="op">=</span> <span class="st">"Alive"</span>,
+             life_stat_dead <span class="op">=</span> <span class="st">"Dead"</span>, spc_stat_yes <span class="op">=</span> <span class="st">"SPC developed"</span>,
+             spc_stat_no <span class="op">=</span> <span class="st">"No SPC"</span>, lifedat_fu_end <span class="op">=</span> <span class="st">"2019-12-31"</span>,
+             use_lifedatmin <span class="op">=</span> <span class="cn">FALSE</span>, check <span class="op">=</span> <span class="cn">TRUE</span>, 
+             as_labelled_factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 10 x 3</span>
 <span class="co">#&gt;    p_alive.1 p_status                                                          n</span>
 <span class="co">#&gt;    &lt;chr&gt;     &lt;fct&gt;                                                         &lt;int&gt;</span>
@@ -422,7 +427,8 @@
 <span class="co">#&gt; 7 NA - Patient date of death is missing                                     64</span>
 
 <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
-   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">p_status</span>, <span class="va">p_alive.1</span>, <span class="va">datedeath.1</span>, <span class="va">t_site_icd.1</span>, <span class="va">t_datediag.1</span>, <span class="va">t_site_icd.2</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
+   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">p_status</span>, <span class="va">p_alive.1</span>, <span class="va">datedeath.1</span>, <span class="va">t_site_icd.1</span>, <span class="va">t_datediag.1</span>, 
+                 <span class="va">t_site_icd.2</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 31,997 x 8</span>
 <span class="co">#&gt;    fake_id p_status p_alive.1 datedeath.1 t_site_icd.1 t_datediag.1 t_site_icd.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;    &lt;chr&gt;     &lt;date&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
@@ -440,15 +446,15 @@
 
 <span class="co">#alternatively, you can impute the date of death using lifedatmin_var</span>
 <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
-  <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="../reference/pat_status.html">pat_status</a></span><span class="op">(</span><span class="va">.</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>, dattype <span class="op">=</span> <span class="st">"seer"</span>,
-                         status_var <span class="op">=</span> <span class="st">"p_status"</span>, life_var <span class="op">=</span> <span class="st">"p_alive.1"</span>,
-                         spc_var <span class="op">=</span> <span class="st">"p_spc"</span>, birthdat_var <span class="op">=</span> <span class="st">"datebirth.1"</span>,
-                         lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>,
-                         spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span>, life_stat_alive <span class="op">=</span> <span class="st">"Alive"</span>,
-                         life_stat_dead <span class="op">=</span> <span class="st">"Dead"</span>, spc_stat_yes <span class="op">=</span> <span class="st">"SPC developed"</span>,
-                         spc_stat_no <span class="op">=</span> <span class="st">"No SPC"</span>, lifedat_fu_end <span class="op">=</span> <span class="st">"2019-12-31"</span>,
-                         use_lifedatmin <span class="op">=</span> <span class="cn">TRUE</span>, lifedatmin_var <span class="op">=</span> <span class="st">"p_dodmin.1"</span>, 
-                         check <span class="op">=</span> <span class="cn">TRUE</span>, as_labelled_factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/pat_status.html">pat_status</a></span><span class="op">(</span><span class="va">.</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>, dattype <span class="op">=</span> <span class="st">"seer"</span>,
+             status_var <span class="op">=</span> <span class="st">"p_status"</span>, life_var <span class="op">=</span> <span class="st">"p_alive.1"</span>,
+             spc_var <span class="op">=</span> <span class="st">"p_spc"</span>, birthdat_var <span class="op">=</span> <span class="st">"datebirth.1"</span>,
+             lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>,
+             spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span>, life_stat_alive <span class="op">=</span> <span class="st">"Alive"</span>,
+             life_stat_dead <span class="op">=</span> <span class="st">"Dead"</span>, spc_stat_yes <span class="op">=</span> <span class="st">"SPC developed"</span>,
+             spc_stat_no <span class="op">=</span> <span class="st">"No SPC"</span>, lifedat_fu_end <span class="op">=</span> <span class="st">"2019-12-31"</span>,
+             use_lifedatmin <span class="op">=</span> <span class="cn">TRUE</span>, lifedatmin_var <span class="op">=</span> <span class="st">"p_dodmin.1"</span>, 
+             check <span class="op">=</span> <span class="cn">TRUE</span>, as_labelled_factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 3</span>
 <span class="co">#&gt;   p_alive.1 p_status                                                           n</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;fct&gt;                                                          &lt;int&gt;</span>
@@ -511,9 +517,9 @@
 <span class="co">#&gt; #   SEQ_NUM.8 &lt;int&gt;, registry.8 &lt;chr&gt;, sex.8 &lt;chr&gt;, race.8 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   datebirth.8 &lt;date&gt;, t_datediag.8 &lt;date&gt;, t_site_icd.8 &lt;chr&gt;, t_dco.8 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   …</span></pre></div>
-<div id="step-6b---remove-patients-irrelevant-to-analysis-depending-on-status" class="section level4">
+<div id="step-filter-pat-status" class="section level4">
 <h4 class="hasAnchor">
-<a href="#step-6b---remove-patients-irrelevant-to-analysis-depending-on-status" class="anchor"></a>Step 6b - Remove patients irrelevant to analysis depending on status</h4>
+<a href="#step-filter-pat-status" class="anchor"></a>Step 6b - Remove patients irrelevant to analysis depending on status</h4>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">p_status</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NA - Patient not born before end of FU"</span>,
@@ -536,10 +542,10 @@
 <a href="#step-calc-futime" class="anchor"></a>Step 7 - Calculate FU time</h3>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
-   <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="../reference/calc_futime.html">calc_futime</a></span><span class="op">(</span><span class="va">.</span>, futime_var_new <span class="op">=</span> <span class="st">"p_futimeyrs"</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>,
-                           dattype <span class="op">=</span> <span class="st">"seer"</span>, time_unit <span class="op">=</span> <span class="st">"years"</span>, 
-                           lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, 
-                           fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>, spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span><span class="op">)</span>
+   <span class="fu"><a href="../reference/calc_futime.html">calc_futime</a></span><span class="op">(</span><span class="va">.</span>, futime_var_new <span class="op">=</span> <span class="st">"p_futimeyrs"</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>,
+               dattype <span class="op">=</span> <span class="st">"seer"</span>, time_unit <span class="op">=</span> <span class="st">"years"</span>, 
+               lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, 
+               fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>, spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 x 5</span>
 <span class="co">#&gt;   p_status                       mean_futime min_futime max_futime median_futime</span>
 <span class="co">#&gt;   &lt;fct&gt;                                &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;</span>
@@ -587,7 +593,7 @@
     futime_var <span class="op">=</span> <span class="st">"p_futimeyrs"</span>,
     alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. </span>
+<span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
 <span class="co">#&gt; # tidytable [4 × 10]</span>
 <span class="co">#&gt;   age    sex    region     year  race.1 t_site to1month i_observed i_pyar n_base</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
@@ -599,7 +605,7 @@
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. </span>
+<span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
 <span class="co">#&gt; # tidytable [4 × 10]</span>
 <span class="co">#&gt;   age   sex   region year  race.1 t_site Total0toInfyears i_observed i_pyar</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
@@ -612,7 +618,7 @@
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. </span>
+<span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
 <span class="co">#&gt; # tidytable [1 × 10]</span>
 <span class="co">#&gt;   age    sex   region     year  t_dco.1 t_site to1month i_observed i_pyar n_base</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
@@ -621,7 +627,7 @@
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  [INFO Cases with 0 PYARs] There are disambiguities where strata with 0 follow-up time have data in observed. </span>
+<span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
 <span class="co">#&gt; # tidytable [1 × 10]</span>
 <span class="co">#&gt;   age   sex   region year  t_dco.1 t_site Total0toInfyears i_observed i_pyar</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
@@ -666,16 +672,16 @@
 
 <span class="va">sircalc_results</span> <span class="op">%&gt;%</span>
   <span class="co">#summarize results across region, age, year and t_site</span>
-  <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="../reference/summarize_sir_results.html">summarize_sir_results</a></span><span class="op">(</span><span class="va">.</span>,
-                                    summarize_groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"region"</span>, <span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"race"</span><span class="op">)</span>,
-                                    summarize_site <span class="op">=</span> <span class="cn">TRUE</span>,
-                                    output <span class="op">=</span> <span class="st">"long"</span>,  output_information <span class="op">=</span> <span class="st">"minimal"</span>,
-                                    add_total_row <span class="op">=</span> <span class="st">"only"</span>,  add_total_fu <span class="op">=</span> <span class="st">"no"</span>,
-                                    collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>,  shorten_total_cols <span class="op">=</span> <span class="cn">TRUE</span>,
-                                    fubreak_var_name <span class="op">=</span> <span class="st">"fu_time"</span>, ybreak_var_name <span class="op">=</span> <span class="st">"yvar_name"</span>,
-                                    xbreak_var_name <span class="op">=</span> <span class="st">"none"</span>, site_var_name <span class="op">=</span> <span class="st">"t_site"</span>,
-                                    alpha <span class="op">=</span> <span class="fl">0.05</span>
-                                    <span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarize_sir_results.html">summarize_sir_results</a></span><span class="op">(</span><span class="va">.</span>,
+                        summarize_groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"region"</span>, <span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"race"</span><span class="op">)</span>,
+                        summarize_site <span class="op">=</span> <span class="cn">TRUE</span>,
+                        output <span class="op">=</span> <span class="st">"long"</span>,  output_information <span class="op">=</span> <span class="st">"minimal"</span>,
+                        add_total_row <span class="op">=</span> <span class="st">"only"</span>,  add_total_fu <span class="op">=</span> <span class="st">"no"</span>,
+                        collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>,  shorten_total_cols <span class="op">=</span> <span class="cn">TRUE</span>,
+                        fubreak_var_name <span class="op">=</span> <span class="st">"fu_time"</span>, ybreak_var_name <span class="op">=</span> <span class="st">"yvar_name"</span>,
+                        xbreak_var_name <span class="op">=</span> <span class="st">"none"</span>, site_var_name <span class="op">=</span> <span class="st">"t_site"</span>,
+                        alpha <span class="op">=</span> <span class="fl">0.05</span>
+                        <span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">region</span>, <span class="op">-</span><span class="va">age</span>, <span class="op">-</span><span class="va">year</span>, <span class="op">-</span><span class="va">race</span>, <span class="op">-</span><span class="va">sex</span>, <span class="op">-</span><span class="va">yvar_name</span><span class="op">)</span>
 <span class="co">#&gt; # tidytable [7 × 8]</span>
 <span class="co">#&gt;   yvar_label fu_time       fu_time_sort t_site observed expected   sir sir_ci   </span>
@@ -687,35 +693,6 @@
 <span class="co">#&gt; 5 Overall    5-10 years               5 Total      3089    531.   5.82 5.61 - 6…</span>
 <span class="co">#&gt; 6 Overall    10+ years                6 Total      4241    438.   9.69 9.4 - 9.…</span>
 <span class="co">#&gt; 7 Overall    Total 0 to I…            7 Total     11459   1845.   6.21 6.1 - 6.…</span></pre></div>
-</div>
-</div>
-<div id="zfkd-melanoma" class="section level2">
-<h2 class="hasAnchor">
-<a href="#zfkd-melanoma" class="anchor"></a>ZfKD melanoma</h2>
-<div id="step-1---long-dataset" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-1---long-dataset" class="anchor"></a>Step 1 - Long dataset</h3>
-</div>
-<div id="step-2---filter-long-dataset" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-2---filter-long-dataset" class="anchor"></a>Step 2 - Filter long dataset</h3>
-</div>
-<div id="step-3---renumber-time_id" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-3---renumber-time_id" class="anchor"></a>Step 3 - Renumber <code>time_id</code>
-</h3>
-</div>
-<div id="step-4---reshape-to-wide-dataset" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-4---reshape-to-wide-dataset" class="anchor"></a>Step 4 - Reshape to wide dataset</h3>
-</div>
-<div id="step-5---determine-patient-status-at-end-of-fu" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-5---determine-patient-status-at-end-of-fu" class="anchor"></a>Step 5 - Determine patient status at end of FU</h3>
-</div>
-<div id="step-6---calculate-fu-time" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-6---calculate-fu-time" class="anchor"></a>Step 6 - Calculate FU time</h3>
 </div>
 </div>
 <div id="built-with" class="section level2">
@@ -742,7 +719,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] Rcpp_1.0.5        compiler_4.0.3    pillar_1.4.6      prettyunits_1.1.1</span>
-<span class="co">#&gt;  [5] progress_1.2.2    forcats_0.5.0     tools_4.0.3       digest_0.6.26    </span>
+<span class="co">#&gt;  [5] progress_1.2.2    forcats_0.5.0     tools_4.0.3       digest_0.6.27    </span>
 <span class="co">#&gt;  [9] lubridate_1.7.9   evaluate_0.14     memoise_1.1.0     lifecycle_0.2.0  </span>
 <span class="co">#&gt; [13] tibble_3.0.4      pkgconfig_2.0.3   rlang_0.4.8       cli_2.1.0        </span>
 <span class="co">#&gt; [17] yaml_2.2.1        haven_2.3.1       pkgdown_1.6.1     xfun_0.18        </span>
