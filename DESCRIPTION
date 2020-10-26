@@ -4,7 +4,7 @@ Version: 0.8.5.9
 Authors@R: c(
     person(given = "Marian", family = "Eberl", role = c("aut", "cre"), email = "marian.eberl@tum.de", comment = c(ORCID = "0000-0001-6584-3197"))
     )
-Description: A collection of helper functions for analyzing Second Primary Cancer (SPC) data, 
+Description: A collection of helper functions for analyzing Second Primary Cancer data, 
     including functions to reshape data, to calculate patient states and analyze cancer incidence.
 License: GPL-3
 URL: https://marianschmidt.github.io/msSPChelpR/
