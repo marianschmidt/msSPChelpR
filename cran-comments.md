@@ -1,6 +1,6 @@
 # CRAN comments for msSPChelpR
 
-## Resubmission
+## 2020-10-27: Resubmission notes
 
 This is a resubmission of a new package, addressing the comments made by CRAN on 2020-10-05, adding new sample data and fixing a bug.
 
@@ -54,7 +54,7 @@ unable to verify current time
 ### Downstream dependencies
 There are currently no downstream dependencies for this package.
 
-## Initial submission notes
+## 2020-09-30: Initial submission notes
 This is a new package that provides functions for Second Primary Cancer analyses.
 
 ### Test environments
