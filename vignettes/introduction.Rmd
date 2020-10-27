@@ -87,7 +87,7 @@ If your data has the required structure, you can calculate and summarize SIRs wi
  
 # Theory behind SIRs {#theo-sir}
 
-In the next version of this vignette the theoretical considerations how SIRs are caculated will be explained in this chapter.
+In the next version of this vignette the theoretical considerations how SIRs are calculated will be explained in this chapter.
 
 # Examples
 
