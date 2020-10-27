@@ -1,5 +1,3 @@
-# msSPChelpR 0.8.6
-
 # msSPChelpR 0.8.6 - 2020-10-27
 
 ## New Features
