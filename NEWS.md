@@ -1,4 +1,4 @@
-# msSPChelpR (development version)
+# msSPChelpR 0.8.6 - 2020-10-27
 
 ## New Features
 * new sample data set for standard populations -> `data("standard_population")`
