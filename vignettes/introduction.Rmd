@@ -60,9 +60,9 @@ It is recommended to run the following steps in the correct order to obtain accu
    * be in "YYYY-MM-DD" format and is always defined via the `fu_end =` parameter
    * must precede the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your `fu_end` must be `fu_end = "2014-12-15"` or earlier.
    
-   Based on the newly calculated patient status, you might want to [exclude cases for which patient status cannot be determined](#step-filter-pat-status)
+   * Based on the newly calculated patient status, you might want to [exclude cases for which patient status cannot be determined](#step-filter-pat-status)
    
- 7. [Calculate follow-up time](#step-calc-futime) for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 4. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
+ 7. [Calculate follow-up time](#step-calc-futime) for the same dataset by using the `msSPChelpR::calc_futime()` function and the same `fu_end` as for step 6. By standard all functions of the `msSPChelpR` package require follow-up times as numeric years.
  
 
 ## Calculate Standardized Incidence Ratios (SIR) 
@@ -84,6 +84,10 @@ If your data has the required structure, you can calculate and summarize SIRs wi
    * The theory behind calculating stratified SIRs is explained in the chapter on [basics on SIRs](#theo-sir)
    
  9. [Summarize SIR results](#step-summarize-sir) using the `msSPChelpR::summarize_sir_results()` function on the stratified sir results produced by the previous step.
+ 
+# Theory behind SIRs {#theo-sir}
+
+In the next version of this vignette the theoretical considerations how SIRs are caculated will be explained in this chapter.
 
 # Examples
 
