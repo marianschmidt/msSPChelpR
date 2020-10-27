@@ -151,13 +151,13 @@
 <li><p><a href="#step-pat-status">Determine patient status</a> at a defined end of follow-up by using the <code><a href="../reference/pat_status.html">msSPChelpR::pat_status()</a></code> function. This date for end of follow-up must:</p></li>
 </ol>
 <ul>
-<li>be in “YYYY-MM-DD” format and is always defined via the <code>fu_end =</code> parameter</li>
-<li>must precede the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your <code>fu_end</code> must be <code>fu_end = "2014-12-15"</code> or earlier.</li>
+<li><p>be in “YYYY-MM-DD” format and is always defined via the <code>fu_end =</code> parameter</p></li>
+<li><p>must precede the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your <code>fu_end</code> must be <code>fu_end = "2014-12-15"</code> or earlier.</p></li>
+<li><p>Based on the newly calculated patient status, you might want to <a href="#step-filter-pat-status">exclude cases for which patient status cannot be determined</a></p></li>
 </ul>
-<p>Based on the newly calculated patient status, you might want to <a href="#step-filter-pat-status">exclude cases for which patient status cannot be determined</a></p>
 <ol start="7" style="list-style-type: decimal">
 <li>
-<a href="#step-calc-futime">Calculate follow-up time</a> for the same dataset by using the <code><a href="../reference/calc_futime.html">msSPChelpR::calc_futime()</a></code> function and the same <code>fu_end</code> as for step 4. By standard all functions of the <code>msSPChelpR</code> package require follow-up times as numeric years.</li>
+<a href="#step-calc-futime">Calculate follow-up time</a> for the same dataset by using the <code><a href="../reference/calc_futime.html">msSPChelpR::calc_futime()</a></code> function and the same <code>fu_end</code> as for step 6. By standard all functions of the <code>msSPChelpR</code> package require follow-up times as numeric years.</li>
 </ol>
 </div>
 <div id="calculate-standardized-incidence-ratios-sir" class="section level2">
@@ -197,6 +197,11 @@
 <a href="#step-summarize-sir">Summarize SIR results</a> using the <code><a href="../reference/summarize_sir_results.html">msSPChelpR::summarize_sir_results()</a></code> function on the stratified sir results produced by the previous step.</li>
 </ol>
 </div>
+</div>
+<div id="theo-sir" class="section level1">
+<h1 class="hasAnchor">
+<a href="#theo-sir" class="anchor"></a>Theory behind SIRs</h1>
+<p>In the next version of this vignette the theoretical considerations how SIRs are caculated will be explained in this chapter.</p>
 </div>
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
