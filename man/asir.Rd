@@ -81,7 +81,7 @@ data("population_us")
 #make wide data as this is the required format
 usdata_wide <- us_second_cancer \%>\%
                     #only use sample
-                    dplyr::filter(as.numeric(fake_id) < 300000) \%>\%
+                    dplyr::filter(as.numeric(fake_id) < 200000) \%>\%
                     msSPChelpR::reshape_wide_tidyr(case_id_var = "fake_id", 
                     time_id_var = "SEQ_NUM", timevar_max = 2)
                     

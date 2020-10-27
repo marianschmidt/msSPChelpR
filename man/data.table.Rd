@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-data.table.R
 \name{data.table}
 \alias{data.table}
-\title{Data.table helprs}
+\title{Data.table helpers}
 \description{
 See data.table package for details.
 }
