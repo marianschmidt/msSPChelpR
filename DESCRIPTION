@@ -30,10 +30,11 @@ Suggests:
     tibble,
     rmarkdown,
     knitr,
-    testthat (>= 2.1.0)
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Language: en-US
 LazyData: true
+Config/testthat/edition: 3
