@@ -3,7 +3,7 @@
 \docType{data}
 \name{population_us}
 \alias{population_us}
-\title{US Populations}
+\title{US Populations Data}
 \format{
 A data frame with the following variables:
 \describe{

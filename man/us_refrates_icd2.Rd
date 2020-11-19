@@ -3,7 +3,7 @@
 \docType{data}
 \name{us_refrates_icd2}
 \alias{us_refrates_icd2}
-\title{US Reference Rates for Cancer using ICD-O 2digit code for cancer site}
+\title{US Reference Rates for Cancer Data (ICD-O 2digit code)}
 \format{
 A data frame with the following variables:
 \describe{
@@ -25,5 +25,6 @@ us_refrates_icd2
 }
 \description{
 Synthetic dataset of reference incidence rates for the US population to demonstrate package functions
+Cancer site is coded using ICD-O 2digit code
 }
 \keyword{datasets}
