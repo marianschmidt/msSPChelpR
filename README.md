@@ -8,6 +8,7 @@
 [![DOI](https://zenodo.org/badge/185602745.svg)](https://zenodo.org/badge/latestdoi/185602745)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/msSPChelpR?color=grey)](https://marianschmidt.github.io/msSPChelpR/)
+[![R build status](https://github.com/marianschmidt/msSPChelpR/workflows/R-CMD-check/badge.svg)](https://github.com/marianschmidt/msSPChelpR/actions)
 <!-- badges: end -->
 
 #### What is `msSPChelpR`?
