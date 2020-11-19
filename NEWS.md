@@ -1,5 +1,13 @@
 # msSPChelpR (development version)
 
+## New Features
+
+## Bug fixes
+
+## Internal
+* add R-CMD-Check to github actions
+
+
 # msSPChelpR 0.8.6 - 2020-10-27
 
 ## New Features
