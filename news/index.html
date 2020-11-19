@@ -130,14 +130,29 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#msspchelpr-development-version" class="anchor"></a>msSPChelpR (development version)<small> Unreleased </small>
 </h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New Features</h2>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+</div>
+<div id="internal" class="section level2">
+<h2 class="hasAnchor">
+<a href="#internal" class="anchor"></a>Internal</h2>
+<ul>
+<li>add R-CMD-Check to github actions</li>
+</ul>
+</div>
 </div>
     <div id="msspchelpr-086---2020-10-27" class="section level1">
 <h1 class="page-header" data-toc-text="0.8.6">
 <a href="#msspchelpr-086---2020-10-27" class="anchor"></a>msSPChelpR 0.8.6 - 2020-10-27<small> 2020-11-04 </small>
 </h1>
-<div id="new-features" class="section level2">
+<div id="new-features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New Features</h2>
+<a href="#new-features-1" class="anchor"></a>New Features</h2>
 <ul>
 <li>new sample data set for standard populations -&gt; <code><a href="https://rdrr.io/r/utils/data.html">data("standard_population")</a></code>
 </li>
@@ -148,9 +163,9 @@
 <h2 class="hasAnchor">
 <a href="#breaking-changes" class="anchor"></a>Breaking Changes</h2>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>: change output of integer columns to numeric to fix bug in <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> (Closes <a href='https://github.com/marianschmidt/msSPChelpR/issues/59'>#59</a>)</li>
@@ -172,9 +187,9 @@
 <h1 class="page-header" data-toc-text="0.8.5">
 <a href="#msspchelpr-085---2020-09-28" class="anchor"></a>msSPChelpR 0.8.5 - 2020-09-28<small> Unreleased </small>
 </h1>
-<div id="new-features-1" class="section level2">
+<div id="new-features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-1" class="anchor"></a>New Features</h2>
+<a href="#new-features-2" class="anchor"></a>New Features</h2>
 <ul>
 <li>tidytable variants of functions, i.e. <code><a href="../reference/reshape_wide_tt.html">reshape_wide_tt()</a></code>, <code><a href="../reference/renumber_time_id_tt.html">renumber_time_id_tt()</a></code>, <code><a href="../reference/pat_status_tt.html">pat_status_tt()</a></code>, <code><a href="../reference/vital_status_tt.html">vital_status_tt()</a></code>, <code><a href="../reference/calc_futime_tt.html">calc_futime_tt()</a></code> –&gt; the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.</li>
 <li>
@@ -251,9 +266,9 @@
 <li>the data.table variants of functions (<code>renumber_time_id_dt()</code>, <code>pat_status_dt()</code>, <code>reshape_long_dt()</code>, <code>reshape_wide_dt()</code>, <code>vital_status_dt()</code>) have been removed for simplicity, please use tidytable variants, i.e. <code><a href="../reference/reshape_wide_tt.html">reshape_wide_tt()</a></code>, <code><a href="../reference/renumber_time_id_tt.html">renumber_time_id_tt()</a></code>, <code><a href="../reference/pat_status_tt.html">pat_status_tt()</a></code>, <code><a href="../reference/vital_status_tt.html">vital_status_tt()</a></code>, <code><a href="../reference/calc_futime_tt.html">calc_futime_tt()</a></code>, instead. They will give the same data.table output and same performance.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>implement new reliable routine to split df when <code><a href="../reference/reshape_wide.html">reshape_wide()</a></code> with option <code>chunks</code> is used. Closes <a href='https://github.com/marianschmidt/msSPChelpR/issues/1'>#1</a>.</li>
 <li>Sorting of columns in wide datasets by <code><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr()</a></code> and <code><a href="../reference/reshape_wide_tt.html">reshape_wide_tt()</a></code> is now preserved. Closes <a href='https://github.com/marianschmidt/msSPChelpR/issues/31'>#31</a>.</li>
@@ -269,9 +284,9 @@
 <h1 class="page-header" data-toc-text="0.8.4">
 <a href="#msspchelpr-084---2020-05-21" class="anchor"></a>msSPChelpR 0.8.4 - 2020-05-21<small> Unreleased </small>
 </h1>
-<div id="new-features-2" class="section level2">
+<div id="new-features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-2" class="anchor"></a>New Features</h2>
+<a href="#new-features-3" class="anchor"></a>New Features</h2>
 <ul>
 <li>add timevar_max option to <code><a href="../reference/renumber_time_id.html">renumber_time_id()</a></code> function; use sorting by date of diagnosis instead of old time_id_var</li>
 <li>various improvements to <code><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr()</a></code> function</li>
@@ -282,9 +297,9 @@
 </li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>fix incomplete check for required variables in <code><a href="../reference/pat_status.html">pat_status()</a></code> and <code>pat_status_dt()</code> functions</li>
 <li>fix error in check for required variables in <code><a href="../reference/renumber_time_id.html">renumber_time_id()</a></code> that broke functions</li>
@@ -299,18 +314,18 @@
 <h1 class="page-header" data-toc-text="0.8.3">
 <a href="#msspchelpr-083" class="anchor"></a>msSPChelpR 0.8.3<small> Unreleased </small>
 </h1>
-<div id="new-features-3" class="section level2">
+<div id="new-features-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-3" class="anchor"></a>New Features</h2>
+<a href="#new-features-4" class="anchor"></a>New Features</h2>
 <ul>
 <li>new faster version of reshape_long based on data.table</li>
 <li>start new vignette on workflow from filtered long dataset to follow-up times <code>vignette("patstatus_futime")</code>
 </li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>implement new tidyselect routine using <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">tidyselect::all_of</a></code> for vector-based variable selection</li>
 <li>implement correct referencing in <code>vital_status_dt</code> and <code>pat_status_dt</code>
@@ -331,9 +346,9 @@
 <h1 class="page-header" data-toc-text="0.8.1">
 <a href="#msspchelpr-081" class="anchor"></a>msSPChelpR 0.8.1<small> Unreleased </small>
 </h1>
-<div id="new-features-4" class="section level2">
+<div id="new-features-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-4" class="anchor"></a>New Features</h2>
+<a href="#new-features-5" class="anchor"></a>New Features</h2>
 <ul>
 <li>new faster version of vital_status function using data.table</li>
 <li>new faster version of pat_status function using data.table</li>
@@ -354,9 +369,9 @@
 <h1 class="page-header" data-toc-text="0.7.4">
 <a href="#msspchelpr-074" class="anchor"></a>msSPChelpR 0.7.4<small> Unreleased </small>
 </h1>
-<div id="new-features-5" class="section level2">
+<div id="new-features-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-5" class="anchor"></a>New Features</h2>
+<a href="#new-features-6" class="anchor"></a>New Features</h2>
 <ul>
 <li>new function renumber_time_id</li>
 </ul>
@@ -366,9 +381,9 @@
 <h1 class="page-header" data-toc-text="0.7.3">
 <a href="#msspchelpr-073" class="anchor"></a>msSPChelpR 0.7.3<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>add check to revert status_var to numeric in case it was created with option as_labelled_factor</li>
 <li>fix label bug in life_var_new</li>
