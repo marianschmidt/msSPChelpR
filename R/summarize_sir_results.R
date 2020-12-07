@@ -126,6 +126,7 @@ summarize_sir_results <- function(sir_df,
   
   #prepare site_var_name
   
+  site_grouped <- FALSE
   if(!is.character(site_var_name)){
     rlang::warn("Parameter `site_var_name` must be character vector. Default `site_var_name = \"t_site\"` will be used instead.")
     site_var_name <- "t_site"
@@ -135,6 +136,14 @@ summarize_sir_results <- function(sir_df,
     }else{
       if((site_var_name %in% colnames(sir_df))){
         cs <- TRUE
+        #add additional check if a different variable than t_site is used
+        if("t_site" %in% colnames(sir_df)){
+          rlang::warn(paste0(
+            "The provided `site_var_name == `", site_var_name,  " is different from default `site_var_name = \"t_site\"`.\n", 
+            "We assume, you want to group results by a different site variable than used when using the `sir_by_futime()` function. \n",
+            "We try to adjust calculation of Observed, PYARs and SIR accordingly, but make sure that you check results for correctness!"))
+          site_grouped <- TRUE
+        }
       }else{
         rlang::warn("Provided `site_var_name` does not exit in sir_df. Default `site_var_name = \"t_site\"` will be used instead.")
         site_var_name <- "t_site"
@@ -207,9 +216,15 @@ summarize_sir_results <- function(sir_df,
   #prepare site_var_name
   #in case t_site var need to be changed
   if(cs){
-    sir_df <- sir_df %>%
-      tidytable::select.(-t_site) %>%
-      tidytable::rename.(t_site = !!rlang::sym(site_var_name))
+    if(site_grouped == FALSE){
+      sir_df <- sir_df %>%
+        tidytable::select.(-t_site) %>%
+        tidytable::rename.(t_site = !!rlang::sym(site_var_name))
+    }else{
+      sir_df <- sir_df %>%
+        tidytable::rename.(t_site_orig = t_site,
+                           t_site = !!rlang::sym(site_var_name))
+    }
   }
   
   
@@ -263,8 +278,18 @@ summarize_sir_results <- function(sir_df,
   #BUG? Check whether this implementation of t_site is really okay (count too many pyar?)
   
   if(summarize_site == TRUE){
-    sg <- TRUE
-    sg_var_names <- rlang::eval_tidy(c(summarize_groups, "t_site"))
+    if(site_grouped == FALSE){
+      sg <- TRUE
+      sg_var_names <- rlang::eval_tidy(c(summarize_groups, "t_site"))
+    } else{
+      #FIX: check whether this safeguard here is really needed.
+      rlang::warn(paste0(
+        "Parameter `summarize_site == TRUE` provided, but function detected that you are not using the original `site_var_name == t_site`. \n",
+        "We therefore assume you are using a grouped site_var for which summarize_site makes no sense. \n",
+        "Default `summarize_site = FALSE` will be used instead."))
+      summarize_site <- FALSE
+      sg <- FALSE
+    }
   }
   
   #prepare total_fu
@@ -400,23 +425,62 @@ summarize_sir_results <- function(sir_df,
     
     #iii) remove from grouping vars those who should be summarized
     grouping_vars <- all_grouping_vars[!(all_grouping_vars %in% sg_var_names)]
-    
+    if(site_grouped){
+      grouping_vars_with_site <- c(grouping_vars, "t_site_orig")
+    }
     
     #iv) summarize over grouping vars
-    sum_pre_tmp <- sir_df %>%
-      tidytable::summarize_across.(
-        .cols = c(observed, pyar, n_base, ref_inc_cases, ref_population_pyar, expected),
-        .fns =  ~ sum(.x, na.rm = TRUE),
-        .names = "group_{.col}",
-        .by = !!grouping_vars) %>%
-      #calculate sir
-      tidytable::mutate.(
-        sir = .SD$group_observed / .SD$group_expected,
-        sir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .SD$group_observed) / 2) / .SD$group_expected,
-        sir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.SD$group_observed + 1)) / 2) / .SD$group_expected,
-        group_incidence_crude_rate = .SD$group_ref_inc_cases / .SD$group_ref_population_pyar * 100000
-      ) %>%
-      tidytable::distinct.()
+    #case 1: no summing up over multiple sites
+    if(site_grouped == FALSE){
+      sum_pre_tmp <- sir_df %>%
+        tidytable::summarize_across.(
+          .cols = c(observed, pyar, n_base, ref_inc_cases, ref_population_pyar, expected),
+          .fns =  ~ sum(.x, na.rm = TRUE),
+          .names = "group_{.col}",
+          .by = !!grouping_vars) %>%
+        #calculate sir
+        tidytable::mutate.(
+          sir = .SD$group_observed / .SD$group_expected,
+          sir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .SD$group_observed) / 2) / .SD$group_expected,
+          sir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.SD$group_observed + 1)) / 2) / .SD$group_expected,
+          group_incidence_crude_rate = .SD$group_ref_inc_cases / .SD$group_ref_population_pyar * 100000
+        ) %>%
+        tidytable::distinct.()
+    }else{
+      #case 2: summing up over multiple sites - so pyar cannot simply be summed up
+      sum_pre_tmp_a <- sir_df %>%
+        tidytable::summarize_across.(
+          .cols = c(observed, expected, ref_inc_cases),
+          .fns =  ~ sum(.x, na.rm = TRUE),
+          .names = "group_{.col}",
+          .by = !!grouping_vars) %>%
+        #calculate sir
+        tidytable::mutate.(
+          sir = .SD$group_observed / .SD$group_expected,
+          sir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .SD$group_observed) / 2) / .SD$group_expected,
+          sir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.SD$group_observed + 1)) / 2) / .SD$group_expected,
+        ) %>%
+        tidytable::distinct.()
+      
+      sum_pre_tmp_b <- sir_df %>%
+        tidytable::summarize_across.(
+          .cols = c(pyar, n_base, ref_population_pyar),
+          .fns =  ~ round(sum(.x, na.rm = TRUE), 2),
+          .names = "group_{.col}",
+          .by = !!grouping_vars_with_site) %>% 
+        tidytable::select.(-t_site_orig) %>%
+        tidytable::distinct.()
+      
+      sum_pre_tmp <- sum_pre_tmp_a %>%
+        tidytable::left_join.(sum_pre_tmp_b, by = grouping_vars) %>%
+        #calculate crude rate
+        tidytable::mutate.(
+          group_incidence_crude_rate = .SD$group_ref_inc_cases / .SD$group_ref_population_pyar * 100000
+        )
+      
+      rm(sum_pre_tmp_a, sum_pre_tmp_b)
+      
+    }
     
     
     #v) #add grouping information for summarized variables
