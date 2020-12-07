@@ -1,6 +1,8 @@
 # msSPChelpR (development version)
 
 ## New Features
+* `summarize_sir_results()`:
+ * add ability to summarize by different site_var than the one used in `sir_byfutime()`
 
 ## Bug fixes
 
