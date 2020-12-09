@@ -688,16 +688,20 @@
                         alpha <span class="op">=</span> <span class="fl">0.05</span>
                         <span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">region</span>, <span class="op">-</span><span class="va">age</span>, <span class="op">-</span><span class="va">year</span>, <span class="op">-</span><span class="va">race</span>, <span class="op">-</span><span class="va">sex</span>, <span class="op">-</span><span class="va">yvar_name</span><span class="op">)</span>
+<span class="co">#&gt; Warning: The results file `sir_df` contains observed cases in i_observed that do not occur in the refrates_df (ref_inc_cases).</span>
+<span class="co">#&gt; Therefore calculation of the variables n_base and ref_population_pyar is ambiguous. </span>
+<span class="co">#&gt; We take the first value of each variable. Expect small inconsistencies in the calculation of n_base, ref_population_pyar and ref_inc_crude_rate across strata. </span>
+<span class="co">#&gt; If you want to know more, please check the `warnings` column of `sir_df`.</span>
 <span class="co">#&gt; # tidytable [7 × 8]</span>
 <span class="co">#&gt;   yvar_label fu_time       fu_time_sort t_site observed expected   sir sir_ci   </span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 Overall    to 1 month               1 Total      2616     145. 18.1  17.41 - …</span>
-<span class="co">#&gt; 2 Overall    0.0833-0.167…            2 Total       640     144.  4.46 4.12 - 4…</span>
-<span class="co">#&gt; 3 Overall    0.167-1 years            3 Total      5792    1378.  4.2  4.09 - 4…</span>
-<span class="co">#&gt; 4 Overall    1-5 years                4 Total     23984    5346.  4.49 4.43 - 4…</span>
-<span class="co">#&gt; 5 Overall    5-10 years               5 Total     24712    4249.  5.82 5.74 - 5…</span>
-<span class="co">#&gt; 6 Overall    10+ years                6 Total     33928    3503.  9.69 9.58 - 9…</span>
-<span class="co">#&gt; 7 Overall    Total 0 to I…            7 Total     91672   14764.  6.21 6.17 - 6…</span></code></pre></div>
+<span class="co">#&gt; 1 Overall    to 1 month               1 Total       327     18.1 18.1  16.19 - …</span>
+<span class="co">#&gt; 2 Overall    0.0833-0.167…            2 Total        80     17.9  4.46 3.54 - 5…</span>
+<span class="co">#&gt; 3 Overall    0.167-1 years            3 Total       724    172.   4.2  3.9 - 4.…</span>
+<span class="co">#&gt; 4 Overall    1-5 years                4 Total      2998    668.   4.49 4.33 - 4…</span>
+<span class="co">#&gt; 5 Overall    5-10 years               5 Total      3089    531.   5.82 5.61 - 6…</span>
+<span class="co">#&gt; 6 Overall    10+ years                6 Total      4241    438.   9.69 9.4 - 9.…</span>
+<span class="co">#&gt; 7 Overall    Total 0 to I…            7 Total     11459   1845.   6.21 6.1 - 6.…</span></code></pre></div>
 </div>
 </div>
 <div id="built-with" class="section level2">
@@ -731,9 +735,9 @@
 <span class="co">#&gt; [21] stringr_1.4.0     knitr_1.30        generics_0.1.0    desc_1.2.0       </span>
 <span class="co">#&gt; [25] fs_1.5.0          vctrs_0.3.5       systemfonts_0.3.2 hms_0.5.3        </span>
 <span class="co">#&gt; [29] sjlabelled_1.1.7  rprojroot_2.0.2   tidyselect_1.1.0  glue_1.4.2       </span>
-<span class="co">#&gt; [33] data.table_1.13.2 R6_2.5.0          textshaping_0.2.1 fansi_0.4.1      </span>
+<span class="co">#&gt; [33] data.table_1.13.4 R6_2.5.0          textshaping_0.2.1 fansi_0.4.1      </span>
 <span class="co">#&gt; [37] rmarkdown_2.5     purrr_0.3.4       tidyr_1.1.2       ellipsis_0.3.1   </span>
-<span class="co">#&gt; [41] htmltools_0.5.0   assertthat_0.2.1  insight_0.11.0    tidytable_0.5.6  </span>
+<span class="co">#&gt; [41] htmltools_0.5.0   assertthat_0.2.1  insight_0.11.1    tidytable_0.5.6  </span>
 <span class="co">#&gt; [45] ragg_0.4.0        utf8_1.1.4        stringi_1.5.3     crayon_1.3.4</span></code></pre></div>
 </div>
 </div>
