@@ -63,20 +63,3 @@ or "only" for only showing follow-up time totals. Default is "no".}
 \description{
 Summarize detailed SIR results
 }
-\examples{
-#There are various preparation steps required, before you can run this function.
-#Please refer to the Introduction vignette to see how to prepare your data
-\dontrun{
-summarize_sir_results(.,
-    summarize_groups = c("region", "age", "year", "race"),
-    summarize_site = TRUE,
-    output = "long",  output_information = "minimal",
-    add_total_row = "only",  add_total_fu = "no",
-    collapse_ci = FALSE,  shorten_total_cols = TRUE,
-    fubreak_var_name = "fu_time", ybreak_var_name = "yvar_name",
-    xbreak_var_name = "none", site_var_name = "t_site",
-    alpha = 0.05
-    )
-    }
-    
-}

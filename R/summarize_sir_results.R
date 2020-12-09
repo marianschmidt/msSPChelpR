@@ -436,6 +436,7 @@ summarize_sir_results <- function(sir_df,
     }
     
     #iv) summarize over grouping vars
+    
     #first all variables that are varying across t_site
     sum_pre_tmp_a <- sir_df %>%
       tidytable::summarize_across.(
@@ -461,6 +462,37 @@ summarize_sir_results <- function(sir_df,
       tidytable::select.(-tidyselect::any_of("t_site_orig")) %>%
       tidytable::distinct.(tidyselect::all_of(c(grouping_vars, "group_pyar", "group_n_base", "group_ref_population_pyar")), .keep_all = TRUE)
     
+    #in some instances, there will be ambiguous results for n_base and ref_population_pyar
+    #created by the fact that sir_results is filtered to exclude non informative strata 
+    #(i.e. no case occured in the reference population and no FU time contributed in the dataset).
+    #This occurs for strata where cases are observed that don't occur in refrates_df. --> see sir_df$warning)
+    #therefore we include a check
+    
+    if(nrow(sum_pre_tmp_b) != nrow(sum_pre_tmp_a)){
+      #give warning
+      rlang::warn(
+        paste0(
+          "The results file `sir_df` contains observed cases in i_observed that do not occur in the refrates_df (ref_inc_cases).\n",
+          "Therefore calculation of the variables n_base and ref_population_pyar is ambiguous. \n",
+          "We take the first value of each variable. Expect small inconsistencies in the calculation of n_base, ref_population_pyar and ref_inc_crude_rate across strata. \n",
+          "If you want to know more, please check the `warnings` column of `sir_df`.")
+      )
+      #take first results only
+      sum_pre_tmp_b <- sum_pre_tmp_b %>%
+        tidytable::distinct.(tidyselect::all_of(c(grouping_vars, "group_pyar")), .keep_all = TRUE)
+    }
+    
+    #check that merge will work
+    if(nrow(sum_pre_tmp_b) != nrow(sum_pre_tmp_a)){
+      #give warning
+      rlang::abort(
+        paste0(
+          "Merge error. \n",
+          "sum_pre_tmp_a and sum_pre_tmp_b have unequal numbers of rows."
+        )
+      )
+    }
+    
     #now merge a and b
     sum_pre_tmp <- sum_pre_tmp_a %>%
       tidytable::left_join.(sum_pre_tmp_b, by = grouping_vars) %>%
@@ -476,7 +508,6 @@ summarize_sir_results <- function(sir_df,
       ))
     
     rm(sum_pre_tmp_a, sum_pre_tmp_b)
-    
     
     
     
@@ -562,6 +593,7 @@ summarize_sir_results <- function(sir_df,
       tidytable::rename.(observed = group_observed,
                          expected = group_expected,
                          pyar = group_pyar,
+                         n_base = group_n_base,
                          ref_inc_cases = group_ref_inc_cases,
                          ref_population_pyar = group_ref_population_pyar,
                          ref_inc_crude_rate = group_incidence_crude_rate) %>%
@@ -624,7 +656,7 @@ summarize_sir_results <- function(sir_df,
         yvar_name = data.table::first(yvar_name),
         group_observed = sum(observed, na.rm = TRUE),
         group_pyar = data.table::first(pyar),
-        group_n_base = data.table::first(group_n_base),
+        group_n_base = data.table::first(n_base),
         group_ref_inc_cases = sum(ref_inc_cases),
         group_ref_population_pyar = data.table::first(ref_population_pyar),
         group_expected = sum(expected, na.rm = TRUE),
@@ -640,6 +672,7 @@ summarize_sir_results <- function(sir_df,
       tidytable::rename.(observed = group_observed,
                          expected = group_expected,
                          pyar = group_pyar,
+                         n_base = group_n_base,
                          ref_inc_cases = group_ref_inc_cases,
                          ref_population_pyar = group_ref_population_pyar,
                          ref_inc_crude_rate = group_incidence_crude_rate) %>%
@@ -711,7 +744,7 @@ summarize_sir_results <- function(sir_df,
   ##--- enforce option output_information
   #full
   if(output_information == "full"){
- 
+    
     sum_pre2 <- sum_pre %>%
       tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
                                               if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
@@ -830,7 +863,7 @@ summarize_sir_results <- function(sir_df,
       stringr::str_replace_all("_exp", "_2exp") %>% stringr::str_replace_all("_obs", "_1obs") %>% #add numer to facilitate sorting
       stringr::str_replace_all("_sir_uci", "_5sir_uci") %>% stringr::str_replace_all("_sir_lci", "_4sir_lci") %>%
       stringr::str_replace_all("_sir_ci", "_4sir_ci") %>% stringr::str_replace_all("_sir", "_3sir") %>% 
-      stringr::str_replace_all("_pyar", "_6pyar") %>% stringr::str_replace_all("_group_n_base", "_7group_n_base") %>%
+      stringr::str_replace_all("_pyar", "_6pyar") %>% stringr::str_replace_all("_n_base", "_7n_base") %>%
       stringr::str_sort() %>%
       stringr::str_replace_all(stringr::regex("\\_[:digit:]"), "_") 
     
