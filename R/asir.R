@@ -5,7 +5,7 @@
 #' @param dattype can be "zfkd" or "seer" or empty. Will set default variable names from dataset.
 #' @param std_pop can be either "ESP2013, ESP1976, WHO1960
 #' @param truncate_std_pop if TRUE standard population will be truncated for all age-groups that do not occur in df
-#' @param futime_src can be either "refpop" or "cohort"
+#' @param futime_src can be either "refpop" or "cohort". Default is "refpop".
 #' @param summarize_groups option to define summarizing stratified groups. Default is "none". 
 #'                 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var. 
 #'                 Define multiple summarize variables by summarize_groups = c("region", "sex", "year")
