@@ -1,29 +1,27 @@
 # msSPChelpR (development version)
 
-## New Features
+### New Features
 * `summarize_sir_results()`:
  * add ability to summarize by different site_var than the one used in `sir_byfutime()`
 
-## Bug fixes
+### Bug fixes
 * `summarize_sir_results()`:
  * PYARs are now correctly calculated when using `summarize_site == TRUE`. Previously the results incorrectly counted each site multiple times. (Closes #62)
 
-## Internal
+### Internal
 * add R-CMD-Check to github actions
 
 
 # msSPChelpR 0.8.6 - 2020-10-27
 
-## New Features
+### New Features
 * new sample data set for standard populations -> `data("standard_population")`
 * new sample data set for us population -> `data("population_us")` (Closes #58)
 
-## Breaking Changes
-
-## Bug fixes
+### Bug fixes
 * `sir_byfutime()`: change output of integer columns to numeric to fix bug in `summarize_sir_results()` (Closes #59)
 
-## Other changes
+### Other changes
 * add examples to function documentation (Closes #56)
 * remove "R" from package title (Closes #57)
 * update package description (Closes #54)
@@ -32,7 +30,7 @@
 
 # msSPChelpR 0.8.5 - 2020-09-28
 
-## New Features
+### New Features
 * tidytable variants of functions, i.e. `reshape_wide_tt()`, `renumber_time_id_tt()`, `pat_status_tt()`, `vital_status_tt()`,  `calc_futime_tt()` --> the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.
 * `sir_byfutime()`:
  * is much faster using tidytable package
@@ -43,7 +41,7 @@
 * new package website https://marianschmidt.github.io/msSPChelpR
 * new sample datasets included in the package to demonstrate examples (#36)
 
-## Breaking Changes
+### Breaking Changes
 * `sir_byfutime()`: 
   * options `add_total_row` and `add_total_fu` are replaced by `calc_total_row` and `calc_total_fu`. These are logical parameters now. The positioning of total rows and columns is completely handled by the `summarize_sir_results()` function now. There total rows can be set to top and bottom and total columns to left and right.
   * option `expcount_src` including related parameters `stdpop_df`, `refpop_df`, `std_pop`, `truncate_std_pop` and `pyar_var` have been removed. Function `sir_byfutime()` will only work calculating expected counts based on reference rates, not within the cohort of the dataset. To calculate expected based on the cohort, a new function `create_refrates` will be added in the future. (#41)
@@ -72,7 +70,7 @@
 * the default variable name for tumor site in all functions has been changed from `t_icdcat` to `t_site`. So the reference data frames used will need to have a `t_site` column.
 * the data.table variants of functions (`renumber_time_id_dt()`, `pat_status_dt()`, `reshape_long_dt()`, `reshape_wide_dt()`, `vital_status_dt()`) have been removed for simplicity, please use tidytable variants, i.e. `reshape_wide_tt()`, `renumber_time_id_tt()`, `pat_status_tt()`, `vital_status_tt()`,  `calc_futime_tt()`, instead. They will give the same data.table output and same performance.
 
-## Bug Fixes
+### Bug Fixes
 * implement new reliable routine to split df when `reshape_wide()` with option `chunks` is used. Closes #1.
 * Sorting of columns in wide datasets by `reshape_wide_tidyr()` and `reshape_wide_tt()` is now preserved. Closes #31.
 * ensure sorting in `renumer_time_id()` and make sure that `new_time_id_var` is returned as integer.
@@ -82,7 +80,7 @@
 
 # msSPChelpR 0.8.4 - 2020-05-21
 
-## New Features
+### New Features
 * add timevar_max option to `renumber_time_id()` function; use sorting by date of diagnosis instead of old time_id_var
 * various improvements to  `reshape_wide_tidyr()` function
 * various improvements to `reshape_wide_dt()` function which is much faster now and uses `data.table::dcast` instead of `stats::reshape` now
@@ -90,7 +88,7 @@
 * option summarize_icdcat in `summarize_sir_results()` is now functional
 * update vignette `vignette("introduction")`
 
-## Bug Fixes
+### Bug Fixes
 * fix incomplete check for required variables in `pat_status()` and `pat_status_dt()` functions
 * fix error in check for required variables in `renumber_time_id()` that broke functions
 * fix bug in check for end of FU time in `pat_status()` and `calc_futime()`
@@ -99,11 +97,11 @@
 
 # msSPChelpR 0.8.3
 
-## New Features
+### New Features
 * new faster version of reshape_long based on data.table 
 * start new vignette on workflow from filtered long dataset to follow-up times `vignette("patstatus_futime")` 
 
-## Bug Fixes
+### Bug Fixes
 * implement new tidyselect routine using `tidyselect::all_of` for vector-based variable selection
 * implement correct referencing in `vital_status_dt` and `pat_status_dt`
 * add exports from `data.table`
@@ -114,24 +112,24 @@
 
 # msSPChelpR 0.8.1
 
-## New Features
+### New Features
 * new faster version of vital_status function using data.table
 * new faster version of pat_status function using data.table
 
 # msSPChelpR 0.8.0
 
-##New Features
+### New Features
 * new faster version of reshape_wide_dt function based on data.table and without problematic slices done by reshape_wide
 * new faster version of renumber_time_id function based on data.table
 
 # msSPChelpR 0.7.4
 
-## New Features
+### New Features
 * new function renumber_time_id
 
 # msSPChelpR 0.7.3
 
-## Bug Fixes
+### Bug Fixes
 * add check to revert status_var to numeric in case it was created with option as_labelled_factor
 * fix label bug in life_var_new
 
