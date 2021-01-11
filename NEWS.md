@@ -12,7 +12,7 @@
 * add R-CMD-Check to github actions
 
 
-# msSPChelpR 0.8.6 - 2020-10-27
+# msSPChelpR 0.8.6
 
 ### New Features
 * new sample data set for standard populations -> `data("standard_population")`
