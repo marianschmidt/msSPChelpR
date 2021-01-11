@@ -2,11 +2,11 @@
 
 ### New Features
 * `summarize_sir_results()`:
- * add ability to summarize by different site_var than the one used in `sir_byfutime()`
+  * add ability to summarize by different site_var than the one used in `sir_byfutime()`
 
 ### Bug fixes
 * `summarize_sir_results()`:
- * PYARs are now correctly calculated when using `summarize_site == TRUE`. Previously the results incorrectly counted each site multiple times. (Closes #62)
+  * PYARs are now correctly calculated when using `summarize_site == TRUE`. Previously the results incorrectly counted each site multiple times. (Closes #62)
 
 ### Internal
 * add R-CMD-Check to github actions
