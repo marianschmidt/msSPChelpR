@@ -50,11 +50,11 @@
   * option name for age/age group variable changed from `agegroup_var` to `age_var`
   * in total the parameters `expcount_src`, `futime_src`, `stdpop_df`, `refpop_df`, `std_pop`, `truncate_std_pop`, `pyar_var`, `icdcat_var`, `collapse_ci` have been removed to simply the function --> make sure you remove these arguments from your `sir_byfutime()` function calls.
 * `sir()`: 
- * is superseded by the use of `sir_byfutime()`. To migrate your former `sir()` functions, you can simply use `sir_byfutime(, futime_breaks = "none")` that will yield the same results.
+  * is superseded by the use of `sir_byfutime()`. To migrate your former `sir()` functions, you can simply use `sir_byfutime(, futime_breaks = "none")` that will yield the same results.
 * `summarize_sir_results()`: 
    * option name for tumor site variable changed from `summarize_icdcat` to `summarize_site`
 * `reshape_long_tidyr()`: 
- * option `var_selection` is deprecated. Please select variables before running the `reshape_long_*` functions.
+  * option `var_selection` is deprecated. Please select variables before running the `reshape_long_*` functions.
 * `asir()`:
   * option name for age/age group variable changed from `agegroup_var` to `age_var`
   * option name for tumor site variable changed from `icdcat_var` to `site_var`
