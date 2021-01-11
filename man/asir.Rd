@@ -33,7 +33,7 @@ asir(
 
 \item{truncate_std_pop}{if TRUE standard population will be truncated for all age-groups that do not occur in df}
 
-\item{futime_src}{can be either "refpop" or "cohort"}
+\item{futime_src}{can be either "refpop" or "cohort". Default is "refpop".}
 
 \item{summarize_groups}{option to define summarizing stratified groups. Default is "none".
 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var.
