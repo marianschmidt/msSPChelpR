@@ -25,7 +25,7 @@ sir_ratio_lci <- function(o1, o2, e1, e2, alpha = 0.05){
   #calculate pi_lci (Breslow Day, p.95, formula 3.9)
   pi_lci <- o2 / (o2 + (o1 + 1) * stats::qf(1 - alpha / 2, 2 * o1 + 2, 2 * o2))  
   
-  #transform pi_lci (Breslow Day, p.95, formula 3.9) to psy_lci (Breslow Day p94, formula 3.8)
+  #transform pi_lci (Breslow Day, p.95, formula 3.9) to psi_lci (Breslow Day p94, formula 3.8)
   (pi_lci * e1) / ((1 - pi_lci) * e2)
 }
 
@@ -39,7 +39,7 @@ sir_ratio_uci <- function(o1, o2, e1, e2, alpha = 0.05){
   pi_uci <- ((o2 + 1) * stats::qf(1 - alpha / 2, 2 * o2 + 2, 2 * o1)) / #enumerator
     (o1 + (o2 + 1) * stats::qf(1 - alpha / 2, 2 * o2 + 2, 2 * o1)) #denominator
   
-  #transform pi_uci (Breslow Day, p.95, formula 3.9) to psy_uci (Breslow Day p. 94, formula 3.8)
+  #transform pi_uci (Breslow Day, p.95, formula 3.9) to psi_uci (Breslow Day p. 94, formula 3.8)
   (pi_uci * e1) / ((1 - pi_uci) * e2)
   
 }
