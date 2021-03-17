@@ -18,6 +18,7 @@ Imports:
     magrittr,
     progress,
     purrr,
+    ragg,
     rlang (>= 0.1.2),
     sjlabelled,
     stringr,
