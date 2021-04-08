@@ -598,7 +598,7 @@
     alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; # tidytable [4 × 10]</span>
+<span class="co">#&gt; # A tidytable: 4 × 10</span>
 <span class="co">#&gt;   age    sex    region     year  race.1 t_site to1month i_observed i_pyar n_base</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 05 - … Male   SEER Reg … 2015… Other  C34           1          1      0      1</span>
@@ -610,20 +610,20 @@
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; # tidytable [4 × 10]</span>
-<span class="co">#&gt;   age   sex   region year  race.1 t_site Total0toInfyears i_observed i_pyar</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 05 -… Male  SEER … 2015… Other  C34                   1          1      0</span>
-<span class="co">#&gt; 2 15 -… Male  SEER … 2005… Black  C34                   1          1      0</span>
-<span class="co">#&gt; 3 85 -… Fema… SEER … 1995… Black  C34                   1          2      0</span>
-<span class="co">#&gt; 4 85 -… Male  SEER … 2010… Other  C34                   1          1      0</span>
+<span class="co">#&gt; # A tidytable: 4 × 10</span>
+<span class="co">#&gt;   age    sex    region    year  race.1 t_site Total0toInfyears i_observed i_pyar</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 05 - … Male   SEER Reg… 2015… Other  C34                   1          1      0</span>
+<span class="co">#&gt; 2 15 - … Male   SEER Reg… 2005… Black  C34                   1          1      0</span>
+<span class="co">#&gt; 3 85 - … Female SEER Reg… 1995… Black  C34                   1          2      0</span>
+<span class="co">#&gt; 4 85 - … Male   SEER Reg… 2010… Other  C34                   1          1      0</span>
 <span class="co">#&gt; # … with 1 more variable: n_base &lt;dbl&gt; </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; # tidytable [1 × 10]</span>
+<span class="co">#&gt; # A tidytable: 1 × 10</span>
 <span class="co">#&gt;   age    sex   region     year  t_dco.1 t_site to1month i_observed i_pyar n_base</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 80 - … Male  SEER Reg … 2010… DCO ca… C34           1          1      0      1 </span>
@@ -632,10 +632,10 @@
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; # tidytable [1 × 10]</span>
-<span class="co">#&gt;   age   sex   region year  t_dco.1 t_site Total0toInfyears i_observed i_pyar</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 80 -… Male  SEER … 2010… DCO ca… C34                   1          1      0</span>
+<span class="co">#&gt; # A tidytable: 1 × 10</span>
+<span class="co">#&gt;   age    sex   region    year  t_dco.1 t_site Total0toInfyears i_observed i_pyar</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 80 - … Male  SEER Reg… 2010… DCO ca… C34                   1          1      0</span>
 <span class="co">#&gt; # … with 1 more variable: n_base &lt;dbl&gt; </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
@@ -646,19 +646,19 @@
 <span class="co">#&gt;  - DCO cases </span>
 <span class="co">#&gt;  - diagnosis of second cancer occured in different time period than first cancer </span>
 <span class="co">#&gt; The following strata are affected: </span>
-<span class="co">#&gt; # tidytable [166 × 21]</span>
-<span class="co">#&gt;    yvar_name yvar_label fu_time age   sex   region year  t_site i_observed</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 total_var Overall    1-5 ye… 60 -… Male  SEER … 2010… C34            17</span>
-<span class="co">#&gt;  2 total_var Overall    1-5 ye… 65 -… Male  SEER … 2015… C34            18</span>
-<span class="co">#&gt;  3 total_var Overall    5-10 y… 60 -… Male  SEER … 2010… C34            20</span>
-<span class="co">#&gt;  4 total_var Overall    5-10 y… 60 -… Male  SEER … 2010… C34            22</span>
-<span class="co">#&gt;  5 total_var Overall    5-10 y… 70 -… Male  SEER … 2005… C34            12</span>
-<span class="co">#&gt;  6 total_var Overall    5-10 y… 75 -… Fema… SEER … 2005… C34            13</span>
-<span class="co">#&gt;  7 total_var Overall    10+ ye… 25 -… Fema… SEER … 1995… C34            14</span>
-<span class="co">#&gt;  8 total_var Overall    10+ ye… 60 -… Fema… SEER … 1995… C34            18</span>
-<span class="co">#&gt;  9 total_var Overall    10+ ye… 60 -… Fema… SEER … 1995… C34            16</span>
-<span class="co">#&gt; 10 total_var Overall    10+ ye… 65 -… Male  SEER … 2000… C34            29</span>
+<span class="co">#&gt; # A tidytable: 166 × 21</span>
+<span class="co">#&gt;    yvar_name yvar_label fu_time  age    sex   region     year  t_site i_observed</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 total_var Overall    1-5 yea… 60 - … Male  SEER Reg … 2010… C34            17</span>
+<span class="co">#&gt;  2 total_var Overall    1-5 yea… 65 - … Male  SEER Reg … 2015… C34            18</span>
+<span class="co">#&gt;  3 total_var Overall    5-10 ye… 60 - … Male  SEER Reg … 2010… C34            20</span>
+<span class="co">#&gt;  4 total_var Overall    5-10 ye… 60 - … Male  SEER Reg … 2010… C34            22</span>
+<span class="co">#&gt;  5 total_var Overall    5-10 ye… 70 - … Male  SEER Reg … 2005… C34            12</span>
+<span class="co">#&gt;  6 total_var Overall    5-10 ye… 75 - … Fema… SEER Reg … 2005… C34            13</span>
+<span class="co">#&gt;  7 total_var Overall    10+ yea… 25 - … Fema… SEER Reg … 1995… C34            14</span>
+<span class="co">#&gt;  8 total_var Overall    10+ yea… 60 - … Fema… SEER Reg … 1995… C34            18</span>
+<span class="co">#&gt;  9 total_var Overall    10+ yea… 60 - … Fema… SEER Reg … 1995… C34            16</span>
+<span class="co">#&gt; 10 total_var Overall    10+ yea… 65 - … Male  SEER Reg … 2000… C34            29</span>
 <span class="co">#&gt; # … with 156 more rows, and 12 more variables: i_pyar &lt;dbl&gt;, n_base &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   race &lt;chr&gt;, incidence_cases &lt;int&gt;, population_pyar &lt;int&gt;,</span>
 <span class="co">#&gt; #   incidence_crude_rate &lt;dbl&gt;, i_expected &lt;dbl&gt;, sir &lt;dbl&gt;, sir_lci &lt;dbl&gt;,</span>
@@ -691,7 +691,7 @@
 <span class="co">#&gt; Therefore calculation of the variables n_base and ref_population_pyar is ambiguous. </span>
 <span class="co">#&gt; We take the first value of each variable. Expect small inconsistencies in the calculation of n_base, ref_population_pyar and ref_inc_crude_rate across strata. </span>
 <span class="co">#&gt; If you want to know more, please check the `warnings` column of `sir_df`.</span>
-<span class="co">#&gt; # tidytable [7 × 8]</span>
+<span class="co">#&gt; # A tidytable: 7 × 8</span>
 <span class="co">#&gt;   yvar_label fu_time       fu_time_sort t_site observed expected   sir sir_ci   </span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 Overall    to 1 month               1 Total       327     18.1 18.1  16.19 - …</span>
@@ -708,7 +708,7 @@
 <a href="#built-with" class="anchor"></a>Built with</h2>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; R version 4.0.4 (2021-02-15)</span>
+<span class="co">#&gt; R version 4.0.5 (2021-03-31)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
 <span class="co">#&gt; Running under: macOS Catalina 10.15.7</span>
 <span class="co">#&gt; </span>
@@ -726,19 +726,19 @@
 <span class="co">#&gt; [1] msSPChelpR_0.8.6.9000 magrittr_2.0.1        dplyr_1.0.5          </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rcpp_1.0.6        compiler_4.0.4    pillar_1.5.1      prettyunits_1.1.1</span>
-<span class="co">#&gt;  [5] progress_1.2.2    forcats_0.5.1     tools_4.0.4       digest_0.6.27    </span>
+<span class="co">#&gt;  [1] Rcpp_1.0.6        compiler_4.0.5    pillar_1.5.1      prettyunits_1.1.1</span>
+<span class="co">#&gt;  [5] progress_1.2.2    forcats_0.5.1     tools_4.0.5       digest_0.6.27    </span>
 <span class="co">#&gt;  [9] lubridate_1.7.10  evaluate_0.14     memoise_2.0.0     lifecycle_1.0.0  </span>
-<span class="co">#&gt; [13] tibble_3.1.0      pkgconfig_2.0.3   rlang_0.4.10      cli_2.3.1        </span>
+<span class="co">#&gt; [13] tibble_3.1.0      pkgconfig_2.0.3   rlang_0.4.10      cli_2.4.0        </span>
 <span class="co">#&gt; [17] rstudioapi_0.13   yaml_2.2.1        haven_2.3.1       pkgdown_1.6.1    </span>
 <span class="co">#&gt; [21] xfun_0.22         fastmap_1.1.0     stringr_1.4.0     knitr_1.31       </span>
 <span class="co">#&gt; [25] hms_1.0.0         generics_0.1.0    desc_1.3.0        fs_1.5.0         </span>
-<span class="co">#&gt; [29] vctrs_0.3.6       systemfonts_1.0.1 sjlabelled_1.1.7  rprojroot_2.0.2  </span>
+<span class="co">#&gt; [29] vctrs_0.3.7       systemfonts_1.0.1 sjlabelled_1.1.7  rprojroot_2.0.2  </span>
 <span class="co">#&gt; [33] tidyselect_1.1.0  glue_1.4.2        data.table_1.14.0 R6_2.5.0         </span>
 <span class="co">#&gt; [37] textshaping_0.3.3 fansi_0.4.2       rmarkdown_2.7     purrr_0.3.4      </span>
 <span class="co">#&gt; [41] tidyr_1.1.3       ps_1.6.0          htmltools_0.5.1.1 ellipsis_0.3.1   </span>
-<span class="co">#&gt; [45] insight_0.13.1    assertthat_0.2.1  tidytable_0.5.9   ragg_1.1.1       </span>
-<span class="co">#&gt; [49] utf8_1.2.1        stringi_1.5.3     cachem_1.0.4      crayon_1.4.1</span></code></pre></div>
+<span class="co">#&gt; [45] insight_0.13.2    tidytable_0.6.0   ragg_1.1.2        utf8_1.2.1       </span>
+<span class="co">#&gt; [49] stringi_1.5.3     cachem_1.0.4      crayon_1.4.1</span></code></pre></div>
 </div>
 </div>
   </div>
