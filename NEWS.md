@@ -8,6 +8,8 @@
 ### Bug fixes
 * `summarize_sir_results()`:
   * PYARs are now correctly calculated when using `summarize_site == TRUE`. Previously the results incorrectly counted each site multiple times. (Closes #62)
+* `pat_status()`:
+  * update default values for `dattype = "zfkd"`
 
 ### Internal
 * add R-CMD-Check to github actions

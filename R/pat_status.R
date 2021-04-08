@@ -171,12 +171,12 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       spcdat_var <- rlang::enquo(spcdat_var)
     }
     if(is.null(life_stat_alive)){
-      life_stat_alive <- rlang::quo("No (patient alive)")
+      life_stat_alive <- rlang::quo("no (patient alive)")
     } else{
       life_stat_alive <- rlang::enquo(life_stat_alive)
     }
     if(is.null(life_stat_dead)){
-      life_stat_dead <- rlang::quo("Yes (patient deceased)")
+      life_stat_dead <- rlang::quo("yes (patient deceased)")
     } else{
       life_stat_dead <- rlang::enquo(life_stat_dead)
     }
