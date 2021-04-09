@@ -135,6 +135,7 @@
 <a href="#new-features" class="anchor"></a>New Features</h3>
 <ul>
 <li>new function <code><a href="../reference/sir_ratio.html">sir_ratio()</a></code> and related <code><a href="../reference/sir_ratio.html">sir_ratio_lci()</a></code> and <code><a href="../reference/sir_ratio.html">sir_ratio_uci()</a></code> to calculate ratio of two SIRs/SMRs to get relative risk and confidence limits for this ratio.</li>
+<li>tidytable variant of reshape_long function, i.e. <code><a href="../reference/reshape_long_tt.html">reshape_long_tt()</a></code> ⇒ the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.</li>
 <li>
 <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code>:
 <ul>
@@ -179,9 +180,9 @@
 <h3 class="hasAnchor">
 <a href="#new-features-1" class="anchor"></a>New Features</h3>
 <ul>
-<li>new sample data set for standard populations -&gt; <code><a href="https://rdrr.io/r/utils/data.html">data("standard_population")</a></code>
+<li>new sample data set for standard populations ⇒ <code><a href="https://rdrr.io/r/utils/data.html">data("standard_population")</a></code>
 </li>
-<li>new sample data set for us population -&gt; <code><a href="https://rdrr.io/r/utils/data.html">data("population_us")</a></code> (Closes <a href='https://github.com/marianschmidt/msSPChelpR/issues/58'>#58</a>)</li>
+<li>new sample data set for us population ⇒ <code><a href="https://rdrr.io/r/utils/data.html">data("population_us")</a></code> (Closes <a href='https://github.com/marianschmidt/msSPChelpR/issues/58'>#58</a>)</li>
 </ul>
 </div>
 <div id="bug-fixes-1" class="section level3">
@@ -212,7 +213,7 @@
 <h3 class="hasAnchor">
 <a href="#new-features-2" class="anchor"></a>New Features</h3>
 <ul>
-<li>tidytable variants of functions, i.e. <code><a href="../reference/reshape_wide_tt.html">reshape_wide_tt()</a></code>, <code><a href="../reference/renumber_time_id_tt.html">renumber_time_id_tt()</a></code>, <code><a href="../reference/pat_status_tt.html">pat_status_tt()</a></code>, <code><a href="../reference/vital_status_tt.html">vital_status_tt()</a></code>, <code><a href="../reference/calc_futime_tt.html">calc_futime_tt()</a></code> –&gt; the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.</li>
+<li>tidytable variants of functions, i.e. <code><a href="../reference/reshape_wide_tt.html">reshape_wide_tt()</a></code>, <code><a href="../reference/renumber_time_id_tt.html">renumber_time_id_tt()</a></code>, <code><a href="../reference/pat_status_tt.html">pat_status_tt()</a></code>, <code><a href="../reference/vital_status_tt.html">vital_status_tt()</a></code>, <code><a href="../reference/calc_futime_tt.html">calc_futime_tt()</a></code> ⇒ the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.</li>
 <li>
 <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>:</li>
 <li>is much faster using tidytable package</li>
@@ -241,7 +242,7 @@
 </li>
 <li>option name for age/age group variable changed from <code>agegroup_var</code> to <code>age_var</code>
 </li>
-<li>in total the parameters <code>expcount_src</code>, <code>futime_src</code>, <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code>, <code>pyar_var</code>, <code>icdcat_var</code>, <code>collapse_ci</code> have been removed to simply the function –&gt; make sure you remove these arguments from your <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> function calls.</li>
+<li>in total the parameters <code>expcount_src</code>, <code>futime_src</code>, <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code>, <code>pyar_var</code>, <code>icdcat_var</code>, <code>collapse_ci</code> have been removed to simply the function ⇒ make sure you remove these arguments from your <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> function calls.</li>
 </ul>
 </li>
 <li>
@@ -474,7 +475,7 @@
 <a href="#msspchelpr-067" class="anchor"></a>msSPChelpR 0.6.7<small> Unreleased </small>
 </h1>
 <ul>
-<li>for function sir_byfutime -&gt; make option <code>add_total_row</code> work, even if option <code>ybreak_vars = "none"</code>
+<li>for function sir_byfutime ⇒ make option <code>add_total_row</code> work, even if option <code>ybreak_vars = "none"</code>
 </li>
 </ul>
 </div>
