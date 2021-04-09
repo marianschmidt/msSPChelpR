@@ -2,6 +2,7 @@
 
 ### New Features
 * new function `sir_ratio()` and related `sir_ratio_lci()` and `sir_ratio_uci()` to calculate ratio of two SIRs/SMRs to get relative risk and confidence limits for this ratio.
+* tidytable variant of reshape_long function, i.e. `reshape_long_tt()` ⇒ the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.
 * `summarize_sir_results()`:
   * add ability to summarize by different site_var than the one used in `sir_byfutime()`
 
@@ -18,8 +19,8 @@
 # msSPChelpR 0.8.6
 
 ### New Features
-* new sample data set for standard populations -> `data("standard_population")`
-* new sample data set for us population -> `data("population_us")` (Closes #58)
+* new sample data set for standard populations ⇒ `data("standard_population")`
+* new sample data set for us population ⇒ `data("population_us")` (Closes #58)
 
 ### Bug fixes
 * `sir_byfutime()`: change output of integer columns to numeric to fix bug in `summarize_sir_results()` (Closes #59)
@@ -34,7 +35,7 @@
 # msSPChelpR 0.8.5 - 2020-09-28
 
 ### New Features
-* tidytable variants of functions, i.e. `reshape_wide_tt()`, `renumber_time_id_tt()`, `pat_status_tt()`, `vital_status_tt()`,  `calc_futime_tt()` --> the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.
+* tidytable variants of functions, i.e. `reshape_wide_tt()`, `renumber_time_id_tt()`, `pat_status_tt()`, `vital_status_tt()`,  `calc_futime_tt()` ⇒ the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.
 * `sir_byfutime()`:
  * is much faster using tidytable package
  * gained the option `race_var` to optionally stratify SIR calculations by race.
@@ -51,7 +52,7 @@
   * option `collapse_ci` has been removed and added to `summarize_sir_results()` instead.
   * option name for tumor site variable changed from `icdcat_var` to `site_var`
   * option name for age/age group variable changed from `agegroup_var` to `age_var`
-  * in total the parameters `expcount_src`, `futime_src`, `stdpop_df`, `refpop_df`, `std_pop`, `truncate_std_pop`, `pyar_var`, `icdcat_var`, `collapse_ci` have been removed to simply the function --> make sure you remove these arguments from your `sir_byfutime()` function calls.
+  * in total the parameters `expcount_src`, `futime_src`, `stdpop_df`, `refpop_df`, `std_pop`, `truncate_std_pop`, `pyar_var`, `icdcat_var`, `collapse_ci` have been removed to simply the function ⇒ make sure you remove these arguments from your `sir_byfutime()` function calls.
 * `sir()`: 
   * is superseded by the use of `sir_byfutime()`. To migrate your former `sir()` functions, you can simply use `sir_byfutime(, futime_breaks = "none")` that will yield the same results.
 * `summarize_sir_results()`: 
@@ -159,7 +160,7 @@
 
 # msSPChelpR 0.6.7
 
-* for function sir_byfutime -> make option `add_total_row` work, even if option `ybreak_vars = "none"`
+* for function sir_byfutime ⇒ make option `add_total_row` work, even if option `ybreak_vars = "none"`
 
 # msSPChelpR 0.6.6
 
@@ -179,10 +180,10 @@
 
 # major changes in msSPChelpR 0.6.0
 
-*	includes a new function to calculate crude (absolute) incidence rates a tabulate them by whatever number of grouping variables and it can be used as a Table 1 for publications --> The function is called msSPChelpR::ir_crosstab 
+*	includes a new function to calculate crude (absolute) incidence rates a tabulate them by whatever number of grouping variables and it can be used as a Table 1 for publications ⇒ The function is called msSPChelpR::ir_crosstab 
 *	includes a new function to calculate SIRs (standardized incidence ratios) by whatever strata you desire (unlimited ybreak_vars; one xbreak_var) and additionally customized breaks for follow-up times (default is: to 6 months, .5-1 year, 1-5 years, 5-10 years, >10 years)
---> attention, it only makes sense to stratify results (ybreak_vars or xbreak_var) by variables measured at baseline and not for variables that are dependent on the occurrence of an SPC)
---> function msSPChelpR::sir_byfutime
---> depending on the number of stratification variables you are using, this function may result in a very long results data.frame. So please use it together with the new function msSPChelpR::summarize_sir_results
+⇒ attention, it only makes sense to stratify results (ybreak_vars or xbreak_var) by variables measured at baseline and not for variables that are dependent on the occurrence of an SPC)
+⇒ function msSPChelpR::sir_byfutime
+⇒ depending on the number of stratification variables you are using, this function may result in a very long results data.frame. So please use it together with the new function msSPChelpR::summarize_sir_results
 *	includes a new function to summarize results dataframes from SIR calculations 
 *	New reshape functions that are faster and are using less memory 
