@@ -4,10 +4,11 @@ authors:
 
 template:
   params:
-    bootswatch: cosmo
+    bootswatch: yeti
 
 reference:
 - title: "Data Preparation"
+  desc: "Functions for dataset preparation"
   contents:
   - renumber_time_id()
   - renumber_time_id_tt()
@@ -18,8 +19,8 @@ reference:
   - reshape_wide_tidyr()
   - reshape_wide_tt()
   
-
 - title: "Calculations"
+  desc: "Functions to do calculations"
   contents:
   - asir()
   - calc_futime()
@@ -33,13 +34,13 @@ reference:
   - vital_status()
   - vital_status_tt()
   
-  
 - title: "Results presentation"
+  desc: "Functions to present results"
   contents:
   - summarize_sir_results()
 
-
 - title: "Data"
+  desc: "Data sets used in examples"
   contents:
   - us_second_cancer
   - us_refrates_icd2
