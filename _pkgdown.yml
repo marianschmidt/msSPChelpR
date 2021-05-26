@@ -9,19 +9,14 @@ template:
 reference:
 - title: "Data Preparation"
   desc: "Functions for dataset preparation"
-  contents:
-  - renumber_time_id()
-  - renumber_time_id_tt()
-  - reshape_long()
-  - reshape_long_tidyr()
-  - reshape_long_tt()
-  - reshape_wide()
-  - reshape_wide_tidyr()
-  - reshape_wide_tt()
-  
+- contents:
+  - starts_with("renumber")
+  - starts_with("reshape")
+   
+     
 - title: "Calculations"
   desc: "Functions to do calculations"
-  contents:
+- contents:
   - asir()
   - calc_futime()
   - calc_futime_tt()
@@ -36,12 +31,12 @@ reference:
   
 - title: "Results presentation"
   desc: "Functions to present results"
-  contents:
+- contents:
   - summarize_sir_results()
 
 - title: "Data"
   desc: "Data sets used in examples"
-  contents:
+- contents:
   - us_second_cancer
   - us_refrates_icd2
   - population_us
