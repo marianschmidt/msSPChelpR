@@ -1,0 +1,48 @@
+authors:
+  Marian Eberl:
+    href: https://github.com/marianschmidt
+
+template:
+  params:
+    bootswatch: cosmo
+
+reference:
+- title: "Data Preparation"
+  contents:
+  - renumber_time_id()
+  - renumber_time_id_tt()
+  - reshape_long()
+  - reshape_long_tidyr()
+  - reshape_long_tt()
+  - reshape_wide()
+  - reshape_wide_tidyr()
+  - reshape_wide_tt()
+  
+
+- title: "Calculations"
+  contents:
+  - asir()
+  - calc_futime()
+  - calc_futime_tt()
+  - ir_crosstab()
+  - ir_crosstab_byfutime()
+  - pat_status()
+  - pat_status_tt()
+  - sir_byfutime()
+  - starts_with("sir_ratio")
+  - vital_status()
+  - vital_status_tt()
+  
+  
+- title: "Results presentation"
+  contents:
+  - summarize_sir_results()
+
+
+- title: "Data"
+  contents:
+  - us_second_cancer
+  - us_refrates_icd2
+  - population_us
+  - standard_population
+
