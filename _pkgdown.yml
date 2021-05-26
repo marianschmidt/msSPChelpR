@@ -17,22 +17,22 @@ reference:
 - title: "Calculations"
   desc: "Functions to do calculations"
 - contents:
-  - asir()
-  - calc_futime()
-  - calc_futime_tt()
-  - ir_crosstab()
-  - ir_crosstab_byfutime()
-  - pat_status()
-  - pat_status_tt()
-  - sir_byfutime()
-  - starts_with("sir_ratio")
-  - vital_status()
-  - vital_status_tt()
+  - asir
+  - calc_futime
+  - calc_futime_tt
+  - ir_crosstab
+  - ir_crosstab_byfutime
+  - pat_status
+  - pat_status_tt
+  - sir_byfutime
+  - sir_ratio
+  - vital_status
+  - vital_status_tt
   
 - title: "Results presentation"
   desc: "Functions to present results"
 - contents:
-  - summarize_sir_results()
+  - summarize_sir_results
 
 - title: "Data"
   desc: "Data sets used in examples"
