@@ -35,4 +35,6 @@ devtools::install_github("marianschmidt/msSPChelpR")
 
 An introductory vignette on the workflow of the package can be found [here](https://marianschmidt.github.io/msSPChelpR/articles/introduction.html). See `vignette("introduction")`.
 
+## Citation
 
+In case you want to cite this package, please use `citation('msSPChelpR')` for reference information.
