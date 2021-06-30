@@ -1,4 +1,4 @@
-# msSPChelpR (development version)
+# msSPChelpR 0.8.7
 
 ### New Features
 * new function `sir_ratio()` and related `sir_ratio_lci()` and `sir_ratio_uci()` to calculate ratio of two SIRs/SMRs to get relative risk and confidence limits for this ratio.
