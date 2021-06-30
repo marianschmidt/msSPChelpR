@@ -1,5 +1,22 @@
 # CRAN comments for msSPChelpR
 
+## 2021-07-01: Resubmission notes
+
+This is a resubmission of an updated version of the CRAN package. New features, bug fixes and changes are documented in the `NEWS.md`.
+
+### Test environments
+* local Windows 10, R 4.0.5, x64
+* win-builder (devel and release)
+* r-hub (Windows Server 2008 R2 SP1, R-devel, 32/64 bit)  #-> currently fails due to Bioconductor issue with packages under R 4.2
+* r-hub (Fedora Linux, R-devel, clang, gfortran)
+* r-hub (Ubuntu Linux 20.04.1 LTS, R-release, GCC)
+* r-hub (Ubuntu Linux 20.04.1 LTS, R-devel with rchk) #-> currently fails due to Bioconductor issue with packages under R 4.2
+* github-actions (windows-latest, macOS-latest, ubuntu-20.04 (release), ubuntu-20.04 (devel))
+
+### R CMD check results
+0 errors | 0 warnings | 0 notes
+
+
 ## 2020-10-27: Resubmission notes
 
 This is a resubmission of a new package, addressing the comments made by CRAN on 2020-10-05, adding new sample data and fixing a bug.
