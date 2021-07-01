@@ -1,5 +1,12 @@
 # msSPChelpR (development version)
 
+### New Features
+
+### Bug fixes
+* `sir_byfutime()`:
+  * attributes with notes and problems are now correctly saved to `results_df`
+
+
 # msSPChelpR 0.8.7
 
 ### New Features
