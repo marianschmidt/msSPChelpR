@@ -1,10 +1,11 @@
 year <- sub("-.*", "", meta$Date)
 title <- sprintf("msSPChelpR: Helper Functions for Second Primary Cancer Analyses (Version %s)", meta$Version)
+note <- sprintf("R package version %s", meta$Version)
 
 bibentry(bibtype="manual",
          title = title,
          author = person("Marian", "Eberl"),
          year = year,
-         note = {"R package version 0.8.6.9000"},
+         note = note,
          url = "https://marianschmidt.github.io/msSPChelpR/",
          doi = "10.5281/zenodo.4268244")
