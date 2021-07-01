@@ -2,15 +2,25 @@
 
 ## 2021-07-01: Resubmission notes
 
-This is a resubmission of an updated version of the CRAN package. New features, bug fixes and changes are documented in the `NEWS.md`.
+This is a resubmission of an updated version of the CRAN package with new features and bug fixes.
+
+### Full list of changes since last submission
+* new function `sir_ratio()` and related `sir_ratio_lci()` and `sir_ratio_uci()` to calculate ratio of two SIRs/SMRs to get relative risk and confidence limits for this ratio.
+* tidytable variant of reshape_long function, i.e. `reshape_long_tt()` ⇒ the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.
+* `summarize_sir_results()`:
+  * add ability to summarize by different site_var than the one used in `sir_byfutime()`
+* `summarize_sir_results()`:
+  * PYARs are now correctly calculated when using `summarize_site == TRUE`. Previously the results incorrectly counted each site multiple times. (Closes #62)
+* `pat_status()`:
+  * update default values for `dattype = "zfkd"`
 
 ### Test environments
 * local Windows 10, R 4.0.5, x64
 * win-builder (devel and release)
-* r-hub (Windows Server 2008 R2 SP1, R-devel, 32/64 bit)  #-> currently fails due to Bioconductor issue with packages under R 4.2
+* r-hub (Windows Server 2008 R2 SP1, R-devel, 32/64 bit)  ⇒ currently not possible to test due to Bioconductor issue with packages under R 4.2
 * r-hub (Fedora Linux, R-devel, clang, gfortran)
 * r-hub (Ubuntu Linux 20.04.1 LTS, R-release, GCC)
-* r-hub (Ubuntu Linux 20.04.1 LTS, R-devel with rchk) #-> currently fails due to Bioconductor issue with packages under R 4.2
+* r-hub (Ubuntu Linux 20.04.1 LTS, R-devel with rchk) ⇒ currently not possible to test due to Bioconductor issue with packages under R 4.2
 * github-actions (windows-latest, macOS-latest, ubuntu-20.04 (release), ubuntu-20.04 (devel))
 
 ### R CMD check results
