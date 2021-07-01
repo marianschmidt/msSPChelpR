@@ -8,4 +8,4 @@ bibentry(bibtype="manual",
          year = year,
          note = note,
          url = "https://marianschmidt.github.io/msSPChelpR/",
-         doi = "10.5281/zenodo.5055870")
+         doi = "10.5281/zenodo.4084961")
