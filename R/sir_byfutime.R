@@ -525,7 +525,7 @@ sir_byfutime <- function(df,
     available_race <- unique(refrates_df$race)
     miss_race <- used_race[!used_race %in% available_race]
     ##take precautions for missing race data in df
-    if(length(miss_race > 0)){
+    if(length(miss_race) > 0){
       rlang::inform(
         paste0("\n The following values for race_var present in the data, is not availabe in refrates_df: \n \n",
                " - ", miss_race, "\n \n",
@@ -1085,25 +1085,25 @@ sir_byfutime <- function(df,
   attr(sir_result, "strata_var_names") <- strata_var_names
   
   #write attributes for error and warning messages
-  if(length(problems_missing_ref_strata_attr > 0)){
+  if(length(problems_missing_ref_strata_attr) > 0){
     attr(sir_result, "problems_missing_ref_strata") <- problems_missing_ref_strata_attr
   }
-  if(length(problems_missing_futime_attr > 0)){
+  if(length(problems_missing_futime_attr) > 0){
     attr(sir_result, "problems_missing_futime") <- problems_missing_futime_attr
   }
-  if(length(problems_missing_count_strat_attr > 0)){
+  if(length(problems_missing_count_strat_attr) > 0){
     attr(sir_result, "problems_missing_count_strat") <- problems_missing_count_strat_attr
   }
-  if(length(problems_missing_fu_strat_attr > 0)){
+  if(length(problems_missing_fu_strat_attr) > 0){
     attr(sir_result, "problems_missing_fu_strat") <- problems_missing_fu_strat_attr
   }
-  if(length(problems_not_empty_attr > 0)){
+  if(length(problems_not_empty_attr) > 0){
     attr(sir_result, "problems_not_empty") <- problems_not_empty_attr
   }
-  if(length(problems_pyar_attr > 0)){
+  if(length(problems_pyar_attr) > 0){
     attr(sir_result, "problems_pyar") <- problems_pyar_attr
   }
-  if(length(notes_refcases > 0)){
+  if(length(notes_refcases) > 0){
     attr(sir_result, "notes_refcases") <- notes_refcases
   }
   
@@ -1113,3 +1113,4 @@ sir_byfutime <- function(df,
   return(sir_result)
   
 }
+
