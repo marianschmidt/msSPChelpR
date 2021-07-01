@@ -10,7 +10,7 @@ status](https://www.r-pkg.org/badges/version/msSPChelpR)](https://cran.r-project
 [![](https://img.shields.io/badge/dev%20-0.8.7-green.svg)](https://github.com/marianschmidt/msSPChelpR)
 [![DOI](https://zenodo.org/badge/185602745.svg)](https://zenodo.org/badge/latestdoi/185602745)
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/last-month/msSPChelpR?color=grey)](https://marianschmidt.github.io/msSPChelpR/)
 [![R build
