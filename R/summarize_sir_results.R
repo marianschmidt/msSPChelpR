@@ -439,10 +439,10 @@ summarize_sir_results <- function(sir_df,
     
     #first all variables that are varying across t_site
     sum_pre_tmp_a <- sir_df %>%
-      tidytable::summarize_across.(
+      tidytable::summarize.(tidytable::across.(
         .cols = c(observed, expected, ref_inc_cases),
         .fns =  ~ sum(.x, na.rm = TRUE),
-        .names = "group_{.col}",
+        .names = "group_{.col}") ,
         .by = !!grouping_vars) %>%
       #calculate sir
       tidytable::mutate.(
@@ -454,10 +454,10 @@ summarize_sir_results <- function(sir_df,
     
     #second, variables that are constant over t_site
     sum_pre_tmp_b <- sir_df %>%
-      tidytable::summarize_across.(
+      tidytable::summarize.(tidytable::across.(
         .cols = c(pyar, n_base, ref_population_pyar),
         .fns =  ~ round(sum(.x, na.rm = TRUE), 2),
-        .names = "group_{.col}",
+        .names = "group_{.col}"),
         .by = !!grouping_vars_with_site) %>% 
       tidytable::select.(-tidyselect::any_of("t_site_orig")) %>%
       tidytable::distinct.(tidyselect::all_of(c(grouping_vars, "group_pyar", "group_n_base", "group_ref_population_pyar")), .keep_all = TRUE)
@@ -577,8 +577,8 @@ summarize_sir_results <- function(sir_df,
     #rounding
     
     sum_pre_tmp <- sum_pre_tmp %>%
-      tidytable::mutate_across.(.cols = c(group_pyar, sir, sir_lci, sir_uci), 
-                                .fns = ~ round(.x, 2))
+      tidytable::mutate.(tidytable::across.(.cols = c(group_pyar, sir, sir_lci, sir_uci), 
+                                            .fns = ~ round(.x, 2)))
     
     #do collapse_ci
     if(ci){
@@ -690,8 +690,8 @@ summarize_sir_results <- function(sir_df,
                          year = paste0("Total - All included years: ", min_year, " - ", max_year),
                          t_site = paste0("Total - All included Tumor sites: ", paste(used_t_site, collapse = ", "))
       ) %>%
-      tidytable::mutate_across.(.cols = c(pyar, sir, sir_lci, sir_uci), 
-                                .fns = ~ round(.x, 2))
+      tidytable::mutate.(tidytable::across.(.cols = c(pyar, sir, sir_lci, sir_uci), 
+                                            .fns = ~ round(.x, 2)))
     if(shorten_total_cols == TRUE){
       totals <- totals %>%
         tidytable::mutate.(age = "Total",
