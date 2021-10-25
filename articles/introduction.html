@@ -228,7 +228,7 @@
 
 <span class="co">#This dataset is in long format, so each tumor is a separate row in the data</span>
 <span class="va">us_second_cancer</span>
-<span class="co">#&gt; # A tibble: 113,999 x 15</span>
+<span class="co">#&gt; # A tibble: 113,999 × 15</span>
 <span class="co">#&gt;    fake_id SEQ_NUM registry   sex   race  datebirth  t_datediag t_site_icd t_dco</span>
 <span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;</span>
 <span class="co">#&gt;  1 100004        1 SEER Reg … Male  White 1926-01-01 1992-07-15 C50        hist…</span>
@@ -264,7 +264,7 @@
    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">fake_id</span><span class="op">)</span>
 
 <span class="va">filtered_usdata</span>
-<span class="co">#&gt; # A tibble: 62,661 x 15</span>
+<span class="co">#&gt; # A tibble: 62,661 × 15</span>
 <span class="co">#&gt;    fake_id SEQ_NUM registry   sex   race  datebirth  t_datediag t_site_icd t_dco</span>
 <span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;</span>
 <span class="co">#&gt;  1 100004        1 SEER Reg … Male  White 1926-01-01 1992-07-15 C50        hist…</span>
@@ -293,7 +293,7 @@
 
 <span class="va">renumbered_usdata</span> <span class="op">%&gt;%</span>
    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">sex</span>, <span class="va">t_site_icd</span>, <span class="va">t_datediag</span>, <span class="va">t_tumid</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 62,661 x 5</span>
+<span class="co">#&gt; # A tibble: 62,661 × 5</span>
 <span class="co">#&gt;    fake_id sex    t_site_icd t_datediag t_tumid</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;date&gt;       &lt;int&gt;</span>
 <span class="co">#&gt;  1 100004  Male   C50        1992-07-15       1</span>
@@ -319,7 +319,7 @@
 <span class="co">#This means, each case is a row and several tumors per case ID are </span>
 <span class="co">#add new columns to the data using the time_id as column name suffix.</span>
 <span class="va">usdata_wide</span>
-<span class="co">#&gt; # A tibble: 31,997 x 127</span>
+<span class="co">#&gt; # A tibble: 31,997 × 127</span>
 <span class="co">#&gt;    fake_id SEQ_NUM.1 registry.1            sex.1 race.1 datebirth.1 t_datediag.1</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;                 &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;date&gt;      </span>
 <span class="co">#&gt;  1 100004          1 SEER Reg 20 - Detroi… Male  White  1926-01-01  1992-07-15  </span>
@@ -338,28 +338,7 @@
 <span class="co">#&gt; #   SEQ_NUM.2 &lt;int&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;, t_dco.2 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;, p_dodmin.2 &lt;date&gt;,</span>
-<span class="co">#&gt; #   fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;, SEQ_NUM.3 &lt;int&gt;, registry.3 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sex.3 &lt;chr&gt;, race.3 &lt;chr&gt;, datebirth.3 &lt;date&gt;, t_datediag.3 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_site_icd.3 &lt;chr&gt;, t_dco.3 &lt;chr&gt;, fc_age.3 &lt;int&gt;, datedeath.3 &lt;date&gt;,</span>
-<span class="co">#&gt; #   p_alive.3 &lt;chr&gt;, p_dodmin.3 &lt;date&gt;, fc_agegroup.3 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag.3 &lt;chr&gt;, SEQ_NUM.4 &lt;int&gt;, registry.4 &lt;chr&gt;, sex.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   race.4 &lt;chr&gt;, datebirth.4 &lt;date&gt;, t_datediag.4 &lt;date&gt;, t_site_icd.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.4 &lt;chr&gt;, fc_age.4 &lt;int&gt;, datedeath.4 &lt;date&gt;, p_alive.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.4 &lt;date&gt;, fc_agegroup.4 &lt;chr&gt;, t_yeardiag.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   SEQ_NUM.5 &lt;int&gt;, registry.5 &lt;chr&gt;, sex.5 &lt;chr&gt;, race.5 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   datebirth.5 &lt;date&gt;, t_datediag.5 &lt;date&gt;, t_site_icd.5 &lt;chr&gt;, t_dco.5 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   fc_age.5 &lt;int&gt;, datedeath.5 &lt;date&gt;, p_alive.5 &lt;chr&gt;, p_dodmin.5 &lt;date&gt;,</span>
-<span class="co">#&gt; #   fc_agegroup.5 &lt;chr&gt;, t_yeardiag.5 &lt;chr&gt;, SEQ_NUM.6 &lt;int&gt;, registry.6 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sex.6 &lt;chr&gt;, race.6 &lt;chr&gt;, datebirth.6 &lt;date&gt;, t_datediag.6 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_site_icd.6 &lt;chr&gt;, t_dco.6 &lt;chr&gt;, fc_age.6 &lt;int&gt;, datedeath.6 &lt;date&gt;,</span>
-<span class="co">#&gt; #   p_alive.6 &lt;chr&gt;, p_dodmin.6 &lt;date&gt;, fc_agegroup.6 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag.6 &lt;chr&gt;, SEQ_NUM.7 &lt;int&gt;, registry.7 &lt;chr&gt;, sex.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   race.7 &lt;chr&gt;, datebirth.7 &lt;date&gt;, t_datediag.7 &lt;date&gt;, t_site_icd.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.7 &lt;chr&gt;, fc_age.7 &lt;int&gt;, datedeath.7 &lt;date&gt;, p_alive.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.7 &lt;date&gt;, fc_agegroup.7 &lt;chr&gt;, t_yeardiag.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   SEQ_NUM.8 &lt;int&gt;, registry.8 &lt;chr&gt;, sex.8 &lt;chr&gt;, race.8 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   datebirth.8 &lt;date&gt;, t_datediag.8 &lt;date&gt;, t_site_icd.8 &lt;chr&gt;, t_dco.8 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   …</span></code></pre></div>
+<span class="co">#&gt; #   fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;, SEQ_NUM.3 &lt;int&gt;, …</span></code></pre></div>
 </div>
 <div id="step-spc" class="section level3">
 <h3 class="hasAnchor">
@@ -377,7 +356,7 @@
 <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">sex.1</span>, <span class="va">p_spc</span>, <span class="va">count_spc</span>, <span class="va">t_site_icd.1</span>, 
                  <span class="va">t_datediag.1</span>, <span class="va">t_site_icd.2</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 31,997 x 8</span>
+<span class="co">#&gt; # A tibble: 31,997 × 8</span>
 <span class="co">#&gt;    fake_id sex.1  p_spc         count_spc t_site_icd.1 t_datediag.1 t_site_icd.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
 <span class="co">#&gt;  1 100004  Male   SPC developed         0 C50          1992-07-15   C54         </span>
@@ -406,7 +385,7 @@
              spc_stat_no <span class="op">=</span> <span class="st">"No SPC"</span>, lifedat_fu_end <span class="op">=</span> <span class="st">"2019-12-31"</span>,
              use_lifedatmin <span class="op">=</span> <span class="cn">FALSE</span>, check <span class="op">=</span> <span class="cn">TRUE</span>, 
              as_labelled_factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 10 x 3</span>
+<span class="co">#&gt; # A tibble: 10 × 3</span>
 <span class="co">#&gt;    p_alive.1 p_status                                                          n</span>
 <span class="co">#&gt;    &lt;chr&gt;     &lt;fct&gt;                                                         &lt;int&gt;</span>
 <span class="co">#&gt;  1 Alive     Patient alive after FC (with or without following SPC after …  5940</span>
@@ -419,7 +398,7 @@
 <span class="co">#&gt;  8 Dead      Patient dead after SPC                                         5325</span>
 <span class="co">#&gt;  9 Dead      NA - Patient did not develop cancer before end of FU             68</span>
 <span class="co">#&gt; 10 Dead      NA - Patient date of death is missing                            64</span>
-<span class="co">#&gt; # A tibble: 7 x 2</span>
+<span class="co">#&gt; # A tibble: 7 × 2</span>
 <span class="co">#&gt;   p_status                                                                   n</span>
 <span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
 <span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  6803</span>
@@ -433,7 +412,7 @@
 <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">p_status</span>, <span class="va">p_alive.1</span>, <span class="va">datedeath.1</span>, <span class="va">t_site_icd.1</span>, <span class="va">t_datediag.1</span>, 
                  <span class="va">t_site_icd.2</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 31,997 x 8</span>
+<span class="co">#&gt; # A tibble: 31,997 × 8</span>
 <span class="co">#&gt;    fake_id p_status p_alive.1 datedeath.1 t_site_icd.1 t_datediag.1 t_site_icd.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;    &lt;chr&gt;     &lt;date&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
 <span class="co">#&gt;  1 100004  Patient… Alive     NA          C50          1992-07-15   C54         </span>
@@ -459,7 +438,7 @@
              spc_stat_no <span class="op">=</span> <span class="st">"No SPC"</span>, lifedat_fu_end <span class="op">=</span> <span class="st">"2019-12-31"</span>,
              use_lifedatmin <span class="op">=</span> <span class="cn">TRUE</span>, lifedatmin_var <span class="op">=</span> <span class="st">"p_dodmin.1"</span>, 
              check <span class="op">=</span> <span class="cn">TRUE</span>, as_labelled_factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 9 x 3</span>
+<span class="co">#&gt; # A tibble: 9 × 3</span>
 <span class="co">#&gt;   p_alive.1 p_status                                                           n</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;fct&gt;                                                          &lt;int&gt;</span>
 <span class="co">#&gt; 1 Alive     Patient alive after FC (with or without following SPC after e…  5940</span>
@@ -471,7 +450,7 @@
 <span class="co">#&gt; 7 Dead      Patient dead after FC                                           6230</span>
 <span class="co">#&gt; 8 Dead      Patient dead after SPC                                          5362</span>
 <span class="co">#&gt; 9 Dead      NA - Patient did not develop cancer before end of FU              68</span>
-<span class="co">#&gt; # A tibble: 6 x 2</span>
+<span class="co">#&gt; # A tibble: 6 × 2</span>
 <span class="co">#&gt;   p_status                                                                   n</span>
 <span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
 <span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  6807</span>
@@ -480,7 +459,7 @@
 <span class="co">#&gt; 4 Patient dead after SPC                                                  5362</span>
 <span class="co">#&gt; 5 NA - Patient not born before end of FU                                     4</span>
 <span class="co">#&gt; 6 NA - Patient did not develop cancer before end of FU                     917</span>
-<span class="co">#&gt; # A tibble: 31,997 x 130</span>
+<span class="co">#&gt; # A tibble: 31,997 × 130</span>
 <span class="co">#&gt;    fake_id SEQ_NUM.1 registry.1            sex.1 race.1 datebirth.1 t_datediag.1</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;                 &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;date&gt;      </span>
 <span class="co">#&gt;  1 100004          1 SEER Reg 20 - Detroi… Male  White  1926-01-01  1992-07-15  </span>
@@ -499,28 +478,7 @@
 <span class="co">#&gt; #   SEQ_NUM.2 &lt;int&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;, t_dco.2 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;, p_dodmin.2 &lt;date&gt;,</span>
-<span class="co">#&gt; #   fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;, SEQ_NUM.3 &lt;int&gt;, registry.3 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sex.3 &lt;chr&gt;, race.3 &lt;chr&gt;, datebirth.3 &lt;date&gt;, t_datediag.3 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_site_icd.3 &lt;chr&gt;, t_dco.3 &lt;chr&gt;, fc_age.3 &lt;int&gt;, datedeath.3 &lt;date&gt;,</span>
-<span class="co">#&gt; #   p_alive.3 &lt;chr&gt;, p_dodmin.3 &lt;date&gt;, fc_agegroup.3 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag.3 &lt;chr&gt;, SEQ_NUM.4 &lt;int&gt;, registry.4 &lt;chr&gt;, sex.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   race.4 &lt;chr&gt;, datebirth.4 &lt;date&gt;, t_datediag.4 &lt;date&gt;, t_site_icd.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.4 &lt;chr&gt;, fc_age.4 &lt;int&gt;, datedeath.4 &lt;date&gt;, p_alive.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.4 &lt;date&gt;, fc_agegroup.4 &lt;chr&gt;, t_yeardiag.4 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   SEQ_NUM.5 &lt;int&gt;, registry.5 &lt;chr&gt;, sex.5 &lt;chr&gt;, race.5 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   datebirth.5 &lt;date&gt;, t_datediag.5 &lt;date&gt;, t_site_icd.5 &lt;chr&gt;, t_dco.5 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   fc_age.5 &lt;int&gt;, datedeath.5 &lt;date&gt;, p_alive.5 &lt;chr&gt;, p_dodmin.5 &lt;date&gt;,</span>
-<span class="co">#&gt; #   fc_agegroup.5 &lt;chr&gt;, t_yeardiag.5 &lt;chr&gt;, SEQ_NUM.6 &lt;int&gt;, registry.6 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   sex.6 &lt;chr&gt;, race.6 &lt;chr&gt;, datebirth.6 &lt;date&gt;, t_datediag.6 &lt;date&gt;,</span>
-<span class="co">#&gt; #   t_site_icd.6 &lt;chr&gt;, t_dco.6 &lt;chr&gt;, fc_age.6 &lt;int&gt;, datedeath.6 &lt;date&gt;,</span>
-<span class="co">#&gt; #   p_alive.6 &lt;chr&gt;, p_dodmin.6 &lt;date&gt;, fc_agegroup.6 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag.6 &lt;chr&gt;, SEQ_NUM.7 &lt;int&gt;, registry.7 &lt;chr&gt;, sex.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   race.7 &lt;chr&gt;, datebirth.7 &lt;date&gt;, t_datediag.7 &lt;date&gt;, t_site_icd.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.7 &lt;chr&gt;, fc_age.7 &lt;int&gt;, datedeath.7 &lt;date&gt;, p_alive.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.7 &lt;date&gt;, fc_agegroup.7 &lt;chr&gt;, t_yeardiag.7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   SEQ_NUM.8 &lt;int&gt;, registry.8 &lt;chr&gt;, sex.8 &lt;chr&gt;, race.8 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   datebirth.8 &lt;date&gt;, t_datediag.8 &lt;date&gt;, t_site_icd.8 &lt;chr&gt;, t_dco.8 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   …</span></code></pre></div>
+<span class="co">#&gt; #   fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;, SEQ_NUM.3 &lt;int&gt;, …</span></code></pre></div>
 <div id="step-filter-pat-status" class="section level4">
 <h4 class="hasAnchor">
 <a href="#step-filter-pat-status" class="anchor"></a>Step 6b - Remove patients irrelevant to analysis depending on status</h4>
@@ -532,7 +490,7 @@
 
 <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">p_status</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 4 x 2</span>
+<span class="co">#&gt; # A tibble: 4 × 2</span>
 <span class="co">#&gt;   p_status                                                                   n</span>
 <span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
 <span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  6803</span>
@@ -550,7 +508,7 @@
                dattype <span class="op">=</span> <span class="st">"seer"</span>, time_unit <span class="op">=</span> <span class="st">"years"</span>, 
                lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, 
                fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>, spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 4 x 5</span>
+<span class="co">#&gt; # A tibble: 4 × 5</span>
 <span class="co">#&gt;   p_status                       mean_futime min_futime max_futime median_futime</span>
 <span class="co">#&gt;   &lt;fct&gt;                                &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Patient alive after FC (with …        9.58     0.0438       27.0          8.29</span>
@@ -560,7 +518,7 @@
 
 <span class="va">usdata_wide</span> <span class="op">%&gt;%</span>
    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">p_status</span>, <span class="va">p_futimeyrs</span>, <span class="va">p_alive.1</span>, <span class="va">datedeath.1</span>, <span class="va">t_datediag.1</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 31,012 x 7</span>
+<span class="co">#&gt; # A tibble: 31,012 × 7</span>
 <span class="co">#&gt;    fake_id p_status  p_futimeyrs p_alive.1 datedeath.1 t_datediag.1 t_datediag.2</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;           &lt;dbl&gt; &lt;chr&gt;     &lt;date&gt;      &lt;date&gt;       &lt;date&gt;      </span>
 <span class="co">#&gt;  1 100004  Patient …       11.5  Alive     NA          1992-07-15   2004-01-15  </span>
@@ -596,27 +554,31 @@
     site_var <span class="op">=</span> <span class="st">"t_site_icd.1"</span>, <span class="co">#using grouping by second cancer incidence</span>
     futime_var <span class="op">=</span> <span class="st">"p_futimeyrs"</span>,
     alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
+<span class="co">#&gt; Warning: `mutate_across.()` was deprecated in tidytable 0.6.4.</span>
+<span class="co">#&gt; Please use `mutate.(across.())</span>
+<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
+<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
 <span class="co">#&gt; # A tidytable: 4 × 10</span>
-<span class="co">#&gt;   age    sex    region     year  race.1 t_site to1month i_observed i_pyar n_base</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 05 - … Male   SEER Reg … 2015… Other  C34           1          1      0      1</span>
-<span class="co">#&gt; 2 15 - … Male   SEER Reg … 2005… Black  C34           1          1      0      1</span>
-<span class="co">#&gt; 3 85 - … Female SEER Reg … 1995… Black  C34           1          2      0      2</span>
-<span class="co">#&gt; 4 85 - … Male   SEER Reg … 2010… Other  C34           1          1      0      1 </span>
+<span class="co">#&gt;   age      sex    region   year  race.1 t_site to1month i_observed i_pyar n_base</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 05 - 09  Male   SEER Re… 2015… Other  C34           1          1      0      1</span>
+<span class="co">#&gt; 2 15 - 19  Male   SEER Re… 2005… Black  C34           1          1      0      1</span>
+<span class="co">#&gt; 3 85 - 120 Female SEER Re… 1995… Black  C34           1          2      0      2</span>
+<span class="co">#&gt; 4 85 - 120 Male   SEER Re… 2010… Other  C34           1          1      0      1 </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
 <span class="co">#&gt; # A tidytable: 4 × 10</span>
-<span class="co">#&gt;   age    sex    region    year  race.1 t_site Total0toInfyears i_observed i_pyar</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 05 - … Male   SEER Reg… 2015… Other  C34                   1          1      0</span>
-<span class="co">#&gt; 2 15 - … Male   SEER Reg… 2005… Black  C34                   1          1      0</span>
-<span class="co">#&gt; 3 85 - … Female SEER Reg… 1995… Black  C34                   1          2      0</span>
-<span class="co">#&gt; 4 85 - … Male   SEER Reg… 2010… Other  C34                   1          1      0</span>
+<span class="co">#&gt;   age      sex    region  year  race.1 t_site Total0toInfyears i_observed i_pyar</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 05 - 09  Male   SEER R… 2015… Other  C34                   1          1      0</span>
+<span class="co">#&gt; 2 15 - 19  Male   SEER R… 2005… Black  C34                   1          1      0</span>
+<span class="co">#&gt; 3 85 - 120 Female SEER R… 1995… Black  C34                   1          2      0</span>
+<span class="co">#&gt; 4 85 - 120 Male   SEER R… 2010… Other  C34                   1          1      0</span>
 <span class="co">#&gt; # … with 1 more variable: n_base &lt;dbl&gt; </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
@@ -624,18 +586,18 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
 <span class="co">#&gt; # A tidytable: 1 × 10</span>
-<span class="co">#&gt;   age    sex   region     year  t_dco.1 t_site to1month i_observed i_pyar n_base</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 80 - … Male  SEER Reg … 2010… DCO ca… C34           1          1      0      1 </span>
+<span class="co">#&gt;   age     sex   region    year  t_dco.1 t_site to1month i_observed i_pyar n_base</span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 80 - 84 Male  SEER Reg… 2010… DCO ca… C34           1          1      0      1 </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
 <span class="co">#&gt; # A tidytable: 1 × 10</span>
-<span class="co">#&gt;   age    sex   region    year  t_dco.1 t_site Total0toInfyears i_observed i_pyar</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 80 - … Male  SEER Reg… 2010… DCO ca… C34                   1          1      0</span>
+<span class="co">#&gt;   age     sex   region   year  t_dco.1 t_site Total0toInfyears i_observed i_pyar</span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 80 - 84 Male  SEER Re… 2010… DCO ca… C34                   1          1      0</span>
 <span class="co">#&gt; # … with 1 more variable: n_base &lt;dbl&gt; </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
@@ -647,18 +609,18 @@
 <span class="co">#&gt;  - diagnosis of second cancer occured in different time period than first cancer </span>
 <span class="co">#&gt; The following strata are affected: </span>
 <span class="co">#&gt; # A tidytable: 166 × 21</span>
-<span class="co">#&gt;    yvar_name yvar_label fu_time  age    sex   region     year  t_site i_observed</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 total_var Overall    1-5 yea… 60 - … Male  SEER Reg … 2010… C34            17</span>
-<span class="co">#&gt;  2 total_var Overall    1-5 yea… 65 - … Male  SEER Reg … 2015… C34            18</span>
-<span class="co">#&gt;  3 total_var Overall    5-10 ye… 60 - … Male  SEER Reg … 2010… C34            20</span>
-<span class="co">#&gt;  4 total_var Overall    5-10 ye… 60 - … Male  SEER Reg … 2010… C34            22</span>
-<span class="co">#&gt;  5 total_var Overall    5-10 ye… 70 - … Male  SEER Reg … 2005… C34            12</span>
-<span class="co">#&gt;  6 total_var Overall    5-10 ye… 75 - … Fema… SEER Reg … 2005… C34            13</span>
-<span class="co">#&gt;  7 total_var Overall    10+ yea… 25 - … Fema… SEER Reg … 1995… C34            14</span>
-<span class="co">#&gt;  8 total_var Overall    10+ yea… 60 - … Fema… SEER Reg … 1995… C34            18</span>
-<span class="co">#&gt;  9 total_var Overall    10+ yea… 60 - … Fema… SEER Reg … 1995… C34            16</span>
-<span class="co">#&gt; 10 total_var Overall    10+ yea… 65 - … Male  SEER Reg … 2000… C34            29</span>
+<span class="co">#&gt;    yvar_name yvar_label fu_time    age     sex    region year  t_site i_observed</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 total_var Overall    1-5 years  60 - 64 Male   SEER … 2010… C34            17</span>
+<span class="co">#&gt;  2 total_var Overall    1-5 years  65 - 69 Male   SEER … 2015… C34            18</span>
+<span class="co">#&gt;  3 total_var Overall    5-10 years 60 - 64 Male   SEER … 2010… C34            20</span>
+<span class="co">#&gt;  4 total_var Overall    5-10 years 60 - 64 Male   SEER … 2010… C34            22</span>
+<span class="co">#&gt;  5 total_var Overall    5-10 years 70 - 74 Male   SEER … 2005… C34            12</span>
+<span class="co">#&gt;  6 total_var Overall    5-10 years 75 - 79 Female SEER … 2005… C34            13</span>
+<span class="co">#&gt;  7 total_var Overall    10+ years  25 - 29 Female SEER … 1995… C34            14</span>
+<span class="co">#&gt;  8 total_var Overall    10+ years  60 - 64 Female SEER … 1995… C34            18</span>
+<span class="co">#&gt;  9 total_var Overall    10+ years  60 - 64 Female SEER … 1995… C34            16</span>
+<span class="co">#&gt; 10 total_var Overall    10+ years  65 - 69 Male   SEER … 2000… C34            29</span>
 <span class="co">#&gt; # … with 156 more rows, and 12 more variables: i_pyar &lt;dbl&gt;, n_base &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   race &lt;chr&gt;, incidence_cases &lt;int&gt;, population_pyar &lt;int&gt;,</span>
 <span class="co">#&gt; #   incidence_crude_rate &lt;dbl&gt;, i_expected &lt;dbl&gt;, sir &lt;dbl&gt;, sir_lci &lt;dbl&gt;,</span>
@@ -666,7 +628,114 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Check attribute `notes_refcases` of results to see what strata are affected.</span>
 
-<span class="co"># sircalc_results %&gt;% print(n = 100) # uncomment after tidytable 0.5.6 release</span></code></pre></div>
+<span class="va">sircalc_results</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
+<span class="co">#&gt; # A tidytable: 246,962 × 22</span>
+<span class="co">#&gt;     age     region     sex   year  yvar_name yvar_label fu_time  t_site observed</span>
+<span class="co">#&gt;     &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;   1 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C14           0</span>
+<span class="co">#&gt;   2 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C18           0</span>
+<span class="co">#&gt;   3 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C34           0</span>
+<span class="co">#&gt;   4 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C44           0</span>
+<span class="co">#&gt;   5 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C50           0</span>
+<span class="co">#&gt;   6 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C54           0</span>
+<span class="co">#&gt;   7 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C64           0</span>
+<span class="co">#&gt;   8 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C80           0</span>
+<span class="co">#&gt;   9 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C14           0</span>
+<span class="co">#&gt;  10 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C18           0</span>
+<span class="co">#&gt;  11 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C34           0</span>
+<span class="co">#&gt;  12 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C44           0</span>
+<span class="co">#&gt;  13 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C50           0</span>
+<span class="co">#&gt;  14 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C54           0</span>
+<span class="co">#&gt;  15 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C64           0</span>
+<span class="co">#&gt;  16 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C80           0</span>
+<span class="co">#&gt;  17 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C14           0</span>
+<span class="co">#&gt;  18 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C18           0</span>
+<span class="co">#&gt;  19 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C34           0</span>
+<span class="co">#&gt;  20 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C44           0</span>
+<span class="co">#&gt;  21 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C50           0</span>
+<span class="co">#&gt;  22 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C54           0</span>
+<span class="co">#&gt;  23 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C64           0</span>
+<span class="co">#&gt;  24 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C80           0</span>
+<span class="co">#&gt;  25 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C14           0</span>
+<span class="co">#&gt;  26 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C18           0</span>
+<span class="co">#&gt;  27 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C34           0</span>
+<span class="co">#&gt;  28 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C44           0</span>
+<span class="co">#&gt;  29 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C50           0</span>
+<span class="co">#&gt;  30 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C54           0</span>
+<span class="co">#&gt;  31 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C64           0</span>
+<span class="co">#&gt;  32 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C80           0</span>
+<span class="co">#&gt;  33 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C14           0</span>
+<span class="co">#&gt;  34 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C18           0</span>
+<span class="co">#&gt;  35 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C34           1</span>
+<span class="co">#&gt;  36 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C44           0</span>
+<span class="co">#&gt;  37 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C50           0</span>
+<span class="co">#&gt;  38 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C54           0</span>
+<span class="co">#&gt;  39 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C64           0</span>
+<span class="co">#&gt;  40 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C80           0</span>
+<span class="co">#&gt;  41 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C14           0</span>
+<span class="co">#&gt;  42 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C18           0</span>
+<span class="co">#&gt;  43 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C34           5</span>
+<span class="co">#&gt;  44 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C44           0</span>
+<span class="co">#&gt;  45 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C50           0</span>
+<span class="co">#&gt;  46 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C54           0</span>
+<span class="co">#&gt;  47 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C64           0</span>
+<span class="co">#&gt;  48 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C80           0</span>
+<span class="co">#&gt;  49 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C14           0</span>
+<span class="co">#&gt;  50 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C18           0</span>
+<span class="co">#&gt;  51 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C34           6</span>
+<span class="co">#&gt;  52 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C44           0</span>
+<span class="co">#&gt;  53 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C50           0</span>
+<span class="co">#&gt;  54 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C54           0</span>
+<span class="co">#&gt;  55 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C64           0</span>
+<span class="co">#&gt;  56 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C80           0</span>
+<span class="co">#&gt;  57 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C14           0</span>
+<span class="co">#&gt;  58 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C18           0</span>
+<span class="co">#&gt;  59 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C34           0</span>
+<span class="co">#&gt;  60 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C44           0</span>
+<span class="co">#&gt;  61 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C50           0</span>
+<span class="co">#&gt;  62 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C54           0</span>
+<span class="co">#&gt;  63 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C64           0</span>
+<span class="co">#&gt;  64 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C80           0</span>
+<span class="co">#&gt;  65 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C14           0</span>
+<span class="co">#&gt;  66 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C18           0</span>
+<span class="co">#&gt;  67 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C34           0</span>
+<span class="co">#&gt;  68 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C44           0</span>
+<span class="co">#&gt;  69 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C50           0</span>
+<span class="co">#&gt;  70 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C54           0</span>
+<span class="co">#&gt;  71 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C64           0</span>
+<span class="co">#&gt;  72 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C80           0</span>
+<span class="co">#&gt;  73 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C14           0</span>
+<span class="co">#&gt;  74 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C18           0</span>
+<span class="co">#&gt;  75 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C34           0</span>
+<span class="co">#&gt;  76 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C44           0</span>
+<span class="co">#&gt;  77 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C50           0</span>
+<span class="co">#&gt;  78 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C54           0</span>
+<span class="co">#&gt;  79 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C64           0</span>
+<span class="co">#&gt;  80 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C80           0</span>
+<span class="co">#&gt;  81 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C14           0</span>
+<span class="co">#&gt;  82 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C18           0</span>
+<span class="co">#&gt;  83 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C34           0</span>
+<span class="co">#&gt;  84 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C44           0</span>
+<span class="co">#&gt;  85 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C50           0</span>
+<span class="co">#&gt;  86 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C54           0</span>
+<span class="co">#&gt;  87 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C64           0</span>
+<span class="co">#&gt;  88 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C80           0</span>
+<span class="co">#&gt;  89 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C14           0</span>
+<span class="co">#&gt;  90 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C18           0</span>
+<span class="co">#&gt;  91 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C34           1</span>
+<span class="co">#&gt;  92 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C44           0</span>
+<span class="co">#&gt;  93 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C50           0</span>
+<span class="co">#&gt;  94 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C54           0</span>
+<span class="co">#&gt;  95 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C64           0</span>
+<span class="co">#&gt;  96 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C80           0</span>
+<span class="co">#&gt;  97 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C14           0</span>
+<span class="co">#&gt;  98 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C18           0</span>
+<span class="co">#&gt;  99 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C34           1</span>
+<span class="co">#&gt; 100 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C44           0</span>
+<span class="co">#&gt; # … with 246,862 more rows, and 13 more variables: expected &lt;dbl&gt;, sir &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   sir_lci &lt;dbl&gt;, sir_uci &lt;dbl&gt;, pyar &lt;dbl&gt;, n_base &lt;dbl&gt;, race &lt;chr&gt;,</span>
+<span class="co">#&gt; #   ref_inc_cases &lt;dbl&gt;, ref_population_pyar &lt;dbl&gt;, ref_inc_crude_rate &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;, warning &lt;chr&gt;</span></code></pre></div>
 </div>
 <div id="step-summarize-sir" class="section level3">
 <h3 class="hasAnchor">
@@ -708,12 +777,12 @@
 <a href="#built-with" class="anchor"></a>Built with</h2>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; R version 4.1.0 (2021-05-18)</span>
+<span class="co">#&gt; R version 4.1.1 (2021-08-10)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
 <span class="co">#&gt; Running under: macOS Catalina 10.15.7</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib</span>
+<span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib</span>
 <span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; locale:</span>
@@ -726,19 +795,18 @@
 <span class="co">#&gt; [1] msSPChelpR_0.8.7.9000 magrittr_2.0.1        dplyr_1.0.7          </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rcpp_1.0.6        pillar_1.6.1      compiler_4.1.0    prettyunits_1.1.1</span>
-<span class="co">#&gt;  [5] progress_1.2.2    forcats_0.5.1     tools_4.1.0       digest_0.6.27    </span>
-<span class="co">#&gt;  [9] lubridate_1.7.10  evaluate_0.14     memoise_2.0.0     lifecycle_1.0.0  </span>
-<span class="co">#&gt; [13] tibble_3.1.2      pkgconfig_2.0.3   rlang_0.4.11      cli_3.0.0        </span>
-<span class="co">#&gt; [17] yaml_2.2.1        haven_2.4.1       pkgdown_1.6.1     xfun_0.24        </span>
-<span class="co">#&gt; [21] fastmap_1.1.0     stringr_1.4.0     knitr_1.33        hms_1.1.0        </span>
-<span class="co">#&gt; [25] generics_0.1.0    desc_1.3.0        fs_1.5.0          vctrs_0.3.8      </span>
-<span class="co">#&gt; [29] systemfonts_1.0.2 sjlabelled_1.1.8  rprojroot_2.0.2   tidyselect_1.1.1 </span>
-<span class="co">#&gt; [33] glue_1.4.2        data.table_1.14.0 R6_2.5.0          textshaping_0.3.5</span>
-<span class="co">#&gt; [37] fansi_0.5.0       rmarkdown_2.9     purrr_0.3.4       tidyr_1.1.3      </span>
-<span class="co">#&gt; [41] htmltools_0.5.1.1 ellipsis_0.3.2    insight_0.14.2    tidytable_0.6.3  </span>
-<span class="co">#&gt; [45] ragg_1.1.3        utf8_1.2.1        stringi_1.6.2     cachem_1.0.5     </span>
-<span class="co">#&gt; [49] crayon_1.4.1</span></code></pre></div>
+<span class="co">#&gt;  [1] pillar_1.6.4      compiler_4.1.1    prettyunits_1.1.1 progress_1.2.2   </span>
+<span class="co">#&gt;  [5] forcats_0.5.1     tools_4.1.1       digest_0.6.28     lubridate_1.8.0  </span>
+<span class="co">#&gt;  [9] evaluate_0.14     memoise_2.0.0     lifecycle_1.0.1   tibble_3.1.5     </span>
+<span class="co">#&gt; [13] pkgconfig_2.0.3   rlang_0.4.12      cli_3.0.1         yaml_2.2.1       </span>
+<span class="co">#&gt; [17] haven_2.4.3       pkgdown_1.6.1     xfun_0.27         fastmap_1.1.0    </span>
+<span class="co">#&gt; [21] stringr_1.4.0     knitr_1.36        hms_1.1.1         generics_0.1.0   </span>
+<span class="co">#&gt; [25] desc_1.4.0        fs_1.5.0          vctrs_0.3.8       systemfonts_1.0.2</span>
+<span class="co">#&gt; [29] sjlabelled_1.1.8  rprojroot_2.0.2   tidyselect_1.1.1  glue_1.4.2       </span>
+<span class="co">#&gt; [33] data.table_1.14.2 R6_2.5.1          textshaping_0.3.6 fansi_0.5.0      </span>
+<span class="co">#&gt; [37] rmarkdown_2.11    purrr_0.3.4       tidyr_1.1.4       htmltools_0.5.2  </span>
+<span class="co">#&gt; [41] ellipsis_0.3.2    insight_0.14.5    tidytable_0.6.5   ragg_1.1.3       </span>
+<span class="co">#&gt; [45] utf8_1.2.2        stringi_1.7.5     cachem_1.0.6      crayon_1.4.1</span></code></pre></div>
 </div>
 </div>
   </div>
