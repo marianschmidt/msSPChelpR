@@ -7,7 +7,7 @@
   * attributes with notes and problems are now correctly saved to `results_df`
 
 ### Internal
-* deprecated functions from `tidytable` package have been replaced
+* deprecated functions from `tidytable` package have been replaced (Closes #71)
 
 
 # msSPChelpR 0.8.7
