@@ -252,7 +252,7 @@ sircalc_results <- usdata_wide %>%
     futime_var = "p_futimeyrs",
     alpha = 0.05)
 
-# sircalc_results %>% print(n = 100) # uncomment after tidytable 0.5.6 release
+sircalc_results %>% print(n = 100)
 
 ```
 
