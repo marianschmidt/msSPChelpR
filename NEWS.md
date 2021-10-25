@@ -6,6 +6,9 @@
 * `sir_byfutime()`:
   * attributes with notes and problems are now correctly saved to `results_df`
 
+### Internal
+* deprecated functions from `tidytable` package have been replaced
+
 
 # msSPChelpR 0.8.7
 
