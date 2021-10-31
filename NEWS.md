@@ -1,6 +1,7 @@
 # msSPChelpR (development version)
 
 ### New Features
+* new function `calc_refrates()` to calculate age-, sex-, region-, year-specific reference rates from a long format dataframe with cancer cases that are counted for incident cases and then matched with a reference population. The resulting reference rates dataframe can directly be used with `sir_byfutime()` function.
 
 ### Bug fixes
 * `sir_byfutime()`:
