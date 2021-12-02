@@ -170,87 +170,90 @@
     <p>wide_df</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#load sample data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"us_second_cancer"</span><span class='op'>)</span>
-
-<span class='co'>#prep step - make wide data as this is the required format</span>
-<span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>us_second_cancer</span> <span class='op'>%&gt;%</span>
-                    <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'><a href='reshape_wide_tidyr.html'>reshape_wide_tidyr</a></span><span class='op'>(</span>case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span>, 
-                    time_id_var <span class='op'>=</span> <span class='st'>"SEQ_NUM"</span>, timevar_max <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
-                    
-<span class='co'>#prep step - calculate p_spc variable</span>
-<span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'>%&gt;%</span>
-                 <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>p_spc <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>t_site_icd.2</span><span class='op'>)</span>   <span class='op'>~</span> <span class='st'>"No SPC"</span>,
-                                                       <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>t_site_icd.2</span><span class='op'>)</span>   <span class='op'>~</span> <span class='st'>"SPC developed"</span>,
-                                                       <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='cn'>NA_character_</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-                 <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>count_spc <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>t_site_icd.2</span><span class='op'>)</span>   <span class='op'>~</span> <span class='fl'>1</span>,
-                                                              <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-                                                              
-<span class='co'>#prep step - create patient status variable</span>
-<span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'>%&gt;%</span>
-                  <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'><a href='pat_status.html'>pat_status</a></span><span class='op'>(</span><span class='va'>.</span>, fu_end <span class='op'>=</span> <span class='st'>"2017-12-31"</span>, dattype <span class='op'>=</span> <span class='st'>"seer"</span>,
-                                         status_var <span class='op'>=</span> <span class='st'>"p_status"</span>, life_var <span class='op'>=</span> <span class='st'>"p_alive.1"</span>,
-                                         birthdat_var <span class='op'>=</span> <span class='st'>"datebirth.1"</span>, lifedat_var <span class='op'>=</span> <span class='st'>"datedeath.1"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 11 × 3</span>
-#&gt;    p_alive.1 p_status     n
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> Alive            1 <span style='text-decoration: underline;'>15</span>884
-#&gt; <span style='color: #BCBCBC;'> 2</span> Alive            2 <span style='text-decoration: underline;'>17</span>609
-#&gt; <span style='color: #BCBCBC;'> 3</span> Alive           97    19
-#&gt; <span style='color: #BCBCBC;'> 4</span> Alive           98  <span style='text-decoration: underline;'>2</span>488
-#&gt; <span style='color: #BCBCBC;'> 5</span> Dead             1  <span style='text-decoration: underline;'>2</span>544
-#&gt; <span style='color: #BCBCBC;'> 6</span> Dead             2  <span style='text-decoration: underline;'>2</span>147
-#&gt; <span style='color: #BCBCBC;'> 7</span> Dead             3 <span style='text-decoration: underline;'>18</span>358
-#&gt; <span style='color: #BCBCBC;'> 8</span> Dead             4  <span style='text-decoration: underline;'>8</span>822
-#&gt; <span style='color: #BCBCBC;'> 9</span> Dead            97     2
-#&gt; <span style='color: #BCBCBC;'>10</span> Dead            98   182
-#&gt; <span style='color: #BCBCBC;'>11</span> Dead            <span style='color: #BB0000;'>NA</span>     5
-#&gt; <span style='color: #949494;'># A tibble: 7 × 2</span>
-#&gt;   p_status     n
-#&gt;      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span>        1 <span style='text-decoration: underline;'>18</span>428
-#&gt; <span style='color: #BCBCBC;'>2</span>        2 <span style='text-decoration: underline;'>19</span>756
-#&gt; <span style='color: #BCBCBC;'>3</span>        3 <span style='text-decoration: underline;'>18</span>358
-#&gt; <span style='color: #BCBCBC;'>4</span>        4  <span style='text-decoration: underline;'>8</span>822
-#&gt; <span style='color: #BCBCBC;'>5</span>       97    21
-#&gt; <span style='color: #BCBCBC;'>6</span>       98  <span style='text-decoration: underline;'>2</span>670
-#&gt; <span style='color: #BCBCBC;'>7</span>       <span style='color: #BB0000;'>NA</span>     5</div><div class='input'> 
-<span class='co'>#now we can run the function</span>
-<span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>vital_status_tt</span><span class='op'>(</span><span class='va'>usdata_wide</span>, 
-                        status_var <span class='op'>=</span> <span class='st'>"p_status"</span>,
-                        life_var_new <span class='op'>=</span> <span class='st'>"p_alive_new"</span>, 
-                        check <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-                        as_labelled_factor <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tidytable: 7 × 3</span>
-#&gt;   p_status p_alive_new     n
-#&gt;      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span>        1          10 <span style='text-decoration: underline;'>18</span>428
-#&gt; <span style='color: #BCBCBC;'>2</span>        2          10 <span style='text-decoration: underline;'>19</span>756
-#&gt; <span style='color: #BCBCBC;'>3</span>        3          11 <span style='text-decoration: underline;'>18</span>358
-#&gt; <span style='color: #BCBCBC;'>4</span>        4          11  <span style='text-decoration: underline;'>8</span>822
-#&gt; <span style='color: #BCBCBC;'>5</span>       97          97    21
-#&gt; <span style='color: #BCBCBC;'>6</span>       98          98  <span style='text-decoration: underline;'>2</span>670
-#&gt; <span style='color: #BCBCBC;'>7</span>       <span style='color: #BB0000;'>NA</span>          <span style='color: #BB0000;'>NA</span>     5</div><div class='output co'>#&gt; <span style='color: #949494;'># A tidytable: 68,060 × 122</span>
-#&gt;    fake_id registry.1 sex.1 race.1 datebirth.1 t_datediag.1 t_site_icd.1 t_dco.1
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
-#&gt; <span style='color: #BCBCBC;'> 1</span> 100004  SEER Reg … Male  White  1926-01-01  1992-07-15   C50          histol…
-#&gt; <span style='color: #BCBCBC;'> 2</span> 100034  SEER Reg … Male  White  1979-01-01  2000-06-15   C50          histol…
-#&gt; <span style='color: #BCBCBC;'> 3</span> 100037  SEER Reg … Fema… White  1938-01-01  1996-01-15   C54          histol…
-#&gt; <span style='color: #BCBCBC;'> 4</span> 100038  SEER Reg … Male  White  1989-01-01  1991-04-15   C50          histol…
-#&gt; <span style='color: #BCBCBC;'> 5</span> 100039  SEER Reg … Fema… White  1946-01-01  2003-08-15   C50          histol…
-#&gt; <span style='color: #BCBCBC;'> 6</span> 100047  SEER Reg … Fema… White  1927-01-01  1998-04-15   C50          histol…
-#&gt; <span style='color: #BCBCBC;'> 7</span> 100057  SEER Reg … Male  Black  1961-01-01  2010-04-15   C18          histol…
-#&gt; <span style='color: #BCBCBC;'> 8</span> 100060  SEER Reg … Fema… White  1947-01-01  2003-08-15   C50          histol…
-#&gt; <span style='color: #BCBCBC;'> 9</span> 100063  SEER Reg … Fema… Black  1938-01-01  1995-12-15   C50          histol…
-#&gt; <span style='color: #BCBCBC;'>10</span> 100073  SEER Reg … Male  White  1960-01-01  1993-11-15   C44          histol…
-#&gt; <span style='color: #949494;'># … with 68,050 more rows, and 114 more variables: fc_age.1 &lt;int&gt;,</span>
-#&gt; <span style='color: #949494;'>#   datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;, p_dodmin.1 &lt;date&gt;,</span>
-#&gt; <span style='color: #949494;'>#   fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   race.2 &lt;chr&gt;, datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   t_dco.2 &lt;chr&gt;, fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   p_dodmin.2 &lt;date&gt;, fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   registry.3 &lt;chr&gt;, sex.3 &lt;chr&gt;, race.3 &lt;chr&gt;, datebirth.3 &lt;date&gt;, …</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>#load sample data</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"us_second_cancer"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>#prep step - make wide data as this is the required format</span></span>
+<span class='r-in'><span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>us_second_cancer</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>                    <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'><a href='reshape_wide_tidyr.html'>reshape_wide_tidyr</a></span><span class='op'>(</span>case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span>, </span>
+<span class='r-in'>                    time_id_var <span class='op'>=</span> <span class='st'>"SEQ_NUM"</span>, timevar_max <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'>                    </span>
+<span class='r-in'><span class='co'>#prep step - calculate p_spc variable</span></span>
+<span class='r-in'><span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>                 <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>p_spc <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>t_site_icd.2</span><span class='op'>)</span>   <span class='op'>~</span> <span class='st'>"No SPC"</span>,</span>
+<span class='r-in'>                                                       <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>t_site_icd.2</span><span class='op'>)</span>   <span class='op'>~</span> <span class='st'>"SPC developed"</span>,</span>
+<span class='r-in'>                                                       <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='cn'>NA_character_</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>                 <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>count_spc <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>t_site_icd.2</span><span class='op'>)</span>   <span class='op'>~</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                                              <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>                                                              </span>
+<span class='r-in'><span class='co'>#prep step - create patient status variable</span></span>
+<span class='r-in'><span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>                  <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'><a href='pat_status.html'>pat_status</a></span><span class='op'>(</span><span class='va'>.</span>, fu_end <span class='op'>=</span> <span class='st'>"2017-12-31"</span>, dattype <span class='op'>=</span> <span class='st'>"seer"</span>,</span>
+<span class='r-in'>                                         status_var <span class='op'>=</span> <span class='st'>"p_status"</span>, life_var <span class='op'>=</span> <span class='st'>"p_alive.1"</span>,</span>
+<span class='r-in'>                                         birthdat_var <span class='op'>=</span> <span class='st'>"datebirth.1"</span>, lifedat_var <span class='op'>=</span> <span class='st'>"datedeath.1"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 11 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    p_alive.1 p_status     n</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Alive            1 <span style='text-decoration: underline;'>15</span>884</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Alive            2 <span style='text-decoration: underline;'>17</span>609</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Alive           97    19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Alive           98  <span style='text-decoration: underline;'>2</span>488</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Dead             1  <span style='text-decoration: underline;'>2</span>544</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Dead             2  <span style='text-decoration: underline;'>2</span>147</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Dead             3 <span style='text-decoration: underline;'>18</span>358</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Dead             4  <span style='text-decoration: underline;'>8</span>822</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Dead            97     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Dead            98   182</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> Dead            <span style='color: #BB0000;'>NA</span>     5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 7 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   p_status     n</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>        1 <span style='text-decoration: underline;'>18</span>428</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>        2 <span style='text-decoration: underline;'>19</span>756</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>        3 <span style='text-decoration: underline;'>18</span>358</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>        4  <span style='text-decoration: underline;'>8</span>822</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span>       97    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span>       98  <span style='text-decoration: underline;'>2</span>670</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span>       <span style='color: #BB0000;'>NA</span>     5</span>
+<span class='r-in'> </span>
+<span class='r-in'><span class='co'>#now we can run the function</span></span>
+<span class='r-in'><span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>vital_status_tt</span><span class='op'>(</span><span class='va'>usdata_wide</span>, </span>
+<span class='r-in'>                        status_var <span class='op'>=</span> <span class='st'>"p_status"</span>,</span>
+<span class='r-in'>                        life_var_new <span class='op'>=</span> <span class='st'>"p_alive_new"</span>, </span>
+<span class='r-in'>                        check <span class='op'>=</span> <span class='cn'>TRUE</span>, </span>
+<span class='r-in'>                        as_labelled_factor <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tidytable: 7 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   p_status p_alive_new     n</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>        1          10 <span style='text-decoration: underline;'>18</span>428</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span>        2          10 <span style='text-decoration: underline;'>19</span>756</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span>        3          11 <span style='text-decoration: underline;'>18</span>358</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span>        4          11  <span style='text-decoration: underline;'>8</span>822</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span>       97          97    21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span>       98          98  <span style='text-decoration: underline;'>2</span>670</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span>       <span style='color: #BB0000;'>NA</span>          <span style='color: #BB0000;'>NA</span>     5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tidytable: 68,060 × 122</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    fake_id registry.1 sex.1 race.1 datebirth.1 t_datediag.1 t_site_icd.1 t_dco.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 100004  SEER Reg … Male  White  1926-01-01  1992-07-15   C50          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 100034  SEER Reg … Male  White  1979-01-01  2000-06-15   C50          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 100037  SEER Reg … Fema… White  1938-01-01  1996-01-15   C54          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 100038  SEER Reg … Male  White  1989-01-01  1991-04-15   C50          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 100039  SEER Reg … Fema… White  1946-01-01  2003-08-15   C50          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 100047  SEER Reg … Fema… White  1927-01-01  1998-04-15   C50          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 100057  SEER Reg … Male  Black  1961-01-01  2010-04-15   C18          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 100060  SEER Reg … Fema… White  1947-01-01  2003-08-15   C50          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 100063  SEER Reg … Fema… Black  1938-01-01  1995-12-15   C50          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 100073  SEER Reg … Male  White  1960-01-01  1993-11-15   C44          histol…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 68,050 more rows, and 114 more variables: fc_age.1 &lt;int&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;, p_dodmin.1 &lt;date&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   race.2 &lt;chr&gt;, datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   t_dco.2 &lt;chr&gt;, fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   p_dodmin.2 &lt;date&gt;, fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   registry.3 &lt;chr&gt;, sex.3 &lt;chr&gt;, race.3 &lt;chr&gt;, datebirth.3 &lt;date&gt;, …</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

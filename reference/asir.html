@@ -237,63 +237,68 @@ refpop_df must use the same category coding of age, sex, region, year and site a
     <p>df</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#load sample data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"us_second_cancer"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"standard_population"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"population_us"</span><span class='op'>)</span>
-
-<span class='co'>#make wide data as this is the required format</span>
-<span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>us_second_cancer</span> <span class='op'>%&gt;%</span>
-                    <span class='co'>#only use sample</span>
-                    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>fake_id</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>200000</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-                    <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'><a href='reshape_wide_tidyr.html'>reshape_wide_tidyr</a></span><span class='op'>(</span>case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span>, 
-                    time_id_var <span class='op'>=</span> <span class='st'>"SEQ_NUM"</span>, timevar_max <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span></div><div class='input'>                    
-<span class='co'>#create count variable</span>
-<span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'>%&gt;%</span>
-                    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>count_spc <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>t_site_icd.2</span><span class='op'>)</span>   <span class='op'>~</span> <span class='fl'>1</span>,
-                    <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
- 
-<span class='co'>#remove cases for which no reference population exists</span>
-<span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'>%&gt;%</span>
-                    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>t_yeardiag.2</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1990 - 1994"</span>, <span class='st'>"1995 - 1999"</span>, <span class='st'>"2000 - 2004"</span>,
-                                                       <span class='st'>"2005 - 2009"</span>, <span class='st'>"2010 - 2014"</span><span class='op'>)</span><span class='op'>)</span>
-                    
-
-<span class='co'>#now we can run the function</span>
-<span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>asir</span><span class='op'>(</span><span class='va'>usdata_wide</span>,
-      dattype <span class='op'>=</span> <span class='st'>"seer"</span>,
-      std_pop <span class='op'>=</span> <span class='st'>"ESP2013"</span>,
-      truncate_std_pop <span class='op'>=</span> <span class='cn'>FALSE</span>,
-      futime_src <span class='op'>=</span> <span class='st'>"refpop"</span>,
-      summarize_groups <span class='op'>=</span> <span class='st'>"none"</span>,
-      count_var <span class='op'>=</span> <span class='st'>"count_spc"</span>,
-      refpop_df <span class='op'>=</span> <span class='va'>population_us</span>,
-      region_var <span class='op'>=</span> <span class='st'>"registry.1"</span>, 
-      age_var <span class='op'>=</span> <span class='st'>"fc_agegroup.1"</span>,
-      sex_var <span class='op'>=</span> <span class='st'>"sex.1"</span>,
-      year_var <span class='op'>=</span> <span class='st'>"t_yeardiag.2"</span>, 
-      site_var <span class='op'>=</span> <span class='st'>"t_site_icd.2"</span>,
-      pyar_var <span class='op'>=</span> <span class='st'>"population_pyar"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Using person-years at risk [PYAR] from reference population as pyears for calculating incidence rates.</span></div><div class='output co'>#&gt; <span class='message'>Be careful, in this calculation it is assumed that all included regions have collected data for the full time period: 1990 to 2010</span>
-#&gt; <span class='message'>                       If you have included registries with differing times, please check this assumption by looking at groups with 0 incidence and specify option 'inclusion_restrictions' if needed.</span></div><div class='output co'>#&gt; <span class='message'>The following regions, age groups, years, sexes and ICD codes are considered:  SEER Reg 01 - San Francisco-Oakland SMSA, SEER Reg 02 - Connecticut, SEER Reg 20 - Detroit (Metropolitan), SEER Reg 21 - Hawaii 1995 - 1999, 2000 - 2004, 2005 - 2009, 2010 - 2014, 1990 - 1994 00 - 04, 05 - 09, 10 - 14, 15 - 19, 20 - 24, 25 - 29, 30 - 34, 35 - 39, 40 - 44, 45 - 49, 50 - 54, 55 - 59, 60 - 64, 65 - 69, 70 - 74, 75 - 79, 80 - 84, 85 - 120 Female, Male C18, C34, C44, C50, C54, C64, C80, C14</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 320 × 17</span>
-#&gt;    age       region   sex   year  t_site  asir observed   pyar abs_ir abs_ir_lci
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> Age stan… SEER Re… Fema… 1990… C14        0        0 1.92<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #BCBCBC;'> 2</span> Age stan… SEER Re… Fema… 1990… C18        0        0 1.92<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #BCBCBC;'> 3</span> Age stan… SEER Re… Fema… 1990… C34        0        0 1.92<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #BCBCBC;'> 4</span> Age stan… SEER Re… Fema… 1990… C44        0        0 1.92<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #BCBCBC;'> 5</span> Age stan… SEER Re… Fema… 1990… C50        0        0 1.92<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #BCBCBC;'> 6</span> Age stan… SEER Re… Fema… 1990… C54        0        0 1.92<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #BCBCBC;'> 7</span> Age stan… SEER Re… Fema… 1990… C64        0        0 1.92<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #BCBCBC;'> 8</span> Age stan… SEER Re… Fema… 1990… C80        0        0 1.92<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #BCBCBC;'> 9</span> Age stan… SEER Re… Fema… 1995… C14        0        0 2.01<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #BCBCBC;'>10</span> Age stan… SEER Re… Fema… 1995… C18        0        0 2.01<span style='color: #949494;'>e</span>7      0          0
-#&gt; <span style='color: #949494;'># … with 310 more rows, and 7 more variables: abs_ir_uci &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   asir_copy &lt;dbl&gt;, asir_lci &lt;dbl&gt;, asir_lci_gam &lt;dbl&gt;, asir_uci &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   asir_uci_gam &lt;dbl&gt;, asir_e6 &lt;dbl&gt;</span></div><div class='input'>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>#load sample data</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"us_second_cancer"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"standard_population"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"population_us"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>#make wide data as this is the required format</span></span>
+<span class='r-in'><span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>us_second_cancer</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>                    <span class='co'>#only use sample</span></span>
+<span class='r-in'>                    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>fake_id</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>200000</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>                    <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'><a href='reshape_wide_tidyr.html'>reshape_wide_tidyr</a></span><span class='op'>(</span>case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span>, </span>
+<span class='r-in'>                    time_id_var <span class='op'>=</span> <span class='st'>"SEQ_NUM"</span>, timevar_max <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span>
+<span class='r-in'>                    </span>
+<span class='r-in'><span class='co'>#create count variable</span></span>
+<span class='r-in'><span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>                    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>count_spc <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>t_site_icd.2</span><span class='op'>)</span>   <span class='op'>~</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                    <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'> </span>
+<span class='r-in'><span class='co'>#remove cases for which no reference population exists</span></span>
+<span class='r-in'><span class='va'>usdata_wide</span> <span class='op'>&lt;-</span> <span class='va'>usdata_wide</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>                    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>t_yeardiag.2</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1990 - 1994"</span>, <span class='st'>"1995 - 1999"</span>, <span class='st'>"2000 - 2004"</span>,</span>
+<span class='r-in'>                                                       <span class='st'>"2005 - 2009"</span>, <span class='st'>"2010 - 2014"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>                    </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>#now we can run the function</span></span>
+<span class='r-in'><span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>asir</span><span class='op'>(</span><span class='va'>usdata_wide</span>,</span>
+<span class='r-in'>      dattype <span class='op'>=</span> <span class='st'>"seer"</span>,</span>
+<span class='r-in'>      std_pop <span class='op'>=</span> <span class='st'>"ESP2013"</span>,</span>
+<span class='r-in'>      truncate_std_pop <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
+<span class='r-in'>      futime_src <span class='op'>=</span> <span class='st'>"refpop"</span>,</span>
+<span class='r-in'>      summarize_groups <span class='op'>=</span> <span class='st'>"none"</span>,</span>
+<span class='r-in'>      count_var <span class='op'>=</span> <span class='st'>"count_spc"</span>,</span>
+<span class='r-in'>      refpop_df <span class='op'>=</span> <span class='va'>population_us</span>,</span>
+<span class='r-in'>      region_var <span class='op'>=</span> <span class='st'>"registry.1"</span>, </span>
+<span class='r-in'>      age_var <span class='op'>=</span> <span class='st'>"fc_agegroup.1"</span>,</span>
+<span class='r-in'>      sex_var <span class='op'>=</span> <span class='st'>"sex.1"</span>,</span>
+<span class='r-in'>      year_var <span class='op'>=</span> <span class='st'>"t_yeardiag.2"</span>, </span>
+<span class='r-in'>      site_var <span class='op'>=</span> <span class='st'>"t_site_icd.2"</span>,</span>
+<span class='r-in'>      pyar_var <span class='op'>=</span> <span class='st'>"population_pyar"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Using person-years at risk [PYAR] from reference population as pyears for calculating incidence rates.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Be careful, in this calculation it is assumed that all included regions have collected data for the full time period: 1990 to 2010</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>                        If you have included registries with differing times, please check this assumption by looking at groups with 0 incidence and specify option 'inclusion_restrictions' if needed.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The following regions, age groups, years, sexes and ICD codes are considered:  SEER Reg 01 - San Francisco-Oakland SMSA, SEER Reg 02 - Connecticut, SEER Reg 20 - Detroit (Metropolitan), SEER Reg 21 - Hawaii 1995 - 1999, 2000 - 2004, 2005 - 2009, 2010 - 2014, 1990 - 1994 00 - 04, 05 - 09, 10 - 14, 15 - 19, 20 - 24, 25 - 29, 30 - 34, 35 - 39, 40 - 44, 45 - 49, 50 - 54, 55 - 59, 60 - 64, 65 - 69, 70 - 74, 75 - 79, 80 - 84, 85 - 120 Female, Male C18, C34, C44, C50, C54, C64, C80, C14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 320 × 17</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    age       region   sex   year  t_site  asir observed   pyar abs_ir abs_ir_lci</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Age stan… SEER Re… Fema… 1990… C14        0        0 1.92<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Age stan… SEER Re… Fema… 1990… C18        0        0 1.92<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Age stan… SEER Re… Fema… 1990… C34        0        0 1.92<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Age stan… SEER Re… Fema… 1990… C44        0        0 1.92<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Age stan… SEER Re… Fema… 1990… C50        0        0 1.92<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Age stan… SEER Re… Fema… 1990… C54        0        0 1.92<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Age stan… SEER Re… Fema… 1990… C64        0        0 1.92<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Age stan… SEER Re… Fema… 1990… C80        0        0 1.92<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Age stan… SEER Re… Fema… 1995… C14        0        0 2.01<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Age stan… SEER Re… Fema… 1995… C18        0        0 2.01<span style='color: #949494;'>e</span>7      0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 310 more rows, and 7 more variables: abs_ir_uci &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   asir_copy &lt;dbl&gt;, asir_lci &lt;dbl&gt;, asir_lci_gam &lt;dbl&gt;, asir_uci &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   asir_uci_gam &lt;dbl&gt;, asir_e6 &lt;dbl&gt;</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

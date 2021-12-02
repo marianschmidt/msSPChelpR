@@ -184,31 +184,32 @@ All tumors &gt; timevar_max will be deleted.</p></td>
     <p>df</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>us_second_cancer</span><span class='op'>)</span>
-<span class='va'>us_second_cancer</span> <span class='op'>%&gt;%</span>
- <span class='co'>#only select first 10000 rows so example runs faster</span>
- <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10000</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
- <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>renumber_time_id_tt</span><span class='op'>(</span>new_time_id_var <span class='op'>=</span> <span class='st'>"t_tumid"</span>,
-                             dattype <span class='op'>=</span> <span class='st'>"seer"</span>,
-                             case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tidytable: 10,000 × 16</span>
-#&gt;    fake_id SEQ_NUM registry   sex   race  datebirth  t_datediag t_site_icd t_dco
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> 100004        1 SEER Reg … Male  White 1926-01-01 1992-07-15 C50        hist…
-#&gt; <span style='color: #BCBCBC;'> 2</span> 100004        2 SEER Reg … Male  White 1926-01-01 2004-01-15 C54        hist…
-#&gt; <span style='color: #BCBCBC;'> 3</span> 100004        3 SEER Reg … Male  White 1926-01-01 2006-06-15 C34        hist…
-#&gt; <span style='color: #BCBCBC;'> 4</span> 100004        4 SEER Reg … Male  White 1926-01-01 2018-06-15 C14        DCO …
-#&gt; <span style='color: #BCBCBC;'> 5</span> 100034        1 SEER Reg … Male  White 1979-01-01 2000-06-15 C50        hist…
-#&gt; <span style='color: #BCBCBC;'> 6</span> 100037        1 SEER Reg … Fema… White 1938-01-01 1996-01-15 C54        hist…
-#&gt; <span style='color: #BCBCBC;'> 7</span> 100038        1 SEER Reg … Male  White 1989-01-01 1991-04-15 C50        hist…
-#&gt; <span style='color: #BCBCBC;'> 8</span> 100038        2 SEER Reg … Male  White 1989-01-01 2000-03-15 C80        hist…
-#&gt; <span style='color: #BCBCBC;'> 9</span> 100039        1 SEER Reg … Fema… White 1946-01-01 2003-08-15 C50        hist…
-#&gt; <span style='color: #BCBCBC;'>10</span> 100039        2 SEER Reg … Fema… White 1946-01-01 2011-04-15 C34        hist…
-#&gt; <span style='color: #949494;'># … with 9,990 more rows, and 7 more variables: fc_age &lt;int&gt;, datedeath &lt;date&gt;,</span>
-#&gt; <span style='color: #949494;'>#   p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;, t_yeardiag &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   t_tumid &lt;int&gt;</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>us_second_cancer</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>us_second_cancer</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='co'>#only select first 10000 rows so example runs faster</span></span>
+<span class='r-in'> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10000</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'>msSPChelpR</span><span class='fu'>::</span><span class='fu'>renumber_time_id_tt</span><span class='op'>(</span>new_time_id_var <span class='op'>=</span> <span class='st'>"t_tumid"</span>,</span>
+<span class='r-in'>                             dattype <span class='op'>=</span> <span class='st'>"seer"</span>,</span>
+<span class='r-in'>                             case_id_var <span class='op'>=</span> <span class='st'>"fake_id"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tidytable: 10,000 × 16</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    fake_id SEQ_NUM registry   sex   race  datebirth  t_datediag t_site_icd t_dco</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 100004        1 SEER Reg … Male  White 1926-01-01 1992-07-15 C50        hist…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 100004        2 SEER Reg … Male  White 1926-01-01 2004-01-15 C54        hist…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 100004        3 SEER Reg … Male  White 1926-01-01 2006-06-15 C34        hist…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 100004        4 SEER Reg … Male  White 1926-01-01 2018-06-15 C14        DCO …</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 100034        1 SEER Reg … Male  White 1979-01-01 2000-06-15 C50        hist…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 100037        1 SEER Reg … Fema… White 1938-01-01 1996-01-15 C54        hist…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 100038        1 SEER Reg … Male  White 1989-01-01 1991-04-15 C50        hist…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 100038        2 SEER Reg … Male  White 1989-01-01 2000-03-15 C80        hist…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 100039        1 SEER Reg … Fema… White 1946-01-01 2003-08-15 C50        hist…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 100039        2 SEER Reg … Fema… White 1946-01-01 2011-04-15 C34        hist…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 9,990 more rows, and 7 more variables: fc_age &lt;int&gt;, datedeath &lt;date&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;, t_yeardiag &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   t_tumid &lt;int&gt;</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
