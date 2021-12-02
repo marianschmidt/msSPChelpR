@@ -20,6 +20,7 @@ reference:
   - asir
   - calc_futime
   - calc_futime_tt
+  - calc_refrates
   - ir_crosstab
   - ir_crosstab_byfutime
   - pat_status
