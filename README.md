@@ -13,8 +13,7 @@ status](https://www.r-pkg.org/badges/version/msSPChelpR)](https://cran.r-project
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/last-month/msSPChelpR?color=grey)](https://marianschmidt.github.io/msSPChelpR/)
-[![R build
-status](https://github.com/marianschmidt/msSPChelpR/workflows/R-CMD-check/badge.svg)](https://github.com/marianschmidt/msSPChelpR/actions)
+[![R-CMD-check](https://github.com/marianschmidt/msSPChelpR/workflows/R-CMD-check/badge.svg)](https://github.com/marianschmidt/msSPChelpR/actions)
 <!-- badges: end -->
 
 #### What is `msSPChelpR`?
