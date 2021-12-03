@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">msSPChelpR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.7.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.7.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -64,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/marianschmidt/msSPChelpR/">
+  <a href="https://github.com/marianschmidt/msSPChelpR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -83,20 +79,20 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to the msSPChelpR package - from long dataset to SIR analyses</h1>
-                        <h4 class="author">Marian Eberl</h4>
+                        <h4 data-toc-skip class="author">Marian Eberl</h4>
             
-            <h4 class="date">26 October 2020</h4>
+            <h4 data-toc-skip class="date">26 October 2020</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/marianschmidt/msSPChelpR/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/marianschmidt/msSPChelpR/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+<div class="section level1">
+<h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h1>
 <p>This vignette explains how to use the functions:</p>
 <ul>
 <li>
@@ -120,19 +116,19 @@
 <p>For some functions there are multiple variants of the same function using varying frameworks. They give the same results but will differ in execution time and memory use:</p>
 <ul>
 <li>
-<a href="https://markfairbanks.github.io/tidytable/"><code>tidytable</code></a> variants carry the suffix <code>_tt()</code>
+<a href="https://markfairbanks.github.io/tidytable/" class="external-link"><code>tidytable</code></a> variants carry the suffix <code>_tt()</code>
 </li>
 <li>
-<a href="https://tidyr.tidyverse.org"><code>tidyr</code></a> variants carry the suffix <code>_tidyr()</code>
+<a href="https://tidyr.tidyverse.org" class="external-link"><code>tidyr</code></a> variants carry the suffix <code>_tidyr()</code>
 </li>
 </ul>
 </div>
-<div id="recommended-workflows" class="section level1">
-<h1 class="hasAnchor">
-<a href="#recommended-workflows" class="anchor"></a>Recommended Workflows</h1>
-<div id="wf-calc-fu" class="section level2">
-<h2 class="hasAnchor">
-<a href="#wf-calc-fu" class="anchor"></a>Calculate follow-up times</h2>
+<div class="section level1">
+<h1 id="recommended-workflows">Recommended Workflows<a class="anchor" aria-label="anchor" href="#recommended-workflows"></a>
+</h1>
+<div class="section level2">
+<h2 id="wf-calc-fu">Calculate follow-up times<a class="anchor" aria-label="anchor" href="#wf-calc-fu"></a>
+</h2>
 <p>It is recommended to run the following steps in the correct order to obtain accurate follow-up time calculations</p>
 <ol style="list-style-type: decimal">
 <li><p><a href="#step-long">Use the long version dataset</a></p></li>
@@ -159,9 +155,9 @@
 <a href="#step-calc-futime">Calculate follow-up time</a> for the same dataset by using the <code><a href="../reference/calc_futime.html">msSPChelpR::calc_futime()</a></code> function and the same <code>fu_end</code> as for step 6. By standard all functions of the <code>msSPChelpR</code> package require follow-up times as numeric years.</li>
 </ol>
 </div>
-<div id="calculate-standardized-incidence-ratios-sir" class="section level2">
-<h2 class="hasAnchor">
-<a href="#calculate-standardized-incidence-ratios-sir" class="anchor"></a>Calculate Standardized Incidence Ratios (SIR)</h2>
+<div class="section level2">
+<h2 id="calculate-standardized-incidence-ratios-sir">Calculate Standardized Incidence Ratios (SIR)<a class="anchor" aria-label="anchor" href="#calculate-standardized-incidence-ratios-sir"></a>
+</h2>
 <p>In order to calculate SIR using the package functions, the following data structure is needed: * Wide format data <code>wide_df</code> with one row per patient that has encountered the index event (i.e. diagnosed with a first primary cancer FC)</p>
 <ul>
 <li>The dataset <code>wide_df</code> needs to contain the following variables (columns) per patient (row):
@@ -197,22 +193,22 @@
 </ol>
 </div>
 </div>
-<div id="theo-sir" class="section level1">
-<h1 class="hasAnchor">
-<a href="#theo-sir" class="anchor"></a>Theory behind SIRs</h1>
+<div class="section level1">
+<h1 id="theo-sir">Theory behind SIRs<a class="anchor" aria-label="anchor" href="#theo-sir"></a>
+</h1>
 <p>In the next version of this vignette the theoretical considerations how SIRs are calculated will be explained in this chapter.</p>
 </div>
-<div id="examples" class="section level1">
-<h1 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h1>
-<div id="seer-lung-cancer" class="section level2">
-<h2 class="hasAnchor">
-<a href="#seer-lung-cancer" class="anchor"></a>SEER lung cancer</h2>
-<div id="step-long" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-long" class="anchor"></a>Step 1 - Long dataset</h3>
+<div class="section level1">
+<h1 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h1>
+<div class="section level2">
+<h2 id="seer-lung-cancer">SEER lung cancer<a class="anchor" aria-label="anchor" href="#seer-lung-cancer"></a>
+</h2>
+<div class="section level3">
+<h3 id="step-long">Step 1 - Long dataset<a class="anchor" aria-label="anchor" href="#step-long"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'dplyr'</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
@@ -221,161 +217,159 @@
 <span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marianschmidt.github.io/msSPChelpR/">msSPChelpR</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marianschmidt.github.io/msSPChelpR/" class="external-link">msSPChelpR</a></span><span class="op">)</span>
 <span class="co">#Load synthetic dataset of patients with cancer to demonstrate package functions</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span>
 
 <span class="co">#This dataset is in long format, so each tumor is a separate row in the data</span>
 <span class="va">us_second_cancer</span>
-<span class="co">#&gt; # A tibble: 113,999 × 15</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 113,999 × 15</span></span>
 <span class="co">#&gt;    fake_id SEQ_NUM registry   sex   race  datebirth  t_datediag t_site_icd t_dco</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;</span>
-<span class="co">#&gt;  1 100004        1 SEER Reg … Male  White 1926-01-01 1992-07-15 C50        hist…</span>
-<span class="co">#&gt;  2 100004        2 SEER Reg … Male  White 1926-01-01 2004-01-15 C54        hist…</span>
-<span class="co">#&gt;  3 100004        3 SEER Reg … Male  White 1926-01-01 2006-06-15 C34        hist…</span>
-<span class="co">#&gt;  4 100004        4 SEER Reg … Male  White 1926-01-01 2018-06-15 C14        DCO …</span>
-<span class="co">#&gt;  5 100034        1 SEER Reg … Male  White 1979-01-01 2000-06-15 C50        hist…</span>
-<span class="co">#&gt;  6 100037        1 SEER Reg … Fema… White 1938-01-01 1996-01-15 C54        hist…</span>
-<span class="co">#&gt;  7 100038        1 SEER Reg … Male  White 1989-01-01 1991-04-15 C50        hist…</span>
-<span class="co">#&gt;  8 100038        2 SEER Reg … Male  White 1989-01-01 2000-03-15 C80        hist…</span>
-<span class="co">#&gt;  9 100039        1 SEER Reg … Fema… White 1946-01-01 2003-08-15 C50        hist…</span>
-<span class="co">#&gt; 10 100039        2 SEER Reg … Fema… White 1946-01-01 2011-04-15 C34        hist…</span>
-<span class="co">#&gt; # … with 113,989 more rows, and 6 more variables: fc_age &lt;int&gt;,</span>
-<span class="co">#&gt; #   datedeath &lt;date&gt;, p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 100004        1 SEER Reg … Male  White 1926-01-01 1992-07-15 C50        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 100004        2 SEER Reg … Male  White 1926-01-01 2004-01-15 C54        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 100004        3 SEER Reg … Male  White 1926-01-01 2006-06-15 C34        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 100004        4 SEER Reg … Male  White 1926-01-01 2018-06-15 C14        DCO …</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 100034        1 SEER Reg … Male  White 1979-01-01 2000-06-15 C50        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 100037        1 SEER Reg … Fema… White 1938-01-01 1996-01-15 C54        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 100038        1 SEER Reg … Male  White 1989-01-01 1991-04-15 C50        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 100038        2 SEER Reg … Male  White 1989-01-01 2000-03-15 C80        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 100039        1 SEER Reg … Fema… White 1946-01-01 2003-08-15 C50        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 100039        2 SEER Reg … Fema… White 1946-01-01 2011-04-15 C34        hist…</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 113,989 more rows, and 6 more variables: fc_age &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   datedeath &lt;date&gt;, p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   t_yeardiag &lt;chr&gt;</span></span></code></pre></div>
 </div>
-<div id="step-filter" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-filter" class="anchor"></a>Step 2 - Filter long dataset</h3>
+<div class="section level3">
+<h3 id="step-filter">Step 2 - Filter long dataset<a class="anchor" aria-label="anchor" href="#step-filter"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#filter for lung cancer</span>
-<span class="va">ids</span> <span class="op">&lt;-</span> <span class="va">us_second_cancer</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<span class="va">ids</span> <span class="op">&lt;-</span> <span class="va">us_second_cancer</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="co">#detect ids with any lung cancer</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">t_site_icd</span> <span class="op">==</span> <span class="st">"C34"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">t_site_icd</span> <span class="op">==</span> <span class="st">"C34"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">fake_id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="va">filtered_usdata</span> <span class="op">&lt;-</span> <span class="va">us_second_cancer</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<span class="va">filtered_usdata</span> <span class="op">&lt;-</span> <span class="va">us_second_cancer</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="co">#filter according to above detected ids with any lung cancer diagnosis</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">fake_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">ids</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">fake_id</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">fake_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">ids</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">fake_id</span><span class="op">)</span>
 
 <span class="va">filtered_usdata</span>
-<span class="co">#&gt; # A tibble: 62,661 × 15</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 62,661 × 15</span></span>
 <span class="co">#&gt;    fake_id SEQ_NUM registry   sex   race  datebirth  t_datediag t_site_icd t_dco</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;</span>
-<span class="co">#&gt;  1 100004        1 SEER Reg … Male  White 1926-01-01 1992-07-15 C50        hist…</span>
-<span class="co">#&gt;  2 100004        2 SEER Reg … Male  White 1926-01-01 2004-01-15 C54        hist…</span>
-<span class="co">#&gt;  3 100004        3 SEER Reg … Male  White 1926-01-01 2006-06-15 C34        hist…</span>
-<span class="co">#&gt;  4 100004        4 SEER Reg … Male  White 1926-01-01 2018-06-15 C14        DCO …</span>
-<span class="co">#&gt;  5 100039        1 SEER Reg … Fema… White 1946-01-01 2003-08-15 C50        hist…</span>
-<span class="co">#&gt;  6 100039        2 SEER Reg … Fema… White 1946-01-01 2011-04-15 C34        hist…</span>
-<span class="co">#&gt;  7 100039        3 SEER Reg … Fema… White 1946-01-01 2018-01-15 C80        hist…</span>
-<span class="co">#&gt;  8 100073        1 SEER Reg … Male  White 1960-01-01 1993-11-15 C44        hist…</span>
-<span class="co">#&gt;  9 100073        2 SEER Reg … Male  White 1960-01-01 2003-12-15 C34        hist…</span>
-<span class="co">#&gt; 10 100143        1 SEER Reg … Male  White 1944-01-01 1992-03-15 C50        hist…</span>
-<span class="co">#&gt; # … with 62,651 more rows, and 6 more variables: fc_age &lt;int&gt;,</span>
-<span class="co">#&gt; #   datedeath &lt;date&gt;, p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_yeardiag &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 100004        1 SEER Reg … Male  White 1926-01-01 1992-07-15 C50        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 100004        2 SEER Reg … Male  White 1926-01-01 2004-01-15 C54        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 100004        3 SEER Reg … Male  White 1926-01-01 2006-06-15 C34        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 100004        4 SEER Reg … Male  White 1926-01-01 2018-06-15 C14        DCO …</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 100039        1 SEER Reg … Fema… White 1946-01-01 2003-08-15 C50        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 100039        2 SEER Reg … Fema… White 1946-01-01 2011-04-15 C34        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 100039        3 SEER Reg … Fema… White 1946-01-01 2018-01-15 C80        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 100073        1 SEER Reg … Male  White 1960-01-01 1993-11-15 C44        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 100073        2 SEER Reg … Male  White 1960-01-01 2003-12-15 C34        hist…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 100143        1 SEER Reg … Male  White 1944-01-01 1992-03-15 C50        hist…</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 62,651 more rows, and 6 more variables: fc_age &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   datedeath &lt;date&gt;, p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   t_yeardiag &lt;chr&gt;</span></span></code></pre></div>
 </div>
-<div id="step-renumber" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-renumber" class="anchor"></a>Step 3 - Renumber <code>time_id</code>
+<div class="section level3">
+<h3 id="step-renumber">Step 3 - Renumber <code>time_id</code><a class="anchor" aria-label="anchor" href="#step-renumber"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">renumbered_usdata</span> <span class="op">&lt;-</span> <span class="va">filtered_usdata</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">renumbered_usdata</span> <span class="op">&lt;-</span> <span class="va">filtered_usdata</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/renumber_time_id.html">renumber_time_id</a></span><span class="op">(</span>new_time_id_var <span class="op">=</span> <span class="st">"t_tumid"</span>, 
                    dattype <span class="op">=</span> <span class="st">"seer"</span>,
                    case_id_var <span class="op">=</span> <span class="st">"fake_id"</span><span class="op">)</span>
 
-<span class="va">renumbered_usdata</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">sex</span>, <span class="va">t_site_icd</span>, <span class="va">t_datediag</span>, <span class="va">t_tumid</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 62,661 × 5</span>
+<span class="va">renumbered_usdata</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">sex</span>, <span class="va">t_site_icd</span>, <span class="va">t_datediag</span>, <span class="va">t_tumid</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 62,661 × 5</span></span>
 <span class="co">#&gt;    fake_id sex    t_site_icd t_datediag t_tumid</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;date&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1 100004  Male   C50        1992-07-15       1</span>
-<span class="co">#&gt;  2 100004  Male   C54        2004-01-15       2</span>
-<span class="co">#&gt;  3 100004  Male   C34        2006-06-15       3</span>
-<span class="co">#&gt;  4 100004  Male   C14        2018-06-15       4</span>
-<span class="co">#&gt;  5 100039  Female C50        2003-08-15       1</span>
-<span class="co">#&gt;  6 100039  Female C34        2011-04-15       2</span>
-<span class="co">#&gt;  7 100039  Female C80        2018-01-15       3</span>
-<span class="co">#&gt;  8 100073  Male   C44        1993-11-15       1</span>
-<span class="co">#&gt;  9 100073  Male   C34        2003-12-15       2</span>
-<span class="co">#&gt; 10 100143  Male   C50        1992-03-15       1</span>
-<span class="co">#&gt; # … with 62,651 more rows</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 100004  Male   C50        1992-07-15       1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 100004  Male   C54        2004-01-15       2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 100004  Male   C34        2006-06-15       3</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 100004  Male   C14        2018-06-15       4</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 100039  Female C50        2003-08-15       1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 100039  Female C34        2011-04-15       2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 100039  Female C80        2018-01-15       3</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 100073  Male   C44        1993-11-15       1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 100073  Male   C34        2003-12-15       2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 100143  Male   C50        1992-03-15       1</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 62,651 more rows</span></span></code></pre></div>
 </div>
-<div id="step-reshape-wide" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-reshape-wide" class="anchor"></a>Step 4 - Reshape to wide dataset</h3>
+<div class="section level3">
+<h3 id="step-reshape-wide">Step 4 - Reshape to wide dataset<a class="anchor" aria-label="anchor" href="#step-reshape-wide"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">renumbered_usdata</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">renumbered_usdata</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/reshape_wide_tidyr.html">reshape_wide_tidyr</a></span><span class="op">(</span>case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, time_id_var <span class="op">=</span> <span class="st">"t_tumid"</span>, timevar_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 
 <span class="co">#now the data is in the wide format as required by many package functions. </span>
 <span class="co">#This means, each case is a row and several tumors per case ID are </span>
 <span class="co">#add new columns to the data using the time_id as column name suffix.</span>
 <span class="va">usdata_wide</span>
-<span class="co">#&gt; # A tibble: 31,997 × 127</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 31,997 × 127</span></span>
 <span class="co">#&gt;    fake_id SEQ_NUM.1 registry.1            sex.1 race.1 datebirth.1 t_datediag.1</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;                 &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100004          1 SEER Reg 20 - Detroi… Male  White  1926-01-01  1992-07-15  </span>
-<span class="co">#&gt;  2 100039          1 SEER Reg 02 - Connec… Fema… White  1946-01-01  2003-08-15  </span>
-<span class="co">#&gt;  3 100073          1 SEER Reg 01 - San Fr… Male  White  1960-01-01  1993-11-15  </span>
-<span class="co">#&gt;  4 100143          1 SEER Reg 02 - Connec… Male  White  1944-01-01  1992-03-15  </span>
-<span class="co">#&gt;  5 100182          1 SEER Reg 02 - Connec… Male  Other  1927-01-01  1991-09-15  </span>
-<span class="co">#&gt;  6 100197          1 SEER Reg 02 - Connec… Fema… White  1945-01-01  2012-06-15  </span>
-<span class="co">#&gt;  7 100208          1 SEER Reg 02 - Connec… Male  White  1970-01-01  2019-11-15  </span>
-<span class="co">#&gt;  8 100230          1 SEER Reg 01 - San Fr… Male  White  1947-01-01  1992-11-15  </span>
-<span class="co">#&gt;  9 100234          1 SEER Reg 01 - San Fr… Male  White  1988-01-01  2010-02-15  </span>
-<span class="co">#&gt; 10 100266          1 SEER Reg 01 - San Fr… Fema… White  1956-01-01  2010-07-15  </span>
-<span class="co">#&gt; # … with 31,987 more rows, and 120 more variables: t_site_icd.1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.1 &lt;chr&gt;, fc_age.1 &lt;int&gt;, datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.1 &lt;date&gt;, fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   SEQ_NUM.2 &lt;int&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;, t_dco.2 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;, p_dodmin.2 &lt;date&gt;,</span>
-<span class="co">#&gt; #   fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;, SEQ_NUM.3 &lt;int&gt;, …</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 100004          1 SEER Reg 20 - Detroi… Male  White  1926-01-01  1992-07-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 100039          1 SEER Reg 02 - Connec… Fema… White  1946-01-01  2003-08-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 100073          1 SEER Reg 01 - San Fr… Male  White  1960-01-01  1993-11-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 100143          1 SEER Reg 02 - Connec… Male  White  1944-01-01  1992-03-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 100182          1 SEER Reg 02 - Connec… Male  Other  1927-01-01  1991-09-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 100197          1 SEER Reg 02 - Connec… Fema… White  1945-01-01  2012-06-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 100208          1 SEER Reg 02 - Connec… Male  White  1970-01-01  2019-11-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 100230          1 SEER Reg 01 - San Fr… Male  White  1947-01-01  1992-11-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 100234          1 SEER Reg 01 - San Fr… Male  White  1988-01-01  2010-02-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 100266          1 SEER Reg 01 - San Fr… Fema… White  1956-01-01  2010-07-15  </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 31,987 more rows, and 120 more variables: t_site_icd.1 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   t_dco.1 &lt;chr&gt;, fc_age.1 &lt;int&gt;, datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   p_dodmin.1 &lt;date&gt;, fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   SEQ_NUM.2 &lt;int&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;, t_dco.2 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;, p_dodmin.2 &lt;date&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;, SEQ_NUM.3 &lt;int&gt;, …</span></span></code></pre></div>
 </div>
-<div id="step-spc" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-spc" class="anchor"></a>Step 5 - Recalculate <code>p_spc</code>
+<div class="section level3">
+<h3 id="step-spc">Step 5 - Recalculate <code>p_spc</code><a class="anchor" aria-label="anchor" href="#step-spc"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>p_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="st">"No SPC"</span>,
-                         <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>           <span class="op">~</span> <span class="st">"SPC developed"</span>,
-                         <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA_character_</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>p_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="st">"No SPC"</span>,
+                         <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>           <span class="op">~</span> <span class="st">"SPC developed"</span>,
+                         <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA_character_</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="co">#create the same information as numeric variable count_spc</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>count_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="fl">1</span>,
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>count_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="fl">1</span>,
                             <span class="cn">TRUE</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
-<span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">sex.1</span>, <span class="va">p_spc</span>, <span class="va">count_spc</span>, <span class="va">t_site_icd.1</span>, 
+<span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">sex.1</span>, <span class="va">p_spc</span>, <span class="va">count_spc</span>, <span class="va">t_site_icd.1</span>, 
                  <span class="va">t_datediag.1</span>, <span class="va">t_site_icd.2</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 31,997 × 8</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 31,997 × 8</span></span>
 <span class="co">#&gt;    fake_id sex.1  p_spc         count_spc t_site_icd.1 t_datediag.1 t_site_icd.2</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
-<span class="co">#&gt;  1 100004  Male   SPC developed         0 C50          1992-07-15   C54         </span>
-<span class="co">#&gt;  2 100039  Female SPC developed         0 C50          2003-08-15   C34         </span>
-<span class="co">#&gt;  3 100073  Male   SPC developed         0 C44          1993-11-15   C34         </span>
-<span class="co">#&gt;  4 100143  Male   SPC developed         0 C50          1992-03-15   C34         </span>
-<span class="co">#&gt;  5 100182  Male   SPC developed         0 C18          1991-09-15   C34         </span>
-<span class="co">#&gt;  6 100197  Female SPC developed         0 C34          2012-06-15   C50         </span>
-<span class="co">#&gt;  7 100208  Male   No SPC                1 C34          2019-11-15   &lt;NA&gt;        </span>
-<span class="co">#&gt;  8 100230  Male   SPC developed         0 C44          1992-11-15   C34         </span>
-<span class="co">#&gt;  9 100234  Male   No SPC                1 C34          2010-02-15   &lt;NA&gt;        </span>
-<span class="co">#&gt; 10 100266  Female No SPC                1 C34          2010-07-15   &lt;NA&gt;        </span>
-<span class="co">#&gt; # … with 31,987 more rows, and 1 more variable: t_datediag.2 &lt;date&gt;</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 100004  Male   SPC developed         0 C50          1992-07-15   C54         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 100039  Female SPC developed         0 C50          2003-08-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 100073  Male   SPC developed         0 C44          1993-11-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 100143  Male   SPC developed         0 C50          1992-03-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 100182  Male   SPC developed         0 C18          1991-09-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 100197  Female SPC developed         0 C34          2012-06-15   C50         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 100208  Male   No SPC                1 C34          2019-11-15   <span style="color: #BB0000;">NA</span>          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 100230  Male   SPC developed         0 C44          1992-11-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 100234  Male   No SPC                1 C34          2010-02-15   <span style="color: #BB0000;">NA</span>          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 100266  Female No SPC                1 C34          2010-07-15   <span style="color: #BB0000;">NA</span>          </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 31,987 more rows, and 1 more variable: t_datediag.2 &lt;date&gt;</span></span></code></pre></div>
 </div>
-<div id="step-pat-status" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-pat-status" class="anchor"></a>Step 6 - Determine patient status at end of FU</h3>
+<div class="section level3">
+<h3 id="step-pat-status">Step 6 - Determine patient status at end of FU<a class="anchor" aria-label="anchor" href="#step-pat-status"></a>
+</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/pat_status.html">pat_status</a></span><span class="op">(</span><span class="va">.</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>, dattype <span class="op">=</span> <span class="st">"seer"</span>,
              status_var <span class="op">=</span> <span class="st">"p_status"</span>, life_var <span class="op">=</span> <span class="st">"p_alive.1"</span>,
              spc_var <span class="op">=</span> <span class="st">"p_spc"</span>, birthdat_var <span class="op">=</span> <span class="st">"datebirth.1"</span>,
@@ -385,50 +379,50 @@
              spc_stat_no <span class="op">=</span> <span class="st">"No SPC"</span>, lifedat_fu_end <span class="op">=</span> <span class="st">"2019-12-31"</span>,
              use_lifedatmin <span class="op">=</span> <span class="cn">FALSE</span>, check <span class="op">=</span> <span class="cn">TRUE</span>, 
              as_labelled_factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 10 × 3</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span>
 <span class="co">#&gt;    p_alive.1 p_status                                                          n</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;fct&gt;                                                         &lt;int&gt;</span>
-<span class="co">#&gt;  1 Alive     Patient alive after FC (with or without following SPC after …  5940</span>
-<span class="co">#&gt;  2 Alive     Patient alive after SPC                                       11316</span>
-<span class="co">#&gt;  3 Alive     NA - Patient not born before end of FU                            4</span>
-<span class="co">#&gt;  4 Alive     NA - Patient did not develop cancer before end of FU            849</span>
-<span class="co">#&gt;  5 Dead      Patient alive after FC (with or without following SPC after …   863</span>
-<span class="co">#&gt;  6 Dead      Patient alive after SPC                                        1360</span>
-<span class="co">#&gt;  7 Dead      Patient dead after FC                                          6208</span>
-<span class="co">#&gt;  8 Dead      Patient dead after SPC                                         5325</span>
-<span class="co">#&gt;  9 Dead      NA - Patient did not develop cancer before end of FU             68</span>
-<span class="co">#&gt; 10 Dead      NA - Patient date of death is missing                            64</span>
-<span class="co">#&gt; # A tibble: 7 × 2</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                                                         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Alive     Patient alive after FC (with or without following SPC after …  <span style="text-decoration: underline;">5</span>940</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Alive     Patient alive after SPC                                       <span style="text-decoration: underline;">11</span>316</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Alive     NA - Patient not born before end of FU                            4</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Alive     NA - Patient did not develop cancer before end of FU            849</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Dead      Patient alive after FC (with or without following SPC after …   863</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Dead      Patient alive after SPC                                        <span style="text-decoration: underline;">1</span>360</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Dead      Patient dead after FC                                          <span style="text-decoration: underline;">6</span>208</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Dead      Patient dead after SPC                                         <span style="text-decoration: underline;">5</span>325</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Dead      NA - Patient did not develop cancer before end of FU             68</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Dead      NA - Patient date of death is missing                            64</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 2</span></span>
 <span class="co">#&gt;   p_status                                                                   n</span>
-<span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
-<span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  6803</span>
-<span class="co">#&gt; 2 Patient alive after SPC                                                12676</span>
-<span class="co">#&gt; 3 Patient dead after FC                                                   6208</span>
-<span class="co">#&gt; 4 Patient dead after SPC                                                  5325</span>
-<span class="co">#&gt; 5 NA - Patient not born before end of FU                                     4</span>
-<span class="co">#&gt; 6 NA - Patient did not develop cancer before end of FU                     917</span>
-<span class="co">#&gt; 7 NA - Patient date of death is missing                                     64</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                                                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Patient alive after FC (with or without following SPC after end of FU)  <span style="text-decoration: underline;">6</span>803</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Patient alive after SPC                                                <span style="text-decoration: underline;">12</span>676</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Patient dead after FC                                                   <span style="text-decoration: underline;">6</span>208</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Patient dead after SPC                                                  <span style="text-decoration: underline;">5</span>325</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> NA - Patient not born before end of FU                                     4</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> NA - Patient did not develop cancer before end of FU                     917</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">7</span> NA - Patient date of death is missing                                     64</span>
 
-<span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">p_status</span>, <span class="va">p_alive.1</span>, <span class="va">datedeath.1</span>, <span class="va">t_site_icd.1</span>, <span class="va">t_datediag.1</span>, 
+<span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">p_status</span>, <span class="va">p_alive.1</span>, <span class="va">datedeath.1</span>, <span class="va">t_site_icd.1</span>, <span class="va">t_datediag.1</span>, 
                  <span class="va">t_site_icd.2</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 31,997 × 8</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 31,997 × 8</span></span>
 <span class="co">#&gt;    fake_id p_status p_alive.1 datedeath.1 t_site_icd.1 t_datediag.1 t_site_icd.2</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;    &lt;chr&gt;     &lt;date&gt;      &lt;chr&gt;        &lt;date&gt;       &lt;chr&gt;       </span>
-<span class="co">#&gt;  1 100004  Patient… Alive     NA          C50          1992-07-15   C54         </span>
-<span class="co">#&gt;  2 100039  Patient… Alive     NA          C50          2003-08-15   C34         </span>
-<span class="co">#&gt;  3 100073  Patient… Dead      2005-06-01  C44          1993-11-15   C34         </span>
-<span class="co">#&gt;  4 100143  Patient… Alive     NA          C50          1992-03-15   C34         </span>
-<span class="co">#&gt;  5 100182  Patient… Dead      2007-05-01  C18          1991-09-15   C34         </span>
-<span class="co">#&gt;  6 100197  Patient… Alive     NA          C34          2012-06-15   C50         </span>
-<span class="co">#&gt;  7 100208  NA - Pa… Alive     NA          C34          2019-11-15   &lt;NA&gt;        </span>
-<span class="co">#&gt;  8 100230  Patient… Dead      2008-05-01  C44          1992-11-15   C34         </span>
-<span class="co">#&gt;  9 100234  Patient… Dead      2015-07-01  C34          2010-02-15   &lt;NA&gt;        </span>
-<span class="co">#&gt; 10 100266  Patient… Alive     NA          C34          2010-07-15   &lt;NA&gt;        </span>
-<span class="co">#&gt; # … with 31,987 more rows, and 1 more variable: t_datediag.2 &lt;date&gt;</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 100004  Patient… Alive     <span style="color: #BB0000;">NA</span>          C50          1992-07-15   C54         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 100039  Patient… Alive     <span style="color: #BB0000;">NA</span>          C50          2003-08-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 100073  Patient… Dead      2005-06-01  C44          1993-11-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 100143  Patient… Alive     <span style="color: #BB0000;">NA</span>          C50          1992-03-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 100182  Patient… Dead      2007-05-01  C18          1991-09-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 100197  Patient… Alive     <span style="color: #BB0000;">NA</span>          C34          2012-06-15   C50         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 100208  NA - Pa… Alive     <span style="color: #BB0000;">NA</span>          C34          2019-11-15   <span style="color: #BB0000;">NA</span>          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 100230  Patient… Dead      2008-05-01  C44          1992-11-15   C34         </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 100234  Patient… Dead      2015-07-01  C34          2010-02-15   <span style="color: #BB0000;">NA</span>          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 100266  Patient… Alive     <span style="color: #BB0000;">NA</span>          C34          2010-07-15   <span style="color: #BB0000;">NA</span>          </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 31,987 more rows, and 1 more variable: t_datediag.2 &lt;date&gt;</span></span>
 
 <span class="co">#alternatively, you can impute the date of death using lifedatmin_var</span>
-<span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/pat_status.html">pat_status</a></span><span class="op">(</span><span class="va">.</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>, dattype <span class="op">=</span> <span class="st">"seer"</span>,
              status_var <span class="op">=</span> <span class="st">"p_status"</span>, life_var <span class="op">=</span> <span class="st">"p_alive.1"</span>,
              spc_var <span class="op">=</span> <span class="st">"p_spc"</span>, birthdat_var <span class="op">=</span> <span class="st">"datebirth.1"</span>,
@@ -438,111 +432,111 @@
              spc_stat_no <span class="op">=</span> <span class="st">"No SPC"</span>, lifedat_fu_end <span class="op">=</span> <span class="st">"2019-12-31"</span>,
              use_lifedatmin <span class="op">=</span> <span class="cn">TRUE</span>, lifedatmin_var <span class="op">=</span> <span class="st">"p_dodmin.1"</span>, 
              check <span class="op">=</span> <span class="cn">TRUE</span>, as_labelled_factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 9 × 3</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 3</span></span>
 <span class="co">#&gt;   p_alive.1 p_status                                                           n</span>
-<span class="co">#&gt;   &lt;chr&gt;     &lt;fct&gt;                                                          &lt;int&gt;</span>
-<span class="co">#&gt; 1 Alive     Patient alive after FC (with or without following SPC after e…  5940</span>
-<span class="co">#&gt; 2 Alive     Patient alive after SPC                                        11316</span>
-<span class="co">#&gt; 3 Alive     NA - Patient not born before end of FU                             4</span>
-<span class="co">#&gt; 4 Alive     NA - Patient did not develop cancer before end of FU             849</span>
-<span class="co">#&gt; 5 Dead      Patient alive after FC (with or without following SPC after e…   867</span>
-<span class="co">#&gt; 6 Dead      Patient alive after SPC                                         1361</span>
-<span class="co">#&gt; 7 Dead      Patient dead after FC                                           6230</span>
-<span class="co">#&gt; 8 Dead      Patient dead after SPC                                          5362</span>
-<span class="co">#&gt; 9 Dead      NA - Patient did not develop cancer before end of FU              68</span>
-<span class="co">#&gt; # A tibble: 6 × 2</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                                                          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Alive     Patient alive after FC (with or without following SPC after e…  <span style="text-decoration: underline;">5</span>940</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Alive     Patient alive after SPC                                        <span style="text-decoration: underline;">11</span>316</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Alive     NA - Patient not born before end of FU                             4</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Alive     NA - Patient did not develop cancer before end of FU             849</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Dead      Patient alive after FC (with or without following SPC after e…   867</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Dead      Patient alive after SPC                                         <span style="text-decoration: underline;">1</span>361</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Dead      Patient dead after FC                                           <span style="text-decoration: underline;">6</span>230</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">8</span> Dead      Patient dead after SPC                                          <span style="text-decoration: underline;">5</span>362</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">9</span> Dead      NA - Patient did not develop cancer before end of FU              68</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span>
 <span class="co">#&gt;   p_status                                                                   n</span>
-<span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
-<span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  6807</span>
-<span class="co">#&gt; 2 Patient alive after SPC                                                12677</span>
-<span class="co">#&gt; 3 Patient dead after FC                                                   6230</span>
-<span class="co">#&gt; 4 Patient dead after SPC                                                  5362</span>
-<span class="co">#&gt; 5 NA - Patient not born before end of FU                                     4</span>
-<span class="co">#&gt; 6 NA - Patient did not develop cancer before end of FU                     917</span>
-<span class="co">#&gt; # A tibble: 31,997 × 130</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                                                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Patient alive after FC (with or without following SPC after end of FU)  <span style="text-decoration: underline;">6</span>807</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Patient alive after SPC                                                <span style="text-decoration: underline;">12</span>677</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Patient dead after FC                                                   <span style="text-decoration: underline;">6</span>230</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Patient dead after SPC                                                  <span style="text-decoration: underline;">5</span>362</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> NA - Patient not born before end of FU                                     4</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> NA - Patient did not develop cancer before end of FU                     917</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 31,997 × 130</span></span>
 <span class="co">#&gt;    fake_id SEQ_NUM.1 registry.1            sex.1 race.1 datebirth.1 t_datediag.1</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;                 &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100004          1 SEER Reg 20 - Detroi… Male  White  1926-01-01  1992-07-15  </span>
-<span class="co">#&gt;  2 100039          1 SEER Reg 02 - Connec… Fema… White  1946-01-01  2003-08-15  </span>
-<span class="co">#&gt;  3 100073          1 SEER Reg 01 - San Fr… Male  White  1960-01-01  1993-11-15  </span>
-<span class="co">#&gt;  4 100143          1 SEER Reg 02 - Connec… Male  White  1944-01-01  1992-03-15  </span>
-<span class="co">#&gt;  5 100182          1 SEER Reg 02 - Connec… Male  Other  1927-01-01  1991-09-15  </span>
-<span class="co">#&gt;  6 100197          1 SEER Reg 02 - Connec… Fema… White  1945-01-01  2012-06-15  </span>
-<span class="co">#&gt;  7 100208          1 SEER Reg 02 - Connec… Male  White  1970-01-01  2019-11-15  </span>
-<span class="co">#&gt;  8 100230          1 SEER Reg 01 - San Fr… Male  White  1947-01-01  1992-11-15  </span>
-<span class="co">#&gt;  9 100234          1 SEER Reg 01 - San Fr… Male  White  1988-01-01  2010-02-15  </span>
-<span class="co">#&gt; 10 100266          1 SEER Reg 01 - San Fr… Fema… White  1956-01-01  2010-07-15  </span>
-<span class="co">#&gt; # … with 31,987 more rows, and 123 more variables: t_site_icd.1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   t_dco.1 &lt;chr&gt;, fc_age.1 &lt;int&gt;, datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   p_dodmin.1 &lt;date&gt;, fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   SEQ_NUM.2 &lt;int&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;, t_dco.2 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;, p_dodmin.2 &lt;date&gt;,</span>
-<span class="co">#&gt; #   fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;, SEQ_NUM.3 &lt;int&gt;, …</span></code></pre></div>
-<div id="step-filter-pat-status" class="section level4">
-<h4 class="hasAnchor">
-<a href="#step-filter-pat-status" class="anchor"></a>Step 6b - Remove patients irrelevant to analysis depending on status</h4>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 100004          1 SEER Reg 20 - Detroi… Male  White  1926-01-01  1992-07-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 100039          1 SEER Reg 02 - Connec… Fema… White  1946-01-01  2003-08-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 100073          1 SEER Reg 01 - San Fr… Male  White  1960-01-01  1993-11-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 100143          1 SEER Reg 02 - Connec… Male  White  1944-01-01  1992-03-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 100182          1 SEER Reg 02 - Connec… Male  Other  1927-01-01  1991-09-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 100197          1 SEER Reg 02 - Connec… Fema… White  1945-01-01  2012-06-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 100208          1 SEER Reg 02 - Connec… Male  White  1970-01-01  2019-11-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 100230          1 SEER Reg 01 - San Fr… Male  White  1947-01-01  1992-11-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 100234          1 SEER Reg 01 - San Fr… Male  White  1988-01-01  2010-02-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 100266          1 SEER Reg 01 - San Fr… Fema… White  1956-01-01  2010-07-15  </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 31,987 more rows, and 123 more variables: t_site_icd.1 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   t_dco.1 &lt;chr&gt;, fc_age.1 &lt;int&gt;, datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   p_dodmin.1 &lt;date&gt;, fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   SEQ_NUM.2 &lt;int&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;, t_dco.2 &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;, p_dodmin.2 &lt;date&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;, SEQ_NUM.3 &lt;int&gt;, …</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="step-filter-pat-status">Step 6b - Remove patients irrelevant to analysis depending on status<a class="anchor" aria-label="anchor" href="#step-filter-pat-status"></a>
+</h4>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">p_status</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NA - Patient not born before end of FU"</span>,
+<code class="sourceCode R"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">p_status</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NA - Patient not born before end of FU"</span>,
                                  <span class="st">"NA - Patient did not develop cancer before end of FU"</span>,
                                  <span class="st">"NA - Patient date of death is missing"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">p_status</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 4 × 2</span>
+<span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">p_status</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span>
 <span class="co">#&gt;   p_status                                                                   n</span>
-<span class="co">#&gt;   &lt;fct&gt;                                                                  &lt;int&gt;</span>
-<span class="co">#&gt; 1 Patient alive after FC (with or without following SPC after end of FU)  6803</span>
-<span class="co">#&gt; 2 Patient alive after SPC                                                12676</span>
-<span class="co">#&gt; 3 Patient dead after FC                                                   6208</span>
-<span class="co">#&gt; 4 Patient dead after SPC                                                  5325</span></code></pre></div>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                                                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Patient alive after FC (with or without following SPC after end of FU)  <span style="text-decoration: underline;">6</span>803</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Patient alive after SPC                                                <span style="text-decoration: underline;">12</span>676</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Patient dead after FC                                                   <span style="text-decoration: underline;">6</span>208</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Patient dead after SPC                                                  <span style="text-decoration: underline;">5</span>325</span></code></pre></div>
 </div>
 </div>
-<div id="step-calc-futime" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-calc-futime" class="anchor"></a>Step 7 - Calculate FU time</h3>
+<div class="section level3">
+<h3 id="step-calc-futime">Step 7 - Calculate FU time<a class="anchor" aria-label="anchor" href="#step-calc-futime"></a>
+</h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
    <span class="fu"><a href="../reference/calc_futime.html">calc_futime</a></span><span class="op">(</span><span class="va">.</span>, futime_var_new <span class="op">=</span> <span class="st">"p_futimeyrs"</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>,
                dattype <span class="op">=</span> <span class="st">"seer"</span>, time_unit <span class="op">=</span> <span class="st">"years"</span>, 
                lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, 
                fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>, spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 4 × 5</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 5</span></span>
 <span class="co">#&gt;   p_status                       mean_futime min_futime max_futime median_futime</span>
-<span class="co">#&gt;   &lt;fct&gt;                                &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Patient alive after FC (with …        9.58     0.0438       27.0          8.29</span>
-<span class="co">#&gt; 2 Patient alive after SPC               8.69     0            26.9          7.50</span>
-<span class="co">#&gt; 3 Patient dead after FC                 8.54     0            25.8          7.47</span>
-<span class="co">#&gt; 4 Patient dead after SPC                6.33     0            26.5          5.08</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Patient alive after FC (with …        9.58     0.043<span style="text-decoration: underline;">8</span>       27.0          8.29</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Patient alive after SPC               8.69     0            26.9          7.50</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Patient dead after FC                 8.54     0            25.8          7.47</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Patient dead after SPC                6.33     0            26.5          5.08</span>
 
-<span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">p_status</span>, <span class="va">p_futimeyrs</span>, <span class="va">p_alive.1</span>, <span class="va">datedeath.1</span>, <span class="va">t_datediag.1</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 31,012 × 7</span>
+<span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">fake_id</span>, <span class="va">p_status</span>, <span class="va">p_futimeyrs</span>, <span class="va">p_alive.1</span>, <span class="va">datedeath.1</span>, <span class="va">t_datediag.1</span>, <span class="va">t_datediag.2</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 31,012 × 7</span></span>
 <span class="co">#&gt;    fake_id p_status  p_futimeyrs p_alive.1 datedeath.1 t_datediag.1 t_datediag.2</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;fct&gt;           &lt;dbl&gt; &lt;chr&gt;     &lt;date&gt;      &lt;date&gt;       &lt;date&gt;      </span>
-<span class="co">#&gt;  1 100004  Patient …       11.5  Alive     NA          1992-07-15   2004-01-15  </span>
-<span class="co">#&gt;  2 100039  Patient …        7.67 Alive     NA          2003-08-15   2011-04-15  </span>
-<span class="co">#&gt;  3 100073  Patient …       10.1  Dead      2005-06-01  1993-11-15   2003-12-15  </span>
-<span class="co">#&gt;  4 100143  Patient …        3.33 Alive     NA          1992-03-15   1995-07-15  </span>
-<span class="co">#&gt;  5 100182  Patient …        7.08 Dead      2007-05-01  1991-09-15   1998-10-15  </span>
-<span class="co">#&gt;  6 100197  Patient …        4.83 Alive     NA          2012-06-15   2017-04-15  </span>
-<span class="co">#&gt;  7 100230  Patient …       11.0  Dead      2008-05-01  1992-11-15   2003-11-15  </span>
-<span class="co">#&gt;  8 100234  Patient …        5.37 Dead      2015-07-01  2010-02-15   NA          </span>
-<span class="co">#&gt;  9 100266  Patient …        7.46 Alive     NA          2010-07-15   NA          </span>
-<span class="co">#&gt; 10 100274  Patient …        2.38 Dead      2006-06-01  2004-01-15   NA          </span>
-<span class="co">#&gt; # … with 31,002 more rows</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 100004  Patient …       11.5  Alive     <span style="color: #BB0000;">NA</span>          1992-07-15   2004-01-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 100039  Patient …        7.67 Alive     <span style="color: #BB0000;">NA</span>          2003-08-15   2011-04-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 100073  Patient …       10.1  Dead      2005-06-01  1993-11-15   2003-12-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 100143  Patient …        3.33 Alive     <span style="color: #BB0000;">NA</span>          1992-03-15   1995-07-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 100182  Patient …        7.08 Dead      2007-05-01  1991-09-15   1998-10-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 100197  Patient …        4.83 Alive     <span style="color: #BB0000;">NA</span>          2012-06-15   2017-04-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 100230  Patient …       11.0  Dead      2008-05-01  1992-11-15   2003-11-15  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 100234  Patient …        5.37 Dead      2015-07-01  2010-02-15   <span style="color: #BB0000;">NA</span>          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 100266  Patient …        7.46 Alive     <span style="color: #BB0000;">NA</span>          2010-07-15   <span style="color: #BB0000;">NA</span>          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 100274  Patient …        2.38 Dead      2006-06-01  2004-01-15   <span style="color: #BB0000;">NA</span>          </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 31,002 more rows</span></span></code></pre></div>
 </div>
-<div id="step-sir-byfutime" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-sir-byfutime" class="anchor"></a>Step 8 - Calculate SIR</h3>
+<div class="section level3">
+<h3 id="step-sir-byfutime">Step 8 - Calculate SIR<a class="anchor" aria-label="anchor" href="#step-sir-byfutime"></a>
+</h3>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sircalc_results</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<code class="sourceCode R"><span class="va">sircalc_results</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/sir_byfutime.html">sir_byfutime</a></span><span class="op">(</span>
     dattype <span class="op">=</span> <span class="st">"seer"</span>,
-    ybreak_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"race.1"</span>, <span class="st">"t_dco.1"</span><span class="op">)</span>,
+    ybreak_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"race.1"</span>, <span class="st">"t_dco.1"</span><span class="op">)</span>,
     xbreak_var <span class="op">=</span> <span class="st">"none"</span>,
-    futime_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="cn">Inf</span><span class="op">)</span>,
+    futime_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">12</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="cn">Inf</span><span class="op">)</span>,
     count_var <span class="op">=</span> <span class="st">"count_spc"</span>,
     refrates_df <span class="op">=</span> <span class="va">us_refrates_icd2</span>,
     calc_total_row <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -556,49 +550,49 @@
     alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
 <span class="co">#&gt; Warning: `mutate_across.()` was deprecated in tidytable 0.6.4.</span>
 <span class="co">#&gt; Please use `mutate.(across.())</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span>
+<span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
+<span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; # A tidytable: 4 × 10</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 4 × 10</span></span>
 <span class="co">#&gt;   age      sex    region   year  race.1 t_site to1month i_observed i_pyar n_base</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 05 - 09  Male   SEER Re… 2015… Other  C34           1          1      0      1</span>
-<span class="co">#&gt; 2 15 - 19  Male   SEER Re… 2005… Black  C34           1          1      0      1</span>
-<span class="co">#&gt; 3 85 - 120 Female SEER Re… 1995… Black  C34           1          2      0      2</span>
-<span class="co">#&gt; 4 85 - 120 Male   SEER Re… 2010… Other  C34           1          1      0      1 </span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 05 - 09  Male   SEER Re… 2015… Other  C34           1          1      0      1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 15 - 19  Male   SEER Re… 2005… Black  C34           1          1      0      1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 85 - 120 Female SEER Re… 1995… Black  C34           1          2      0      2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 85 - 120 Male   SEER Re… 2010… Other  C34           1          1      0      1 </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; # A tidytable: 4 × 10</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 4 × 10</span></span>
 <span class="co">#&gt;   age      sex    region  year  race.1 t_site Total0toInfyears i_observed i_pyar</span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 05 - 09  Male   SEER R… 2015… Other  C34                   1          1      0</span>
-<span class="co">#&gt; 2 15 - 19  Male   SEER R… 2005… Black  C34                   1          1      0</span>
-<span class="co">#&gt; 3 85 - 120 Female SEER R… 1995… Black  C34                   1          2      0</span>
-<span class="co">#&gt; 4 85 - 120 Male   SEER R… 2010… Other  C34                   1          1      0</span>
-<span class="co">#&gt; # … with 1 more variable: n_base &lt;dbl&gt; </span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 05 - 09  Male   SEER R… 2015… Other  C34                   1          1      0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 15 - 19  Male   SEER R… 2005… Black  C34                   1          1      0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 85 - 120 Female SEER R… 1995… Black  C34                   1          2      0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 85 - 120 Male   SEER R… 2010… Other  C34                   1          1      0</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: n_base &lt;dbl&gt;</span> </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; # A tidytable: 1 × 10</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 1 × 10</span></span>
 <span class="co">#&gt;   age     sex   region    year  t_dco.1 t_site to1month i_observed i_pyar n_base</span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 80 - 84 Male  SEER Reg… 2010… DCO ca… C34           1          1      0      1 </span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 80 - 84 Male  SEER Reg… 2010… DCO ca… C34           1          1      0      1 </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; # A tidytable: 1 × 10</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 1 × 10</span></span>
 <span class="co">#&gt;   age     sex   region   year  t_dco.1 t_site Total0toInfyears i_observed i_pyar</span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 80 - 84 Male  SEER Re… 2010… DCO ca… C34                   1          1      0</span>
-<span class="co">#&gt; # … with 1 more variable: n_base &lt;dbl&gt; </span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 80 - 84 Male  SEER Re… 2010… DCO ca… C34                   1          1      0</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: n_base &lt;dbl&gt;</span> </span>
 <span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
 <span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
 <span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
@@ -608,145 +602,145 @@
 <span class="co">#&gt;  - DCO cases </span>
 <span class="co">#&gt;  - diagnosis of second cancer occured in different time period than first cancer </span>
 <span class="co">#&gt; The following strata are affected: </span>
-<span class="co">#&gt; # A tidytable: 166 × 21</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 166 × 21</span></span>
 <span class="co">#&gt;    yvar_name yvar_label fu_time    age     sex    region year  t_site i_observed</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 total_var Overall    1-5 years  60 - 64 Male   SEER … 2010… C34            17</span>
-<span class="co">#&gt;  2 total_var Overall    1-5 years  65 - 69 Male   SEER … 2015… C34            18</span>
-<span class="co">#&gt;  3 total_var Overall    5-10 years 60 - 64 Male   SEER … 2010… C34            20</span>
-<span class="co">#&gt;  4 total_var Overall    5-10 years 60 - 64 Male   SEER … 2010… C34            22</span>
-<span class="co">#&gt;  5 total_var Overall    5-10 years 70 - 74 Male   SEER … 2005… C34            12</span>
-<span class="co">#&gt;  6 total_var Overall    5-10 years 75 - 79 Female SEER … 2005… C34            13</span>
-<span class="co">#&gt;  7 total_var Overall    10+ years  25 - 29 Female SEER … 1995… C34            14</span>
-<span class="co">#&gt;  8 total_var Overall    10+ years  60 - 64 Female SEER … 1995… C34            18</span>
-<span class="co">#&gt;  9 total_var Overall    10+ years  60 - 64 Female SEER … 1995… C34            16</span>
-<span class="co">#&gt; 10 total_var Overall    10+ years  65 - 69 Male   SEER … 2000… C34            29</span>
-<span class="co">#&gt; # … with 156 more rows, and 12 more variables: i_pyar &lt;dbl&gt;, n_base &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   race &lt;chr&gt;, incidence_cases &lt;int&gt;, population_pyar &lt;int&gt;,</span>
-<span class="co">#&gt; #   incidence_crude_rate &lt;dbl&gt;, i_expected &lt;dbl&gt;, sir &lt;dbl&gt;, sir_lci &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   sir_uci &lt;dbl&gt;, fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> total_var Overall    1-5 years  60 - 64 Male   SEER … 2010… C34            17</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> total_var Overall    1-5 years  65 - 69 Male   SEER … 2015… C34            18</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> total_var Overall    5-10 years 60 - 64 Male   SEER … 2010… C34            20</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> total_var Overall    5-10 years 60 - 64 Male   SEER … 2010… C34            22</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> total_var Overall    5-10 years 70 - 74 Male   SEER … 2005… C34            12</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> total_var Overall    5-10 years 75 - 79 Female SEER … 2005… C34            13</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> total_var Overall    10+ years  25 - 29 Female SEER … 1995… C34            14</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> total_var Overall    10+ years  60 - 64 Female SEER … 1995… C34            18</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> total_var Overall    10+ years  60 - 64 Female SEER … 1995… C34            16</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> total_var Overall    10+ years  65 - 69 Male   SEER … 2000… C34            29</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 156 more rows, and 12 more variables: i_pyar &lt;dbl&gt;, n_base &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   race &lt;chr&gt;, incidence_cases &lt;int&gt;, population_pyar &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   incidence_crude_rate &lt;dbl&gt;, i_expected &lt;dbl&gt;, sir &lt;dbl&gt;, sir_lci &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   sir_uci &lt;dbl&gt;, fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Check attribute `notes_refcases` of results to see what strata are affected.</span>
 
-<span class="va">sircalc_results</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="co">#&gt; # A tidytable: 246,962 × 22</span>
+<span class="va">sircalc_results</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 246,962 × 22</span></span>
 <span class="co">#&gt;     age     region     sex   year  yvar_name yvar_label fu_time  t_site observed</span>
-<span class="co">#&gt;     &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;   1 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C14           0</span>
-<span class="co">#&gt;   2 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C18           0</span>
-<span class="co">#&gt;   3 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C34           0</span>
-<span class="co">#&gt;   4 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C44           0</span>
-<span class="co">#&gt;   5 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C50           0</span>
-<span class="co">#&gt;   6 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C54           0</span>
-<span class="co">#&gt;   7 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C64           0</span>
-<span class="co">#&gt;   8 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C80           0</span>
-<span class="co">#&gt;   9 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C14           0</span>
-<span class="co">#&gt;  10 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C18           0</span>
-<span class="co">#&gt;  11 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C34           0</span>
-<span class="co">#&gt;  12 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C44           0</span>
-<span class="co">#&gt;  13 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C50           0</span>
-<span class="co">#&gt;  14 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C54           0</span>
-<span class="co">#&gt;  15 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C64           0</span>
-<span class="co">#&gt;  16 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C80           0</span>
-<span class="co">#&gt;  17 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C14           0</span>
-<span class="co">#&gt;  18 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C18           0</span>
-<span class="co">#&gt;  19 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C34           0</span>
-<span class="co">#&gt;  20 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C44           0</span>
-<span class="co">#&gt;  21 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C50           0</span>
-<span class="co">#&gt;  22 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C54           0</span>
-<span class="co">#&gt;  23 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C64           0</span>
-<span class="co">#&gt;  24 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C80           0</span>
-<span class="co">#&gt;  25 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C14           0</span>
-<span class="co">#&gt;  26 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C18           0</span>
-<span class="co">#&gt;  27 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C34           0</span>
-<span class="co">#&gt;  28 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C44           0</span>
-<span class="co">#&gt;  29 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C50           0</span>
-<span class="co">#&gt;  30 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C54           0</span>
-<span class="co">#&gt;  31 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C64           0</span>
-<span class="co">#&gt;  32 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C80           0</span>
-<span class="co">#&gt;  33 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C14           0</span>
-<span class="co">#&gt;  34 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C18           0</span>
-<span class="co">#&gt;  35 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C34           1</span>
-<span class="co">#&gt;  36 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C44           0</span>
-<span class="co">#&gt;  37 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C50           0</span>
-<span class="co">#&gt;  38 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C54           0</span>
-<span class="co">#&gt;  39 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C64           0</span>
-<span class="co">#&gt;  40 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C80           0</span>
-<span class="co">#&gt;  41 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C14           0</span>
-<span class="co">#&gt;  42 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C18           0</span>
-<span class="co">#&gt;  43 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C34           5</span>
-<span class="co">#&gt;  44 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C44           0</span>
-<span class="co">#&gt;  45 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C50           0</span>
-<span class="co">#&gt;  46 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C54           0</span>
-<span class="co">#&gt;  47 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C64           0</span>
-<span class="co">#&gt;  48 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C80           0</span>
-<span class="co">#&gt;  49 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C14           0</span>
-<span class="co">#&gt;  50 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C18           0</span>
-<span class="co">#&gt;  51 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C34           6</span>
-<span class="co">#&gt;  52 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C44           0</span>
-<span class="co">#&gt;  53 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C50           0</span>
-<span class="co">#&gt;  54 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C54           0</span>
-<span class="co">#&gt;  55 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C64           0</span>
-<span class="co">#&gt;  56 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C80           0</span>
-<span class="co">#&gt;  57 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C14           0</span>
-<span class="co">#&gt;  58 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C18           0</span>
-<span class="co">#&gt;  59 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C34           0</span>
-<span class="co">#&gt;  60 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C44           0</span>
-<span class="co">#&gt;  61 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C50           0</span>
-<span class="co">#&gt;  62 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C54           0</span>
-<span class="co">#&gt;  63 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C64           0</span>
-<span class="co">#&gt;  64 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C80           0</span>
-<span class="co">#&gt;  65 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C14           0</span>
-<span class="co">#&gt;  66 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C18           0</span>
-<span class="co">#&gt;  67 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C34           0</span>
-<span class="co">#&gt;  68 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C44           0</span>
-<span class="co">#&gt;  69 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C50           0</span>
-<span class="co">#&gt;  70 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C54           0</span>
-<span class="co">#&gt;  71 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C64           0</span>
-<span class="co">#&gt;  72 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C80           0</span>
-<span class="co">#&gt;  73 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C14           0</span>
-<span class="co">#&gt;  74 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C18           0</span>
-<span class="co">#&gt;  75 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C34           0</span>
-<span class="co">#&gt;  76 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C44           0</span>
-<span class="co">#&gt;  77 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C50           0</span>
-<span class="co">#&gt;  78 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C54           0</span>
-<span class="co">#&gt;  79 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C64           0</span>
-<span class="co">#&gt;  80 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C80           0</span>
-<span class="co">#&gt;  81 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C14           0</span>
-<span class="co">#&gt;  82 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C18           0</span>
-<span class="co">#&gt;  83 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C34           0</span>
-<span class="co">#&gt;  84 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C44           0</span>
-<span class="co">#&gt;  85 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C50           0</span>
-<span class="co">#&gt;  86 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C54           0</span>
-<span class="co">#&gt;  87 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C64           0</span>
-<span class="co">#&gt;  88 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C80           0</span>
-<span class="co">#&gt;  89 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C14           0</span>
-<span class="co">#&gt;  90 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C18           0</span>
-<span class="co">#&gt;  91 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C34           1</span>
-<span class="co">#&gt;  92 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C44           0</span>
-<span class="co">#&gt;  93 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C50           0</span>
-<span class="co">#&gt;  94 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C54           0</span>
-<span class="co">#&gt;  95 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C64           0</span>
-<span class="co">#&gt;  96 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C80           0</span>
-<span class="co">#&gt;  97 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C14           0</span>
-<span class="co">#&gt;  98 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C18           0</span>
-<span class="co">#&gt;  99 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C34           1</span>
-<span class="co">#&gt; 100 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C44           0</span>
-<span class="co">#&gt; # … with 246,862 more rows, and 13 more variables: expected &lt;dbl&gt;, sir &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   sir_lci &lt;dbl&gt;, sir_uci &lt;dbl&gt;, pyar &lt;dbl&gt;, n_base &lt;dbl&gt;, race &lt;chr&gt;,</span>
-<span class="co">#&gt; #   ref_inc_cases &lt;dbl&gt;, ref_population_pyar &lt;dbl&gt;, ref_inc_crude_rate &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;, warning &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">  1</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">  2</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">  3</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C34           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">  4</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">  5</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">  6</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">  7</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">  8</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    to 1 mo… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">  9</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 10</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 11</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C34           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 12</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 13</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 14</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 15</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 16</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.0833-… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 17</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 18</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 19</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C34           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 20</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 21</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 22</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 23</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 24</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    0.167-1… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 25</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 26</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 27</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C34           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 28</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 29</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 30</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 31</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 32</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    1-5 yea… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 33</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 34</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 35</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C34           1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 36</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 37</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 38</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 39</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 40</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    5-10 ye… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 41</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 42</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 43</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C34           5</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 44</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 45</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 46</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 47</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 48</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    10+ yea… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 49</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 50</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 51</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C34           6</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 52</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 53</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 54</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 55</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 56</span> 00 - 04 SEER Reg … Fema… 1990… total_var Overall    Total 0… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 57</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 58</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 59</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C34           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 60</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 61</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 62</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 63</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 64</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      to 1 mo… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 65</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 66</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 67</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C34           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 68</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 69</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 70</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 71</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 72</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.0833-… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 73</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 74</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 75</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C34           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 76</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 77</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 78</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 79</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 80</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      0.167-1… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 81</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 82</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 83</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C34           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 84</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 85</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 86</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 87</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 88</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      1-5 yea… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 89</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 90</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 91</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C34           1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 92</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C44           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 93</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C50           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 94</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C54           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 95</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C64           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 96</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      5-10 ye… C80           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 97</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C14           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 98</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C18           0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 99</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C34           1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">100</span> 00 - 04 SEER Reg … Fema… 1990… race.1    Black      Total 0… C44           0</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 246,862 more rows, and 13 more variables: expected &lt;dbl&gt;, sir &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   sir_lci &lt;dbl&gt;, sir_uci &lt;dbl&gt;, pyar &lt;dbl&gt;, n_base &lt;dbl&gt;, race &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   ref_inc_cases &lt;dbl&gt;, ref_population_pyar &lt;dbl&gt;, ref_inc_crude_rate &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;, warning &lt;chr&gt;</span></span></code></pre></div>
 </div>
-<div id="step-summarize-sir" class="section level3">
-<h3 class="hasAnchor">
-<a href="#step-summarize-sir" class="anchor"></a>Step 9 - Summarize SIR results</h3>
+<div class="section level3">
+<h3 id="step-summarize-sir">Step 9 - Summarize SIR results<a class="anchor" aria-label="anchor" href="#step-summarize-sir"></a>
+</h3>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#The summarize function is versatile. Her for example the summary by</span>
 
-<span class="va">sircalc_results</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<span class="va">sircalc_results</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="co">#summarize results across region, age, year and t_site</span>
   <span class="fu"><a href="../reference/summarize_sir_results.html">summarize_sir_results</a></span><span class="op">(</span><span class="va">.</span>,
-                        summarize_groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"region"</span>, <span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"race"</span><span class="op">)</span>,
+                        summarize_groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"region"</span>, <span class="st">"age"</span>, <span class="st">"year"</span>, <span class="st">"race"</span><span class="op">)</span>,
                         summarize_site <span class="op">=</span> <span class="cn">TRUE</span>,
                         output <span class="op">=</span> <span class="st">"long"</span>,  output_information <span class="op">=</span> <span class="st">"minimal"</span>,
                         add_total_row <span class="op">=</span> <span class="st">"only"</span>,  add_total_fu <span class="op">=</span> <span class="st">"no"</span>,
@@ -754,39 +748,42 @@
                         fubreak_var_name <span class="op">=</span> <span class="st">"fu_time"</span>, ybreak_var_name <span class="op">=</span> <span class="st">"yvar_name"</span>,
                         xbreak_var_name <span class="op">=</span> <span class="st">"none"</span>, site_var_name <span class="op">=</span> <span class="st">"t_site"</span>,
                         alpha <span class="op">=</span> <span class="fl">0.05</span>
-                        <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">region</span>, <span class="op">-</span><span class="va">age</span>, <span class="op">-</span><span class="va">year</span>, <span class="op">-</span><span class="va">race</span>, <span class="op">-</span><span class="va">sex</span>, <span class="op">-</span><span class="va">yvar_name</span><span class="op">)</span>
+                        <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">region</span>, <span class="op">-</span><span class="va">age</span>, <span class="op">-</span><span class="va">year</span>, <span class="op">-</span><span class="va">race</span>, <span class="op">-</span><span class="va">sex</span>, <span class="op">-</span><span class="va">yvar_name</span><span class="op">)</span>
 <span class="co">#&gt; Warning: The results file `sir_df` contains observed cases in i_observed that do not occur in the refrates_df (ref_inc_cases).</span>
 <span class="co">#&gt; Therefore calculation of the variables n_base and ref_population_pyar is ambiguous. </span>
 <span class="co">#&gt; We take the first value of each variable. Expect small inconsistencies in the calculation of n_base, ref_population_pyar and ref_inc_crude_rate across strata. </span>
 <span class="co">#&gt; If you want to know more, please check the `warnings` column of `sir_df`.</span>
-<span class="co">#&gt; # A tidytable: 7 × 8</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 7 × 8</span></span>
 <span class="co">#&gt;   yvar_label fu_time       fu_time_sort t_site observed expected   sir sir_ci   </span>
-<span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 Overall    to 1 month               1 Total       327     18.1 18.1  16.19 - …</span>
-<span class="co">#&gt; 2 Overall    0.0833-0.167…            2 Total        80     17.9  4.46 3.54 - 5…</span>
-<span class="co">#&gt; 3 Overall    0.167-1 years            3 Total       724    172.   4.2  3.9 - 4.…</span>
-<span class="co">#&gt; 4 Overall    1-5 years                4 Total      2998    668.   4.49 4.33 - 4…</span>
-<span class="co">#&gt; 5 Overall    5-10 years               5 Total      3089    531.   5.82 5.61 - 6…</span>
-<span class="co">#&gt; 6 Overall    10+ years                6 Total      4241    438.   9.69 9.4 - 9.…</span>
-<span class="co">#&gt; 7 Overall    Total 0 to I…            7 Total     11459   1845.   6.21 6.1 - 6.…</span></code></pre></div>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Overall    to 1 month               1 Total       327     18.1 18.1  16.19 - …</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Overall    0.0833-0.167…            2 Total        80     17.9  4.46 3.54 - 5…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Overall    0.167-1 years            3 Total       724    172.   4.2  3.9 - 4.…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Overall    1-5 years                4 Total      <span style="text-decoration: underline;">2</span>998    668.   4.49 4.33 - 4…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Overall    5-10 years               5 Total      <span style="text-decoration: underline;">3</span>089    531.   5.82 5.61 - 6…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Overall    10+ years                6 Total      <span style="text-decoration: underline;">4</span>241    438.   9.69 9.4 - 9.…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Overall    Total 0 to I…            7 Total     <span style="text-decoration: underline;">11</span>459   <span style="text-decoration: underline;">1</span>845.   6.21 6.1 - 6.…</span></code></pre></div>
 </div>
 </div>
-<div id="built-with" class="section level2">
-<h2 class="hasAnchor">
-<a href="#built-with" class="anchor"></a>Built with</h2>
+<div class="section level2">
+<h2 id="built-with">Built with<a class="anchor" aria-label="anchor" href="#built-with"></a>
+</h2>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; R version 4.1.2 (2021-11-01)</span>
-<span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
-<span class="co">#&gt; Running under: macOS Big Sur 10.16</span>
+<span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
+<span class="co">#&gt; Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib</span>
-<span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib</span>
+<span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0</span>
+<span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; locale:</span>
-<span class="co">#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span>
+<span class="co">#&gt;  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span>
+<span class="co">#&gt;  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span>
+<span class="co">#&gt;  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span>
+<span class="co">#&gt; [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attached base packages:</span>
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
@@ -795,18 +792,19 @@
 <span class="co">#&gt; [1] msSPChelpR_0.8.7.9000 magrittr_2.0.1        dplyr_1.0.7          </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] pillar_1.6.4      compiler_4.1.2    prettyunits_1.1.1 progress_1.2.2   </span>
-<span class="co">#&gt;  [5] forcats_0.5.1     tools_4.1.2       digest_0.6.29     lubridate_1.8.0  </span>
-<span class="co">#&gt;  [9] evaluate_0.14     memoise_2.0.1     lifecycle_1.0.1   tibble_3.1.6     </span>
-<span class="co">#&gt; [13] pkgconfig_2.0.3   rlang_0.4.12      cli_3.1.0         yaml_2.2.1       </span>
-<span class="co">#&gt; [17] haven_2.4.3       pkgdown_1.6.1     xfun_0.28         fastmap_1.1.0    </span>
-<span class="co">#&gt; [21] stringr_1.4.0     knitr_1.36        hms_1.1.1         generics_0.1.1   </span>
-<span class="co">#&gt; [25] desc_1.4.0        fs_1.5.0          vctrs_0.3.8       systemfonts_1.0.2</span>
-<span class="co">#&gt; [29] sjlabelled_1.1.8  rprojroot_2.0.2   tidyselect_1.1.1  glue_1.5.1       </span>
-<span class="co">#&gt; [33] data.table_1.14.2 R6_2.5.1          textshaping_0.3.6 fansi_0.5.0      </span>
-<span class="co">#&gt; [37] rmarkdown_2.11    purrr_0.3.4       tidyr_1.1.4       htmltools_0.5.2  </span>
-<span class="co">#&gt; [41] ellipsis_0.3.2    insight_0.14.5    tidytable_0.6.5   ragg_1.1.3       </span>
-<span class="co">#&gt; [45] utf8_1.2.2        stringi_1.7.6     cachem_1.0.6      crayon_1.4.2</span></code></pre></div>
+<span class="co">#&gt;  [1] bslib_0.3.1       compiler_4.1.2    pillar_1.6.4      jquerylib_0.1.4  </span>
+<span class="co">#&gt;  [5] prettyunits_1.1.1 progress_1.2.2    forcats_0.5.1     tools_4.1.2      </span>
+<span class="co">#&gt;  [9] digest_0.6.29     lubridate_1.8.0   jsonlite_1.7.2    evaluate_0.14    </span>
+<span class="co">#&gt; [13] memoise_2.0.1     lifecycle_1.0.1   tibble_3.1.6      pkgconfig_2.0.3  </span>
+<span class="co">#&gt; [17] rlang_0.4.12      cli_3.1.0         yaml_2.2.1        haven_2.4.3      </span>
+<span class="co">#&gt; [21] pkgdown_2.0.1     xfun_0.28         fastmap_1.1.0     stringr_1.4.0    </span>
+<span class="co">#&gt; [25] knitr_1.36        hms_1.1.1         desc_1.4.0        generics_0.1.1   </span>
+<span class="co">#&gt; [29] fs_1.5.1          sass_0.4.0        vctrs_0.3.8       systemfonts_1.0.3</span>
+<span class="co">#&gt; [33] sjlabelled_1.1.8  rprojroot_2.0.2   tidyselect_1.1.1  glue_1.5.1       </span>
+<span class="co">#&gt; [37] data.table_1.14.2 R6_2.5.1          textshaping_0.3.6 fansi_0.5.0      </span>
+<span class="co">#&gt; [41] rmarkdown_2.11    tidyr_1.1.4       purrr_0.3.4       htmltools_0.5.2  </span>
+<span class="co">#&gt; [45] ellipsis_0.3.2    insight_0.14.5    tidytable_0.6.5   ragg_1.2.0       </span>
+<span class="co">#&gt; [49] utf8_1.2.2        stringi_1.7.6     cachem_1.0.6      crayon_1.4.2</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -822,11 +820,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/marianschmidt">Marian Eberl</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://github.com/marianschmidt" class="external-link">Marian Eberl</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -834,6 +834,8 @@
 
   
 
+
+  
 
   </body>
 </html>
