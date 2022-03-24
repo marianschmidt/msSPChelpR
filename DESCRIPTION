@@ -22,7 +22,7 @@ Imports:
     sjlabelled,
     stringr,
     tidyselect, 
-    tidytable (>= 0.6.1),
+    tidytable (>= 0.7.1.9),
     tidyr (>= 1.0.0),
     utils
 Suggests: 
