@@ -310,7 +310,7 @@ sir_byfutime <- function(df,
   
   # change factors to character to avoid warning messages
   df <- df%>%
-    tidytable::mutate_across.(.cols = where(is.factor), .fns = as.character)
+    tidytable::mutate.(tidytable::across.(.cols = where(is.factor), .fns = as.character))
   
   # remove all labels from df to avoid warning messages
   df[] <- lapply(df, function(x) { attributes(x) <- NULL; x })
@@ -324,30 +324,30 @@ sir_byfutime <- function(df,
       region = as.character(!!region_var),
       year = as.character(!!year_var),
       t_site = as.character(!!site_var)) %>%
-    tidytable::mutate_across.(.cols = c(age, sex, region, year, t_site), 
-                              .fns = ~tidytable::replace_na.(., na_explicit))
+    tidytable::mutate.(tidytable::across.(.cols = c(age, sex, region, year, t_site), 
+                              .fns = ~tidytable::replace_na.(., na_explicit)))
   
   #prepare df for race stratification if needed
   if(rs){
     df <- df %>%
       tidytable::mutate.(
         race = as.character(!!race_var)) %>%
-      tidytable::mutate_across.(.cols = c(race), 
-                                .fns = ~tidytable::replace_na.(., na_explicit))
+      tidytable::mutate.(tidytable::across.(.cols = c(race), 
+                                .fns = ~tidytable::replace_na.(., na_explicit)))
   }
   
   #make all important variables characters and make NAs explicit for ybreak_vars (for better matching)
   if(yb){
     df <- df %>%
-      tidytable::mutate_across.(.cols = tidyselect::all_of(ybreak_var_names), .fns = ~as.character(.)) %>%
-      tidytable::mutate_across.(.cols = tidyselect::all_of(ybreak_var_names), .fns = ~tidytable::replace_na.(., na_explicit))
+      tidytable::mutate.(tidytable::across.(.cols = tidyselect::all_of(ybreak_var_names), .fns = ~as.character(.))) %>%
+      tidytable::mutate.(tidytable::across.(.cols = tidyselect::all_of(ybreak_var_names), .fns = ~tidytable::replace_na.(., na_explicit)))
   }
   
   #make all important variables characters and make NAs explicit for xbreak_var (for better matching)
   if(xb){
     df <- df %>%
-      tidytable::mutate_across.(.cols = tidyselect::all_of(xbreak_var_names), .fns = ~as.character(.)) %>%
-      tidytable::mutate_across.(.cols = tidyselect::all_of(xbreak_var_names), .fns = ~tidytable::replace_na.(., na_explicit))
+      tidytable::mutate.(tidytable::across.(.cols = tidyselect::all_of(xbreak_var_names), .fns = ~as.character(.))) %>%
+      tidytable::mutate.(tidytable::across.(.cols = tidyselect::all_of(xbreak_var_names), .fns = ~tidytable::replace_na.(., na_explicit)))
   }
   
   #get used age, sex, region, year, t_site
@@ -506,7 +506,7 @@ sir_byfutime <- function(df,
   
   #make factor variables to character for better matching
   refrates_df <- refrates_df %>%
-    tidytable::mutate_across.(.cols = where(is.factor), .fns = as.character)
+    tidytable::mutate.(tidytable::across.(.cols = where(is.factor), .fns = as.character))
   
   #remove attributes of refrates_df for better matching
   refrates_df[] <- lapply(refrates_df, function(x) { attributes(x) <- NULL; x })
@@ -625,19 +625,19 @@ sir_byfutime <- function(df,
       #for ybreak_var: make NAs explicit
       if(yb & !xb){
         sircalc_count <- sircalc_count %>% 
-          tidytable::mutate_across.(.cols = !!syb_var, .fns = ~tidytable::replace_na.(., na_explicit))
+          tidytable::mutate.(tidytable::across.(.cols = !!syb_var, .fns = ~tidytable::replace_na.(., na_explicit)))
       }
       
       #for xbreak_var: make NAs explicit
       if(!yb & xb){
         sircalc_count <- sircalc_count %>% 
-          tidytable::mutate_across.(.cols = !!sxb_var, ~tidytable::replace_na.(., na_explicit))
+          tidytable::mutate.(tidytable::across.(.cols = !!sxb_var, ~tidytable::replace_na.(., na_explicit)))
       }
       
       #for ybreak_vars and xbreak_var: make NAs explicit
       if(yb & xb){
         sircalc_count <- sircalc_count %>% 
-          tidytable::mutate_across.(.cols = c(!!syb_var, !!sxb_var), ~tidytable::replace_na.(., na_explicit))}
+          tidytable::mutate.(tidytable::across.(.cols = c(!!syb_var, !!sxb_var), ~tidytable::replace_na.(., na_explicit)))}
       
       
       #F2c person-years at risk
@@ -812,7 +812,7 @@ sir_byfutime <- function(df,
       #some missings in t_site are expected after merge for those strata where no observed case occurred
       #make NAs in t_site in sircalc explicit
       sircalc <- sircalc %>% 
-        tidytable::mutate_across.(.cols = c(t_site), .fns = ~tidytable::replace_na.(., na_explicit))
+        tidytable::mutate.(tidytable::across.(.cols = c(t_site), .fns = ~tidytable::replace_na.(., na_explicit)))
       
       
       #all strata that have missing i_pyar are not in df and therefore i_pyar = 0 and n_base = 0 
@@ -1038,11 +1038,11 @@ sir_byfutime <- function(df,
   #5d rounding
   
   sir_result_pre <- sir_result_pre %>%
-    tidytable::mutate_across.(.cols = c(pyar, sir, sir_lci, sir_uci), 
-                              .fns = ~round(.,2)) %>%
+    tidytable::mutate.(tidytable::across.(.cols = c(pyar, sir, sir_lci, sir_uci), 
+                              .fns = ~round(.,2))) %>%
     #ensure that all vars are exported as numeric
-    tidytable::mutate_across.(.cols = c(observed, expected, n_base, ref_inc_cases, ref_inc_crude_rate, ref_population_pyar), 
-                              .fns = ~as.numeric(.)) 
+    tidytable::mutate.(tidytable::across.(.cols = c(observed, expected, n_base, ref_inc_cases, ref_inc_crude_rate, ref_population_pyar), 
+                              .fns = ~as.numeric(.))) 
   
   #collapse_ci option
   
