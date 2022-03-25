@@ -6,7 +6,7 @@
 \usage{
 sir_byfutime(
   df,
-  dattype = "zfkd",
+  dattype = NULL,
   ybreak_vars = "none",
   xbreak_var = "none",
   futime_breaks = c(0, 0.5, 1, 5, 10, Inf),
@@ -27,7 +27,7 @@ sir_byfutime(
 \arguments{
 \item{df}{dataframe in wide format}
 
-\item{dattype}{can be "zfkd" or "seer" or empty. Will set default variable names from dataset.}
+\item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
 \item{ybreak_vars}{variables from df by which SIRs should be stratified in result df. Multiple variables will result in
 appended rows in result df.
@@ -47,7 +47,7 @@ If you don't want to split by follow-up time, use futime_breaks = "none".}
 
 \item{refrates_df}{df where reference rate from general population are defined. It is assumed that refrates_df has the columns
 "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
-"incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.
+"incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.The variable "race" is additionally required if the option "race_var" is used.
 refrates_df must use the same category coding of age, sex, region, year and t_site as age_var, sex_var, region_var, year_var and site_var.}
 
 \item{calc_total_row}{option to calculate a row of totals. Can be either FALSE for not adding such a row or TRUE for adding it at the first row. Default is TRUE.}
@@ -62,7 +62,7 @@ refrates_df must use the same category coding of age, sex, region, year and t_si
 
 \item{year_var}{variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.}
 
-\item{race_var}{optional argument for dattype="seer", if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information.}
+\item{race_var}{optional argument, if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refrates_df needs to contain the variable "race".}
 
 \item{site_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
 
