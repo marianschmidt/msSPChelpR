@@ -6,7 +6,7 @@
 \usage{
 asir(
   df,
-  dattype = "zfkd",
+  dattype = NULL,
   std_pop = "ESP2013",
   truncate_std_pop = FALSE,
   futime_src = "refpop",
@@ -27,7 +27,7 @@ asir(
 \arguments{
 \item{df}{dataframe in wide format}
 
-\item{dattype}{can be "zfkd" or "seer" or empty. Will set default variable names from dataset.}
+\item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
 \item{std_pop}{can be either "ESP2013, ESP1976, WHO1960}
 

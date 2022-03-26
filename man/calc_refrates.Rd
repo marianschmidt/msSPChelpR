@@ -6,7 +6,7 @@
 \usage{
 calc_refrates(
   df,
-  dattype = "zfkd",
+  dattype = NULL,
   count_var,
   refpop_df,
   calc_totals = TRUE,
@@ -22,7 +22,7 @@ calc_refrates(
 \arguments{
 \item{df}{dataframe in long format}
 
-\item{dattype}{can be "zfkd" or "seer" or empty. Will set default variable names from dataset.}
+\item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
 \item{count_var}{variable to be counted as observed case. Should be 1 for case to be counted.}
 
@@ -44,7 +44,7 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-10 2 digit, "i
 
 \item{year_var}{variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.}
 
-\item{race_var}{optional argument for dattype="seer", if rates should be calculated by race. If you want to use this option, provide variable name of df that contains race information.}
+\item{race_var}{optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refpop_df needs to contain the variable "race".}
 
 \item{site_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
 }

@@ -2,7 +2,7 @@
 #' Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time
 #'
 #' @param df dataframe in wide format
-#' @param dattype can be "zfkd" or "seer" or empty. Will set default variable names from dataset.
+#' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
 #' @param ybreak_vars variables from df by which SIRs should be stratified in result df. Multiple variables will result in
 #'                    appended rows in result df. 
 #'                    Careful: do not chose any variables that are dependent on occurrence of count_var (e.g. Histology of second cancer).
@@ -19,13 +19,13 @@
 #' @param count_var variable to be counted as observed case. Cases are usually the second cancers. Should be 1 for case to be counted.
 #' @param refrates_df df where reference rate from general population are defined. It is assumed that refrates_df has the columns 
 #'                  "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
-#'                  "incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.
+#'                  "incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.The variable "race" is additionally required if the option "race_var" is used.
 #'                  refrates_df must use the same category coding of age, sex, region, year and t_site as age_var, sex_var, region_var, year_var and site_var. 
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
 #' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on sex. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
-#' @param race_var optional argument for dattype="seer", if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information.
+#' @param race_var optional argument, if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refrates_df needs to contain the variable "race".
 #' @param site_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
 #' @param futime_var variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.
 #' @param alpha significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
@@ -55,7 +55,7 @@
 #'
 
 sir_byfutime <- function(df,
-                         dattype = "zfkd",
+                         dattype = NULL,
                          ybreak_vars = "none",
                          xbreak_var = "none",
                          futime_breaks = c(0, .5, 1, 5, 10, Inf),
@@ -111,24 +111,25 @@ sir_byfutime <- function(df,
     fu <- FALSE
   }
   
-  #race stratification option
-  #check that race_var is only used with dattype = "seer"
   
-  if(!is.null(race_var) & dattype != "seer"){
-    rlang::inform(
-      paste0("Only dattype 'seer' is compatible with stratification by race. \n",
-             "You have used `dattype = \"", dattype, "\"` and `race_var = \"", race_var, "\"`\n",
-             "Therefore race_var will be reset to 'none' and no stratification by race will be done.")
-    )
-    race_var <- NULL
+  #if dattype is null, all relevant vars need to be provided
+  if(is.null(dattype)){
+    #test if any variable is not provided
+    if(any(sapply(list(region_var,
+                       age_var,
+                       sex_var,
+                       year_var,
+                       site_var,
+                       futime_var), is.null))){
+      rlang::abort("If dattype is NULL, all variable names for `region_var`, `age_var`, `sex_var`, `year_var`, `site_var` and `futime_var` need to be provided.")
+    }
   }
   
-  if(!is.null(race_var) & dattype == "seer"){
-    rs <- TRUE
-  } else{
+  if(is.null(race_var)){
     rs <- FALSE
+  } else{
+    rs <- TRUE
   }
-  
   
   #check param calc_total
   if(!is.logical(calc_total_fu)){
@@ -141,6 +142,7 @@ sir_byfutime <- function(df,
   } else{ft <- FALSE} #dummy to show loop for Total line
   
   
+  if(!is.null(dattype)){
   # setting default var names and values for SEER data --> still need to update to final names!
   if (dattype == "seer") {
     if (is.null(region_var)) {
@@ -212,7 +214,7 @@ sir_byfutime <- function(df,
       futime_var <- rlang::ensym(futime_var)
     }
   }
-  
+  }
   
   # create empty objects for possible warnings and errors
   
@@ -298,6 +300,30 @@ sir_byfutime <- function(df,
     )
   }
   
+  
+  #CHK4: check whether all required variables are defined and present in refrates_df
+  defined_vars_ref <-
+    c(
+      "region",
+      "age",
+      "sex",
+      "year",
+      "t_site",
+      if(rs){"race"},
+      "incidence_crude_rate"
+    )
+  
+  not_found_ref <- defined_vars_ref[!(defined_vars_ref %in% colnames(refrates_df))]
+  
+  
+  if (length(not_found_ref) > 0) {
+    rlang::abort(
+      paste0(
+        "The following variables are not found in the provided refrates_df: ",
+        paste(not_found_ref, collapse = ", ")
+      )
+    )
+  }
   
   
   # ---- 1 data modifications ----
@@ -548,8 +574,8 @@ sir_byfutime <- function(df,
   }
   
   
-  #SEER only, if no race stratification is used, filter refrates so that only totals remain
-  if(!rs & dattype == "seer"){
+  #If no race stratification is used, but, race var in refrates_df, filter refrates so that only totals remain
+  if(!rs & "race" %in% colnames(refrates_df)){
     refrates_df <- refrates_df %>%
       tidytable::filter.(substr(race, 1, 5) == "Total")
   }
