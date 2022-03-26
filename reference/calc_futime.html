@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -67,7 +67,7 @@
   <span class="va">wide_df</span>,
   futime_var_new <span class="op">=</span> <span class="st">"p_futimeyrs"</span>,
   <span class="va">fu_end</span>,
-  dattype <span class="op">=</span> <span class="st">"zfkd"</span>,
+  dattype <span class="op">=</span> <span class="cn">NULL</span>,
   check <span class="op">=</span> <span class="cn">TRUE</span>,
   time_unit <span class="op">=</span> <span class="st">"years"</span>,
   status_var <span class="op">=</span> <span class="st">"p_status"</span>,
@@ -86,7 +86,7 @@
 <dt>fu_end</dt>
 <dd><p>end of follow-up in time format YYYY-MM-DD.</p></dd>
 <dt>dattype</dt>
-<dd><p>Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".</p></dd>
+<dd><p>can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.</p></dd>
 <dt>check</dt>
 <dd><p>Check newly calculated variable p_status by printing frequency table. Default is TRUE.</p></dd>
 <dt>time_unit</dt>
@@ -214,7 +214,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

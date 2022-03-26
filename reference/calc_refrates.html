@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -65,7 +65,7 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_refrates</span><span class="op">(</span>
   <span class="va">df</span>,
-  dattype <span class="op">=</span> <span class="st">"zfkd"</span>,
+  dattype <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">count_var</span>,
   <span class="va">refpop_df</span>,
   calc_totals <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -84,7 +84,7 @@
     <dl><dt>df</dt>
 <dd><p>dataframe in long format</p></dd>
 <dt>dattype</dt>
-<dd><p>can be "zfkd" or "seer" or empty. Will set default variable names from dataset.</p></dd>
+<dd><p>can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.</p></dd>
 <dt>count_var</dt>
 <dd><p>variable to be counted as observed case. Should be 1 for case to be counted.</p></dd>
 <dt>refpop_df</dt>
@@ -106,7 +106,7 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-10 2 digit, "i
 <dt>year_var</dt>
 <dd><p>variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.</p></dd>
 <dt>race_var</dt>
-<dd><p>optional argument for dattype="seer", if rates should be calculated by race. If you want to use this option, provide variable name of df that contains race information.</p></dd>
+<dd><p>optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refpop_df needs to contain the variable "race".</p></dd>
 <dt>site_var</dt>
 <dd><p>variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.</p></dd>
 </dl></div>
@@ -147,18 +147,18 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-10 2 digit, "i
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Check attribute `problems_missing_ref_strata` of results to see what strata are affected. </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Solution could be to add these strata to refpop_df. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tidytable: 6,181 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    t_site region           year    sex   age   incidence_cases incidence_crude_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> C14    SEER Reg 01 - S… 1990 -… Fema… 00 -…               1             0.145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> C14    SEER Reg 01 - S… 1990 -… Fema… 25 -…               1             0.118</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> C14    SEER Reg 01 - S… 1990 -… Fema… 35 -…               2             0.231</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> C14    SEER Reg 01 - S… 1990 -… Fema… 45 -…               3             0.486</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> C14    SEER Reg 01 - S… 1990 -… Fema… 50 -…               1             0.208</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> C14    SEER Reg 01 - S… 1990 -… Fema… 60 -…               2             0.518</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> C14    SEER Reg 01 - S… 1990 -… Fema… 70 -…               1             0.303</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> C14    SEER Reg 01 - S… 1990 -… Fema… 75 -…               1             0.381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> C14    SEER Reg 01 - S… 1990 -… Male  00 -…               1             0.138</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> C14    SEER Reg 01 - S… 1990 -… Male  25 -…               1             0.113</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    t_site region              year  sex   age   incidence_cases incidence_crude…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> C14    SEER Reg 01 - San … 1990… Fema… 00 -…               1            0.145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> C14    SEER Reg 01 - San … 1990… Fema… 25 -…               1            0.118</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> C14    SEER Reg 01 - San … 1990… Fema… 35 -…               2            0.231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> C14    SEER Reg 01 - San … 1990… Fema… 45 -…               3            0.486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> C14    SEER Reg 01 - San … 1990… Fema… 50 -…               1            0.208</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> C14    SEER Reg 01 - San … 1990… Fema… 60 -…               2            0.518</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> C14    SEER Reg 01 - San … 1990… Fema… 70 -…               1            0.303</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> C14    SEER Reg 01 - San … 1990… Fema… 75 -…               1            0.381</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> C14    SEER Reg 01 - San … 1990… Male  00 -…               1            0.138</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> C14    SEER Reg 01 - San … 1990… Male  25 -…               1            0.113</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 6,171 more rows, and 2 more variables: population_pyar &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   population_n_per_year &lt;dbl&gt;</span></span>
 </code></pre></div>
@@ -175,7 +175,7 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-10 2 digit, "i
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

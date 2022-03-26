@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -65,7 +65,7 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sir_byfutime</span><span class="op">(</span>
   <span class="va">df</span>,
-  dattype <span class="op">=</span> <span class="st">"zfkd"</span>,
+  dattype <span class="op">=</span> <span class="cn">NULL</span>,
   ybreak_vars <span class="op">=</span> <span class="st">"none"</span>,
   xbreak_var <span class="op">=</span> <span class="st">"none"</span>,
   futime_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="cn">Inf</span><span class="op">)</span>,
@@ -89,7 +89,7 @@
     <dl><dt>df</dt>
 <dd><p>dataframe in wide format</p></dd>
 <dt>dattype</dt>
-<dd><p>can be "zfkd" or "seer" or empty. Will set default variable names from dataset.</p></dd>
+<dd><p>can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.</p></dd>
 <dt>ybreak_vars</dt>
 <dd><p>variables from df by which SIRs should be stratified in result df. Multiple variables will result in
 appended rows in result df.
@@ -109,7 +109,7 @@ If you don't want to split by follow-up time, use futime_breaks = "none".</p></d
 <dt>refrates_df</dt>
 <dd><p>df where reference rate from general population are defined. It is assumed that refrates_df has the columns
 "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
-"incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.
+"incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.The variable "race" is additionally required if the option "race_var" is used.
 refrates_df must use the same category coding of age, sex, region, year and t_site as age_var, sex_var, region_var, year_var and site_var.</p></dd>
 <dt>calc_total_row</dt>
 <dd><p>option to calculate a row of totals. Can be either FALSE for not adding such a row or TRUE for adding it at the first row. Default is TRUE.</p></dd>
@@ -124,7 +124,7 @@ refrates_df must use the same category coding of age, sex, region, year and t_si
 <dt>year_var</dt>
 <dd><p>variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.</p></dd>
 <dt>race_var</dt>
-<dd><p>optional argument for dattype="seer", if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information.</p></dd>
+<dd><p>optional argument, if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refrates_df needs to contain the variable "race".</p></dd>
 <dt>site_var</dt>
 <dd><p>variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.</p></dd>
 <dt>futime_var</dt>
@@ -171,7 +171,7 @@ refrates_df must use the same category coding of age, sex, region, year and t_si
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>
