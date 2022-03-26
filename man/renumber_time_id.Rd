@@ -7,7 +7,7 @@
 renumber_time_id(
   df,
   new_time_id_var,
-  dattype = "zfkd",
+  dattype = NULL,
   case_id_var = NULL,
   time_id_var = NULL,
   diagdat_var = NULL,
@@ -19,7 +19,7 @@ renumber_time_id(
 
 \item{new_time_id_var}{Name of the newly calculated variable for time_id. Required.}
 
-\item{dattype}{Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".}
+\item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
 \item{case_id_var}{String with name of ID variable indicating same patient.
 E.g. \code{case_id_var="PUBCSNUM"} for SEER data.}

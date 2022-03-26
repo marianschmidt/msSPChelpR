@@ -8,7 +8,7 @@ calc_futime_tt(
   wide_df,
   futime_var_new = "p_futimeyrs",
   fu_end,
-  dattype = "zfkd",
+  dattype = NULL,
   check = TRUE,
   time_unit = "years",
   status_var = "p_status",
@@ -24,7 +24,7 @@ calc_futime_tt(
 
 \item{fu_end}{end of follow-up in time format YYYY-MM-DD.}
 
-\item{dattype}{Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".}
+\item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
 \item{check}{Check newly calculated variable p_status by printing frequency table. Default is TRUE.}
 
