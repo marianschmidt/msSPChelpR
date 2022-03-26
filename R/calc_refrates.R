@@ -4,7 +4,7 @@
 #' Calculate age-, sex-, cohort-, region-specific incidence rates from a cohort
 #'
 #' @param df dataframe in long format
-#' @param dattype can be "zfkd" or "seer" or empty. Will set default variable names from dataset.
+#' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
 #' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
 #' @param calc_totals option to calculate totals for all age-groups, all sexes, all years, all races
 #' @param fill_sites option to fill missing sites in observed with incidence rate of 0. Needs to define the coding system used. 
@@ -13,7 +13,7 @@
 #' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on sex. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
-#' @param race_var optional argument for dattype="seer", if rates should be calculated by race. If you want to use this option, provide variable name of df that contains race information.
+#' @param race_var optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refpop_df needs to contain the variable "race".
 #' @param site_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
 #' @param refpop_df df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns 
 #'                  "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
@@ -37,7 +37,7 @@
 
 
 calc_refrates <- function(df,                         
-                          dattype = "zfkd",
+                          dattype = NULL,
                           count_var,
                           refpop_df,
                           calc_totals = TRUE,
@@ -142,24 +142,26 @@ calc_refrates <- function(df,
   count_var <- rlang::ensym(count_var)
   
   #race stratification option
-  #check that race_var is only used with dattype = "seer"
-  
-  if(!is.null(race_var) & dattype != "seer"){
-    rlang::inform(
-      paste0("Only dattype 'seer' is compatible with stratification by race. \n",
-             "You have used `dattype = \"", dattype, "\"` and `race_var = \"", race_var, "\"`\n",
-             "Therefore race_var will be reset to 'none' and no stratification by race will be done.")
-    )
-    race_var <- NULL
-  }
-  
-  if(!is.null(race_var) & dattype == "seer"){
+  if(!is.null(race_var)){
     rs <- TRUE
   } else{
     rs <- FALSE
   }
   
+  #if dattype is null, all relevant vars need to be provided
+  if(is.null(dattype)){
+    #test if any variable is not provided
+    if(any(sapply(list(region_var,
+                       age_var,
+                       sex_var,
+                       year_var,
+                       site_var), is.null))){
+      rlang::abort("If dattype is NULL, all variable names for `region_var`, `age_var`, `sex_var`, `year_var`, and `site_var` need to be provided.")
+    }
+  }
   
+  
+  if(!is.null(dattype)){
   # setting default var names and values for SEER data --> still need to update to final names!
   if (dattype == "seer") {
     if (is.null(region_var)) {
@@ -220,6 +222,7 @@ calc_refrates <- function(df,
     } else{
       site_var <- rlang::ensym(site_var)
     }
+  }
   }
   
   

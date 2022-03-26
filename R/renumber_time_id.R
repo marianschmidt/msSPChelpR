@@ -3,7 +3,7 @@
 #'
 #' @param df dataframe
 #' @param new_time_id_var Name of the newly calculated variable for time_id. Required. 
-#' @param dattype Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".
+#' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
 #' @param case_id_var String with name of ID variable indicating same patient.
 #'                E.g. \code{case_id_var="PUBCSNUM"} for SEER data.
 #' @param time_id_var String with name of variable that indicates diagnosis per patient.
@@ -27,7 +27,7 @@
                           
 
 
-renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd", 
+renumber_time_id <- function(df, new_time_id_var, dattype = NULL, 
                              case_id_var = NULL, time_id_var = NULL, diagdat_var = NULL, timevar_max = Inf){
   
   #----- Setting basic parameters
@@ -35,8 +35,9 @@ renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd",
   
   new_time_id_var <- rlang::enquo(new_time_id_var)
   
-  #setting default var names and values for SEER data
   
+  if(!is.null(dattype)){
+  #setting default var names and values for SEER data
   if (dattype == "seer"){
     if(is.null(case_id_var)){
       case_id_var <- rlang::sym("PUBCSNUM")
@@ -72,6 +73,7 @@ renumber_time_id <- function(df, new_time_id_var, dattype = "zfkd",
     } else{
       diagdat_var <- rlang::ensym(diagdat_var)
     }
+  }
   }
   
   #------ Checks 

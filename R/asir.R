@@ -2,7 +2,7 @@
 #' Calculate age-standardized incidence rates
 #'
 #' @param df dataframe in wide format
-#' @param dattype can be "zfkd" or "seer" or empty. Will set default variable names from dataset.
+#' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
 #' @param std_pop can be either "ESP2013, ESP1976, WHO1960
 #' @param truncate_std_pop if TRUE standard population will be truncated for all age-groups that do not occur in df
 #' @param futime_src can be either "refpop" or "cohort". Default is "refpop".
@@ -73,7 +73,7 @@
 
 asir <-
   function(df,
-           dattype = "zfkd",
+           dattype = NULL,
            std_pop = "ESP2013",
            truncate_std_pop = FALSE,
            futime_src = "refpop",
@@ -141,6 +141,7 @@ asir <-
       )
     } 
     
+    if(!is.null(dattype)){
     ### setting default var names and values for SEER data --> still need to update to final names!
     if (dattype == "seer") {
       if (is.null(region_var)) {
@@ -208,6 +209,7 @@ asir <-
       } else{
         futime_var <- rlang::ensym(futime_var)
       }
+    }
     }
     
     #setting standard population
