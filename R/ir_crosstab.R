@@ -138,6 +138,9 @@ ir_crosstab <-
         futime_var <- rlang::ensym(futime_var)
       }
     }
+    } else{
+      # ensym if no dattype is given
+      futime_var <- rlang::ensym(futime_var)
     }
     
     

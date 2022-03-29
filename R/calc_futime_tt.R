@@ -103,6 +103,11 @@ calc_futime_tt <- function(wide_df,
       spcdat_var <- rlang::ensym(spcdat_var)
     }
   }
+  } else{
+    # ensym if no dattype is given
+    lifedat_var <- rlang::ensym(lifedat_var)
+    fcdat_var <- rlang::ensym(fcdat_var)
+    spcdat_var <- rlang::ensym(spcdat_var)
   }
   
   #---- Checks start

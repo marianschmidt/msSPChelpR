@@ -191,6 +191,22 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = NULL,
       lifedat_fu_end <- rlang::enquo(lifedat_fu_end)
     }
   }
+  } else{
+    # ensym if no dattype is given
+    life_var <- rlang::ensym(life_var)
+    spc_var <- rlang::ensym(spc_var)
+    birthdat_var <- rlang::ensym(birthdat_var)
+    lifedat_var <- rlang::ensym(lifedat_var)
+    if(use_lifedatmin == TRUE){
+      lifedatmin_var <- rlang::ensym(lifedatmin_var)
+    }
+    fcdat_var <- rlang::ensym(fcdat_var)
+    spcdat_var <- rlang::ensym(spcdat_var)
+    life_stat_alive <- rlang::enquo(life_stat_alive)
+    life_stat_dead <- rlang::enquo(life_stat_dead)
+    spc_stat_yes <- rlang::enquo(spc_stat_yes)
+    spc_stat_no <- rlang::enquo(spc_stat_no)
+    lifedat_fu_end <- rlang::enquo(lifedat_fu_end)
   }
   
   #---- Checks start

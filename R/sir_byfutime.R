@@ -214,7 +214,18 @@ sir_byfutime <- function(df,
       futime_var <- rlang::ensym(futime_var)
     }
   }
-  }
+  } else{
+    # ensym if no dattype is given
+    region_var <- rlang::ensym(region_var)
+    age_var <- rlang::ensym(age_var)
+    sex_var <- rlang::ensym(sex_var)
+    year_var <- rlang::ensym(year_var)
+    site_var <- rlang::ensym(site_var)
+    futime_var <- rlang::ensym(futime_var)
+    if(rs){
+      race_var <- rlang::ensym(race_var)
+    }
+  }  
   
   # create empty objects for possible warnings and errors
   

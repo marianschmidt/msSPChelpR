@@ -197,7 +197,23 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = NULL,
       lifedat_fu_end <- rlang::enquo(lifedat_fu_end)
     }
   }
-  }
+  } else{
+    # ensym if no dattype is given
+    life_var <- rlang::enquo(life_var)
+    spc_var <- rlang::enquo(spc_var)
+    birthdat_var <- rlang::enquo(birthdat_var)
+    lifedat_var <- rlang::enquo(lifedat_var)
+    if(use_lifedatmin == TRUE){
+      lifedatmin_var <- rlang::enquo(lifedatmin_var)
+    }
+    fcdat_var <- rlang::enquo(fcdat_var)
+    spcdat_var <- rlang::enquo(spcdat_var)
+    life_stat_alive <- rlang::enquo(life_stat_alive)
+    life_stat_dead <- rlang::enquo(life_stat_dead)
+    spc_stat_yes <- rlang::enquo(spc_stat_yes)
+    spc_stat_no <- rlang::enquo(spc_stat_no)
+    lifedat_fu_end <- rlang::enquo(lifedat_fu_end)
+    }
   
   #----- Checks
   
