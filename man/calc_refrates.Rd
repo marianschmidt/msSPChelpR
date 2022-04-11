@@ -9,7 +9,7 @@ calc_refrates(
   dattype = NULL,
   count_var,
   refpop_df,
-  calc_totals = TRUE,
+  calc_totals = FALSE,
   fill_sites = "no",
   region_var = NULL,
   age_var = NULL,
@@ -31,10 +31,13 @@ calc_refrates(
 "population_pyar" for person-years at risk in the respective age/sex/year cohort.
 refpop_df must use the same category coding of age, sex, region, year and site as age_var, sex_var, region_var, year_var and site_var.}
 
-\item{calc_totals}{option to calculate totals for all age-groups, all sexes, all years, all races}
+\item{calc_totals}{option to calculate totals for all age-groups, all sexes, all years, all races, all sites. Default is FALSE.}
 
 \item{fill_sites}{option to fill missing sites in observed with incidence rate of 0. Needs to define the coding system used.
-Can be either "no" for not filling missing sites. "icd2d" for ICD-10 2 digit, "icd3d" for ICD-10 3digit, "sitewho" for Site WHO}
+Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C00-C80Ê), "icd3d" for ICD-O-3 3digit,
+"icd10gm2d" for ICD-10-GM 2-digit (C00-C97), "sitewho" for Site SEER WHO coding (no 1-89 categories), "sitewho_b"  for Site SEER WHO B recoding (no. 1-111 categories),
+"sitewho_epi" for SITE SEER WHO coding with additional sums, "sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories) and
+"sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories)}
 
 \item{region_var}{variable in df that contains information on region where case was incident. Default is set if dattype is given.}
 
@@ -44,7 +47,7 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-10 2 digit, "i
 
 \item{year_var}{variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.}
 
-\item{race_var}{optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refpop_df needs to contain the variable "race".}
+\item{race_var}{optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refrates_df needs to contain the variable "race".}
 
 \item{site_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
 }

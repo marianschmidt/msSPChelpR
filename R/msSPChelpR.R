@@ -64,7 +64,13 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "group_ref_inc_cases",
                                                         "group_incidence_crude_rate", 
                                                         "group_ref_population_pyar",
-                                                        "group_n_base"
+                                                        "group_n_base",
+                                                        "reg_group",
+                                                        "age_group",
+                                                        "sex_group",
+                                                        "year_group",
+                                                        "race_group",
+                                                        "site_group"
                                                         )) 
 release_questions <- function() {
   c(
