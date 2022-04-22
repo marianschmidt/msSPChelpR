@@ -98,8 +98,9 @@ refpop_df must use the same category coding of age, sex, region, year and site a
 <dd><p>option to fill missing sites in observed with incidence rate of 0. Needs to define the coding system used.
 Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C00-C80Ê), "icd3d" for ICD-O-3 3digit,
 "icd10gm2d" for ICD-10-GM 2-digit (C00-C97), "sitewho" for Site SEER WHO coding (no 1-89 categories), "sitewho_b"  for Site SEER WHO B recoding (no. 1-111 categories),
-"sitewho_epi" for SITE SEER WHO coding with additional sums, "sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories) and
-"sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories)</p></dd>
+"sitewho_epi" for SITE SEER WHO coding with additional sums,  "sitewhogen" for SITE WHO coding with less categories to make compatible for international rates,
+"sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories), "sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories),
+"sitewhogen_num" for numeric international rates, c("manual", char_vector of sites manually defined)</p></dd>
 <dt>region_var</dt>
 <dd><p>variable in df that contains information on region where case was incident. Default is set if dattype is given.</p></dd>
 <dt>age_var</dt>
