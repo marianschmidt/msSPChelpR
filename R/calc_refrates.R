@@ -7,8 +7,9 @@
 #' @param fill_sites option to fill missing sites in observed with incidence rate of 0. Needs to define the coding system used. 
 #'                   Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C00-C80Ê), "icd3d" for ICD-O-3 3digit, 
 #'                   "icd10gm2d" for ICD-10-GM 2-digit (C00-C97), "sitewho" for Site SEER WHO coding (no 1-89 categories), "sitewho_b"  for Site SEER WHO B recoding (no. 1-111 categories),
-#'                   "sitewho_epi" for SITE SEER WHO coding with additional sums, "sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories) and 
-#'                   "sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories)
+#'                   "sitewho_epi" for SITE SEER WHO coding with additional sums,  "sitewhogen" for SITE WHO coding with less categories to make compatible for international rates, 
+#'                   "sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories), "sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories),
+#'                   "sitewhogen_num" for numeric international rates, c("manual", char_vector of sites manually defined)
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
 #' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on sex. Default is set if dattype is given.
@@ -37,33 +38,38 @@
 
 
 calc_refrates <- function(df,                         
-                              dattype = NULL,
-                              count_var,
-                              refpop_df,
-                              calc_totals = FALSE,
-                              fill_sites = "no",
-                              region_var = NULL,
-                              age_var = NULL,
-                              sex_var = NULL,
-                              year_var = NULL,
-                              race_var = NULL,    #optional when matching by race is wanted
-                              site_var = NULL) {
+                          dattype = NULL,
+                          count_var,
+                          refpop_df,
+                          calc_totals = FALSE,
+                          fill_sites = "no",
+                          region_var = NULL,
+                          age_var = NULL,
+                          sex_var = NULL,
+                          year_var = NULL,
+                          race_var = NULL,    #optional when matching by race is wanted
+                          site_var = NULL) {
   
   # ---- 0 function basics ----
   
   ## --- 0a setting default parameters
   na_explicit <- "zzz_NA_explicit" # string for explicit NAs
   
-  if(!(fill_sites %in% c("no", "icd2d", "icd3d", "icd10gm2d", "sitewho", "sitewho_b"))){
+  if(!(fill_sites[1] %in% c("no", "icd2d", "icd3d", "icd10gm2d", "sitewho", "sitewho_b",
+                            "sitewho_num", "sitewho_b_num", "sitewho_epi", "sitewhogen",
+                            "sitewhogen_num", "manual"))){
     rlang::warn(paste0(
-      "Parameter `fill_sites` must be \"icd2d\", \"icd3d\", \"icd10gm2d\", \"sitewho\", \"sitewho_b\" or \"no\". \n", 
+      "Parameter `fill_sites` must be \"icd2d\", \"icd3d\", \"icd10gm2d\", \"sitewho\", \"sitewho_b\",", 
+      " \"sitewho_num\", \"sitewho_b_num\", \"sitewho_epi\", \"sitewhogen\", \"sitewhogen_num\", \"manual\" or \"no\". \n", 
       "Default `fill_sites = \"no\"` will be used instead of: ", fill_sites))
     fill_sites <- "no"
   }
   
-  if((fill_sites  %in% c("icd2d", "icd3d", "icd10gm2d", "sitewho", "sitewho_b"))){
+  if((fill_sites[1]  %in% c("icd2d", "icd3d", "icd10gm2d", "sitewho", "sitewho_b",
+                            "sitewho_num", "sitewho_b_num", "sitewho_epi", "sitewhogen",
+                            "sitewhogen_num", "manual"))){
     fill <- TRUE
-    if(fill_sites == "icd2d"){
+    if(fill_sites[1] == "icd2d"){
       sites_all <- c("C00", "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", 
                      "C10", "C11", "C12", "C13", "C14", "C15", "C16", "C17", "C18", "C19", 
                      "C20", "C21", "C22", "C23", "C24", "C25", "C26", 
@@ -74,7 +80,7 @@ calc_refrates <- function(df,
                      "C70", "C71", "C72", "C73", "C74", "C75", "C76", "C77", 
                      "C80")
     }
-    if(fill_sites == "icd3d"){
+    if(fill_sites[1] == "icd3d"){
       sites_all <- c("C000", "C001", "C002", "C003", "C004", "C005", "C006", "C008", "C009",
                      "C019", "C020", "C021", "C022", "C023", "C024", "C028", "C029", "C030", "C031", "C039", 
                      "C040", "C041", "C048", "C049", "C050", "C051", "C052", "C058", "C059", "C060", "C061", 
@@ -107,7 +113,7 @@ calc_refrates <- function(df,
                      "C764", "C765", "C767", "C768", "C770", "C771", "C772", "C773", "C774", "C775", "C778", 
                      "C779", "C809")
     }
-    if(fill_sites == "icd10gm2d"){
+    if(fill_sites[1] == "icd10gm2d"){
       sites_all <- c("C00", "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", 
                      "C10", "C11", "C12", "C13", "C14", "C15", "C16", "C17", "C18", "C19", 
                      "C20", "C21", "C22", "C23", "C24", "C25", "C26", 
@@ -119,7 +125,7 @@ calc_refrates <- function(df,
                      "C80", "C81", "C82", "C83", "C84", "C85", "C86",        "C88", 
                      "C90", "C91", "C92", "C93", "C94", "C95", "C96")
     }
-    if(fill_sites == "sitewho"){
+    if(fill_sites[1] == "sitewho"){
       sites_all <- c("Lip", "Tongue", "Salivary Gland", "Floor of Mouth", "Gum and Other Mouth", "Nasopharynx", 
                      "Tonsil", "Oropharynx", "Hypopharynx", "Other Oral Cavity and Pharynx", "Esophagus", "Stomach", 
                      "Small Intestine", "Cecum", "Appendix", "Ascending Colon", "Hepatic Flexure", "Transverse Colon",
@@ -140,13 +146,13 @@ calc_refrates <- function(df,
                      "Aleukemic, Subleukemic and NOS", "Miscellaneous", "Mesothelioma", "Kaposi Sarcoma", 
                      "Other Myeloid/Monocytic Leukemia")
     }
-    if(fill_sites == "sitewho_num"){
+    if(fill_sites[1] == "sitewho_num"){
       sites_all <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 
                      29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 
                      52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 68, 69, 71, 72, 73, 74, 75, 76, 
                      77, 78, 80, 83, 85, 86, 87, 88, 89)
     }
-    if(fill_sites == "sitewho_b"){
+    if(fill_sites[1] == "sitewho_b"){
       sites_all <- c("Lip", "Tongue", "Salivary Gland", "Floor of Mouth", "Gum and Other Mouth", 
                      "Nasopharynx", "Tonsil", "Oropharynx", "Hypopharynx", "Other Oral Cavity and Pharynx", 
                      "Esophagus", "Stomach", "Small Intestine", "Cecum", "Appendix", "Ascending Colon", 
@@ -170,13 +176,13 @@ calc_refrates <- function(df,
                      "Renal Pelvis", "Eye and Orbit - Non-Melanoma", "Eye and Orbit - Melanoma", "Other Endocrine",
                      "Thymus", "Adrenal Gland")
     }
-    if(fill_sites == "sitewho_b_num"){
+    if(fill_sites[1] == "sitewho_b_num"){
       sites_all <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 29, 
                      30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 101, 42, 43, 44, 45, 47, 48, 49, 50, 51, 52, 53,
                      54, 55, 56, 57, 58, 60, 61, 63, 64, 65, 68, 69, 71, 72, 73, 74, 75, 76, 77, 78, 80, 83, 85, 
                      86, 87, 88, 89, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111)
     }
-    if(fill_sites == "sitewho_epi"){
+    if(fill_sites[1] == "sitewho_epi"){
       sites_all <- c("Acute Lymphocytic Leukemia" , "Acute Monocytic Leukemia" , "Acute Myeloid Leukemia" , 
                      "Aleukemic, Subleukemic and NOS" , "Anus, Anal Canal and Anorectum" , "Appendix" , 
                      "Ascending Colon", "Bones and Joints" , "Brain", "Brain and Other Nervous System" , 
@@ -205,9 +211,39 @@ calc_refrates <- function(df,
                      "Splenic Flexure", "Stomach", "Testis" , "Thyroid", "Tongue" , "Tonsil" , 
                      "Trachea, Mediastinum and Other Respiratory Organs", "Transverse Colon" , "Ureter" , 
                      "Urinary Bladder", "Urinary System" , "Uterus, NOS", "Vagina" , "Vulva")
-      
+    }
+    if(fill_sites[1] == "sitewhogen"){
+      sites_all <- c("Lip", "Tongue", "Gum and Other Mouth", "Floor of Mouth", "Salivary Gland", "Tonsil", 
+                     "Oropharynx", "Nasopharynx", "Hypopharynx", "Other Oral Cavity and Pharynx", "Esophagus", 
+                     "Stomach", "Small Intestine", "REC Colon", "Rectosigmoid Junction", "Rectum", 
+                     "Anus, Anal Canal and Anorectum", "REC Liver and intrahepatic bile ducts", "Gallbladder", 
+                     "Other Biliary", "Pancreas", "Other Digestive Organs", "Nose, Nasal Cavity and Middle Ear",
+                     "Larynx", "REC Trachea, Other Respiratory Organs", "Lung and Bronchus", 
+                     "Other Endocrine including Thymus", "REC Heart, Pleura", "Bones and Joints", 
+                     "Melanoma of the Skin", "Other Non-Epithelial Skin", "Mesothelioma", "Kaposi Sarcoma", 
+                     "REC Retroperitoneum and peritoneum", "Breast", "Vulva", "Vagina", "Cervix Uteri", 
+                     "Corpus Uteri", "Uterus, NOS", "Ovary", "Other Female Genital Organs", "Penis", "Prostate",
+                     "Testis", "Other Male Genital Organs", "Kidney and Renal Pelvis", "Ureter", 
+                     "Urinary Bladder", "Other Urinary Organs", "Eye and Orbit", 
+                     "Cranial Nerves Other Nervous System", "Brain", "Thyroid", "Miscellaneous", 
+                     "REC Hodgkin's Disease", "REC Non-Hodgkin's lymphoma", "Myeloma", 
+                     "REC Lymphocytic Leukemia", "REC Myeloid Leukemia", "REC Monocytic Leukemia", 
+                     "REC Other Leukemia")
+    }
+    if(fill_sites[1] == "sitewhogen_num"){
+      sites_all <- c(1, 2, 5, 4, 3, 7, 8, 6, 9, 10, 11, 12, 13, 915, 25, 26, 27, 929, 31, 32, 33, 36, 37, 38, 
+                     941, 39, 66, 943, 42, 44, 45, 87, 88, 934, 46, 52, 51, 47, 48, 49, 50, 53, 56, 54, 55, 
+                     57, 59, 60, 58, 61, 62, 64, 63, 65, 86, 968, 971, 73, 974, 977, 980, 983)
     }
     
+    if(fill_sites[1] == "sitewhogen_num"){
+      sites_all <- c(1, 2, 5, 4, 3, 7, 8, 6, 9, 10, 11, 12, 13, 915, 25, 26, 27, 929, 31, 32, 33, 36, 37, 38, 
+                     941, 39, 66, 943, 42, 44, 45, 87, 88, 934, 46, 52, 51, 47, 48, 49, 50, 53, 56, 54, 55, 
+                     57, 59, 60, 58, 61, 62, 64, 63, 65, 86, 968, 971, 73, 974, 977, 980, 983)
+    }
+    if(fill_sites[1] == "manual"){
+      sites_all <- fill_sites[-1]
+    } 
   } else{
     fill <- FALSE
   }
@@ -702,4 +738,4 @@ calc_refrates <- function(df,
   
   return(rates)
   
-} 
+}  
