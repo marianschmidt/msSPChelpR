@@ -15,8 +15,7 @@
 #' @keywords internal
 NULL
 ## quiets warnings of R CMD check standard objects that appear in function
-if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and tidyverse programming
-                                                        ".", 
+if(getRversion() >= "2.15.1")  utils::globalVariables(c(".", 
                                                         ".N", 
                                                         "data", 
                                                         "counter", 
@@ -26,7 +25,6 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "p_datedeath_orig",
                                                         "status_var_orig",
                                                         "where", #temporary fix because tidyverse::where is not exported,
-                                                        "age", #caused by sir_byfutime_tt (.SD$ predicate seems not to work)
                                                         "fu_time", 
                                                         "futimegroup",
                                                         "i_expected",
@@ -40,6 +38,7 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "population_n_per_year",
                                                         "population_pyar",
                                                         "pyar",
+                                                        "age",
                                                         "region",
                                                         "sex",
                                                         "sir",
@@ -78,6 +77,9 @@ release_questions <- function() {
   )
 }
 
+# Workaround for := import from data.table import
+# https://github.com/markfairbanks/tidytable/issues/269#issuecomment-852303061
+.datatable.aware <- TRUE
 
 # #to avoid problems at rhub check use the following code
 # rhub::check(platform="windows-x86_64-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))

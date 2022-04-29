@@ -44,8 +44,8 @@ vital_status <- function(wide_df, status_var = "p_status", life_var_new = "p_ali
                          as_labelled_factor = FALSE){
   
   #check if wide_df is data.frame
-  if(!is.data.frame(wide_df) & data.table::is.data.table(wide_df)){
-    rlang::inform("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
+  if(!is.data.frame(wide_df)){
+    rlang::inform("You are using a dplyr based function. Data has been converted to a data.frame to let this function run more efficiently.")
     wide_df <- as.data.frame(wide_df)
   }
   

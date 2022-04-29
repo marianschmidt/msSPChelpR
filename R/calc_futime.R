@@ -62,8 +62,8 @@ calc_futime <- function(wide_df,
   #---- Checks start
   
   #check if wide_df is data.frame
-  if(!is.data.frame(wide_df) & data.table::is.data.table(wide_df)){
-    rlang::inform("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
+  if(!is.data.frame(wide_df)){
+    rlang::inform("You are using a dplyr based function. Data has been converted to a data.frame to let this function run more efficiently.")
     wide_df <- as.data.frame(wide_df)
   }
   

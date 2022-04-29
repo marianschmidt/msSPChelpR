@@ -12,7 +12,6 @@ BugReports: https://github.com/marianschmidt/msSPChelpR/issues
 Depends: 
     R (>= 3.5)
 Imports: 
-    data.table (>= 1.12.9),
     dplyr (>= 1.0.0),
     lubridate,
     magrittr,
@@ -22,7 +21,7 @@ Imports:
     sjlabelled,
     stringr,
     tidyselect, 
-    tidytable (>= 0.7.1.9),
+    tidytable (>= 0.7.2),
     tidyr (>= 1.0.0),
     utils
 Suggests: 
