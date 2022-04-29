@@ -548,10 +548,6 @@
     site_var <span class="op">=</span> <span class="st">"t_site_icd.1"</span>, <span class="co">#using grouping by second cancer incidence</span>
     futime_var <span class="op">=</span> <span class="st">"p_futimeyrs"</span>,
     alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
-<span class="co">#&gt; Warning: `mutate_across.()` was deprecated in tidytable 0.6.4.</span>
-<span class="co">#&gt; Please use `mutate.(across.())</span>
-<span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
-<span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
 <span class="co">#&gt; <span style="color: #949494;"># A tidytable: 4 × 10</span></span>
@@ -757,13 +753,13 @@
 <span class="co">#&gt; <span style="color: #949494;"># A tidytable: 7 × 8</span></span>
 <span class="co">#&gt;   yvar_label fu_time          fu_time_sort t_site observed expected   sir sir_ci</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Overall    to 1 month                  1 Total       327     18.1 18.1  16.19…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Overall    0.0833-0.167 ye…            2 Total        80     17.9  4.46 3.54 …</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Overall    0.167-1 years               3 Total       724    172.   4.2  3.9 -…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Overall    1-5 years                   4 Total      <span style="text-decoration: underline;">2</span>998    668.   4.49 4.33 …</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Overall    0.0833-0.167 ye…            1 Total        80     17.9  4.46 3.54 …</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Overall    0.167-1 years               2 Total       724    172.   4.2  3.9 -…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Overall    1-5 years                   3 Total      <span style="text-decoration: underline;">2</span>998    668.   4.49 4.33 …</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Overall    10+ years                   4 Total      <span style="text-decoration: underline;">4</span>241    438.   9.69 9.4 -…</span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Overall    5-10 years                  5 Total      <span style="text-decoration: underline;">3</span>089    531.   5.82 5.61 …</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Overall    10+ years                   6 Total      <span style="text-decoration: underline;">4</span>241    438.   9.69 9.4 -…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Overall    Total 0 to Inf …            7 Total     <span style="text-decoration: underline;">11</span>459   <span style="text-decoration: underline;">1</span>845.   6.21 6.1 -…</span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Overall    Total 0 to Inf …            6 Total     <span style="text-decoration: underline;">11</span>459   <span style="text-decoration: underline;">1</span>845.   6.21 6.1 -…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Overall    to 1 month                  7 Total       327     18.1 18.1  16.19…</span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -789,21 +785,21 @@
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] msSPChelpR_0.8.7.9000 magrittr_2.0.3        dplyr_1.0.8          </span>
+<span class="co">#&gt; [1] msSPChelpR_0.8.7.9000 magrittr_2.0.3        dplyr_1.0.9          </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] bslib_0.3.1       compiler_4.2.0    pillar_1.7.0      jquerylib_0.1.4  </span>
 <span class="co">#&gt;  [5] prettyunits_1.1.1 progress_1.2.2    forcats_0.5.1     tools_4.2.0      </span>
 <span class="co">#&gt;  [9] digest_0.6.29     lubridate_1.8.0   jsonlite_1.8.0    evaluate_0.15    </span>
 <span class="co">#&gt; [13] memoise_2.0.1     lifecycle_1.0.1   tibble_3.1.6      pkgconfig_2.0.3  </span>
-<span class="co">#&gt; [17] rlang_1.0.2       cli_3.2.0         yaml_2.3.5        haven_2.5.0      </span>
-<span class="co">#&gt; [21] pkgdown_2.0.2     xfun_0.30         fastmap_1.1.0     stringr_1.4.0    </span>
-<span class="co">#&gt; [25] knitr_1.38        hms_1.1.1         desc_1.4.1        generics_0.1.2   </span>
+<span class="co">#&gt; [17] rlang_1.0.2       cli_3.3.0         yaml_2.3.5        haven_2.5.0      </span>
+<span class="co">#&gt; [21] pkgdown_2.0.3     xfun_0.30         fastmap_1.1.0     stringr_1.4.0    </span>
+<span class="co">#&gt; [25] knitr_1.39        hms_1.1.1         desc_1.4.1        generics_0.1.2   </span>
 <span class="co">#&gt; [29] fs_1.5.2          sass_0.4.1        vctrs_0.4.1       systemfonts_1.0.4</span>
 <span class="co">#&gt; [33] sjlabelled_1.2.0  rprojroot_2.0.3   tidyselect_1.1.2  data.table_1.14.2</span>
 <span class="co">#&gt; [37] glue_1.6.2        R6_2.5.1          textshaping_0.3.6 fansi_1.0.3      </span>
-<span class="co">#&gt; [41] rmarkdown_2.13    tidyr_1.2.0       purrr_0.3.4       htmltools_0.5.2  </span>
-<span class="co">#&gt; [45] ellipsis_0.3.2    insight_0.17.0    tidytable_0.7.1   ragg_1.2.2       </span>
+<span class="co">#&gt; [41] rmarkdown_2.14    tidyr_1.2.0       purrr_0.3.4       htmltools_0.5.2  </span>
+<span class="co">#&gt; [45] ellipsis_0.3.2    insight_0.17.0    tidytable_0.7.2   ragg_1.2.2       </span>
 <span class="co">#&gt; [49] utf8_1.2.2        stringi_1.7.6     cachem_1.0.6      crayon_1.5.1</span></code></pre></div>
 </div>
 </div>
@@ -826,7 +822,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

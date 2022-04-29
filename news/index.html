@@ -66,20 +66,15 @@
 </ul></div>
 <div class="section level4">
 <h4 id="breaking-changes-development-version">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
-<ul><li>functions <code>asir</code>, <code>calc_futime*</code>, <code>calc_refrates</code>, <code>ir_crosstab_byfutime</code>, <code>pat_status*</code>, <code>renumber_time_id*</code>, and <code>sir_byfutime</code> now by default are set to <code>dattype = NULL</code>. If you relied on automatic variable naming feature, you need to add <code>dattype = "seer"</code>or <code>dattype = "zfkd"</code> to your function call.</li>
-</ul></div>
+<ul><li>functions <code>asir</code>, <code>calc_futime*</code>, <code>calc_refrates</code>, <code>ir_crosstab_byfutime</code>, <code>pat_status*</code>, <code>renumber_time_id*</code>, and <code>sir_byfutime</code> now by default are set to <code>dattype = NULL</code>. If you relied on automatic variable naming feature, you need to add <code>dattype = "seer"</code>or <code>dattype = "zfkd"</code> to your function call.</li></ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
 <ul><li>
-<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>:
-<ul><li>attributes with notes and problems are now correctly saved to <code>results_df</code>
-</li>
-</ul></li>
-</ul></div>
+<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>:<ul><li>attributes with notes and problems are now correctly saved to <code>results_df</code>
+</li></ul></li></ul></div>
 <div class="section level4">
 <h4 id="internal-development-version">Internal<a class="anchor" aria-label="anchor" href="#internal-development-version"></a></h4>
-<ul><li>deprecated functions from <code>tidytable</code> package have been replaced (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/71" class="external-link">#71</a>)</li>
-</ul></div>
+<ul><li>deprecated functions from <code>tidytable</code> package have been replaced (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/71" class="external-link">#71</a> and <a href="https://github.com/marianschmidt/msSPChelpR/issues/74" class="external-link">#74</a>)</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.8.7" id="msspchelpr-087">msSPChelpR 0.8.7<small>2021-07-01</small><a class="anchor" aria-label="anchor" href="#msspchelpr-087"></a></h2>
@@ -88,27 +83,20 @@
 <ul><li>new function <code><a href="../reference/sir_ratio.html">sir_ratio()</a></code> and related <code><a href="../reference/sir_ratio.html">sir_ratio_lci()</a></code> and <code><a href="../reference/sir_ratio.html">sir_ratio_uci()</a></code> to calculate ratio of two SIRs/SMRs to get relative risk and confidence limits for this ratio.</li>
 <li>tidytable variant of reshape_long function, i.e. <code><a href="../reference/reshape_long_tt.html">reshape_long_tt()</a></code> ⇒ the _tt variants usually have smaller memory use than tidyverse and data.table variants. Execution time is usually much faster than tidyverse and comparable to or a little slower than the data.table variant.</li>
 <li>
-<code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code>:
-<ul><li>add ability to summarize by different site_var than the one used in <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>
-</li>
-</ul></li>
+<code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code>:<ul><li>add ability to summarize by different site_var than the one used in <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>
+</li></ul></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-0-8-7">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-8-7"></a></h4>
 <ul><li>
-<code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code>:
-<ul><li>PYARs are now correctly calculated when using <code>summarize_site == TRUE</code>. Previously the results incorrectly counted each site multiple times. (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/62" class="external-link">#62</a>)</li>
-</ul></li>
+<code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code>:<ul><li>PYARs are now correctly calculated when using <code>summarize_site == TRUE</code>. Previously the results incorrectly counted each site multiple times. (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/62" class="external-link">#62</a>)</li></ul></li>
 <li>
-<code><a href="../reference/pat_status.html">pat_status()</a></code>:
-<ul><li>update default values for <code>dattype = "zfkd"</code>
-</li>
-</ul></li>
+<code><a href="../reference/pat_status.html">pat_status()</a></code>:<ul><li>update default values for <code>dattype = "zfkd"</code>
+</li></ul></li>
 </ul></div>
 <div class="section level4">
 <h4 id="internal-0-8-7">Internal<a class="anchor" aria-label="anchor" href="#internal-0-8-7"></a></h4>
-<ul><li>add R-CMD-Check to github actions</li>
-</ul></div>
+<ul><li>add R-CMD-Check to github actions</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.8.6" id="msspchelpr-086">msSPChelpR 0.8.6<small>2020-11-04</small><a class="anchor" aria-label="anchor" href="#msspchelpr-086"></a></h2>
@@ -121,8 +109,7 @@
 <div class="section level4">
 <h4 id="bug-fixes-0-8-6">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-8-6"></a></h4>
 <ul><li>
-<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>: change output of integer columns to numeric to fix bug in <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/59" class="external-link">#59</a>)</li>
-</ul></div>
+<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>: change output of integer columns to numeric to fix bug in <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/59" class="external-link">#59</a>)</li></ul></div>
 <div class="section level4">
 <h4 id="other-changes-0-8-6">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-0-8-6"></a></h4>
 <ul><li>add examples to function documentation (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/56" class="external-link">#56</a>)</li>
@@ -153,8 +140,7 @@
 <div class="section level4">
 <h4 id="breaking-changes-0-8-5">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-8-5"></a></h4>
 <ul><li>
-<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>:
-<ul><li>options <code>add_total_row</code> and <code>add_total_fu</code> are replaced by <code>calc_total_row</code> and <code>calc_total_fu</code>. These are logical parameters now. The positioning of total rows and columns is completely handled by the <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> function now. There total rows can be set to top and bottom and total columns to left and right.</li>
+<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>:<ul><li>options <code>add_total_row</code> and <code>add_total_fu</code> are replaced by <code>calc_total_row</code> and <code>calc_total_fu</code>. These are logical parameters now. The positioning of total rows and columns is completely handled by the <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> function now. There total rows can be set to top and bottom and total columns to left and right.</li>
 <li>option <code>expcount_src</code> including related parameters <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code> and <code>pyar_var</code> have been removed. Function <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> will only work calculating expected counts based on reference rates, not within the cohort of the dataset. To calculate expected based on the cohort, a new function <code>create_refrates</code> will be added in the future. (<a href="https://github.com/marianschmidt/msSPChelpR/issues/41" class="external-link">#41</a>)</li>
 <li>option <code>collapse_ci</code> has been removed and added to <code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> instead.</li>
 <li>option name for tumor site variable changed from <code>icdcat_var</code> to <code>site_var</code>
@@ -164,33 +150,24 @@
 <li>in total the parameters <code>expcount_src</code>, <code>futime_src</code>, <code>stdpop_df</code>, <code>refpop_df</code>, <code>std_pop</code>, <code>truncate_std_pop</code>, <code>pyar_var</code>, <code>icdcat_var</code>, <code>collapse_ci</code> have been removed to simply the function ⇒ make sure you remove these arguments from your <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> function calls.</li>
 </ul></li>
 <li>
-<code>sir()</code>:
-<ul><li>is superseded by the use of <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>. To migrate your former <code>sir()</code> functions, you can simply use <code>sir_byfutime(, futime_breaks = "none")</code> that will yield the same results.</li>
-</ul></li>
+<code>sir()</code>:<ul><li>is superseded by the use of <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>. To migrate your former <code>sir()</code> functions, you can simply use <code>sir_byfutime(, futime_breaks = "none")</code> that will yield the same results.</li></ul></li>
 <li>
-<code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code>:
-<ul><li>option name for tumor site variable changed from <code>summarize_icdcat</code> to <code>summarize_site</code>
-</li>
-</ul></li>
+<code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code>:<ul><li>option name for tumor site variable changed from <code>summarize_icdcat</code> to <code>summarize_site</code>
+</li></ul></li>
 <li>
-<code><a href="../reference/reshape_long_tidyr.html">reshape_long_tidyr()</a></code>:
-<ul><li>option <code>var_selection</code> is deprecated. Please select variables before running the <code>reshape_long_*</code> functions.</li>
-</ul></li>
+<code><a href="../reference/reshape_long_tidyr.html">reshape_long_tidyr()</a></code>:<ul><li>option <code>var_selection</code> is deprecated. Please select variables before running the <code>reshape_long_*</code> functions.</li></ul></li>
 <li>
-<code><a href="../reference/asir.html">asir()</a></code>:
-<ul><li>option name for age/age group variable changed from <code>agegroup_var</code> to <code>age_var</code>
+<code><a href="../reference/asir.html">asir()</a></code>:<ul><li>option name for age/age group variable changed from <code>agegroup_var</code> to <code>age_var</code>
 </li>
 <li>option name for tumor site variable changed from <code>icdcat_var</code> to <code>site_var</code>
 </li>
 </ul></li>
 <li>
-<code><a href="../reference/pat_status.html">pat_status()</a></code>, <code><a href="../reference/pat_status_tt.html">pat_status_tt()</a></code>, <code><a href="../reference/vital_status.html">vital_status()</a></code>, and <code><a href="../reference/vital_status_tt.html">vital_status_tt()</a></code>:
-<ul><li>Capitalized default variable labelling.</li>
+<code><a href="../reference/pat_status.html">pat_status()</a></code>, <code><a href="../reference/pat_status_tt.html">pat_status_tt()</a></code>, <code><a href="../reference/vital_status.html">vital_status()</a></code>, and <code><a href="../reference/vital_status_tt.html">vital_status_tt()</a></code>:<ul><li>Capitalized default variable labelling.</li>
 <li>This might break code that relied on using the labels coming out of these functions in later filter or mutate functions.</li>
 </ul></li>
 <li>
-<code><a href="../reference/ir_crosstab_byfutime.html">ir_crosstab_byfutime()</a></code>:
-<ul><li>option <code>futime_breaks</code> now uses breaks in years instead of months as previously.</li>
+<code><a href="../reference/ir_crosstab_byfutime.html">ir_crosstab_byfutime()</a></code>:<ul><li>option <code>futime_breaks</code> now uses breaks in years instead of months as previously.</li>
 <li>default <code>futime_var</code> is now follow-up time in years</li>
 </ul></li>
 <li>now requires dplyr version 1.0.0</li>
@@ -251,9 +228,7 @@
 <li>make <code>reshape_long</code> function work</li>
 </ul></div>
 </div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="0.8.2" id="msspchelpr-082">msSPChelpR 0.8.2<a class="anchor" aria-label="anchor" href="#msspchelpr-082"></a></h2>
-</div>
+    <div class="section level2"><h2 class="page-header" data-toc-text="0.8.2" id="msspchelpr-082">msSPChelpR 0.8.2<a class="anchor" aria-label="anchor" href="#msspchelpr-082"></a></h2></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.8.1" id="msspchelpr-081">msSPChelpR 0.8.1<a class="anchor" aria-label="anchor" href="#msspchelpr-081"></a></h2>
 <div class="section level4">
@@ -274,8 +249,7 @@
 <h2 class="page-header" data-toc-text="0.7.4" id="msspchelpr-074">msSPChelpR 0.7.4<a class="anchor" aria-label="anchor" href="#msspchelpr-074"></a></h2>
 <div class="section level4">
 <h4 id="new-features-0-7-4">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-7-4"></a></h4>
-<ul><li>new function renumber_time_id</li>
-</ul></div>
+<ul><li>new function renumber_time_id</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.7.3" id="msspchelpr-073">msSPChelpR 0.7.3<a class="anchor" aria-label="anchor" href="#msspchelpr-073"></a></h2>
@@ -292,45 +266,35 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.7.1" id="msspchelpr-071">msSPChelpR 0.7.1<a class="anchor" aria-label="anchor" href="#msspchelpr-071"></a></h2>
-<ul><li>fix error in vital_status function by replacing sjlabelled::get_label function</li>
-</ul></div>
+<ul><li>fix error in vital_status function by replacing sjlabelled::get_label function</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.7.0" id="msspchelpr-070">msSPChelpR 0.7.0<a class="anchor" aria-label="anchor" href="#msspchelpr-070"></a></h2>
-<ul><li>fix error in pat_status and vital_status functions due to change in sjlabelled package</li>
-</ul></div>
+<ul><li>fix error in pat_status and vital_status functions due to change in sjlabelled package</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.10" id="msspchelpr-0610">msSPChelpR 0.6.10<a class="anchor" aria-label="anchor" href="#msspchelpr-0610"></a></h2>
-<ul><li>rebuild description file and manual</li>
-</ul></div>
+<ul><li>rebuild description file and manual</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.9" id="msspchelpr-069">msSPChelpR 0.6.9<a class="anchor" aria-label="anchor" href="#msspchelpr-069"></a></h2>
-<ul><li>remove nest_legacy functions and use new tidyr syntax, close <a href="https://github.com/marianschmidt/msSPChelpR/issues/19" class="external-link">#19</a></li>
-</ul></div>
+<ul><li>remove nest_legacy functions and use new tidyr syntax, close <a href="https://github.com/marianschmidt/msSPChelpR/issues/19" class="external-link">#19</a></li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.8" id="msspchelpr-068">msSPChelpR 0.6.8<a class="anchor" aria-label="anchor" href="#msspchelpr-068"></a></h2>
-<ul><li>make summarize_sir_results function work without break variables</li>
-</ul></div>
+<ul><li>make summarize_sir_results function work without break variables</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.7" id="msspchelpr-067">msSPChelpR 0.6.7<a class="anchor" aria-label="anchor" href="#msspchelpr-067"></a></h2>
 <ul><li>for function sir_byfutime ⇒ make option <code>add_total_row</code> work, even if option <code>ybreak_vars = "none"</code>
-</li>
-</ul></div>
+</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.6" id="msspchelpr-066">msSPChelpR 0.6.6<a class="anchor" aria-label="anchor" href="#msspchelpr-066"></a></h2>
-<ul><li>Make use of time_id_var and case_id_var use coherent across reshape functions</li>
-</ul></div>
+<ul><li>Make use of time_id_var and case_id_var use coherent across reshape functions</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.5" id="msspchelpr-065">msSPChelpR 0.6.5<a class="anchor" aria-label="anchor" href="#msspchelpr-065"></a></h2>
-<ul><li>Fixed issue in Namespace</li>
-</ul></div>
+<ul><li>Fixed issue in Namespace</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.4" id="msspchelpr-064">msSPChelpR 0.6.4<a class="anchor" aria-label="anchor" href="#msspchelpr-064"></a></h2>
-<ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-</ul></div>
+<ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.3" id="msspchelpr-063">msSPChelpR 0.6.3<a class="anchor" aria-label="anchor" href="#msspchelpr-063"></a></h2>
-<ul><li>add option <code>futime_breaks = "none"</code> to <code>sir_byfutime</code> function</li>
-</ul></div>
+<ul><li>add option <code>futime_breaks = "none"</code> to <code>sir_byfutime</code> function</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.0" id="major-changes-in-msspchelpr-060">major changes in msSPChelpR 0.6.0<a class="anchor" aria-label="anchor" href="#major-changes-in-msspchelpr-060"></a></h2>
 <ul><li>includes a new function to calculate crude (absolute) incidence rates a tabulate them by whatever number of grouping variables and it can be used as a Table 1 for publications ⇒ The function is called msSPChelpR::ir_crosstab</li>
@@ -352,7 +316,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
