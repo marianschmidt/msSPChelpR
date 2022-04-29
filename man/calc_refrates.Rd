@@ -38,7 +38,7 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 "icd10gm2d" for ICD-10-GM 2-digit (C00-C97), "sitewho" for Site SEER WHO coding (no 1-89 categories), "sitewho_b"  for Site SEER WHO B recoding (no. 1-111 categories),
 "sitewho_epi" for SITE SEER WHO coding with additional sums,  "sitewhogen" for SITE WHO coding with less categories to make compatible for international rates,
 "sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories), "sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories),
-"sitewhogen_num" for numeric international rates, c("manual", char_vector of sites manually defined)}
+"sitewhogen_num" for numeric international rates, c("manual", char_vector) of sites manually defined}
 
 \item{region_var}{variable in df that contains information on region where case was incident. Default is set if dattype is given.}
 
