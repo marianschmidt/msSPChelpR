@@ -548,75 +548,22 @@
     site_var <span class="op">=</span> <span class="st">"t_site_icd.1"</span>, <span class="co">#using grouping by second cancer incidence</span>
     futime_var <span class="op">=</span> <span class="st">"p_futimeyrs"</span>,
     alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
+<span class="co">#&gt; [INFO Race Refrates] Parameter `race_var = NULL`, but refrates_df contains the column `race`</span>
+<span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> By default, only strata from `refrates_df` where column `race` starts with `Total` will be used.</span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed.</span>
+<span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> 10 strata are affected.</span>
+<span class="co">#&gt;  - This might be caused by cases where SPC occured at the same day as first cancer.</span>
+<span class="co">#&gt;  - You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
+<span class="co">#&gt; <span style="color: #BBBB00;">!</span> Check attribute `problems_not_empty` of results to see what strata are affected.</span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; [INFO Unexpected Cases] There are observed cases in the results file that do not occur in the refrates_df.</span>
+<span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> 166 strata are affected.</span>
+<span class="co">#&gt; A possible explanation can be:</span>
+<span class="co">#&gt;  - DCO cases or</span>
+<span class="co">#&gt;  - diagnosis of second cancer occured in different time period than first cancer</span>
+<span class="co">#&gt; <span style="color: #BBBB00;">!</span> Check attribute `notes_refcases` of results to see what strata are affected.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 4 × 10</span></span>
-<span class="co">#&gt;   age      sex    region   year  race.1 t_site to1month i_observed i_pyar n_base</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 05 - 09  Male   SEER Re… 2015… Other  C34           1          1      0      1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 15 - 19  Male   SEER Re… 2005… Black  C34           1          1      0      1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 85 - 120 Female SEER Re… 1995… Black  C34           1          2      0      2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 85 - 120 Male   SEER Re… 2010… Other  C34           1          1      0      1 </span>
-<span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
-<span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
-<span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 4 × 10</span></span>
-<span class="co">#&gt;   age      sex    region  year  race.1 t_site Total0toInfyears i_observed i_pyar</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 05 - 09  Male   SEER R… 2015… Other  C34                   1          1      0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 15 - 19  Male   SEER R… 2005… Black  C34                   1          1      0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 85 - 120 Female SEER R… 1995… Black  C34                   1          2      0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 85 - 120 Male   SEER R… 2010… Other  C34                   1          1      0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: n_base &lt;dbl&gt;</span> </span>
-<span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
-<span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
-<span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 1 × 10</span></span>
-<span class="co">#&gt;   age     sex   region    year  t_dco.1 t_site to1month i_observed i_pyar n_base</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 80 - 84 Male  SEER Reg… 2010… DCO ca… C34           1          1      0      1 </span>
-<span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
-<span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
-<span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed. </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 1 × 10</span></span>
-<span class="co">#&gt;   age     sex   region   year  t_dco.1 t_site Total0toInfyears i_observed i_pyar</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 80 - 84 Male  SEER Re… 2010… DCO ca… C34                   1          1      0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: n_base &lt;dbl&gt;</span> </span>
-<span class="co">#&gt; Check attribute `problems_not_empty` of results to see what strata are affected. </span>
-<span class="co">#&gt; This might be caused by cases where SPC occured at the same day as first cancer. </span>
-<span class="co">#&gt; You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  There are observed cases in the results file that do not occur in the refrates_df. </span>
-<span class="co">#&gt; A possible explanation can be: </span>
-<span class="co">#&gt;  - DCO cases </span>
-<span class="co">#&gt;  - diagnosis of second cancer occured in different time period than first cancer </span>
-<span class="co">#&gt; The following strata are affected: </span>
-<span class="co">#&gt; <span style="color: #949494;"># A tidytable: 166 × 21</span></span>
-<span class="co">#&gt;    yvar_name yvar_label fu_time    age     sex    region year  t_site i_observed</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> total_var Overall    1-5 years  60 - 64 Male   SEER … 2010… C34            17</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> total_var Overall    1-5 years  65 - 69 Male   SEER … 2015… C34            18</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> total_var Overall    5-10 years 60 - 64 Male   SEER … 2010… C34            20</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> total_var Overall    5-10 years 60 - 64 Male   SEER … 2010… C34            22</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> total_var Overall    5-10 years 70 - 74 Male   SEER … 2005… C34            12</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> total_var Overall    5-10 years 75 - 79 Female SEER … 2005… C34            13</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> total_var Overall    10+ years  25 - 29 Female SEER … 1995… C34            14</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> total_var Overall    10+ years  60 - 64 Female SEER … 1995… C34            18</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> total_var Overall    10+ years  60 - 64 Female SEER … 1995… C34            16</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> total_var Overall    10+ years  65 - 69 Male   SEER … 2000… C34            29</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 156 more rows, and 12 more variables: i_pyar &lt;dbl&gt;, n_base &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   race &lt;chr&gt;, incidence_cases &lt;int&gt;, population_pyar &lt;int&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   incidence_crude_rate &lt;dbl&gt;, i_expected &lt;dbl&gt;, sir &lt;dbl&gt;, sir_lci &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   sir_uci &lt;dbl&gt;, fu_time_sort &lt;int&gt;, yvar_sort &lt;int&gt;</span></span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Check attribute `notes_refcases` of results to see what strata are affected.</span>
 
 <span class="va">sircalc_results</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tidytable: 246,962 × 22</span></span>
@@ -747,9 +694,9 @@
                         <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">region</span>, <span class="op">-</span><span class="va">age</span>, <span class="op">-</span><span class="va">year</span>, <span class="op">-</span><span class="va">race</span>, <span class="op">-</span><span class="va">sex</span>, <span class="op">-</span><span class="va">yvar_name</span><span class="op">)</span>
 <span class="co">#&gt; Warning: The results file `sir_df` contains observed cases in i_observed that do not occur in the refrates_df (ref_inc_cases).</span>
-<span class="co">#&gt; Therefore calculation of the variables n_base and ref_population_pyar is ambiguous. </span>
-<span class="co">#&gt; We take the first value of each variable. Expect small inconsistencies in the calculation of n_base, ref_population_pyar and ref_inc_crude_rate across strata. </span>
-<span class="co">#&gt; If you want to know more, please check the `warnings` column of `sir_df`.</span>
+<span class="co">#&gt; Therefore calculation of the variables n_base and ref_population_pyar is ambiguous.</span>
+<span class="co">#&gt; We take the first value of each variable. Expect small inconsistencies in the calculation of n_base, ref_population_pyar and ref_inc_crude_rate across strata.</span>
+<span class="co">#&gt; <span style="color: #BBBB00;">!</span> If you want to know more, please check the `warnings` column of `sir_df`.</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tidytable: 7 × 8</span></span>
 <span class="co">#&gt;   yvar_label fu_time          fu_time_sort t_site observed expected   sir sir_ci</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
