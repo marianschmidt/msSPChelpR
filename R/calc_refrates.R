@@ -1,3 +1,4 @@
+#'
 #' Calculate age-, sex-, cohort-, region-specific incidence rates from a cohort
 #'
 #' @param df dataframe in long format
@@ -9,7 +10,7 @@
 #'                   "icd10gm2d" for ICD-10-GM 2-digit (C00-C97), "sitewho" for Site SEER WHO coding (no 1-89 categories), "sitewho_b"  for Site SEER WHO B recoding (no. 1-111 categories),
 #'                   "sitewho_epi" for SITE SEER WHO coding with additional sums,  "sitewhogen" for SITE WHO coding with less categories to make compatible for international rates, 
 #'                   "sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories), "sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories),
-#'                   "sitewhogen_num" for numeric international rates, c("manual", char_vector of sites manually defined)
+#'                   "sitewhogen_num" for numeric international rates, c("manual", char_vector) of sites manually defined
 #' @param region_var variable in df that contains information on region where case was incident. Default is set if dattype is given.
 #' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on sex. Default is set if dattype is given.
@@ -520,7 +521,7 @@ calc_refrates <- function(df,
   
   #2a calculate observed
   calc_count <- df %>%
-    tidytable::summarize.(incidence_cases = sum(.SD$count_var, na.rm = TRUE), 
+    tidytable::summarize.(incidence_cases = sum(.data$count_var, na.rm = TRUE), 
                           .by = tidyselect::all_of(c("age", "sex", "region", "year", "t_site",
                                                      if(rs){"race"}))
     )
@@ -700,10 +701,16 @@ calc_refrates <- function(df,
   rates_pre <- calc_rates %>%
     tidytable::mutate.(
       incidence_crude_rate = tidytable::case_when.(
-        .SD$population_pyar > 0 ~ .SD$incidence_cases / .SD$population_pyar * 100000,
+        .data$population_pyar > 0 ~ .data$incidence_cases / .data$population_pyar * 100000,
         TRUE                    ~ NA_real_),
       region = as.factor(region),
       sex = as.factor(sex)
+    ) %>%
+    tidytable::mutate.(
+      population_n_per_year = tidytable::case_when.(
+        stringr::str_length(.data$year) == 4 ~ .data$population_pyar,
+        stringr::str_length(.data$year) > 4  ~ .data$population_pyar / 5,
+        TRUE ~ NA_real_)
     )
   
   
