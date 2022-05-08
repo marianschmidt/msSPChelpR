@@ -604,15 +604,15 @@ sir_byfutime <- function(df,
     refrates_site_all <- c(refrates_site_all, used_t_site[!(used_t_site %in% refrates_site_all)])
   }
   
-  # WIP: check that there are no duplicates
+  # Check that there are no duplicates
   
-  # if(n_not_found_fu != n_i_pyar_miss){
-  #   #missing strata
-  #   missing_fu_strat <- sircalc_count %>%
-  #     tidytable::anti_join.(sircalc_fu, by = match_vars)
-  #   
-  #   problems_duplicate_ref_strata_attr <- tidytable::bind_rows.(problems_duplicate_ref_strata_attr, duplicate_ref_strata)
-  # }
+  ref_df_duplicates <- refrates_df %>%
+    tidytable::add_count.(tidyselect::all_of(c("age", "sex", "region", "year", "t_site",
+                                               if(rs){"race"})),
+                          name = "n") %>%
+    tidytable::filter.(n > 1)
+  
+  problems_duplicate_ref_strata_attr <- tidytable::bind_rows.(problems_duplicate_ref_strata_attr, ref_df_duplicates)
   
   
   # ---- 2 analysis - refrates option ----
@@ -1146,7 +1146,7 @@ sir_byfutime <- function(df,
       "This error occured in:",
       paste0(" - Time stratum: ", rlang::as_string(fub_var)),
       paste0(" - Y variable stratum: ", rlang::as_string(syb_var)),
-      "!" = "Check attribute `problems_missing_count_strat` of results to see what strata are affected.",
+      "!" = "Check attribute `problems_missing_count_strata` of results to see what strata are affected.",
       "It is recommended to run a debug with the same data.",
       " "
     ))
@@ -1160,11 +1160,22 @@ sir_byfutime <- function(df,
       "This error occured in:",
       paste0(" - Time stratum: ", rlang::as_string(fub_var)),
       paste0(" - Y variable stratum: ", rlang::as_string(syb_var)),
-      "!" = " Check attribute `problems_missing_fu_strat` of results to see what strata are affected.",
+      "!" = " Check attribute `problems_missing_fu_strata` of results to see what strata are affected.",
       "It is recommended to run a debug with the same data.",
       " "
     ))
     attr(sir_result, "problems_missing_fu_strata") <- problems_missing_fu_strata_attr
+  }
+  
+  if(nrow(problems_duplicate_ref_strata_attr) > 0){
+    rlang::warn(c(
+      "[WARN Refrates Duplicates] For some strata refrates are are ambiguous", 
+      "i" = paste0(nrow(problems_duplicate_ref_strata_attr), " strata have duplicates in `refrates_df`"),
+      " - Solution could be to remove duplicates from `refrates_df`.",
+      "!" = "Check attribute `problems_duplicate_ref_strata` of results to see what strata are affected.",
+      " "
+    ))
+    attr(sir_result, "problems_duplicate_ref_strata") <- problems_duplicate_ref_strata_attr
   }
   
   if(nrow(notes_refcases) > 0){
