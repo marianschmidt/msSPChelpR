@@ -238,8 +238,9 @@ sir_byfutime <- function(df,
   problems_not_empty_attr <- tidytable::tidytable()
   problems_missing_ref_strata_attr <- tidytable::tidytable()
   problems_missing_futime_attr <- tidytable::tidytable()
-  problems_missing_count_strat_attr <- tidytable::tidytable()
-  problems_missing_fu_strat_attr <- tidytable::tidytable()
+  problems_missing_count_strata_attr <- tidytable::tidytable()
+  problems_missing_fu_strata_attr <- tidytable::tidytable()
+  problems_duplicate_ref_strata_attr <- tidytable::tidytable()
   notes_refcases <- tidytable::tidytable()
   
   # create vector with basic matching variables age, sex, region, site_var, year
@@ -603,6 +604,16 @@ sir_byfutime <- function(df,
     refrates_site_all <- c(refrates_site_all, used_t_site[!(used_t_site %in% refrates_site_all)])
   }
   
+  # WIP: check that there are no duplicates
+  
+  # if(n_not_found_fu != n_i_pyar_miss){
+  #   #missing strata
+  #   missing_fu_strat <- sircalc_count %>%
+  #     tidytable::anti_join.(sircalc_fu, by = match_vars)
+  #   
+  #   problems_duplicate_ref_strata_attr <- tidytable::bind_rows.(problems_duplicate_ref_strata_attr, duplicate_ref_strata)
+  # }
+  
   
   # ---- 2 analysis - refrates option ----
   ### F2 Calculating Observed by group (within cohort) and PYARs
@@ -811,7 +822,7 @@ sir_byfutime <- function(df,
         missing_count_strat <- sircalc_fu %>%
           tidytable::anti_join.(sircalc_count, by = match_vars)
         
-        problems_missing_count_strat_attr <- tidytable::bind_rows.(problems_missing_count_strat_attr, missing_count_strat)
+        problems_missing_count_strata_attr <- tidytable::bind_rows.(problems_missing_count_strata_attr, missing_count_strat)
       }
       
       ##CHK2d-2 All available sircalc_fu strata were matched
@@ -822,7 +833,7 @@ sir_byfutime <- function(df,
         missing_fu_strat <- sircalc_count %>%
           tidytable::anti_join.(sircalc_fu, by = match_vars)
         
-        problems_missing_fu_strat_attr <- tidytable::bind_rows.(problems_missing_fu_strat_attr, missing_fu_strat)
+        problems_missing_fu_strata_attr <- tidytable::bind_rows.(problems_missing_fu_strata_attr, missing_fu_strat)
       }
       
       rm(sircalc_count, sircalc_fu)
@@ -1128,10 +1139,10 @@ sir_byfutime <- function(df,
     attr(sir_result, "problems_missing_futime") <- problems_missing_futime_attr
   }
   
-  if(nrow(problems_missing_count_strat_attr) > 0){
+  if(nrow(problems_missing_count_strata_attr) > 0){
     rlang::warn(c(
       "[WARN Count Strata Missing] When trying to match the observed counts and follow-up times for this loop, an unexpected mismatch of strata occured.",
-      "i" = paste0(nrow(problems_missing_count_strat_attr), " strata are missing from intermediate result `sircalc_count`."),
+      "i" = paste0(nrow(problems_missing_count_strata_attr), " strata are missing from intermediate result `sircalc_count`."),
       "This error occured in:",
       paste0(" - Time stratum: ", rlang::as_string(fub_var)),
       paste0(" - Y variable stratum: ", rlang::as_string(syb_var)),
@@ -1139,13 +1150,13 @@ sir_byfutime <- function(df,
       "It is recommended to run a debug with the same data.",
       " "
     ))
-    attr(sir_result, "problems_missing_count_strat") <- problems_missing_count_strat_attr
+    attr(sir_result, "problems_missing_count_strat") <- problems_missing_count_strata_attr
   }
   
-  if(nrow(problems_missing_fu_strat_attr) > 0){
+  if(nrow(problems_missing_fu_strata_attr) > 0){
     rlang::warn(c(
       "[WARN FU Strata Missing] When trying to match the observed counts and follow-up times for this loop, an unexpected mismatch of strata occured.",
-      "i" = paste0(nrow(problems_missing_fu_strat_attr), " strata are missing from intermediate result `sircalc_fu`."),
+      "i" = paste0(nrow(problems_missing_fu_strata_attr), " strata are missing from intermediate result `sircalc_fu`."),
       "This error occured in:",
       paste0(" - Time stratum: ", rlang::as_string(fub_var)),
       paste0(" - Y variable stratum: ", rlang::as_string(syb_var)),
@@ -1153,7 +1164,7 @@ sir_byfutime <- function(df,
       "It is recommended to run a debug with the same data.",
       " "
     ))
-    attr(sir_result, "problems_missing_fu_strat") <- problems_missing_fu_strat_attr
+    attr(sir_result, "problems_missing_fu_strat") <- problems_missing_fu_strata_attr
   }
   
   if(nrow(notes_refcases) > 0){
