@@ -66,7 +66,9 @@
 </ul></div>
 <div class="section level4">
 <h4 id="breaking-changes-development-version">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
-<ul><li>functions <code>asir</code>, <code>calc_futime*</code>, <code>calc_refrates</code>, <code>ir_crosstab_byfutime</code>, <code>pat_status*</code>, <code>renumber_time_id*</code>, and <code>sir_byfutime</code> now by default are set to <code>dattype = NULL</code>. If you relied on automatic variable naming feature, you need to add <code>dattype = "seer"</code>or <code>dattype = "zfkd"</code> to your function call.</li></ul></div>
+<ul><li>functions <code>asir</code>, <code>calc_futime*</code>, <code>calc_refrates</code>, <code>ir_crosstab_byfutime</code>, <code>pat_status*</code>, <code>renumber_time_id*</code>, and <code>sir_byfutime</code> now by default are set to <code>dattype = NULL</code>. If you relied on automatic variable naming feature, you need to add <code>dattype = "seer"</code>or <code>dattype = "zfkd"</code> to your function call.</li>
+<li>fix typo in attribute names: attributes are now correctly named <code>problems_missing_count_strata</code> and <code>problems_missing_fu_strata</code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/80" class="external-link">#80</a>)</li>
+</ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
 <ul><li>
