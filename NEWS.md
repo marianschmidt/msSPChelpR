@@ -6,6 +6,7 @@
 
 ### Breaking Changes
 * functions `asir`, `calc_futime*`, `calc_refrates`, `ir_crosstab_byfutime`, `pat_status*`, `renumber_time_id*`, and  `sir_byfutime` now by default are set to `dattype = NULL`. If you relied on automatic variable naming feature, you need to add `dattype = "seer"`or `dattype = "zfkd"` to your function call.
+* fix typo in attribute names: attributes are now correctly named `problems_missing_count_strata` and `problems_missing_fu_strata` (Closes #80)
 
 ### Bug fixes
 * `sir_byfutime()`:

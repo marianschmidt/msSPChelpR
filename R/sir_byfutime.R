@@ -1150,7 +1150,7 @@ sir_byfutime <- function(df,
       "It is recommended to run a debug with the same data.",
       " "
     ))
-    attr(sir_result, "problems_missing_count_strat") <- problems_missing_count_strata_attr
+    attr(sir_result, "problems_missing_count_strata") <- problems_missing_count_strata_attr
   }
   
   if(nrow(problems_missing_fu_strata_attr) > 0){
@@ -1164,7 +1164,7 @@ sir_byfutime <- function(df,
       "It is recommended to run a debug with the same data.",
       " "
     ))
-    attr(sir_result, "problems_missing_fu_strat") <- problems_missing_fu_strata_attr
+    attr(sir_result, "problems_missing_fu_strata") <- problems_missing_fu_strata_attr
   }
   
   if(nrow(notes_refcases) > 0){
