@@ -324,7 +324,7 @@ summarize_sir_results <- function(sir_df,
   #   sg <- TRUE
   #   sg_var_names <- rlang::eval_tidy(c(summarize_groups, "t_site"))
   #   } else{
-  #     #FIX: check whether this safeguard here is really needed.
+  #     #WIP #FIX: check whether this safeguard here is really needed.
   #     rlang::warn(paste0(
   #     "Parameter `summarize_site == TRUE` provided, but function detected that you are not using the original `site_var_name == t_site`. \n",
   #     "We therefore assume you are using a grouped site_var for which summarize_site makes no sense. \n",
@@ -831,7 +831,7 @@ summarize_sir_results <- function(sir_df,
   if(output == "wide"){
     #wide - only FU-times need to be transposed
     
-    trans_vars <- names(sum_pre2)[!names(sum_pre2) %in% c("age", "region", "sex", "year", "t_site", 
+    trans_vars <- names(sum_pre2)[!names(sum_pre2) %in% c("age", "region", "sex", "year", if(rs){"race"}, "t_site", 
                                                           if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
                                                           if(xb){c("xvar_name", "xvar_label")}, 
                                                           if(fu){c("fu_time", "fu_time_sort")})]
