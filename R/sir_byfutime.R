@@ -1067,6 +1067,9 @@ sir_byfutime <- function(df,
                                             if(fu){"fu_time"}, 
                                             "t_site", "observed", "expected", "sir", "sir_lci", "sir_uci")),
                        tidyselect::everything()) %>% 
+    #remove race_var when race_var = NULL; but race is present in refrates
+    tidytable::select.(-tidyselect::any_of(c(if(!rs){"race"}))) %>%
+    #arrange
     tidytable::arrange.(!!!final_sort_var_quo)
   
   
