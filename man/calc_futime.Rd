@@ -14,7 +14,8 @@ calc_futime(
   status_var = "p_status",
   lifedat_var = NULL,
   fcdat_var = NULL,
-  spcdat_var = NULL
+  spcdat_var = NULL,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -26,7 +27,7 @@ calc_futime(
 
 \item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
-\item{check}{Check newly calculated variable p_status by printing frequency table. Default is TRUE.}
+\item{check}{Check newly calculated variable p_futimeyrs by printing frequency table. Default is TRUE.}
 
 \item{time_unit}{Unit of follow-up time (can be "days", "weeks", "months", "years"). Default is "years".}
 
@@ -37,45 +38,12 @@ calc_futime(
 \item{fcdat_var}{Name of variable containing Date of Primary Cancer diagnosis. Will override dattype preset.}
 
 \item{spcdat_var}{Name of variable containing Date of SPC diagnosis Will override dattype preset.}
+
+\item{quiet}{If TRUE, warnings and messages will be suppressed. Default is FALSE.}
 }
 \value{
 wide_df
 }
 \description{
 Calculate follow-up time per case until end of follow-up depending on pat_status - tidyverse version
-}
-\examples{
-#load sample data
-data("us_second_cancer")
-
-#prep step - make wide data as this is the required format
-usdata_wide <- us_second_cancer \%>\%
-                    msSPChelpR::reshape_wide_tidyr(case_id_var = "fake_id", 
-                    time_id_var = "SEQ_NUM", timevar_max = 10)
-                    
-#prep step - calculate p_spc variable
-usdata_wide <- usdata_wide \%>\%
-                 dplyr::mutate(p_spc = dplyr::case_when(is.na(t_site_icd.2)   ~ "No SPC",
-                                                       !is.na(t_site_icd.2)   ~ "SPC developed",
-                                                       TRUE ~ NA_character_)) \%>\%
-                 dplyr::mutate(count_spc = dplyr::case_when(is.na(t_site_icd.2)   ~ 1,
-                                                              TRUE ~ 0))
-                                                              
-#prep step - create patient status variable
-usdata_wide <- usdata_wide \%>\%
-                  msSPChelpR::pat_status(., fu_end = "2017-12-31", dattype = "seer",
-                                         status_var = "p_status", life_var = "p_alive.1",
-                                         birthdat_var = "datebirth.1", lifedat_var = "datedeath.1")
- 
-#now we can run the function
-msSPChelpR::calc_futime(usdata_wide, 
-                        futime_var_new = "p_futimeyrs", 
-                        fu_end = "2017-12-31",
-                        dattype = "seer", 
-                        time_unit = "years",
-                        status_var = "p_status",
-                        lifedat_var = "datedeath.1", 
-                        fcdat_var = "t_datediag.1", 
-                        spcdat_var = "t_datediag.2")
-
 }
