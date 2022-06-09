@@ -330,12 +330,12 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = NULL,
   #conduct check on new variable
   if(check == TRUE){
     check_tab <- wide_df %>%
-      tidytable::count.(!!life_var, !!status_var)
+      tidytable::count.(!!life_var, !!status_var, name = "n")
     
     print(check_tab)
     
     freq_tab <- wide_df %>%
-      tidytable::count.(!!status_var)
+      tidytable::count.(!!status_var, name = "n")
     
     print(freq_tab)
     
