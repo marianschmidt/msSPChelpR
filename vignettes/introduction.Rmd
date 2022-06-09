@@ -123,7 +123,7 @@ ids <- us_second_cancer %>%
 filtered_usdata <- us_second_cancer %>%
   #filter according to above detected ids with any lung cancer diagnosis
   filter(fake_id %in% ids) %>%
-   arrange(fake_id)
+  arrange(fake_id)
 
 filtered_usdata
 ```
