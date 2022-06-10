@@ -22,8 +22,7 @@ Imports:
     stringr,
     tidyselect, 
     tidytable (>= 0.7.2),
-    tidyr (>= 1.0.0),
-    utils
+    tidyr (>= 1.0.0)
 Suggests: 
     haven,
     tibble,
