@@ -48,7 +48,7 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 
 \item{year_var}{variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.}
 
-\item{race_var}{optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refrates_df needs to contain the variable "race".}
+\item{race_var}{optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refpop_df needs to contain the variable "race".}
 
 \item{site_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
 }
