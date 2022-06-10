@@ -90,46 +90,85 @@
     <h2>Arguments</h2>
     <dl><dt>wide_df</dt>
 <dd><p>dataframe or data.table in wide format</p></dd>
+
+
 <dt>fu_end</dt>
 <dd><p>end of follow-up in time format YYYY-MM-DD.</p></dd>
+
+
 <dt>dattype</dt>
 <dd><p>can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.</p></dd>
+
+
 <dt>status_var</dt>
 <dd><p>Name of the newly calculated variable for patient status. Default is p_status.</p></dd>
+
+
 <dt>life_var</dt>
 <dd><p>Name of variable containing life status. Will override dattype preset.</p></dd>
+
+
 <dt>spc_var</dt>
 <dd><p>Name of variable containing SPC status. Will override dattype preset.</p></dd>
+
+
 <dt>birthdat_var</dt>
 <dd><p>Name of variable containing Date of Birth. Will override dattype preset.</p></dd>
+
+
 <dt>lifedat_var</dt>
 <dd><p>Name of variable containing Date of Death. Will override dattype preset.</p></dd>
+
+
 <dt>lifedatmin_var</dt>
 <dd><p>Name of variable containing the minimum Date of Death when true DoD is missing. Will override dattype preset. Will only  be used if use_lifedatmin = TRUE.</p></dd>
+
+
 <dt>fcdat_var</dt>
 <dd><p>Name of variable containing Date of Primary Cancer diagnosis. Will override dattype preset.</p></dd>
+
+
 <dt>spcdat_var</dt>
 <dd><p>Name of variable containing Date of SPC diagnosis Will override dattype preset.</p></dd>
+
+
 <dt>life_stat_alive</dt>
 <dd><p>Value for alive status in life_var. Will override dattype preset.</p></dd>
+
+
 <dt>life_stat_dead</dt>
 <dd><p>Value for dead status in life_var. Will override dattype preset.</p></dd>
+
+
 <dt>spc_stat_yes</dt>
 <dd><p>Value for SPC occurred in spc_var. Will override dattype preset.</p></dd>
+
+
 <dt>spc_stat_no</dt>
 <dd><p>Value for no SPC in spc_var. Will override dattype preset.</p></dd>
+
+
 <dt>lifedat_fu_end</dt>
 <dd><p>Date of last FU of alive status in registry data. Will override dattype preset (2017-03-31 for zfkd; 2018-12-31 for seer).</p></dd>
+
+
 <dt>use_lifedatmin</dt>
 <dd><p>If TRUE, option to use Date of Death from lifedatmin_var when DOD is missing. Default is FALSE.</p></dd>
+
+
 <dt>check</dt>
 <dd><p>Check newly calculated variable p_status. Default is TRUE.</p></dd>
+
+
 <dt>as_labelled_factor</dt>
 <dd><p>If TRUE, output status_var as labelled factor variable. Default is FALSE.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>wide_df</p>
+    
+
+<p>wide_df</p>
     </div>
 
     <div id="ref-examples">
@@ -221,7 +260,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

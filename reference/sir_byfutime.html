@@ -88,49 +88,82 @@
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>dataframe in wide format</p></dd>
+
+
 <dt>dattype</dt>
 <dd><p>can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.</p></dd>
+
+
 <dt>ybreak_vars</dt>
 <dd><p>variables from df by which SIRs should be stratified in result df. Multiple variables will result in
 appended rows in result df.
 Careful: do not chose any variables that are dependent on occurrence of count_var (e.g. Histology of second cancer).
 If y_break_vars = "none", no stratification is performed. Default is "none".</p></dd>
+
+
 <dt>xbreak_var</dt>
 <dd><p>One variable from df by which SIRs should be stratified as a second dimension in result df. This variable will be added as
 a second stratification dimension to ybreak_vars and all variables will be calculated for subpopulations of x and y combinations.
 Careful: do not chose any variables that are dependent on occurrence of count_var (e.g. Year of second cancer).
 If y_break_vars = "none", no stratification is performed. Default is "none".</p></dd>
+
+
 <dt>futime_breaks</dt>
 <dd><p>vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
 Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years).
 If you don't want to split by follow-up time, use futime_breaks = "none".</p></dd>
+
+
 <dt>count_var</dt>
 <dd><p>variable to be counted as observed case. Cases are usually the second cancers. Should be 1 for case to be counted.</p></dd>
+
+
 <dt>refrates_df</dt>
 <dd><p>df where reference rate from general population are defined. It is assumed that refrates_df has the columns
 "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "incidence_crude_rate" for incidence rate in the respective age/sex/year cohort.The variable "race" is additionally required if the option "race_var" is used.
 refrates_df must use the same category coding of age, sex, region, year and t_site as age_var, sex_var, region_var, year_var and site_var.</p></dd>
+
+
 <dt>calc_total_row</dt>
 <dd><p>option to calculate a row of totals. Can be either FALSE for not adding such a row or TRUE for adding it at the first row. Default is TRUE.</p></dd>
+
+
 <dt>calc_total_fu</dt>
 <dd><p>option to calculate totals for follow-up time. Can be either FALSE for not adding such a column or TRUE for adding. Default is TRUE.</p></dd>
+
+
 <dt>region_var</dt>
 <dd><p>variable in df that contains information on region where case was incident. Default is set if dattype is given.</p></dd>
+
+
 <dt>age_var</dt>
 <dd><p>variable in df that contains information on age-group. Default is set if dattype is given.</p></dd>
+
+
 <dt>sex_var</dt>
 <dd><p>variable in df that contains information on sex. Default is set if dattype is given.</p></dd>
+
+
 <dt>year_var</dt>
 <dd><p>variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.</p></dd>
+
+
 <dt>race_var</dt>
 <dd><p>optional argument, if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refrates_df needs to contain the variable "race".</p></dd>
+
+
 <dt>site_var</dt>
 <dd><p>variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.</p></dd>
+
+
 <dt>futime_var</dt>
 <dd><p>variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
@@ -171,7 +204,7 @@ refrates_df must use the same category coding of age, sex, region, year and t_si
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

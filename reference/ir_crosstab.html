@@ -81,29 +81,50 @@
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>dataframe in wide format</p></dd>
+
+
 <dt>dattype</dt>
 <dd><p>can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.</p></dd>
+
+
 <dt>count_var</dt>
 <dd><p>variable to be counted as observed case. Should be 1 for case to be counted.</p></dd>
+
+
 <dt>xbreak_var</dt>
 <dd><p>variable from df by which rates should be stratified in columns of result df. Default is "none".</p></dd>
+
+
 <dt>ybreak_vars</dt>
 <dd><p>variables from df by which rates should be stratified in rows of result df. Multiple variables will result in
 appended rows in result df. y_break_vars is required.</p></dd>
+
+
 <dt>collapse_ci</dt>
 <dd><p>If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.</p></dd>
+
+
 <dt>add_total</dt>
 <dd><p>option to add a row of totals. Can be either "no" for not adding such a row or "top" or "bottom" for adding it at the first or last row. Default is "no".</p></dd>
+
+
 <dt>add_n_percentages</dt>
 <dd><p>option to add a column of percentages for n_base in its respective yvar_group. Can only be used when xbreak_var = "none". Default is FALSE.</p></dd>
+
+
 <dt>futime_var</dt>
 <dd><p>variable in df that contains follow-up time per person (in years). Default is set if dattype is given.</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>df</p>
+    
+
+<p>df</p>
     </div>
 
     <div id="ref-examples">
@@ -218,7 +239,7 @@ appended rows in result df. y_break_vars is required.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

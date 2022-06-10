@@ -85,42 +85,69 @@
     <h2>Arguments</h2>
     <dl><dt>sir_df</dt>
 <dd><p>dataframe with stratified sir results created using the sir or sir_byfutime functions</p></dd>
+
+
 <dt>summarize_groups</dt>
 <dd><p>option to define summarizing stratified groups. Default is "none".
 If you want to define variables that should be summarized into one group, you can chose from age, sex, region, year.
 Define multiple summarize variables e.g. by summarize_groups = c("region", "sex", "year")</p></dd>
+
+
 <dt>summarize_site</dt>
 <dd><p>If TRUE results will be summarized over all t_site categories. Default is FALSE.</p></dd>
+
+
 <dt>output</dt>
 <dd><p>Define the format of the output.
 Can be either "nested" for nested dataframe with fubreak_var and xbreak_var in separate sub_tables (purrr).
 Or "wide" for wide format where fubreak_var and xbreak_var are appended as columns.
 Or "long" for long format where sir_df is not reshaped, but just summarized (ybreak_var, xbreak_var and fubreak_var remain in rows).
 Default is "long".</p></dd>
+
+
 <dt>output_information</dt>
 <dd><p>option to define information to be presented in final output table. Default is "full" information, i.e. all variables from
 from sir_df. "reduced" is observed, expected, sir, sir_ci / sir_lci+sir_uci, pyar, n_base. "minimal" is observed, expected, sir, sir_ci.
 Default is "full".</p></dd>
+
+
 <dt>add_total_row</dt>
 <dd><p>option to add a row of totals. Can be either "no" for not adding such a row or "start" or "end" for adding it at the first or last row
 or "only" for only showing totals and no yvar. Default is "no".</p></dd>
+
+
 <dt>add_total_fu</dt>
 <dd><p>option to add totals for follow-up time. Can be either "no" for not adding such a column or "start" or "end" for adding it at the first or last column
 or "only" for only showing follow-up time totals. Default is "no".</p></dd>
+
+
 <dt>collapse_ci</dt>
 <dd><p>If TRUE upper and lower confidence interval will be collapsed into one column separated by "-". Default is FALSE.</p></dd>
+
+
 <dt>shorten_total_cols</dt>
 <dd><p>Shorten text in all results columns that start with "Total". Default == FALSE.</p></dd>
+
+
 <dt>fubreak_var_name</dt>
 <dd><p>Name of variable with futime stratification. Default is "fu_time".</p></dd>
+
+
 <dt>ybreak_var_name</dt>
 <dd><p>Name of variable with futime stratification. Default is "yvar_name".</p></dd>
+
+
 <dt>xbreak_var_name</dt>
 <dd><p>Name of variable with futime stratification. Default is "xvar_name".</p></dd>
+
+
 <dt>site_var_name</dt>
 <dd><p>Name of variable with site stratification. Default is "t_site".</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
@@ -154,7 +181,7 @@ or "only" for only showing follow-up time totals. Default is "no".</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

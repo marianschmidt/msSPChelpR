@@ -83,17 +83,27 @@
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>dataframe in long format</p></dd>
+
+
 <dt>dattype</dt>
 <dd><p>can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.</p></dd>
+
+
 <dt>count_var</dt>
 <dd><p>variable to be counted as observed case. Should be 1 for case to be counted.</p></dd>
+
+
 <dt>refpop_df</dt>
 <dd><p>df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns
 "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets),
 "population_pyar" for person-years at risk in the respective age/sex/year cohort.
 refpop_df must use the same category coding of age, sex, region, year and site as age_var, sex_var, region_var, year_var and site_var.</p></dd>
+
+
 <dt>calc_totals</dt>
 <dd><p>option to calculate totals for all age-groups, all sexes, all years, all races, all sites. Default is FALSE.</p></dd>
+
+
 <dt>fill_sites</dt>
 <dd><p>option to fill missing sites in observed with incidence rate of 0. Needs to define the coding system used.
 Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C00-C80Ê), "icd3d" for ICD-O-3 3digit,
@@ -101,22 +111,37 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 "sitewho_epi" for SITE SEER WHO coding with additional sums,  "sitewhogen" for SITE WHO coding with less categories to make compatible for international rates,
 "sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories), "sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories),
 "sitewhogen_num" for numeric international rates, c("manual", char_vector) of sites manually defined</p></dd>
+
+
 <dt>region_var</dt>
 <dd><p>variable in df that contains information on region where case was incident. Default is set if dattype is given.</p></dd>
+
+
 <dt>age_var</dt>
 <dd><p>variable in df that contains information on age-group. Default is set if dattype is given.</p></dd>
+
+
 <dt>sex_var</dt>
 <dd><p>variable in df that contains information on sex. Default is set if dattype is given.</p></dd>
+
+
 <dt>year_var</dt>
 <dd><p>variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.</p></dd>
+
+
 <dt>race_var</dt>
-<dd><p>optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refrates_df needs to contain the variable "race".</p></dd>
+<dd><p>optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refpop_df needs to contain the variable "race".</p></dd>
+
+
 <dt>site_var</dt>
 <dd><p>variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>df</p>
+    
+
+<p>df</p>
     </div>
 
     <div id="ref-examples">
@@ -132,24 +157,11 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 <span class="r-in">  <span class="fu">calc_refrates</span><span class="op">(</span>dattype <span class="op">=</span> <span class="st">"seer"</span>, , count_var <span class="op">=</span> <span class="st">"is_case"</span>, refpop_df <span class="op">=</span> <span class="va">population_us</span>,</span>
 <span class="r-in">               region_var <span class="op">=</span> <span class="st">"registry"</span>, age_var <span class="op">=</span> <span class="st">"fc_agegroup"</span>, sex_var <span class="op">=</span> <span class="st">"sex"</span>, </span>
 <span class="r-in">               site_var <span class="op">=</span> <span class="st">"t_site_icd"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  [INFO Ref population missing]For the following age groups, sex, regions, years, t_sites no population can be found: </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tidytable: 144 × 4</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>    age     sex    region                                   year       </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 00 - 04 Female SEER Reg 01 - San Francisco-Oakland SMSA 2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 00 - 04 Female SEER Reg 02 - Connecticut                2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 00 - 04 Female SEER Reg 20 - Detroit (Metropolitan)     2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 00 - 04 Female SEER Reg 21 - Hawaii                     2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 00 - 04 Male   SEER Reg 01 - San Francisco-Oakland SMSA 2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 00 - 04 Male   SEER Reg 02 - Connecticut                2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 00 - 04 Male   SEER Reg 20 - Detroit (Metropolitan)     2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 00 - 04 Male   SEER Reg 21 - Hawaii                     2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 05 - 09 Female SEER Reg 01 - San Francisco-Oakland SMSA 2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 05 - 09 Female SEER Reg 02 - Connecticut                2015 - 2019</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 134 more rows</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Check attribute `problems_missing_ref_strata` of results to see what strata are affected. </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Solution could be to add these strata to refpop_df. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [INFO Reference Population Missing] For some strata no population can be found.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> 144 strata have no reference population in `refpop_df`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  - Solution could be to add these strata to `refpop_df`.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Check attribute `problems_missing_refpop_strata` of results to see what strata are affected.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tidytable: 6,181 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    t_site region              year  sex   age   incidence_cases incidence_crude…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -179,7 +191,7 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

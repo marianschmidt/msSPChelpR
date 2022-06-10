@@ -78,26 +78,41 @@
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>dataframe</p></dd>
+
+
 <dt>new_time_id_var</dt>
 <dd><p>Name of the newly calculated variable for time_id. Required.</p></dd>
+
+
 <dt>dattype</dt>
 <dd><p>can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.</p></dd>
+
+
 <dt>case_id_var</dt>
 <dd><p>String with name of ID variable indicating same patient.
 E.g. <code>case_id_var="PUBCSNUM"</code> for SEER data.</p></dd>
+
+
 <dt>time_id_var</dt>
 <dd><p>String with name of variable that indicates diagnosis per patient.
 E.g. <code>time_id_var="SEQ_NUM"</code> for SEER data.</p></dd>
+
+
 <dt>diagdat_var</dt>
 <dd><p>String with name of variable that indicates date of diagnosis per event.
 E.g. <code>diagdat_var="t_datediag"</code> for SEER data.</p></dd>
+
+
 <dt>timevar_max</dt>
 <dd><p>Numeric; default Inf. Maximum number of cases per id.
 All tumors &gt; timevar_max will be deleted.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>df</p>
+    
+
+<p>df</p>
     </div>
 
     <div id="ref-examples">
@@ -141,7 +156,7 @@ All tumors &gt; timevar_max will be deleted.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
