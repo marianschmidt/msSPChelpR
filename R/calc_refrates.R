@@ -6,7 +6,7 @@
 #' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
 #' @param calc_totals option to calculate totals for all age-groups, all sexes, all years, all races, all sites. Default is FALSE.
 #' @param fill_sites option to fill missing sites in observed with incidence rate of 0. Needs to define the coding system used. 
-#'                   Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C00-C80Ê), "icd3d" for ICD-O-3 3digit, 
+#'                   Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C00-C80), "icd3d" for ICD-O-3 3digit, 
 #'                   "icd10gm2d" for ICD-10-GM 2-digit (C00-C97), "sitewho" for Site SEER WHO coding (no 1-89 categories), "sitewho_b"  for Site SEER WHO B recoding (no. 1-111 categories),
 #'                   "sitewho_epi" for SITE SEER WHO coding with additional sums,  "sitewhogen" for SITE WHO coding with less categories to make compatible for international rates, 
 #'                   "sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories), "sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories),
