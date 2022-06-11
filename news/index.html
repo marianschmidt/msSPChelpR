@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">msSPChelpR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.7.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
@@ -58,24 +58,24 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="development version" id="msspchelpr-development-version">msSPChelpR (development version)<a class="anchor" aria-label="anchor" href="#msspchelpr-development-version"></a></h2>
+<h2 class="page-header" data-toc-text="0.9.0" id="msspchelpr-090">msSPChelpR 0.9.0<small>2022-06-10</small><a class="anchor" aria-label="anchor" href="#msspchelpr-090"></a></h2>
 <div class="section level4">
-<h4 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
+<h4 id="new-features-0-9-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-9-0"></a></h4>
 <ul><li>new function <code><a href="../reference/calc_refrates.html">calc_refrates()</a></code> to calculate age-, sex-, region-, year-specific reference rates from a long format dataframe with cancer cases that are counted for incident cases and then matched with a reference population. The resulting reference rates dataframe can directly be used with <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> function.</li>
 <li>functions gain new default <code>dattype = NULL</code> and thus are more flexible to take other source data types (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/73" class="external-link">#73</a>)</li>
 </ul></div>
 <div class="section level4">
-<h4 id="breaking-changes-development-version">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<h4 id="breaking-changes-0-9-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-9-0"></a></h4>
 <ul><li>functions <code>asir</code>, <code>calc_futime*</code>, <code>calc_refrates</code>, <code>ir_crosstab_byfutime</code>, <code>pat_status*</code>, <code>renumber_time_id*</code>, and <code>sir_byfutime</code> now by default are set to <code>dattype = NULL</code>. If you relied on automatic variable naming feature, you need to add <code>dattype = "seer"</code>or <code>dattype = "zfkd"</code> to your function call.</li>
 <li>fix typo in attribute names: attributes are now correctly named <code>problems_missing_count_strata</code> and <code>problems_missing_fu_strata</code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/80" class="external-link">#80</a>)</li>
 </ul></div>
 <div class="section level4">
-<h4 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
+<h4 id="bug-fixes-0-9-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-9-0"></a></h4>
 <ul><li>
 <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>:<ul><li>attributes with notes and problems are now correctly saved to <code>results_df</code>
 </li></ul></li></ul></div>
 <div class="section level4">
-<h4 id="internal-development-version">Internal<a class="anchor" aria-label="anchor" href="#internal-development-version"></a></h4>
+<h4 id="internal-0-9-0">Internal<a class="anchor" aria-label="anchor" href="#internal-0-9-0"></a></h4>
 <ul><li>deprecated functions from <code>tidytable</code> package have been replaced (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/71" class="external-link">#71</a> and <a href="https://github.com/marianschmidt/msSPChelpR/issues/74" class="external-link">#74</a>)</li></ul></div>
 </div>
     <div class="section level2">
