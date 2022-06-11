@@ -3,7 +3,7 @@
 #'
 #' @param wide_df dataframe in wide format
 #' @param fu_end end of follow-up in time format YYYY-MM-DD.
-#' @param dattype Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".
+#' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
 #' @param life_var Name of variable containing life status. Will override dattype preset.  
 #' @param spc_var Name of variable containing SPC status. Will override dattype preset.   
 #' @param status_var Name of the newly calculated variable for patient status. Default is p_status.    
@@ -53,7 +53,7 @@
 #'                        as_labelled_factor = FALSE)
 #'                        
 
-pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd", 
+pat_status <- function(wide_df, fu_end = NULL, dattype = NULL, 
                        status_var = "p_status", life_var = NULL, spc_var = NULL, birthdat_var = NULL, lifedat_var = NULL, lifedatmin_var = NULL,
                        fcdat_var = NULL, spcdat_var = NULL, 
                        life_stat_alive = NULL, life_stat_dead = NULL, spc_stat_yes = NULL, spc_stat_no = NULL, lifedat_fu_end = NULL,
@@ -61,15 +61,16 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   
   
   #check if wide_df is data.frame
-  if(!is.data.frame(wide_df) & data.table::is.data.table(wide_df)){
-    rlang::inform("You are using a dplyr based function on a raw data.table; the data.table has been converted to a data.frame to let this function run more efficiently.")
+  if(!is.data.frame(wide_df)){
+    rlang::inform("You are using a dplyr based function. Data has been converted to a data.frame to let this function run more efficiently.")
     wide_df <- as.data.frame(wide_df)
   }
   
   status_var <- rlang::enquo(status_var)
   
-  #setting default var names and values for SEER data
   
+  if(!is.null(dattype)){
+  #setting default var names and values for SEER data
   if (dattype == "seer"){
     if(is.null(life_var)){
       life_var <- rlang::quo("STAT_REC.1")
@@ -171,12 +172,12 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       spcdat_var <- rlang::enquo(spcdat_var)
     }
     if(is.null(life_stat_alive)){
-      life_stat_alive <- rlang::quo("No (patient alive)")
+      life_stat_alive <- rlang::quo("no (patient alive)")
     } else{
       life_stat_alive <- rlang::enquo(life_stat_alive)
     }
     if(is.null(life_stat_dead)){
-      life_stat_dead <- rlang::quo("Yes (patient deceased)")
+      life_stat_dead <- rlang::quo("yes (patient deceased)")
     } else{
       life_stat_dead <- rlang::enquo(life_stat_dead)
     }
@@ -196,6 +197,23 @@ pat_status <- function(wide_df, fu_end = NULL, dattype = "zfkd",
       lifedat_fu_end <- rlang::enquo(lifedat_fu_end)
     }
   }
+  } else{
+    # ensym if no dattype is given
+    life_var <- rlang::enquo(life_var)
+    spc_var <- rlang::enquo(spc_var)
+    birthdat_var <- rlang::enquo(birthdat_var)
+    lifedat_var <- rlang::enquo(lifedat_var)
+    if(use_lifedatmin == TRUE){
+      lifedatmin_var <- rlang::enquo(lifedatmin_var)
+    }
+    fcdat_var <- rlang::enquo(fcdat_var)
+    spcdat_var <- rlang::enquo(spcdat_var)
+    life_stat_alive <- rlang::enquo(life_stat_alive)
+    life_stat_dead <- rlang::enquo(life_stat_dead)
+    spc_stat_yes <- rlang::enquo(spc_stat_yes)
+    spc_stat_no <- rlang::enquo(spc_stat_no)
+    lifedat_fu_end <- rlang::enquo(lifedat_fu_end)
+    }
   
   #----- Checks
   

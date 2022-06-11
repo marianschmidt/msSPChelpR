@@ -248,11 +248,12 @@ sircalc_results <- usdata_wide %>%
     age_var = "fc_agegroup.1",
     sex_var = "sex.1",
     year_var = "t_yeardiag.1",
+    race_var = "race.1",
     site_var = "t_site_icd.1", #using grouping by second cancer incidence
     futime_var = "p_futimeyrs",
     alpha = 0.05)
 
-# sircalc_results %>% print(n = 100) # uncomment after tidytable 0.5.6 release
+sircalc_results %>% print(n = 100)
 
 ```
 

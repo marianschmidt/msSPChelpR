@@ -1,4 +1,4 @@
-#' US Second Cancer
+#' US Second Cancer Data
 #'
 #' Synthetic dataset of patients with cancer to demonstrate package functions
 #'
@@ -24,9 +24,10 @@
 #'
 "us_second_cancer"
 
-#' US Reference Rates for Cancer using ICD-O 2digit code for cancer site
+#' US Reference Rates for Cancer Data (ICD-O 2digit code)
 #'
 #' Synthetic dataset of reference incidence rates for the US population to demonstrate package functions
+#' Cancer site is coded using ICD-O 2digit code
 #'
 #' @format A data frame with the following variables:
 #' \describe{
@@ -46,7 +47,7 @@
 #'
 "us_refrates_icd2"
 
-#' Standard Populations
+#' Standard Populations Data
 #'
 #' Dataset that contains different standard populations needed to run some package functions
 #'
@@ -63,7 +64,7 @@
 "standard_population"
 
 
-#' US Populations
+#' US Populations Data
 #'
 #' Dataset that contains different standard populations needed to run some package functions
 #'

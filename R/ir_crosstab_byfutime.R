@@ -2,7 +2,7 @@
 #' Calculate crude incidence rates and cross-tabulate results by break variables; cumulative FU-times as are used as xbreak_var
 #'
 #' @param df dataframe in wide format
-#' @param dattype can be "zfkd" or "seer" or empty. Will set default variable names from dataset.
+#' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
 #' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
 #' @param futime_breaks vector that indicates split points for follow-up time groups (in years) that will be used as xbreak_var.
 #'                      Default is c(0, .5, 1, 5, 10, Inf) that will result in 5 groups (up to 6 months, 6-12 months, 1-5 years, 5-10 years, 10+ years). 
@@ -67,7 +67,7 @@
 
 
 ir_crosstab_byfutime <- function(df,
-                                 dattype = "zfkd",
+                                 dattype = NULL,
                                  count_var,
                                  futime_breaks = c(0, .5, 1, 5, 10, Inf),
                                  ybreak_vars,
@@ -98,6 +98,7 @@ ir_crosstab_byfutime <- function(df,
   count_var <- rlang::ensym(count_var)
   
   
+  if(!is.null(dattype)){
   ### setting default var names and values for SEER data --> still need to update to final names!
   if (dattype == "seer") {
     if (is.null(futime_var)) {
@@ -115,6 +116,10 @@ ir_crosstab_byfutime <- function(df,
     } else{
       futime_var <- rlang::ensym(futime_var)
     }
+  }
+  } else{
+    # ensym if no dattype is given
+    futime_var <- rlang::ensym(futime_var)
   }
   
   

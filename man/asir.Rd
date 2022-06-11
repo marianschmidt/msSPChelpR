@@ -6,7 +6,7 @@
 \usage{
 asir(
   df,
-  dattype = "zfkd",
+  dattype = NULL,
   std_pop = "ESP2013",
   truncate_std_pop = FALSE,
   futime_src = "refpop",
@@ -27,13 +27,13 @@ asir(
 \arguments{
 \item{df}{dataframe in wide format}
 
-\item{dattype}{can be "zfkd" or "seer" or empty. Will set default variable names from dataset.}
+\item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
 \item{std_pop}{can be either "ESP2013, ESP1976, WHO1960}
 
 \item{truncate_std_pop}{if TRUE standard population will be truncated for all age-groups that do not occur in df}
 
-\item{futime_src}{can be either "refpop" or "cohort"}
+\item{futime_src}{can be either "refpop" or "cohort". Default is "refpop".}
 
 \item{summarize_groups}{option to define summarizing stratified groups. Default is "none".
 If you want to define variables that should be summarized into one group, you can chose from region_var, sex_var, year_var.

@@ -7,7 +7,7 @@
 pat_status_tt(
   wide_df,
   fu_end = NULL,
-  dattype = "zfkd",
+  dattype = NULL,
   status_var = "p_status",
   life_var = NULL,
   spc_var = NULL,
@@ -31,7 +31,7 @@ pat_status_tt(
 
 \item{fu_end}{end of follow-up in time format YYYY-MM-DD.}
 
-\item{dattype}{Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".}
+\item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
 \item{status_var}{Name of the newly calculated variable for patient status. Default is p_status.}
 

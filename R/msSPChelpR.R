@@ -15,9 +15,9 @@
 #' @keywords internal
 NULL
 ## quiets warnings of R CMD check standard objects that appear in function
-if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and tidyverse programming
-                                                        ".", 
+if(getRversion() >= "2.15.1")  utils::globalVariables(c(".", 
                                                         ".N", 
+                                                        "n",
                                                         "data", 
                                                         "counter", 
                                                         "standard_population", 
@@ -26,8 +26,8 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "p_datedeath_orig",
                                                         "status_var_orig",
                                                         "where", #temporary fix because tidyverse::where is not exported,
-                                                        "age", #caused by sir_byfutime_tt (.SD$ predicate seems not to work)
                                                         "fu_time", 
+                                                        "fu_time_sort",
                                                         "futimegroup",
                                                         "i_expected",
                                                         "i_observed",
@@ -40,12 +40,14 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "population_n_per_year",
                                                         "population_pyar",
                                                         "pyar",
+                                                        "age",
                                                         "region",
                                                         "sex",
                                                         "sir",
                                                         "sir_lci",
                                                         "sir_uci",
                                                         "t_site",
+                                                        "t_site_orig",
                                                         "race",
                                                         "yvar_name",
                                                         "yvar_label",
@@ -63,7 +65,13 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(":=", #data.table and ti
                                                         "group_ref_inc_cases",
                                                         "group_incidence_crude_rate", 
                                                         "group_ref_population_pyar",
-                                                        "group_n_base"
+                                                        "group_n_base",
+                                                        "reg_group",
+                                                        "age_group",
+                                                        "sex_group",
+                                                        "year_group",
+                                                        "race_group",
+                                                        "site_group"
                                                         )) 
 release_questions <- function() {
   c(
@@ -71,6 +79,9 @@ release_questions <- function() {
   )
 }
 
+# Workaround for := import from data.table import
+# https://github.com/markfairbanks/tidytable/issues/269#issuecomment-852303061
+.datatable.aware <- TRUE
 
 # #to avoid problems at rhub check use the following code
 # rhub::check(platform="windows-x86_64-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))

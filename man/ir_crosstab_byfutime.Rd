@@ -6,7 +6,7 @@
 \usage{
 ir_crosstab_byfutime(
   df,
-  dattype = "zfkd",
+  dattype = NULL,
   count_var,
   futime_breaks = c(0, 0.5, 1, 5, 10, Inf),
   ybreak_vars,
@@ -19,7 +19,7 @@ ir_crosstab_byfutime(
 \arguments{
 \item{df}{dataframe in wide format}
 
-\item{dattype}{can be "zfkd" or "seer" or empty. Will set default variable names from dataset.}
+\item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
 \item{count_var}{variable to be counted as observed case. Should be 1 for case to be counted.}
 

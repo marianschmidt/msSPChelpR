@@ -2,7 +2,7 @@
 #' Calculate crude incidence rates and crosstabulate results by break variables
 #'
 #' @param df dataframe in wide format
-#' @param dattype can be "zfkd" or "seer" or empty. Will set default variable names from dataset.
+#' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
 #' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
 #' @param xbreak_var variable from df by which rates should be stratified in columns of result df. Default is "none".
 #' @param ybreak_vars variables from df by which rates should be stratified in rows of result df. Multiple variables will result in
@@ -68,7 +68,7 @@
 
 ir_crosstab <-
   function(df,
-           dattype = "zfkd",
+           dattype = NULL,
            count_var,
            xbreak_var = "none",
            ybreak_vars,
@@ -83,7 +83,7 @@ ir_crosstab <-
     #setting default parameters
     options_dplyr_old <- options(dplyr.summarise.inform = TRUE) # save old setting for showing dplyr messages
     on.exit(options(options_dplyr_old), add = TRUE) #make sure old options are used when exiting function
-    options(dplyr.summarise.inform = FALSE) #set new setting for not showing dplyr messages to avoid outbut by summarize()
+    options(dplyr.summarise.inform = FALSE) #set new setting for not showing dplyr messages to avoid output by summarize()
     
     
     ### check if df exists and is dataframes
@@ -119,7 +119,7 @@ ir_crosstab <-
       perc <- FALSE
     }
     
-    
+    if(!is.null(dattype)){
     ### setting default var names and values for SEER data --> still need to update to final names!
     if (dattype == "seer") {
       if (is.null(futime_var)) {
@@ -137,6 +137,10 @@ ir_crosstab <-
       } else{
         futime_var <- rlang::ensym(futime_var)
       }
+    }
+    } else{
+      # ensym if no dattype is given
+      futime_var <- rlang::ensym(futime_var)
     }
     
     

@@ -1,6 +1,6 @@
 Package: msSPChelpR
 Title: Helper Functions for Second Primary Cancer Analyses
-Version: 0.8.6
+Version: 0.9.0.9000
 Authors@R: c(
     person(given = "Marian", family = "Eberl", role = c("aut", "cre"), email = "marian.eberl@tum.de", comment = c(ORCID = "0000-0001-6584-3197"))
     )
@@ -12,7 +12,6 @@ BugReports: https://github.com/marianschmidt/msSPChelpR/issues
 Depends: 
     R (>= 3.5)
 Imports: 
-    data.table (>= 1.12.9),
     dplyr (>= 1.0.0),
     lubridate,
     magrittr,
@@ -22,9 +21,8 @@ Imports:
     sjlabelled,
     stringr,
     tidyselect, 
-    tidytable (>= 0.5.5),
-    tidyr (>= 1.0.0),
-    utils
+    tidytable (>= 0.7.2),
+    tidyr (>= 1.0.0)
 Suggests: 
     haven,
     tibble,
@@ -33,7 +31,7 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 Roxygen: list(markdown = TRUE)
 Language: en-US
 LazyData: true

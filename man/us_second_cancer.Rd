@@ -3,7 +3,7 @@
 \docType{data}
 \name{us_second_cancer}
 \alias{us_second_cancer}
-\title{US Second Cancer}
+\title{US Second Cancer Data}
 \format{
 A data frame with the following variables:
 \describe{

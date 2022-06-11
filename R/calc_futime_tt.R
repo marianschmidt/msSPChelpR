@@ -4,7 +4,7 @@
 #' @param wide_df dataframe or data.table in wide format
 #' @param futime_var_new Name of the newly calculated variable for follow-up time. Default is p_futimeyrs.
 #' @param fu_end end of follow-up in time format YYYY-MM-DD.
-#' @param dattype Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".
+#' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
 #' @param check Check newly calculated variable p_status by printing frequency table. Default is TRUE.
 #' @param time_unit Unit of follow-up time (can be "days", "weeks", "months", "years"). Default is "years".
 #' @param status_var Name of the patient status variable that was previously created. Default is p_status.
@@ -51,7 +51,7 @@
 calc_futime_tt <- function(wide_df,
                            futime_var_new = "p_futimeyrs",
                            fu_end,
-                           dattype = "zfkd",
+                           dattype = NULL,
                            check = TRUE,
                            time_unit = "years",
                            status_var = "p_status",
@@ -64,8 +64,9 @@ calc_futime_tt <- function(wide_df,
   status_var <- rlang::ensym(status_var)
   time_unit <- rlang::enquo(time_unit)
   
-  #setting default var names and values for SEER data
   
+  if(!is.null(dattype)){
+  #setting default var names and values for SEER data
   if (dattype == "seer"){
     if(is.null(lifedat_var)){
       lifedat_var <- rlang::sym("p_datedeath.1")
@@ -101,6 +102,12 @@ calc_futime_tt <- function(wide_df,
     } else{
       spcdat_var <- rlang::ensym(spcdat_var)
     }
+  }
+  } else{
+    # ensym if no dattype is given
+    lifedat_var <- rlang::ensym(lifedat_var)
+    fcdat_var <- rlang::ensym(fcdat_var)
+    spcdat_var <- rlang::ensym(spcdat_var)
   }
   
   #---- Checks start

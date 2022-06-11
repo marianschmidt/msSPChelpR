@@ -3,7 +3,7 @@
 #'
 #' @param wide_df dataframe or data.table in wide format
 #' @param fu_end end of follow-up in time format YYYY-MM-DD.
-#' @param dattype Type of cancer registry data. Can be "seer" or "zfkd". Default is "zfkd".
+#' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
 #' @param life_var Name of variable containing life status. Will override dattype preset.  
 #' @param spc_var Name of variable containing SPC status. Will override dattype preset.   
 #' @param status_var Name of the newly calculated variable for patient status. Default is p_status.    
@@ -54,7 +54,7 @@
 #'                        
 
 
-pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd", 
+pat_status_tt <- function(wide_df, fu_end = NULL, dattype = NULL, 
                           status_var = "p_status", life_var = NULL, spc_var = NULL, birthdat_var = NULL, lifedat_var = NULL, lifedatmin_var = NULL,
                           fcdat_var = NULL, spcdat_var = NULL, 
                           life_stat_alive = NULL, life_stat_dead = NULL, spc_stat_yes = NULL, spc_stat_no = NULL, lifedat_fu_end = NULL,
@@ -62,8 +62,9 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
   
   status_var <- rlang::ensym(status_var)
   
-  #setting default var names and values for SEER data
   
+  if(!is.null(dattype)){
+  #setting default var names and values for SEER data
   if (dattype == "seer"){
     if(is.null(life_var)){
       life_var <- rlang::sym("STAT_REC.1")
@@ -189,6 +190,23 @@ pat_status_tt <- function(wide_df, fu_end = NULL, dattype = "zfkd",
     } else{
       lifedat_fu_end <- rlang::enquo(lifedat_fu_end)
     }
+  }
+  } else{
+    # ensym if no dattype is given
+    life_var <- rlang::ensym(life_var)
+    spc_var <- rlang::ensym(spc_var)
+    birthdat_var <- rlang::ensym(birthdat_var)
+    lifedat_var <- rlang::ensym(lifedat_var)
+    if(use_lifedatmin == TRUE){
+      lifedatmin_var <- rlang::ensym(lifedatmin_var)
+    }
+    fcdat_var <- rlang::ensym(fcdat_var)
+    spcdat_var <- rlang::ensym(spcdat_var)
+    life_stat_alive <- rlang::enquo(life_stat_alive)
+    life_stat_dead <- rlang::enquo(life_stat_dead)
+    spc_stat_yes <- rlang::enquo(spc_stat_yes)
+    spc_stat_no <- rlang::enquo(spc_stat_no)
+    lifedat_fu_end <- rlang::enquo(lifedat_fu_end)
   }
   
   #---- Checks start
