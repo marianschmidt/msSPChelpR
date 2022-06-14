@@ -1,4 +1,4 @@
-#'
+#' 
 #' Calculate age-, sex-, cohort-, region-specific incidence rates from a cohort
 #'
 #' @param df dataframe in long format
@@ -6,7 +6,7 @@
 #' @param count_var variable to be counted as observed case. Should be 1 for case to be counted.
 #' @param calc_totals option to calculate totals for all age-groups, all sexes, all years, all races, all sites. Default is FALSE.
 #' @param fill_sites option to fill missing sites in observed with incidence rate of 0. Needs to define the coding system used. 
-#'                   Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C00-C80Ê), "icd3d" for ICD-O-3 3digit, 
+#'                   Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C00-C80), "icd3d" for ICD-O-3 3digit, 
 #'                   "icd10gm2d" for ICD-10-GM 2-digit (C00-C97), "sitewho" for Site SEER WHO coding (no 1-89 categories), "sitewho_b"  for Site SEER WHO B recoding (no. 1-111 categories),
 #'                   "sitewho_epi" for SITE SEER WHO coding with additional sums,  "sitewhogen" for SITE WHO coding with less categories to make compatible for international rates, 
 #'                   "sitewho_num" for numeric coding of Site SEER WHO coding (no 1-89 categories), "sitewho_b_num"  for numeric coding of Site SEER WHO B recoding (no. 1-111 categories),
@@ -15,7 +15,7 @@
 #' @param age_var variable in df that contains information on age-group. Default is set if dattype is given.
 #' @param sex_var variable in df that contains information on sex. Default is set if dattype is given.
 #' @param year_var variable in df that contains information on year or year-period when case was incident. Default is set if dattype is given.
-#' @param race_var optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refrates_df needs to contain the variable "race".
+#' @param race_var optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refpop_df needs to contain the variable "race".
 #' @param site_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
 #' @param refpop_df df where reference population data is defined. Only required if option futime = "refpop" is chosen. It is assumed that refpop_df has the columns 
 #'                  "region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), 
@@ -237,11 +237,6 @@ calc_refrates <- function(df,
                      57, 59, 60, 58, 61, 62, 64, 63, 65, 86, 968, 971, 73, 974, 977, 980, 983)
     }
     
-    if(fill_sites[1] == "sitewhogen_num"){
-      sites_all <- c(1, 2, 5, 4, 3, 7, 8, 6, 9, 10, 11, 12, 13, 915, 25, 26, 27, 929, 31, 32, 33, 36, 37, 38, 
-                     941, 39, 66, 943, 42, 44, 45, 87, 88, 934, 46, 52, 51, 47, 48, 49, 50, 53, 56, 54, 55, 
-                     57, 59, 60, 58, 61, 62, 64, 63, 65, 86, 968, 971, 73, 974, 977, 980, 983)
-    }
     if(fill_sites[1] == "manual"){
       sites_all <- fill_sites[-1]
     } 
@@ -368,40 +363,41 @@ calc_refrates <- function(df,
   
   
   if (length(not_found) > 0) {
-    rlang::abort(
-      paste0(
-        "The following variables defined are not found in the provided dataframe df: ",
-        paste(not_found, collapse = ", ")
-      )
-    )
+    rlang::abort(c(
+      "Columns are missing in `df`",
+      "x" = paste0(paste(not_found, collapse = ", "), " are missing"),
+      " "
+    ))
   }
   
   #CHK_count: Check that count_var is in correct format
   
   if(!is.numeric(df[[rlang::as_name(count_var)]])){
-    rlang::abort(  
-      paste0("CHK_count] The column defined in `count_var` is not numeric. \n",
-             "You have used `count_var = \"", rlang::as_name(count_var), "\"`\n",
-             "Please make sure that the column of df defined as `count_var` is numeric and coded 1 for observed cases.")
-    )
+    rlang::abort(c(
+      "CHK_count] The column defined in `count_var` is not numeric.",
+      "i" = paste0("You have used `count_var = \"", rlang::as_name(count_var), "\"`"),
+      "Please make sure that the column of df defined as `count_var` is numeric and coded 1 for observed cases.",
+      " "
+    ))
   }
   
   if(!( c(1) %in% (unique(df[[rlang::as_name(count_var)]])))){
     rlang::inform(rlang::format_error_bullets(c(
       "x" = "[CHK_count] A warning with regard to no observations in `count_var` occurred. Check warning message below.")))
     
-    rlang::warn( 
-      paste0("CHK_count] The column defined in `count_var` does not contain any rows where count_var == 1. So no observed cases are found. \n",
-             "You have used `count_var = \"", rlang::as_name(count_var), "\"`\n",
-             "Please make sure that the column of df defined as `count_var` is numeric and coded 1 for observed cases."),
-      .frequency = "always"
+    rlang::warn(c(
+      "[CHK_count] The column defined in `count_var` does not contain any rows where count_var == 1. So no observed cases are found.",
+      "i" = paste0("You have used `count_var = \"", rlang::as_name(count_var), "\"`"),
+      "Please make sure that the column of df defined as `count_var` is numeric and coded 1 for observed cases.",
+      " "
+    ),
+    .frequency = "always"
     )
   }
   
   # create empty objects for possible warnings and errors
   
-  problems_no_cases <- data.frame()
-  problems_missing_ref_strata_attr <- data.frame()
+  problems_missing_refpop_strata_attr <- tidytable::tidytable()
   
   
   # ---- 1 data modifications ----
@@ -441,7 +437,7 @@ calc_refrates <- function(df,
                                             .fns = ~tidytable::replace_na.(., na_explicit)))
   }
   
-  # #evaluate if it would be faster to create fake race var for matching instead of filtering refpop_df
+  # #WIP: evaluate if it would be faster to create fake race var for matching instead of filtering refpop_df
   # #SEER only, if no race stratification is used, create fake race_var so that only totals remain
   # if(!rs & dattype == "seer"){
   #   refpop_df <- refpop_df %>%
@@ -481,12 +477,14 @@ calc_refrates <- function(df,
     miss_race <- used_race[!used_race %in% available_race]
     ##take precautions for missing race data in df
     if(length(miss_race) > 0){
-      rlang::inform(
-        paste0("\n The following values for race_var present in the data, is not availabe in refpop_df: \n \n",
-               " - ", miss_race, "\n \n",
-               "It is recommeded to clean race_var before running this function. \n",
-               "For all missing reference levels of race, cases will be counted, but no incidence rates will be calculated.")
-      )
+      rlang::inform(c(
+        "[INFO Unknown Race] There are values from race missing in refrates_df.",
+        "i" = "The following values for race_var present in the data, is not availabe in refrates_df:",
+        paste0(" -> ", miss_race),
+        "For all missing reference levels of race, data will be matched to the category 'Total' in refrates_df.",
+        "!" = "It is recommeded to clean race_var before running this function.",
+        " "
+      ))
     }
     ##filter refpop_df to used_race
     refpop_df <- refpop_df %>%
@@ -505,8 +503,10 @@ calc_refrates <- function(df,
   ## --- 1d: prepare calc_totals option
   
   if(!is.logical(calc_totals)){
-    rlang::warn(c("Parameter `calc_totals` should be logical (TRUE or FALSE)." ,
-                  "i" = "Default `calc_totals = FALSE` will be used instead."))
+    rlang::warn(c(
+      "Parameter `calc_totals` should be logical (TRUE or FALSE).",
+      "i" = "Default `calc_totals = FALSE` will be used instead.",
+      " "))
     calc_totals <- FALSE
   }
   
@@ -531,10 +531,11 @@ calc_refrates <- function(df,
   
   if(fill == TRUE) {
     
-    rlang::inform(
-      c("Option `fill_sites == TRUE` is used.", 
-        "i" = "This means empty strata will be filled for all combinations of used age, sex, year, region, race and sites.")
-    )
+    rlang::inform(c(
+      "Option `fill_sites == TRUE` is used.", 
+      "i" = "This means empty strata will be filled for all combinations of used age, sex, year, region, race and sites.",
+      " "
+    ))
     
     complete_vars_quo <- rlang::syms(c("age", "sex", "region", "year", 
                                        if(rs){"race"}))
@@ -547,10 +548,11 @@ calc_refrates <- function(df,
   } else{
     #if fill is not used, but totals are calculated, table also needs to be filled
     if(ct){
-      rlang::inform(
-        paste0("Option `calc_totals == TRUE` is used.", 
-               "This means empty strata will be filled for all combinations of used age, sex, year, region, race and site to obtain correct totals for poulation.", sep = "\n")
-      )
+      
+      rlang::inform(c(
+        "Option `calc_totals == TRUE` is used.", 
+        "i" = "This means empty strata will be filled for all combinations of used age, sex, year, region, race and site to obtain correct totals for poulation."
+      ))
       
       complete_vars_quo <- rlang::syms(c("age", "sex", "region", "year", 
                                          if(rs){"race"}, "t_site"))
@@ -573,16 +575,7 @@ calc_refrates <- function(df,
     tidytable::anti_join.(refpop_df, by = c("age", "sex", "region" , "year", if(rs){"race"}))
   
   if(nrow(missing_ref_strata) > 0){
-    rlang::inform(paste0("\n [INFO Ref population missing]For the following age groups, sex, regions, years, t_sites no population can be found: \n",
-                         paste0(utils::capture.output(missing_ref_strata), collapse = "\n"), 
-                         " \n",
-                         "Check attribute `problems_missing_ref_strata` of results to see what strata are affected. \n",
-                         "Solution could be to add these strata to refpop_df. \n"))
-    if(nrow(problems_missing_ref_strata_attr) > 0){
-      problems_missing_ref_strata_attr <- tidytable::bind_rows.(problems_missing_ref_strata_attr, missing_ref_strata, fill = TRUE)
-    } else{
-      problems_missing_ref_strata_attr <- missing_ref_strata
-    }
+    problems_missing_refpop_strata_attr <- tidytable::bind_rows.(problems_missing_refpop_strata_attr, missing_ref_strata)
   }
   
   #do the matching
@@ -738,11 +731,21 @@ calc_refrates <- function(df,
   attr(rates, "strata_var_names") <- used_strata
   
   #write attributes for error and warning messages
-  if(length(problems_missing_ref_strata_attr > 0)){
-    attr(rates, "problems_missing_ref_strata") <- problems_missing_ref_strata_attr
+  if(nrow(problems_missing_refpop_strata_attr) > 0){
+    
+    rlang::inform(c(
+      "[INFO Reference Population Missing] For some strata no population can be found.",
+      "i" = paste0(nrow(problems_missing_refpop_strata_attr), " strata have no reference population in `refpop_df`"),
+      " - Solution could be to add these strata to `refpop_df`.",
+      "!" = "Check attribute `problems_missing_refpop_strata` of results to see what strata are affected.",
+      " "
+    ))
+    
+    attr(rates, "problems_missing_refpop_strata") <- problems_missing_refpop_strata_attr
+    
   }
   
   
   return(rates)
   
-}  
+} 

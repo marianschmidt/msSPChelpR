@@ -1,6 +1,6 @@
 Package: msSPChelpR
 Title: Helper Functions for Second Primary Cancer Analyses
-Version: 0.8.7.9000
+Version: 0.9.0.9000
 Authors@R: c(
     person(given = "Marian", family = "Eberl", role = c("aut", "cre"), email = "marian.eberl@tum.de", comment = c(ORCID = "0000-0001-6584-3197"))
     )
@@ -22,8 +22,7 @@ Imports:
     stringr,
     tidyselect, 
     tidytable (>= 0.8.0),
-    tidyr (>= 1.0.0),
-    utils
+    tidyr (>= 1.0.0)
 Suggests: 
     haven,
     tibble,
