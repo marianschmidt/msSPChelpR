@@ -11,6 +11,7 @@
 #' @param lifedat_var Name of variable containing Date of Death. Will override dattype preset.     
 #' @param fcdat_var Name of variable containing Date of Primary Cancer diagnosis. Will override dattype preset.     
 #' @param spcdat_var Name of variable containing Date of SPC diagnosis Will override dattype preset.
+#' @param quiet If TRUE, warnings and messages will be suppressed. Default is FALSE.
 #' @return wide_df
 #' @export
 #' @examples 
@@ -57,13 +58,16 @@ calc_futime <- function(wide_df,
                         status_var = "p_status", 
                         lifedat_var = NULL,
                         fcdat_var = NULL,
-                        spcdat_var = NULL){
+                        spcdat_var = NULL,
+                        quiet = FALSE){
   
   #---- Checks start
   
   #check if wide_df is data.frame
   if(!is.data.frame(wide_df)){
-    rlang::inform("You are using a dplyr based function. Data has been converted to a data.frame to let this function run more efficiently.")
+    if(!quiet){
+      rlang::inform("You are using a dplyr based function. Data has been converted to a data.frame to let this function run more efficiently.")
+    }
     wide_df <- as.data.frame(wide_df)
   }
   
@@ -163,16 +167,23 @@ calc_futime <- function(wide_df,
   
   #check whether FU date provided might be too late
   if(fu_end_param > max(wide_df[[rlang::as_name(fcdat_var)]], na.rm = TRUE) & fu_end_param > max(wide_df[[rlang::as_name(spcdat_var)]], na.rm = TRUE)) {
-    rlang::abort(paste0("You have provided an end of Follow-up date that might be out of range of the collected data.",
-                        "Thus events such as SPCs or deaths might not have been recorded and FU-time is overestimated.", 
-                        "\nEnd of Follow-up provided: ", fu_end_param, 
-                        "\nLatest recorded First Cancer: ",  max(wide_df[[rlang::as_name(fcdat_var)]], na.rm = TRUE),
-                        "\nLatest recorded Second Cancer: ",  max(wide_df[[rlang::as_name(spcdat_var)]], na.rm = TRUE)
-    ))
+    if(!quiet){
+      rlang::warn(c(
+        "i" = "You have provided an end of Follow-up date that might be out of range of the collected data.",
+        "Thus events such as SPCs or deaths might not have been recorded and FU-time is overestimated.",
+        " " = paste0("End of Follow-up provided: ", fu_end_param),
+        " " = paste0("Latest recorded First Cancer: ",  max(wide_df[[rlang::as_name(fcdat_var)]], na.rm = TRUE)),
+        " " = paste0("Latest recorded Second Cancer: ",  max(wide_df[[rlang::as_name(spcdat_var)]], na.rm = TRUE)),
+        "i" = paste0("End of follow-up will be set to: ",  max(wide_df[[rlang::as_name(spcdat_var)]], na.rm = TRUE))
+      ))
+    }
+    
+    fu_end_param <- max(wide_df[[rlang::as_name(spcdat_var)]], na.rm = TRUE)
+    fu_end_quo <- rlang::enquo(fu_end_param)
   }
   
   #check if new and old futime_var are the same --> message that id was overwritten
-  if(rlang::as_name(futime_var_new) %in% names(wide_df)){
+  if(!quiet & rlang::as_name(futime_var_new) %in% names(wide_df)){
     rlang::warn(paste0(rlang::as_name(futime_var_new)," is already present in dataset. Variable has been overwritten with new values."))
   }
   

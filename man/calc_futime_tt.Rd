@@ -14,7 +14,8 @@ calc_futime_tt(
   status_var = "p_status",
   lifedat_var = NULL,
   fcdat_var = NULL,
-  spcdat_var = NULL
+  spcdat_var = NULL,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -26,7 +27,7 @@ calc_futime_tt(
 
 \item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
-\item{check}{Check newly calculated variable p_status by printing frequency table. Default is TRUE.}
+\item{check}{Check newly calculated variable "p_futimeyrs" by printing frequency table. Default is TRUE.}
 
 \item{time_unit}{Unit of follow-up time (can be "days", "weeks", "months", "years"). Default is "years".}
 
@@ -37,6 +38,8 @@ calc_futime_tt(
 \item{fcdat_var}{Name of variable containing Date of Primary Cancer diagnosis. Will override dattype preset.}
 
 \item{spcdat_var}{Name of variable containing Date of SPC diagnosis Will override dattype preset.}
+
+\item{quiet}{If TRUE, warnings and messages will be suppressed. Default is FALSE.}
 }
 \value{
 wide_df

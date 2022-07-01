@@ -14,7 +14,8 @@ calc_futime(
   status_var = "p_status",
   lifedat_var = NULL,
   fcdat_var = NULL,
-  spcdat_var = NULL
+  spcdat_var = NULL,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ calc_futime(
 \item{fcdat_var}{Name of variable containing Date of Primary Cancer diagnosis. Will override dattype preset.}
 
 \item{spcdat_var}{Name of variable containing Date of SPC diagnosis Will override dattype preset.}
+
+\item{quiet}{If TRUE, warnings and messages will be suppressed. Default is FALSE.}
 }
 \value{
 wide_df
