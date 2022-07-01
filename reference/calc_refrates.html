@@ -63,20 +63,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">calc_refrates</span><span class="op">(</span>
-  <span class="va">df</span>,
-  dattype <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">count_var</span>,
-  <span class="va">refpop_df</span>,
-  calc_totals <span class="op">=</span> <span class="cn">FALSE</span>,
-  fill_sites <span class="op">=</span> <span class="st">"no"</span>,
-  region_var <span class="op">=</span> <span class="cn">NULL</span>,
-  age_var <span class="op">=</span> <span class="cn">NULL</span>,
-  sex_var <span class="op">=</span> <span class="cn">NULL</span>,
-  year_var <span class="op">=</span> <span class="cn">NULL</span>,
-  race_var <span class="op">=</span> <span class="cn">NULL</span>,
-  site_var <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_refrates</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  dattype <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">count_var</span>,</span>
+<span>  <span class="va">refpop_df</span>,</span>
+<span>  calc_totals <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fill_sites <span class="op">=</span> <span class="st">"no"</span>,</span>
+<span>  region_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  age_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sex_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  year_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  race_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  site_var <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -146,17 +146,17 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">#load sample data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"population_us"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">us_second_cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="co">#create variable to indicate to be counted as case</span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>is_case <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="co">#calculate refrates - warning: these are not realistic numbers, just showing functionality</span></span>
-<span class="r-in">  <span class="fu">calc_refrates</span><span class="op">(</span>dattype <span class="op">=</span> <span class="st">"seer"</span>, , count_var <span class="op">=</span> <span class="st">"is_case"</span>, refpop_df <span class="op">=</span> <span class="va">population_us</span>,</span>
-<span class="r-in">               region_var <span class="op">=</span> <span class="st">"registry"</span>, age_var <span class="op">=</span> <span class="st">"fc_agegroup"</span>, sex_var <span class="op">=</span> <span class="st">"sex"</span>, </span>
-<span class="r-in">               site_var <span class="op">=</span> <span class="st">"t_site_icd"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#load sample data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"population_us"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">us_second_cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="co">#create variable to indicate to be counted as case</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>is_case <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="co">#calculate refrates - warning: these are not realistic numbers, just showing functionality</span></span></span>
+<span class="r-in"><span>  <span class="fu">calc_refrates</span><span class="op">(</span>dattype <span class="op">=</span> <span class="st">"seer"</span>, , count_var <span class="op">=</span> <span class="st">"is_case"</span>, refpop_df <span class="op">=</span> <span class="va">population_us</span>,</span></span>
+<span class="r-in"><span>               region_var <span class="op">=</span> <span class="st">"registry"</span>, age_var <span class="op">=</span> <span class="st">"fc_agegroup"</span>, sex_var <span class="op">=</span> <span class="st">"sex"</span>, </span></span>
+<span class="r-in"><span>               site_var <span class="op">=</span> <span class="st">"t_site_icd"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> [INFO Reference Population Missing] For some strata no population can be found.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> 144 strata have no reference population in `refpop_df`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  - Solution could be to add these strata to `refpop_df`.</span>
@@ -191,7 +191,7 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

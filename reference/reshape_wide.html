@@ -63,14 +63,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">reshape_wide</span><span class="op">(</span>
-  <span class="va">df</span>,
-  <span class="va">case_id_var</span>,
-  <span class="va">time_id_var</span>,
-  timevar_max <span class="op">=</span> <span class="fl">6</span>,
-  datsize <span class="op">=</span> <span class="cn">Inf</span>,
-  chunks <span class="op">=</span> <span class="fl">10</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">reshape_wide</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">case_id_var</span>,</span>
+<span>  <span class="va">time_id_var</span>,</span>
+<span>  timevar_max <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  datsize <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  chunks <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -111,14 +111,14 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">us_second_cancer</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">reshape_wide</span><span class="op">(</span><span class="va">us_second_cancer</span>,</span>
-<span class="r-in">                         case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span>
-<span class="r-in">                         time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, </span>
-<span class="r-in">                         timevar_max <span class="op">=</span> <span class="fl">2</span>,</span>
-<span class="r-in">                         datsize <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">us_second_cancer</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">reshape_wide</span><span class="op">(</span><span class="va">us_second_cancer</span>,</span></span>
+<span class="r-in"><span>                         case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span></span>
+<span class="r-in"><span>                         time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, </span></span>
+<span class="r-in"><span>                         timevar_max <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                         datsize <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      fake_id                               registry.1  sex.1 race.1 datebirth.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     100004     SEER Reg 20 - Detroit (Metropolitan)   Male  White  1926-01-01</span>
@@ -22345,7 +22345,7 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3702       &lt;NA&gt;          &lt;NA&gt;         &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3703       &lt;NA&gt;       50 - 54  2010 - 2014</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [ reached 'max' / getOption("max.print") -- omitted 2300 rows ]</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -22360,7 +22360,7 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -63,18 +63,18 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ir_crosstab</span><span class="op">(</span>
-  <span class="va">df</span>,
-  dattype <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">count_var</span>,
-  xbreak_var <span class="op">=</span> <span class="st">"none"</span>,
-  <span class="va">ybreak_vars</span>,
-  collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>,
-  add_total <span class="op">=</span> <span class="st">"no"</span>,
-  add_n_percentages <span class="op">=</span> <span class="cn">FALSE</span>,
-  futime_var <span class="op">=</span> <span class="cn">NULL</span>,
-  alpha <span class="op">=</span> <span class="fl">0.05</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ir_crosstab</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  dattype <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">count_var</span>,</span>
+<span>  xbreak_var <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  <span class="va">ybreak_vars</span>,</span>
+<span>  collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  add_total <span class="op">=</span> <span class="st">"no"</span>,</span>
+<span>  add_n_percentages <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  futime_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.05</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -129,27 +129,27 @@ appended rows in result df. y_break_vars is required.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">#load sample data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#prep step - make wide data as this is the required format</span></span>
-<span class="r-in"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">us_second_cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                    <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="reshape_wide_tidyr.html">reshape_wide_tidyr</a></span><span class="op">(</span>case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span>
-<span class="r-in">                    time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, timevar_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in">                    </span>
-<span class="r-in"><span class="co">#prep step - calculate p_spc variable</span></span>
-<span class="r-in"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>p_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="st">"No SPC"</span>,</span>
-<span class="r-in">                                                       <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="st">"SPC developed"</span>,</span>
-<span class="r-in">                                                       <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA_character_</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>count_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="fl">1</span>,</span>
-<span class="r-in">                                                              <span class="cn">TRUE</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">                                                              </span>
-<span class="r-in"><span class="co">#prep step - create patient status variable</span></span>
-<span class="r-in"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                  <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="pat_status.html">pat_status</a></span><span class="op">(</span><span class="va">.</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>, dattype <span class="op">=</span> <span class="st">"seer"</span>,</span>
-<span class="r-in">                                         status_var <span class="op">=</span> <span class="st">"p_status"</span>, life_var <span class="op">=</span> <span class="st">"p_alive.1"</span>,</span>
-<span class="r-in">                                         birthdat_var <span class="op">=</span> <span class="st">"datebirth.1"</span>, lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#load sample data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#prep step - make wide data as this is the required format</span></span></span>
+<span class="r-in"><span><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">us_second_cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                    <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="reshape_wide_tidyr.html">reshape_wide_tidyr</a></span><span class="op">(</span>case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span></span>
+<span class="r-in"><span>                    time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, timevar_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                    </span></span>
+<span class="r-in"><span><span class="co">#prep step - calculate p_spc variable</span></span></span>
+<span class="r-in"><span><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>p_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="st">"No SPC"</span>,</span></span>
+<span class="r-in"><span>                                                       <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="st">"SPC developed"</span>,</span></span>
+<span class="r-in"><span>                                                       <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA_character_</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>count_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                                                              <span class="cn">TRUE</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                                                              </span></span>
+<span class="r-in"><span><span class="co">#prep step - create patient status variable</span></span></span>
+<span class="r-in"><span><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                  <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="pat_status.html">pat_status</a></span><span class="op">(</span><span class="va">.</span>, fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>, dattype <span class="op">=</span> <span class="st">"seer"</span>,</span></span>
+<span class="r-in"><span>                                         status_var <span class="op">=</span> <span class="st">"p_status"</span>, life_var <span class="op">=</span> <span class="st">"p_alive.1"</span>,</span></span>
+<span class="r-in"><span>                                         birthdat_var <span class="op">=</span> <span class="st">"datebirth.1"</span>, lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 11 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    p_alive.1 p_status     n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -174,18 +174,18 @@ appended rows in result df. y_break_vars is required.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       97    21</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       98  <span style="text-decoration: underline;">2</span>670</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span>       <span style="color: #BB0000;">NA</span>     5</span>
-<span class="r-in"> </span>
-<span class="r-in"><span class="co">#now we can run the function</span></span>
-<span class="r-in"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                 <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="calc_futime.html">calc_futime</a></span><span class="op">(</span><span class="va">.</span>, </span>
-<span class="r-in">                        futime_var_new <span class="op">=</span> <span class="st">"p_futimeyrs"</span>, </span>
-<span class="r-in">                        fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>,</span>
-<span class="r-in">                        dattype <span class="op">=</span> <span class="st">"seer"</span>, </span>
-<span class="r-in">                        time_unit <span class="op">=</span> <span class="st">"years"</span>,</span>
-<span class="r-in">                        status_var <span class="op">=</span> <span class="st">"p_status"</span>,</span>
-<span class="r-in">                        lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, </span>
-<span class="r-in">                        fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>, </span>
-<span class="r-in">                        spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span><span class="op">)</span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span><span class="co">#now we can run the function</span></span></span>
+<span class="r-in"><span><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                 <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="calc_futime.html">calc_futime</a></span><span class="op">(</span><span class="va">.</span>, </span></span>
+<span class="r-in"><span>                        futime_var_new <span class="op">=</span> <span class="st">"p_futimeyrs"</span>, </span></span>
+<span class="r-in"><span>                        fu_end <span class="op">=</span> <span class="st">"2017-12-31"</span>,</span></span>
+<span class="r-in"><span>                        dattype <span class="op">=</span> <span class="st">"seer"</span>, </span></span>
+<span class="r-in"><span>                        time_unit <span class="op">=</span> <span class="st">"years"</span>,</span></span>
+<span class="r-in"><span>                        status_var <span class="op">=</span> <span class="st">"p_status"</span>,</span></span>
+<span class="r-in"><span>                        lifedat_var <span class="op">=</span> <span class="st">"datedeath.1"</span>, </span></span>
+<span class="r-in"><span>                        fcdat_var <span class="op">=</span> <span class="st">"t_datediag.1"</span>, </span></span>
+<span class="r-in"><span>                        spcdat_var <span class="op">=</span> <span class="st">"t_datediag.2"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
@@ -202,18 +202,18 @@ appended rows in result df. y_break_vars is required.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       97      <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">Inf</span>          -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       98      <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">Inf</span>          -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span>       <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NaN</span>      <span style="color: #BB0000;">Inf</span>          -<span style="color: #BB0000;">Inf</span>           <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-in">                    </span>
-<span class="r-in"><span class="co">#for example, you can calculate incidence and summarize by sex and registry</span></span>
-<span class="r-in"><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">ir_crosstab</span><span class="op">(</span><span class="va">usdata_wide</span>,</span>
-<span class="r-in">      dattype <span class="op">=</span> <span class="st">"seer"</span>,</span>
-<span class="r-in">      count_var <span class="op">=</span> <span class="st">"count_spc"</span>,</span>
-<span class="r-in">      xbreak_var <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span class="r-in">      ybreak_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex.1"</span>, <span class="st">"registry.1"</span><span class="op">)</span>,</span>
-<span class="r-in">      collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">      add_total <span class="op">=</span> <span class="st">"no"</span>,</span>
-<span class="r-in">      add_n_percentages <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">      futime_var <span class="op">=</span> <span class="st">"p_futimeyrs"</span>,</span>
-<span class="r-in">      alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<span class="r-in"><span>                    </span></span>
+<span class="r-in"><span><span class="co">#for example, you can calculate incidence and summarize by sex and registry</span></span></span>
+<span class="r-in"><span><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">ir_crosstab</span><span class="op">(</span><span class="va">usdata_wide</span>,</span></span>
+<span class="r-in"><span>      dattype <span class="op">=</span> <span class="st">"seer"</span>,</span></span>
+<span class="r-in"><span>      count_var <span class="op">=</span> <span class="st">"count_spc"</span>,</span></span>
+<span class="r-in"><span>      xbreak_var <span class="op">=</span> <span class="st">"none"</span>,</span></span>
+<span class="r-in"><span>      ybreak_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex.1"</span>, <span class="st">"registry.1"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      collapse_ci <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>      add_total <span class="op">=</span> <span class="st">"no"</span>,</span></span>
+<span class="r-in"><span>      add_n_percentages <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>      futime_var <span class="op">=</span> <span class="st">"p_futimeyrs"</span>,</span></span>
+<span class="r-in"><span>      alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   yvar_name  yvar_label      n_base observed   pyar abs_ir abs_ir_lci abs_ir_uci</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -223,8 +223,8 @@ appended rows in result df. y_break_vars is required.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> registry.1 SEER Reg 02 - …  <span style="text-decoration: underline;">15</span>156     <span style="text-decoration: underline;">8</span>233 <span style="text-decoration: underline;">124</span>511  <span style="text-decoration: underline;">6</span>612.      <span style="text-decoration: underline;">6</span>470.      <span style="text-decoration: underline;">6</span>757.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> registry.1 SEER Reg 20 - …  <span style="text-decoration: underline;">22</span>722    <span style="text-decoration: underline;">12</span>241 <span style="text-decoration: underline;">188</span>025  <span style="text-decoration: underline;">6</span>510.      <span style="text-decoration: underline;">6</span>395.      <span style="text-decoration: underline;">6</span>627.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> registry.1 SEER Reg 21 - …   <span style="text-decoration: underline;">7</span>444     <span style="text-decoration: underline;">3</span>925  <span style="text-decoration: underline;">60</span>721  <span style="text-decoration: underline;">6</span>464.      <span style="text-decoration: underline;">6</span>263.      <span style="text-decoration: underline;">6</span>669.</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -239,7 +239,7 @@ appended rows in result df. y_break_vars is required.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

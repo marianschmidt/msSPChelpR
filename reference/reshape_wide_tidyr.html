@@ -63,13 +63,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">reshape_wide_tidyr</span><span class="op">(</span>
-  <span class="va">df</span>,
-  <span class="va">case_id_var</span>,
-  <span class="va">time_id_var</span>,
-  timevar_max <span class="op">=</span> <span class="fl">6</span>,
-  datsize <span class="op">=</span> <span class="cn">Inf</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">reshape_wide_tidyr</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">case_id_var</span>,</span>
+<span>  <span class="va">time_id_var</span>,</span>
+<span>  timevar_max <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  datsize <span class="op">=</span> <span class="cn">Inf</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -106,14 +106,14 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">us_second_cancer</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">reshape_wide_tidyr</span><span class="op">(</span><span class="va">us_second_cancer</span>,</span>
-<span class="r-in">                         case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span>
-<span class="r-in">                         time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, </span>
-<span class="r-in">                         timevar_max <span class="op">=</span> <span class="fl">2</span>,</span>
-<span class="r-in">                         datsize <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">us_second_cancer</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">reshape_wide_tidyr</span><span class="op">(</span><span class="va">us_second_cancer</span>,</span></span>
+<span class="r-in"><span>                         case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span></span>
+<span class="r-in"><span>                         time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, </span></span>
+<span class="r-in"><span>                         timevar_max <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                         datsize <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6,003 × 27</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    fake_id registry.1 sex.1 race.1 datebirth.1 t_datediag.1 t_site_icd.1 t_dco.1</span>
@@ -134,7 +134,7 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   race.2 &lt;chr&gt;, datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   t_dco.2 &lt;chr&gt;, fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   p_dodmin.2 &lt;date&gt;, fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -149,7 +149,7 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

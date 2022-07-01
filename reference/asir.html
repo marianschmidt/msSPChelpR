@@ -63,25 +63,25 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">asir</span><span class="op">(</span>
-  <span class="va">df</span>,
-  dattype <span class="op">=</span> <span class="cn">NULL</span>,
-  std_pop <span class="op">=</span> <span class="st">"ESP2013"</span>,
-  truncate_std_pop <span class="op">=</span> <span class="cn">FALSE</span>,
-  futime_src <span class="op">=</span> <span class="st">"refpop"</span>,
-  summarize_groups <span class="op">=</span> <span class="st">"none"</span>,
-  <span class="va">count_var</span>,
-  stdpop_df <span class="op">=</span> <span class="va">standard_population</span>,
-  refpop_df <span class="op">=</span> <span class="va">population</span>,
-  region_var <span class="op">=</span> <span class="cn">NULL</span>,
-  age_var <span class="op">=</span> <span class="cn">NULL</span>,
-  sex_var <span class="op">=</span> <span class="cn">NULL</span>,
-  year_var <span class="op">=</span> <span class="cn">NULL</span>,
-  site_var <span class="op">=</span> <span class="cn">NULL</span>,
-  futime_var <span class="op">=</span> <span class="cn">NULL</span>,
-  pyar_var <span class="op">=</span> <span class="cn">NULL</span>,
-  alpha <span class="op">=</span> <span class="fl">0.05</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">asir</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  dattype <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  std_pop <span class="op">=</span> <span class="st">"ESP2013"</span>,</span>
+<span>  truncate_std_pop <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  futime_src <span class="op">=</span> <span class="st">"refpop"</span>,</span>
+<span>  summarize_groups <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  <span class="va">count_var</span>,</span>
+<span>  stdpop_df <span class="op">=</span> <span class="va">standard_population</span>,</span>
+<span>  refpop_df <span class="op">=</span> <span class="va">population</span>,</span>
+<span>  region_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  age_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sex_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  year_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  site_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  futime_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pyar_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.05</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -170,45 +170,45 @@ refpop_df must use the same category coding of age, sex, region, year and site a
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">#load sample data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"standard_population"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"population_us"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#make wide data as this is the required format</span></span>
-<span class="r-in"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">us_second_cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                    <span class="co">#only use sample</span></span>
-<span class="r-in">                    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">fake_id</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">200000</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                    <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="reshape_wide_tidyr.html">reshape_wide_tidyr</a></span><span class="op">(</span>case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span>
-<span class="r-in">                    time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, timevar_max <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#load sample data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"us_second_cancer"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"standard_population"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"population_us"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#make wide data as this is the required format</span></span></span>
+<span class="r-in"><span><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">us_second_cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                    <span class="co">#only use sample</span></span></span>
+<span class="r-in"><span>                    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">fake_id</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">200000</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                    <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="reshape_wide_tidyr.html">reshape_wide_tidyr</a></span><span class="op">(</span>case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span></span>
+<span class="r-in"><span>                    time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, timevar_max <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span>
-<span class="r-in">                    </span>
-<span class="r-in"><span class="co">#create count variable</span></span>
-<span class="r-in"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>count_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="fl">1</span>,</span>
-<span class="r-in">                    <span class="cn">TRUE</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"> </span>
-<span class="r-in"><span class="co">#remove cases for which no reference population exists</span></span>
-<span class="r-in"><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">t_yeardiag.2</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1990 - 1994"</span>, <span class="st">"1995 - 1999"</span>, <span class="st">"2000 - 2004"</span>,</span>
-<span class="r-in">                                                       <span class="st">"2005 - 2009"</span>, <span class="st">"2010 - 2014"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">                    </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#now we can run the function</span></span>
-<span class="r-in"><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">asir</span><span class="op">(</span><span class="va">usdata_wide</span>,</span>
-<span class="r-in">      dattype <span class="op">=</span> <span class="st">"seer"</span>,</span>
-<span class="r-in">      std_pop <span class="op">=</span> <span class="st">"ESP2013"</span>,</span>
-<span class="r-in">      truncate_std_pop <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">      futime_src <span class="op">=</span> <span class="st">"refpop"</span>,</span>
-<span class="r-in">      summarize_groups <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span class="r-in">      count_var <span class="op">=</span> <span class="st">"count_spc"</span>,</span>
-<span class="r-in">      refpop_df <span class="op">=</span> <span class="va">population_us</span>,</span>
-<span class="r-in">      region_var <span class="op">=</span> <span class="st">"registry.1"</span>, </span>
-<span class="r-in">      age_var <span class="op">=</span> <span class="st">"fc_agegroup.1"</span>,</span>
-<span class="r-in">      sex_var <span class="op">=</span> <span class="st">"sex.1"</span>,</span>
-<span class="r-in">      year_var <span class="op">=</span> <span class="st">"t_yeardiag.2"</span>, </span>
-<span class="r-in">      site_var <span class="op">=</span> <span class="st">"t_site_icd.2"</span>,</span>
-<span class="r-in">      pyar_var <span class="op">=</span> <span class="st">"population_pyar"</span><span class="op">)</span></span>
+<span class="r-in"><span>                    </span></span>
+<span class="r-in"><span><span class="co">#create count variable</span></span></span>
+<span class="r-in"><span><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>count_spc <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t_site_icd.2</span><span class="op">)</span>   <span class="op">~</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                    <span class="cn">TRUE</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span><span class="co">#remove cases for which no reference population exists</span></span></span>
+<span class="r-in"><span><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">t_yeardiag.2</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1990 - 1994"</span>, <span class="st">"1995 - 1999"</span>, <span class="st">"2000 - 2004"</span>,</span></span>
+<span class="r-in"><span>                                                       <span class="st">"2005 - 2009"</span>, <span class="st">"2010 - 2014"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                    </span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#now we can run the function</span></span></span>
+<span class="r-in"><span><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">asir</span><span class="op">(</span><span class="va">usdata_wide</span>,</span></span>
+<span class="r-in"><span>      dattype <span class="op">=</span> <span class="st">"seer"</span>,</span></span>
+<span class="r-in"><span>      std_pop <span class="op">=</span> <span class="st">"ESP2013"</span>,</span></span>
+<span class="r-in"><span>      truncate_std_pop <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>      futime_src <span class="op">=</span> <span class="st">"refpop"</span>,</span></span>
+<span class="r-in"><span>      summarize_groups <span class="op">=</span> <span class="st">"none"</span>,</span></span>
+<span class="r-in"><span>      count_var <span class="op">=</span> <span class="st">"count_spc"</span>,</span></span>
+<span class="r-in"><span>      refpop_df <span class="op">=</span> <span class="va">population_us</span>,</span></span>
+<span class="r-in"><span>      region_var <span class="op">=</span> <span class="st">"registry.1"</span>, </span></span>
+<span class="r-in"><span>      age_var <span class="op">=</span> <span class="st">"fc_agegroup.1"</span>,</span></span>
+<span class="r-in"><span>      sex_var <span class="op">=</span> <span class="st">"sex.1"</span>,</span></span>
+<span class="r-in"><span>      year_var <span class="op">=</span> <span class="st">"t_yeardiag.2"</span>, </span></span>
+<span class="r-in"><span>      site_var <span class="op">=</span> <span class="st">"t_site_icd.2"</span>,</span></span>
+<span class="r-in"><span>      pyar_var <span class="op">=</span> <span class="st">"population_pyar"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using person-years at risk [PYAR] from reference population as pyears for calculating incidence rates.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Be careful, in this calculation it is assumed that all included regions have collected data for the full time period: 1990 to 2010</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>                        If you have included registries with differing times, please check this assumption by looking at groups with 0 incidence and specify option 'inclusion_restrictions' if needed.</span>
@@ -229,8 +229,8 @@ refpop_df must use the same category coding of age, sex, region, year and site a
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 310 more rows, and 7 more variables: abs_ir_uci &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   asir_copy &lt;dbl&gt;, asir_lci &lt;dbl&gt;, asir_lci_gam &lt;dbl&gt;, asir_uci &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   asir_uci_gam &lt;dbl&gt;, asir_e6 &lt;dbl&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -245,7 +245,7 @@ refpop_df must use the same category coding of age, sex, region, year and site a
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

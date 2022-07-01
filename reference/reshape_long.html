@@ -63,7 +63,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">reshape_long</span><span class="op">(</span><span class="va">wide_df</span>, <span class="va">case_id_var</span>, <span class="va">time_id_var</span>, datsize <span class="op">=</span> <span class="cn">Inf</span>, chunks <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">reshape_long</span><span class="op">(</span><span class="va">wide_df</span>, <span class="va">case_id_var</span>, <span class="va">time_id_var</span>, datsize <span class="op">=</span> <span class="cn">Inf</span>, chunks <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -99,21 +99,21 @@ E.g. <code>timevar="SEQ_NUM"</code> for SEER data.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">us_second_cancer</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#prep step - reshape wide a sample of 10000 rows from us_second_cancer</span></span>
-<span class="r-in"><span class="va">usdata_wide_sample</span> <span class="op">&lt;-</span> <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="reshape_wide.html">reshape_wide</a></span><span class="op">(</span><span class="va">us_second_cancer</span>,</span>
-<span class="r-in">                         case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span>
-<span class="r-in">                         time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, </span>
-<span class="r-in">                         timevar_max <span class="op">=</span> <span class="fl">2</span>,</span>
-<span class="r-in">                         datsize <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">us_second_cancer</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#prep step - reshape wide a sample of 10000 rows from us_second_cancer</span></span></span>
+<span class="r-in"><span><span class="va">usdata_wide_sample</span> <span class="op">&lt;-</span> <span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu"><a href="reshape_wide.html">reshape_wide</a></span><span class="op">(</span><span class="va">us_second_cancer</span>,</span></span>
+<span class="r-in"><span>                         case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span></span>
+<span class="r-in"><span>                         time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span>, </span></span>
+<span class="r-in"><span>                         timevar_max <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                         datsize <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#now we can reshape long again</span></span>
-<span class="r-in"><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">reshape_long</span><span class="op">(</span><span class="va">usdata_wide_sample</span>,</span>
-<span class="r-in">                         case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span>
-<span class="r-in">                         time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#now we can reshape long again</span></span></span>
+<span class="r-in"><span><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">reshape_long</span><span class="op">(</span><span class="va">usdata_wide_sample</span>,</span></span>
+<span class="r-in"><span>                         case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span></span>
+<span class="r-in"><span>                         time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          fake_id SEQ_NUM                                 registry    sex  race</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 100004.1  100004       1     SEER Reg 20 - Detroit (Metropolitan)   Male White</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 100004.2  100004       2     SEER Reg 20 - Detroit (Metropolitan)   Male White</span>
@@ -20116,8 +20116,8 @@ E.g. <code>timevar="SEQ_NUM"</code> for SEER data.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 160430.1       &lt;NA&gt;     55 - 59 1995 - 1999</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 160447.1       &lt;NA&gt;     60 - 64 1995 - 1999</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [ reached 'max' / getOption("max.print") -- omitted 2080 rows ]</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -20132,7 +20132,7 @@ E.g. <code>timevar="SEQ_NUM"</code> for SEER data.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
