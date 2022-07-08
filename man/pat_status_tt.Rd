@@ -6,7 +6,7 @@
 \usage{
 pat_status_tt(
   wide_df,
-  fu_end = NULL,
+  fu_end,
   dattype = NULL,
   status_var = "p_status",
   life_var = NULL,
