@@ -302,12 +302,14 @@ sir_byfutime <- function(df,
   }
   
   if(!( c(1) %in% (unique(df[[rlang::as_name(count_var)]])))){
+    if(!quiet){
     rlang::warn(  
       c("[WARN No Counts] The column defined in `count_var` does not contain any rows where count_var == 1. So no observed cases are found.",
         "i" = paste0("You have used `count_var = \"", rlang::as_name(count_var), "\"`"),
         "!" = "Please make sure that the column of df defined as `count_var` is numeric and coded 1 for observed cases.",
         " "
       ))
+    }
   }
   
   #CHK4: check whether all required variables are defined and present in refrates_df
@@ -581,11 +583,13 @@ sir_byfutime <- function(df,
   
   #If no race stratification is used, but, race var in refrates_df, filter refrates so that only totals remain
   if(!rs & "race" %in% colnames(refrates_df)){
+    if(!quiet){
     rlang::inform(c(
       "[INFO Race Refrates] Parameter `race_var = NULL`, but refrates_df contains the column `race`",
       "i" = "By default, only strata from `refrates_df` where column `race` starts with `Total` will be used.",
       " "
     ))
+    }
     refrates_df <- refrates_df %>%
       tidytable::filter.(substr(race, 1, 5) == "Total")
   }
