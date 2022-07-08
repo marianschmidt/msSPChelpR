@@ -29,6 +29,7 @@
 #' @param site_var variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.
 #' @param futime_var variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.
 #' @param alpha significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.
+#' @param quiet If TRUE, warnings and messages will be suppressed. Default is FALSE.
 #' @export
 #' @examples 
 #' #There are various preparation steps required, before you can run this function.
@@ -70,7 +71,8 @@ sir_byfutime <- function(df,
                          race_var = NULL,    #optional when matching by race is wanted
                          site_var = NULL,
                          futime_var = NULL,
-                         alpha = 0.05) {
+                         alpha = 0.05,
+                         quiet = FALSE) {
   
   
   # ---- 0 function basics ----
@@ -493,16 +495,18 @@ sir_byfutime <- function(df,
     
     chk_futimegroups <- df %>% tidytable::filter.(is.na(futimegroup)) %>% nrow()
     
-    if (chk_futimegroups > 0) {
-      rlang::warn(c(
-        "\n [WARN FU missing] Missing information on follow-up time for some cases.",
-        "!" = paste0("There are: ", chk_futimegroups, " cases that do not belong to a follow-up time group."),
-        "i" = "These cases will be omitted when calculating sir_byfutime and the totals.",
-        "It is recommeded to either:",
-        " - filter cases by futime_var that are out of the range of futime_breaks or",
-        " - adjust futime_breaks so that its range includes all available fu_times.",
-        " "
-      ))
+    if(chk_futimegroups > 0) {
+      if(!quiet){
+        rlang::warn(c(
+          "\n [WARN FU missing] Missing information on follow-up time for some cases.",
+          "!" = paste0("There are: ", chk_futimegroups, " cases that do not belong to a follow-up time group."),
+          "i" = "These cases will be omitted when calculating sir_byfutime and the totals.",
+          "It is recommeded to either:",
+          " - filter cases by futime_var that are out of the range of futime_breaks or",
+          " - adjust futime_breaks so that its range includes all available fu_times.",
+          " "
+        ))
+      }
     }
     
     #make symbols out of fu_time_levels
@@ -524,12 +528,7 @@ sir_byfutime <- function(df,
   
   n_iters <- (length_fu * length_yb) + 1
   
-  pb <- progress::progress_bar$new(
-    format = "  fun running [:bar] :percent eta: :eta",
-    total = n_iters, clear = TRUE)
-  
-  pb$tick(0)
-  Sys.sleep(3 / 100)
+  cli::cli_progress_bar("Calculating SIR", total = n_iters)
   
   ## --- 1d: prepare refrates_df
   
@@ -770,22 +769,26 @@ sir_byfutime <- function(df,
       #CHK_strata1
       
       if (n_strata_required_count != nrow(sircalc_count)) {
-        rlang::warn(c(
-          paste0("[WARN Calculation Problem] ", "Occured in: ", fub_var,",", syb_var),
-          "i" = paste0("The calculation of observed events was performed for: ", nrow(sircalc_count), " strata."),
-          "x" = paste0("However ", n_strata_required_count, " strata are required."),
-          " "
-        ))
+        if(!quiet){
+          rlang::warn(c(
+            paste0("[WARN Calculation Problem] ", "Occured in: ", fub_var,",", syb_var),
+            "i" = paste0("The calculation of observed events was performed for: ", nrow(sircalc_count), " strata."),
+            "x" = paste0("However ", n_strata_required_count, " strata are required."),
+            " "
+          ))
+        }
       }
       
       
       if (n_strata_required_fu != nrow(sircalc_fu)) {
-        rlang::warn(c(
-          paste0("[WARN Calulation Problem] Occured in: ", fub_var,",", syb_var),
-          "i" = paste0("The calculation of follow-up time was performed for: ", nrow(sircalc_fu), " strata."),
-          "x" = paste0("However ", n_strata_required_fu, " strata are required."),
-          " "
-        ))
+        if(!quiet){
+          rlang::warn(c(
+            paste0("[WARN Calulation Problem] Occured in: ", fub_var,",", syb_var),
+            "i" = paste0("The calculation of follow-up time was performed for: ", nrow(sircalc_fu), " strata."),
+            "x" = paste0("However ", n_strata_required_fu, " strata are required."),
+            " "
+          ))
+        }
       }
       
       
@@ -803,11 +806,13 @@ sir_byfutime <- function(df,
         tidytable::distinct.(tidyselect::all_of(match_vars)) %>%
         nrow()
       
-      if (n_dist_sircalc_fu != nrow(sircalc_fu)) {
-        rlang::warn(c(
-          "[WARN Calculation Problem] There are conflicts in matching the follow-up time to the observed count strata!",
-          " "
-        ))
+      if(n_dist_sircalc_fu != nrow(sircalc_fu)) {
+        if(!quiet){
+          rlang::warn(c(
+            "[WARN Calculation Problem] There are conflicts in matching the follow-up time to the observed count strata!",
+            " "
+          ))
+        }
       }
       
       #merge sircalc_count and sircalc_fu
@@ -951,8 +956,7 @@ sir_byfutime <- function(df,
       rm(sir_longresult_strat_f)
       
       #progress_bar
-      pb$tick()
-      Sys.sleep(3 / 100)
+      cli::cli_progress_update()
       
       #end loop [f] iterations
     }
@@ -1007,7 +1011,9 @@ sir_byfutime <- function(df,
     tidytable::summarize.(
       min_pyar = min(.data$i_pyar),
       max_pyar = max(.data$i_pyar),
-      .by = tidyselect::all_of(c("yvar_name", "yvar_label", "age", "sex", "region", "year", if(rs){"race"},
+      .by = tidyselect::any_of(c("age", "sex", "region", "year", if(rs){"race"},
+                                 if(yb){c("yvar_name", "yvar_label")}, 
+                                 if(xb){c("xvar_name", "xvar_label")},
                                  if(fu){"fu_time"}))) %>% 
     tidytable::filter.(min_pyar != max_pyar)
   
@@ -1037,8 +1043,9 @@ sir_byfutime <- function(df,
                        ref_inc_crude_rate = incidence_crude_rate)
   
   rm(sir_longresult)
-  pb$tick()
-  Sys.sleep(3 / 100)
+  
+  #progress bar
+  cli::cli_progress_update()
   
   #5d rounding
   
@@ -1097,107 +1104,122 @@ sir_byfutime <- function(df,
   
   #write attributes for error and warning messages
   if(nrow(problems_pyar_attr) > 0){
-    rlang::inform(c(
-      "[INFO Multiple refrates matches] There are differing pyar values for the same age, sex, year, region strata.",
-      "i" = paste0(nrow(problems_pyar_attr), " strata are affected"),
-      "!" = "Check attribute `problems_pyar` of results to see what strata are affected.",
-      " "
-    ))
+    if(!quiet){
+      rlang::inform(c(
+        "[INFO Multiple refrates matches] There are differing pyar values for the same age, sex, year, region strata.",
+        "i" = paste0(nrow(problems_pyar_attr), " strata are affected"),
+        "!" = "Check attribute `problems_pyar` of results to see what strata are affected.",
+        " "
+      ))
+    }
     attr(sir_result, "problems_pyar") <- problems_pyar_attr
   }
   
   if(nrow(problems_not_empty_attr) > 0){
-    rlang::inform(c(
-      "[INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed.",
-      "i" = paste0(nrow(problems_not_empty_attr), " strata are affected."),
-      " - This might be caused by cases where SPC occured at the same day as first cancer.",
-      " - You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.",
-      "!" = "Check attribute `problems_not_empty` of results to see what strata are affected.",
-      " "
-    ))
+    if(!quiet){
+      rlang::inform(c(
+        "[INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed.",
+        "i" = paste0(nrow(problems_not_empty_attr), " strata are affected."),
+        " - This might be caused by cases where SPC occured at the same day as first cancer.",
+        " - You can check this by excluding all cases from wide_df, where date of first diagnosis is equal.",
+        "!" = "Check attribute `problems_not_empty` of results to see what strata are affected.",
+        " "
+      ))
+    }
     attr(sir_result, "problems_not_empty") <- problems_not_empty_attr
   }
   
   if(nrow(problems_missing_ref_strata_attr) > 0){
-    rlang::inform(c(
-      "[INFO Refrates Missing] For some strata refrates are missing.", 
-      "i" = paste0(nrow(problems_missing_ref_strata_attr), " strata have no reference rates in `refrates_df`"),
-      " - Solution could be to add these strata to `refrates_df`.",
-      "!" = "Check attribute `problems_missing_ref_strata` of results to see what strata are affected.",
-      " "
-    ))
+    if(!quiet){
+      rlang::inform(c(
+        "[INFO Refrates Missing] For some strata refrates are missing.", 
+        "i" = paste0(nrow(problems_missing_ref_strata_attr), " strata have no reference rates in `refrates_df`"),
+        " - Solution could be to add these strata to `refrates_df`.",
+        "!" = "Check attribute `problems_missing_ref_strata` of results to see what strata are affected.",
+        " "
+      ))
+    }
     attr(sir_result, "problems_missing_ref_strata") <- problems_missing_ref_strata_attr
   }
   
   if(nrow(problems_missing_futime_attr) > 0){
-    rlang::inform(
-      c("[INFO FU Time Missing] The variable for follow-up time has missings.",
-        "i" = paste0(nrow(problems_missing_futime_attr)," rows in the data set have missing futime_var."), 
-        "Please make sure that you have:", 
-        " - calculated FU time for all cases where the index event occured and", 
-        " - have removed all cases from the dataset that do not count at baseline.",
-        "!" = "Check attribute `problems_missing_futime` of results to see what strata are affected.",
-        " "
-      ))
+    if(!quiet){
+      rlang::inform(
+        c("[INFO FU Time Missing] The variable for follow-up time has missings.",
+          "i" = paste0(nrow(problems_missing_futime_attr)," rows in the data set have missing futime_var."), 
+          "Please make sure that you have:", 
+          " - calculated FU time for all cases where the index event occured and", 
+          " - have removed all cases from the dataset that do not count at baseline.",
+          "!" = "Check attribute `problems_missing_futime` of results to see what strata are affected.",
+          " "
+        ))
+    }
     attr(sir_result, "problems_missing_futime") <- problems_missing_futime_attr
   }
   
   if(nrow(problems_missing_count_strata_attr) > 0){
-    rlang::warn(c(
-      "[WARN Count Strata Missing] When trying to match the observed counts and follow-up times for this loop, an unexpected mismatch of strata occured.",
-      "i" = paste0(nrow(problems_missing_count_strata_attr), " strata are missing from intermediate result `sircalc_count`."),
-      "This error occured in:",
-      paste0(" - Time stratum: ", rlang::as_string(fub_var)),
-      paste0(" - Y variable stratum: ", rlang::as_string(syb_var)),
-      "!" = "Check attribute `problems_missing_count_strata` of results to see what strata are affected.",
-      "It is recommended to run a debug with the same data.",
-      " "
-    ))
+    if(!quiet){
+      rlang::warn(c(
+        "[WARN Count Strata Missing] When trying to match the observed counts and follow-up times for this loop, an unexpected mismatch of strata occured.",
+        "i" = paste0(nrow(problems_missing_count_strata_attr), " strata are missing from intermediate result `sircalc_count`."),
+        "This error occured in:",
+        paste0(" - Time stratum: ", rlang::as_string(fub_var)),
+        paste0(" - Y variable stratum: ", rlang::as_string(syb_var)),
+        "!" = "Check attribute `problems_missing_count_strata` of results to see what strata are affected.",
+        "It is recommended to run a debug with the same data.",
+        " "
+      ))
+    }
     attr(sir_result, "problems_missing_count_strata") <- problems_missing_count_strata_attr
   }
   
   if(nrow(problems_missing_fu_strata_attr) > 0){
-    rlang::warn(c(
-      "[WARN FU Strata Missing] When trying to match the observed counts and follow-up times for this loop, an unexpected mismatch of strata occured.",
-      "i" = paste0(nrow(problems_missing_fu_strata_attr), " strata are missing from intermediate result `sircalc_fu`."),
-      "This error occured in:",
-      paste0(" - Time stratum: ", rlang::as_string(fub_var)),
-      paste0(" - Y variable stratum: ", rlang::as_string(syb_var)),
-      "!" = " Check attribute `problems_missing_fu_strata` of results to see what strata are affected.",
-      "It is recommended to run a debug with the same data.",
-      " "
-    ))
+    if(!quiet){
+      rlang::warn(c(
+        "[WARN FU Strata Missing] When trying to match the observed counts and follow-up times for this loop, an unexpected mismatch of strata occured.",
+        "i" = paste0(nrow(problems_missing_fu_strata_attr), " strata are missing from intermediate result `sircalc_fu`."),
+        "This error occured in:",
+        paste0(" - Time stratum: ", rlang::as_string(fub_var)),
+        paste0(" - Y variable stratum: ", rlang::as_string(syb_var)),
+        "!" = " Check attribute `problems_missing_fu_strata` of results to see what strata are affected.",
+        "It is recommended to run a debug with the same data.",
+        " "
+      ))
+    }
     attr(sir_result, "problems_missing_fu_strata") <- problems_missing_fu_strata_attr
   }
   
   if(nrow(problems_duplicate_ref_strata_attr) > 0){
-    rlang::warn(c(
-      "[WARN Refrates Duplicates] For some strata refrates are are ambiguous", 
-      "i" = paste0(nrow(problems_duplicate_ref_strata_attr), " strata have duplicates in `refrates_df`"),
-      " - Solution could be to remove duplicates from `refrates_df`.",
-      "!" = "Check attribute `problems_duplicate_ref_strata` of results to see what strata are affected.",
-      " "
-    ))
+    if(!quiet){
+      rlang::warn(c(
+        "[WARN Refrates Duplicates] For some strata refrates are are ambiguous", 
+        "i" = paste0(nrow(problems_duplicate_ref_strata_attr), " strata have duplicates in `refrates_df`"),
+        " - Solution could be to remove duplicates from `refrates_df`.",
+        "!" = "Check attribute `problems_duplicate_ref_strata` of results to see what strata are affected.",
+        " "
+      ))
+    }
     attr(sir_result, "problems_duplicate_ref_strata") <- problems_duplicate_ref_strata_attr
   }
   
   if(nrow(notes_refcases) > 0){
-    rlang::inform(c(
-      "[INFO Unexpected Cases] There are observed cases in the results file that do not occur in the refrates_df.",
-      "i" = paste0(nrow(notes_refcases), " strata are affected."),
-      "A possible explanation can be:",
-      " - DCO cases or",
-      " - diagnosis of second cancer occured in different time period than first cancer",
-      "!" = "Check attribute `notes_refcases` of results to see what strata are affected.",
-      " "
-    ))
+    if(!quiet){
+      rlang::inform(c(
+        "[INFO Unexpected Cases] There are observed cases in the results file that do not occur in the refrates_df.",
+        "i" = paste0(nrow(notes_refcases), " strata are affected."),
+        "A possible explanation can be:",
+        " - DCO cases or",
+        " - diagnosis of second cancer occured in different time period than first cancer",
+        "!" = "Check attribute `notes_refcases` of results to see what strata are affected.",
+        " "
+      ))
+    }
     attr(sir_result, "notes_refcases") <- notes_refcases
   }
   
   
-  pb$terminate()
+  cli::cli_progress_done()
   
   return(sir_result)
   
 }
-

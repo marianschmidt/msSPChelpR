@@ -21,7 +21,8 @@ sir_byfutime(
   race_var = NULL,
   site_var = NULL,
   futime_var = NULL,
-  alpha = 0.05
+  alpha = 0.05,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -69,6 +70,8 @@ refrates_df must use the same category coding of age, sex, region, year and t_si
 \item{futime_var}{variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.}
 
 \item{alpha}{significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
+
+\item{quiet}{If TRUE, warnings and messages will be suppressed. Default is FALSE.}
 }
 \description{
 Calculate standardized incidence ratios with custom grouping variables stratified by follow-up time

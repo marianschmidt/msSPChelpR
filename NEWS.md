@@ -1,5 +1,15 @@
 # msSPChelpR (development version)
 
+### New Features
+
+### Breaking Changes
+
+### Bug fixes
+
+### Internal
+* replace progress bars by `cli`
+
+
 # msSPChelpR 0.9.0
 
 ### New Features

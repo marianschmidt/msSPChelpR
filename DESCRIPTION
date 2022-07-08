@@ -12,10 +12,10 @@ BugReports: https://github.com/marianschmidt/msSPChelpR/issues
 Depends: 
     R (>= 3.5)
 Imports: 
+    cli,
     dplyr (>= 1.0.0),
     lubridate,
     magrittr,
-    progress,
     purrr,
     rlang (>= 0.1.2),
     sjlabelled,
