@@ -34,8 +34,8 @@ install.packages("msSPChelpR")
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("marianschmidt/msSPChelpR")
+# install.packages("remotes")
+remotes::install_github("marianschmidt/msSPChelpR")
 ```
 
 ## How to use the package
