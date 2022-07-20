@@ -214,21 +214,22 @@ refpop_df must use the same category coding of age, sex, region, year and site a
 <span class="r-msg co"><span class="r-pr">#&gt;</span>                        If you have included registries with differing times, please check this assumption by looking at groups with 0 incidence and specify option 'inclusion_restrictions' if needed.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following regions, age groups, years, sexes and ICD codes are considered:  SEER Reg 01 - San Francisco-Oakland SMSA, SEER Reg 02 - Connecticut, SEER Reg 20 - Detroit (Metropolitan), SEER Reg 21 - Hawaii 1995 - 1999, 2000 - 2004, 2005 - 2009, 2010 - 2014, 1990 - 1994 00 - 04, 05 - 09, 10 - 14, 15 - 19, 20 - 24, 25 - 29, 30 - 34, 35 - 39, 40 - 44, 45 - 49, 50 - 54, 55 - 59, 60 - 64, 65 - 69, 70 - 74, 75 - 79, 80 - 84, 85 - 120 Female, Male C18, C34, C44, C50, C54, C64, C80, C14</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 320 × 17</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    age         region sex   year  t_site  asir observed   pyar abs_ir abs_ir_lci</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Age standa… SEER … Fema… 1990… C14        0        0 1.92<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Age standa… SEER … Fema… 1990… C18        0        0 1.92<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Age standa… SEER … Fema… 1990… C34        0        0 1.92<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Age standa… SEER … Fema… 1990… C44        0        0 1.92<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Age standa… SEER … Fema… 1990… C50        0        0 1.92<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Age standa… SEER … Fema… 1990… C54        0        0 1.92<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Age standa… SEER … Fema… 1990… C64        0        0 1.92<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Age standa… SEER … Fema… 1990… C80        0        0 1.92<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Age standa… SEER … Fema… 1995… C14        0        0 2.01<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Age standa… SEER … Fema… 1995… C18        0        0 2.01<span style="color: #949494;">e</span>7      0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 310 more rows, and 7 more variables: abs_ir_uci &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   asir_copy &lt;dbl&gt;, asir_lci &lt;dbl&gt;, asir_lci_gam &lt;dbl&gt;, asir_uci &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   asir_uci_gam &lt;dbl&gt;, asir_e6 &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    age     region sex   year  t_site  asir obser…¹   pyar abs_ir abs_i…² abs_i…³</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Age st… SEER … Fema… 1990… C14        0       0 1.92<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Age st… SEER … Fema… 1990… C18        0       0 1.92<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Age st… SEER … Fema… 1990… C34        0       0 1.92<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Age st… SEER … Fema… 1990… C44        0       0 1.92<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Age st… SEER … Fema… 1990… C50        0       0 1.92<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Age st… SEER … Fema… 1990… C54        0       0 1.92<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Age st… SEER … Fema… 1990… C64        0       0 1.92<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Age st… SEER … Fema… 1990… C80        0       0 1.92<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Age st… SEER … Fema… 1995… C14        0       0 2.01<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Age st… SEER … Fema… 1995… C18        0       0 2.01<span style="color: #949494;">e</span>7      0       0    0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 310 more rows, 6 more variables: asir_copy &lt;dbl&gt;, asir_lci &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   asir_lci_gam &lt;dbl&gt;, asir_uci &lt;dbl&gt;, asir_uci_gam &lt;dbl&gt;, asir_e6 &lt;dbl&gt;, and</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   abbreviated variable names ¹​observed, ²​abs_ir_lci, ³​abs_ir_uci</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -245,7 +246,7 @@ refpop_df must use the same category coding of age, sex, region, year and site a
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

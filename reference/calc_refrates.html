@@ -163,20 +163,21 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Check attribute `problems_missing_refpop_strata` of results to see what strata are affected.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tidytable: 6,181 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    t_site region              year  sex   age   incidence_cases incidence_crude…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> C14    SEER Reg 01 - San … 1990… Fema… 00 -…               1            0.145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> C14    SEER Reg 01 - San … 1990… Fema… 25 -…               1            0.118</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> C14    SEER Reg 01 - San … 1990… Fema… 35 -…               2            0.231</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> C14    SEER Reg 01 - San … 1990… Fema… 45 -…               3            0.486</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> C14    SEER Reg 01 - San … 1990… Fema… 50 -…               1            0.208</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> C14    SEER Reg 01 - San … 1990… Fema… 60 -…               2            0.518</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> C14    SEER Reg 01 - San … 1990… Fema… 70 -…               1            0.303</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> C14    SEER Reg 01 - San … 1990… Fema… 75 -…               1            0.381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> C14    SEER Reg 01 - San … 1990… Male  00 -…               1            0.138</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> C14    SEER Reg 01 - San … 1990… Male  25 -…               1            0.113</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 6,171 more rows, and 2 more variables: population_pyar &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   population_n_per_year &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    t_site region               year  sex   age   incid…¹ incid…² popul…³ popul…⁴</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> C14    SEER Reg 01 - San F… 1990… Fema… 00 -…       1   0.145  <span style="text-decoration: underline;">687</span>542 <span style="text-decoration: underline;">137</span>508.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> C14    SEER Reg 01 - San F… 1990… Fema… 25 -…       1   0.118  <span style="text-decoration: underline;">845</span>090 <span style="text-decoration: underline;">169</span>018 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> C14    SEER Reg 01 - San F… 1990… Fema… 35 -…       2   0.231  <span style="text-decoration: underline;">864</span>741 <span style="text-decoration: underline;">172</span>948.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> C14    SEER Reg 01 - San F… 1990… Fema… 45 -…       3   0.486  <span style="text-decoration: underline;">616</span>774 <span style="text-decoration: underline;">123</span>355.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> C14    SEER Reg 01 - San F… 1990… Fema… 50 -…       1   0.208  <span style="text-decoration: underline;">480</span>901  <span style="text-decoration: underline;">96</span>180.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> C14    SEER Reg 01 - San F… 1990… Fema… 60 -…       2   0.518  <span style="text-decoration: underline;">385</span>787  <span style="text-decoration: underline;">77</span>157.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> C14    SEER Reg 01 - San F… 1990… Fema… 70 -…       1   0.303  <span style="text-decoration: underline;">329</span>891  <span style="text-decoration: underline;">65</span>978.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> C14    SEER Reg 01 - San F… 1990… Fema… 75 -…       1   0.381  <span style="text-decoration: underline;">262</span>494  <span style="text-decoration: underline;">52</span>499.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> C14    SEER Reg 01 - San F… 1990… Male  00 -…       1   0.138  <span style="text-decoration: underline;">723</span>699 <span style="text-decoration: underline;">144</span>740.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> C14    SEER Reg 01 - San F… 1990… Male  25 -…       1   0.113  <span style="text-decoration: underline;">881</span>328 <span style="text-decoration: underline;">176</span>266.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 6,171 more rows, and abbreviated variable names ¹​incidence_cases,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​incidence_crude_rate, ³​population_pyar, ⁴​population_n_per_year</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span>
 </code></pre></div>
     </div>
   </div>
@@ -191,7 +192,7 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
