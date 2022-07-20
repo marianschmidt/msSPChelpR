@@ -550,8 +550,9 @@ calc_refrates <- function(df,
     if(ct){
       
       rlang::inform(c(
-        "Option `calc_totals == TRUE` is used.", 
-        "i" = "This means empty strata will be filled for all combinations of used age, sex, year, region, race and site to obtain correct totals for poulation."
+        "[INFO Totals] Option `calc_totals == TRUE` is used.", 
+        "i" = "This means empty strata will be filled for all combinations of used age, sex, year, region, race and site to obtain correct totals for poulation.",
+        " "
       ))
       
       complete_vars_quo <- rlang::syms(c("age", "sex", "region", "year", 
