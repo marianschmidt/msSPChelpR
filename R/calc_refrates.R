@@ -702,6 +702,7 @@ calc_refrates <- function(df,
     ) %>%
     tidytable::mutate.(
       population_n_per_year = tidytable::case_when.(
+        stringr::str_detect(.data$year, "^Total - All included years") ~ NA_real_,        
         stringr::str_length(.data$year) == 4 ~ .data$population_pyar,
         stringr::str_length(.data$year) > 4  ~ .data$population_pyar / 5,
         TRUE ~ NA_real_)
@@ -749,4 +750,3 @@ calc_refrates <- function(df,
   
   return(rates)
   
-} 
