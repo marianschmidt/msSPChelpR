@@ -1,13 +1,16 @@
 # msSPChelpR (development version)
 
 ### New Features
+* some functions gain new `quiet` argument to suppress `rlang::warn()` and `rlang::inform()` messages. You can use this when you have checked your results for correctness and want to reduce message output, but keep the progress bars.
 
 ### Breaking Changes
 
 ### Bug fixes
+* make `calc_refrates()` more robust for missing `race_var` (Closes #89)
 
 ### Internal
 * replace progress bars by `cli`
+
 
 
 # msSPChelpR 0.9.0
