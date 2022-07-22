@@ -75,7 +75,8 @@
 <span>  sex_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  year_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  race_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  site_var <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  site_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -135,6 +136,10 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 
 <dt>site_var</dt>
 <dd><p>variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.</p></dd>
+
+
+<dt>quiet</dt>
+<dd><p>If TRUE, warnings and messages will be suppressed. Default is FALSE.</p></dd>
 
 </dl></div>
     <div id="value">
