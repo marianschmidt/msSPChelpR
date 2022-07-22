@@ -16,7 +16,8 @@ calc_refrates(
   sex_var = NULL,
   year_var = NULL,
   race_var = NULL,
-  site_var = NULL
+  site_var = NULL,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -51,6 +52,8 @@ Can be either "no" for not filling missing sites. "icd2d" for ICD-O-3 2 digit (C
 \item{race_var}{optional argument, if rates should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refpop_df needs to contain the variable "race".}
 
 \item{site_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
+
+\item{quiet}{If TRUE, warnings and messages will be suppressed. Default is FALSE.}
 }
 \value{
 df

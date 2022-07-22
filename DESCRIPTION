@@ -31,7 +31,7 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
 Language: en-US
 LazyData: true
