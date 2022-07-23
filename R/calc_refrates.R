@@ -434,19 +434,19 @@ calc_refrates <- function(df,
     df <- df %>%
       tidytable::mutate.(
         race = as.character(!!race_var)) %>%
-      tidytable::mutate.(tidytable::across.(.cols = c(race), 
-                                            .fns = ~tidytable::replace_na.(., na_explicit)))
+      tidytable::mutate.(tidytable::across.(
+        .cols = c(race), 
+        .fns = ~tidytable::replace_na.(., na_explicit)))
   }
-  
   
   
   ## --- 1b: get used age, sex, region, year, t_site
   
-  used_age <- unique(df$age)
-  used_sex <- unique(df$sex)
+  used_age    <- unique(df$age)
+  used_sex    <- unique(df$sex)
   used_region <- unique(df$region)
-  used_year <- unique(df$year)
-  used_t_site<- unique(df$t_site)
+  used_year   <- unique(df$year)
+  used_t_site <- unique(df$t_site)
   if(rs){
     used_race <- unique(df$race)
   } else {
@@ -669,7 +669,7 @@ calc_refrates <- function(df,
       rm(sum_rate_race)
     }
     
-    used_site <- unique(calc_rates$site)
+    used_site <- unique(calc_rates$t_site)
     
     sum_rate_site_cases <- calc_rates %>%
       tidytable::mutate.(site_group = paste0("Total - All included cancer sites: ", paste(used_site, collapse = ", "))) %>%
@@ -681,12 +681,13 @@ calc_refrates <- function(df,
     sum_rate_site_pyar <- calc_rates %>%
       tidytable::summarise.(population_pyar = sum(population_pyar, na.rm = TRUE),
                             .by = tidyselect::all_of(c("age", "sex", "region", "year", "t_site", if(rs){"race"}))) %>%
-      tidytable::distinct.(tidyselect::all_of(c("age", "sex", "region", "year", if(rs){"race"}, "population_pyar")), .keep_all = TRUE)
+      tidytable::distinct.(tidyselect::all_of(c("age", "sex", "region", "year", if(rs){"race"}, "population_pyar")), .keep_all = TRUE) %>%
+      tidytable::mutate.(t_site = paste0("Total - All included cancer sites: ", paste(used_site, collapse = ", ")))
     
     #merge cases and pyar
     sum_rate_site <- sum_rate_site_cases %>%
       tidytable::left_join.(sum_rate_site_pyar,
-                            by = tidyselect::all_of(c("age", "sex", "region", "year", if(rs){"race"})))
+                            by = tidyselect::all_of(c("age", "sex", "region", "year", if(rs){"race"}, "t_site")))
     
     calc_rates <- tidytable::bind_rows.(calc_rates, sum_rate_site)
     rm(sum_rate_site)
