@@ -3,6 +3,8 @@ authors:
     href: https://github.com/marianschmidt
 
 template:
+  bootstrap: 5
+  package: pkgdown4gdpr
   params:
     bootswatch: yeti
 
