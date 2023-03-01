@@ -8,6 +8,7 @@
 ### Bug fixes
 * make `calc_refrates()` more robust for missing `race_var` (Closes #89)
 * fix bug in `calc_refrates()` using `calc_totals == TRUE` (Closes #90)
+* fix bug in `calc_refrates()` using numeric versions of `fill_sites` (Closes #92)
 
 ### Internal
 * replace progress bars by `cli`

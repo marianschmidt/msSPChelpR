@@ -246,6 +246,9 @@ calc_refrates <- function(df,
     if(fill_sites[1] == "manual"){
       sites_all <- fill_sites[-1]
     } 
+    
+    sites_all <- as.character(sites_all)
+    
   } else{
     fill <- FALSE
   }
