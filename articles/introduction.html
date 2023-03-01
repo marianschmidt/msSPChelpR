@@ -75,11 +75,13 @@
 
       
 
-      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Introduction to the msSPChelpR package - from long dataset to SIR analyses</h1>
-                        <h4 data-toc-skip class="author">Marian Eberl</h4>
+      <h1 data-toc-skip>Introduction to the msSPChelpR package - from
+long dataset to SIR analyses</h1>
+                        <h4 data-toc-skip class="author">Marian
+Eberl</h4>
             
             <h4 data-toc-skip class="date">26 October 2020</h4>
       
@@ -96,30 +98,44 @@
 <p>This vignette explains how to use the functions:</p>
 <ul>
 <li>
-<code><a href="../reference/calc_futime.html">calc_futime()</a></code> to calculate follow-up time from index event until next event, death or end of follow-up date</li>
+<code><a href="../reference/calc_futime.html">calc_futime()</a></code> to calculate follow-up time from index
+event until next event, death or end of follow-up date</li>
 <li>
-<code><a href="../reference/pat_status.html">pat_status()</a></code> to determine patient status at end of follow-up</li>
+<code><a href="../reference/pat_status.html">pat_status()</a></code> to determine patient status at end of
+follow-up</li>
 <li>
-<code><a href="../reference/renumber_time_id.html">renumber_time_id()</a></code> to calculate a consecutive index of events per case ID</li>
+<code><a href="../reference/renumber_time_id.html">renumber_time_id()</a></code> to calculate a consecutive index of
+events per case ID</li>
 <li>
-<code><a href="../reference/reshape_long.html">reshape_long()</a></code> to transpose dataset in wide format to data in long format</li>
+<code><a href="../reference/reshape_long.html">reshape_long()</a></code> to transpose dataset in wide format to
+data in long format</li>
 <li>
-<code><a href="../reference/reshape_wide.html">reshape_wide()</a></code> to transpose dataset in long format to data in wide format (the wide format is required for many package functions)</li>
+<code><a href="../reference/reshape_wide.html">reshape_wide()</a></code> to transpose dataset in long format to
+data in wide format (the wide format is required for many package
+functions)</li>
 <li>
-<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> to calculate standardized incidence ratios (SIRs) with custom grouping variables stratified by follow-up time</li>
+<code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code> to calculate standardized incidence
+ratios (SIRs) with custom grouping variables stratified by follow-up
+time</li>
 <li>
-<code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> to summarize detailed SIR results produced by <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>
+<code><a href="../reference/summarize_sir_results.html">summarize_sir_results()</a></code> to summarize detailed SIR
+results produced by <code><a href="../reference/sir_byfutime.html">sir_byfutime()</a></code>
 </li>
 <li>
-<code><a href="../reference/vital_status.html">vital_status()</a></code> to determine vital status whether patient is alive or dead at end of follow-up</li>
+<code><a href="../reference/vital_status.html">vital_status()</a></code> to determine vital status whether
+patient is alive or dead at end of follow-up</li>
 </ul>
-<p>For some functions there are multiple variants of the same function using varying frameworks. They give the same results but will differ in execution time and memory use:</p>
+<p>For some functions there are multiple variants of the same function
+using varying frameworks. They give the same results but will differ in
+execution time and memory use:</p>
 <ul>
 <li>
-<a href="https://markfairbanks.github.io/tidytable/" class="external-link"><code>tidytable</code></a> variants carry the suffix <code>_tt()</code>
+<a href="https://markfairbanks.github.io/tidytable/" class="external-link"><code>tidytable</code></a>
+variants carry the suffix <code>_tt()</code>
 </li>
 <li>
-<a href="https://tidyr.tidyverse.org" class="external-link"><code>tidyr</code></a> variants carry the suffix <code>_tidyr()</code>
+<a href="https://tidyr.tidyverse.org" class="external-link"><code>tidyr</code></a>
+variants carry the suffix <code>_tidyr()</code>
 </li>
 </ul>
 </div>
@@ -129,74 +145,143 @@
 <div class="section level3">
 <h3 id="wf-calc-fu">Calculate follow-up times<a class="anchor" aria-label="anchor" href="#wf-calc-fu"></a>
 </h3>
-<p>It is recommended to run the following steps in the correct order to obtain accurate follow-up time calculations</p>
+<p>It is recommended to run the following steps in the correct order to
+obtain accurate follow-up time calculations</p>
 <ol style="list-style-type: decimal">
 <li><p><a href="#step-long">Use the long version dataset</a></p></li>
-<li><p><a href="#step-filter">Filter all cases</a> in the long version of the dataset that are relevant for your analysis. Make sure that:</p></li>
+<li><p><a href="#step-filter">Filter all cases</a> in the long version
+of the dataset that are relevant for your analysis. Make sure
+that:</p></li>
 </ol>
 <ul>
-<li>for each <code>case_id</code> the index event (e.g. First Cancer FC) is still included and is the one remaining row in the dataset with the smallest <code>case_id</code> (<code>TUMID3</code> variable for ZfKD data, and <code>SEQ_NUM</code> for SEER data)</li>
-<li>all <code>case_id</code>s might or might not get a countable incident event (e.g. Second Primary Cancer SPC). This event should be the second entry per <code>case_id</code> (second smallest <code>case_id</code>) if it is to be counted</li>
-<li>in the long version dataset a <code>count_var</code> should indicate whether the countable incident event (SPC) has occurred or not. Coded <code>0</code> for non-occurrence (or not counted event) and <code>1</code> for a counted incident event.</li>
+<li>for each <code>case_id</code> the index event (e.g. First Cancer FC)
+is still included and is the one remaining row in the dataset with the
+smallest <code>case_id</code> (<code>TUMID3</code> variable for ZfKD
+data, and <code>SEQ_NUM</code> for SEER data)</li>
+<li>all <code>case_id</code>s might or might not get a countable
+incident event (e.g. Second Primary Cancer SPC). This event should be
+the second entry per <code>case_id</code> (second smallest
+<code>case_id</code>) if it is to be counted</li>
+<li>in the long version dataset a <code>count_var</code> should indicate
+whether the countable incident event (SPC) has occurred or not. Coded
+<code>0</code> for non-occurrence (or not counted event) and
+<code>1</code> for a counted incident event.</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
-<li><p><a href="#step-renumber">Renumber filtered long dataset</a>: In the filter long dataset, you should run the helper function <code>msSPChelpR::renumber_time_id_dt()</code> (or non-data.table variant <code><a href="../reference/renumber_time_id.html">msSPChelpR::renumber_time_id()</a></code>) that will renumber all events per <code>case_id</code> and (if step 1 is fulfilled) will assign each index event with <code>time_var_new = 1</code> and each second (possibly countable incident event) with <code>time_var_new = 2</code>. Any SIR related function will only count the second event, if additionally to <code>time_var_new = 2</code> for this row also <code>count_var = 1</code> is true.</p></li>
-<li><p><a href="#step-reshape-wide">Reshape dataset</a>: Run <code>msSPChelpR::reshape_wide_dt()</code> or non-data.table-variant <code><a href="../reference/reshape_wide.html">msSPChelpR::reshape_wide()</a></code>, so that dataset is transposed to wide format (1 row per <code>case_id</code>, creating variables such as <code>count_var.2</code>).</p></li>
-<li><p><a href="#step-spc">Set flag for Second Primary Cancer diagnosis</a>: After filtering and reshaping it is essential to set <code>p_spc</code> again. This variable will be used by later steps of the analysis.</p></li>
-<li><p><a href="#step-pat-status">Determine patient status</a> at a defined end of follow-up by using the <code><a href="../reference/pat_status.html">msSPChelpR::pat_status()</a></code> function. This date for end of follow-up must:</p></li>
+<li><p><a href="#step-renumber">Renumber filtered long dataset</a>: In
+the filter long dataset, you should run the helper function
+<code>msSPChelpR::renumber_time_id_dt()</code> (or non-data.table
+variant <code><a href="../reference/renumber_time_id.html">msSPChelpR::renumber_time_id()</a></code>) that will renumber
+all events per <code>case_id</code> and (if step 1 is fulfilled) will
+assign each index event with <code>time_var_new = 1</code> and each
+second (possibly countable incident event) with
+<code>time_var_new = 2</code>. Any SIR related function will only count
+the second event, if additionally to <code>time_var_new = 2</code> for
+this row also <code>count_var = 1</code> is true.</p></li>
+<li><p><a href="#step-reshape-wide">Reshape dataset</a>: Run
+<code>msSPChelpR::reshape_wide_dt()</code> or non-data.table-variant
+<code><a href="../reference/reshape_wide.html">msSPChelpR::reshape_wide()</a></code>, so that dataset is transposed
+to wide format (1 row per <code>case_id</code>, creating variables such
+as <code>count_var.2</code>).</p></li>
+<li><p><a href="#step-spc">Set flag for Second Primary Cancer
+diagnosis</a>: After filtering and reshaping it is essential to set
+<code>p_spc</code> again. This variable will be used by later steps of
+the analysis.</p></li>
+<li><p><a href="#step-pat-status">Determine patient status</a> at a
+defined end of follow-up by using the
+<code><a href="../reference/pat_status.html">msSPChelpR::pat_status()</a></code> function. This date for end of
+follow-up must:</p></li>
 </ol>
 <ul>
-<li><p>be in “YYYY-MM-DD” format and is always defined via the <code>fu_end =</code> parameter</p></li>
-<li><p>must precede the end of data collection. E.g. if the last incident events for the dataset you are using are collected at the end of 2014, your <code>fu_end</code> must be <code>fu_end = "2014-12-15"</code> or earlier.</p></li>
-<li><p>Based on the newly calculated patient status, you might want to <a href="#step-filter-pat-status">exclude cases for which patient status cannot be determined</a></p></li>
+<li><p>be in “YYYY-MM-DD” format and is always defined via the
+<code>fu_end =</code> parameter</p></li>
+<li><p>must precede the end of data collection. E.g. if the last
+incident events for the dataset you are using are collected at the end
+of 2014, your <code>fu_end</code> must be
+<code>fu_end = "2014-12-15"</code> or earlier.</p></li>
+<li><p>Based on the newly calculated patient status, you might want to
+<a href="#step-filter-pat-status">exclude cases for which patient status
+cannot be determined</a></p></li>
 </ul>
 <ol start="7" style="list-style-type: decimal">
 <li>
-<a href="#step-calc-futime">Calculate follow-up time</a> for the same dataset by using the <code><a href="../reference/calc_futime.html">msSPChelpR::calc_futime()</a></code> function and the same <code>fu_end</code> as for step 6. By standard all functions of the <code>msSPChelpR</code> package require follow-up times as numeric years.</li>
+<a href="#step-calc-futime">Calculate follow-up time</a> for the
+same dataset by using the <code><a href="../reference/calc_futime.html">msSPChelpR::calc_futime()</a></code>
+function and the same <code>fu_end</code> as for step 6. By standard all
+functions of the <code>msSPChelpR</code> package require follow-up times
+as numeric years.</li>
 </ol>
 </div>
 <div class="section level3">
 <h3 id="calculate-standardized-incidence-ratios-sir">Calculate Standardized Incidence Ratios (SIR)<a class="anchor" aria-label="anchor" href="#calculate-standardized-incidence-ratios-sir"></a>
 </h3>
-<p>In order to calculate SIR using the package functions, the following data structure is needed: * Wide format data <code>wide_df</code> with one row per patient that has encountered the index event (i.e. diagnosed with a first primary cancer FC)</p>
+<p>In order to calculate SIR using the package functions, the following
+data structure is needed: * Wide format data <code>wide_df</code> with
+one row per patient that has encountered the index event (i.e. diagnosed
+with a first primary cancer FC)</p>
 <ul>
-<li>The dataset <code>wide_df</code> needs to contain the following variables (columns) per patient (row):
+<li>The dataset <code>wide_df</code> needs to contain the following
+variables (columns) per patient (row):
 <ul>
 <li>
-<code>region_var</code> - variable in df that contains information on region where case was incident.</li>
+<code>region_var</code> - variable in df that contains information
+on region where case was incident.</li>
 <li>
-<code>agegroup_var</code> - variable in df that contains information on age-group.</li>
+<code>agegroup_var</code> - variable in df that contains information
+on age-group.</li>
 <li>
-<code>sex_var</code> - variable in df that contains information on biological sex.</li>
+<code>sex_var</code> - variable in df that contains information on
+biological sex.</li>
 <li>
-<code>year_var</code> - variable in df that contains information on year or year-period when case was incident.</li>
+<code>year_var</code> - variable in df that contains information on
+year or year-period when case was incident.</li>
 <li>
-<code>site_var</code> - variable in df that contains information on case (count event) diagnosis. Cases are usually the second cancers. Diagnoses can use any coding system (e.g. ICD) but coding system between dataset and reference data must be coherent.</li>
+<code>site_var</code> - variable in df that contains information on
+case (count event) diagnosis. Cases are usually the second cancers.
+Diagnoses can use any coding system (e.g. ICD) but coding system between
+dataset and reference data must be coherent.</li>
 <li>
-<code>futime_var</code> - variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). In case you have not calculated the FU time yet, you can use the workflow described in the previous <a href="#wf-calc-fu">chapter</a>.</li>
+<code>futime_var</code> - variable in df that contains follow-up
+time per person between date of first cancer and any of death, date of
+event (case), end of FU date (in years; whatever event comes first). In
+case you have not calculated the FU time yet, you can use the workflow
+described in the previous <a href="#wf-calc-fu">chapter</a>.</li>
 </ul>
 </li>
 </ul>
-<p>If your data has the required structure, you can calculate and summarize SIRs with the following two steps:</p>
+<p>If your data has the required structure, you can calculate and
+summarize SIRs with the following two steps:</p>
 <ol start="8" style="list-style-type: decimal">
 <li>
-<a href="#step-sir-byfutime">Calculate SIR</a> per SPC diagnosis with age, sex, region, period-specific strata using the <code><a href="../reference/sir_byfutime.html">msSPChelpR::sir_byfutime()</a></code> function. For this calculation usually a reference dataset is required that defines the population standard rates. <code>refrates_df</code> must use the same category coding of age, sex, region, year and cancer_site as <code>agegroup_var</code>, <code>sex_var</code>, <code>region_var</code>, <code>year_var</code> and <code>site_var</code>
+<a href="#step-sir-byfutime">Calculate SIR</a> per SPC diagnosis
+with age, sex, region, period-specific strata using the
+<code><a href="../reference/sir_byfutime.html">msSPChelpR::sir_byfutime()</a></code> function. For this calculation
+usually a reference dataset is required that defines the population
+standard rates. <code>refrates_df</code> must use the same category
+coding of age, sex, region, year and cancer_site as
+<code>agegroup_var</code>, <code>sex_var</code>,
+<code>region_var</code>, <code>year_var</code> and
+<code>site_var</code>
 </li>
 </ol>
 <ul>
-<li>The theory behind calculating stratified SIRs is explained in the chapter on <a href="#theo-sir">basics on SIRs</a>
+<li>The theory behind calculating stratified SIRs is explained in the
+chapter on <a href="#theo-sir">basics on SIRs</a>
 </li>
 </ul>
 <ol start="9" style="list-style-type: decimal">
 <li>
-<a href="#step-summarize-sir">Summarize SIR results</a> using the <code><a href="../reference/summarize_sir_results.html">msSPChelpR::summarize_sir_results()</a></code> function on the stratified sir results produced by the previous step.</li>
+<a href="#step-summarize-sir">Summarize SIR results</a> using the
+<code><a href="../reference/summarize_sir_results.html">msSPChelpR::summarize_sir_results()</a></code> function on the
+stratified sir results produced by the previous step.</li>
 </ol>
 </div>
 </div>
 <div class="section level2">
 <h2 id="theo-sir">Theory behind SIRs<a class="anchor" aria-label="anchor" href="#theo-sir"></a>
 </h2>
-<p>In the next version of this vignette the theoretical considerations how SIRs are calculated will be explained in this chapter.</p>
+<p>In the next version of this vignette the theoretical considerations
+how SIRs are calculated will be explained in this chapter.</p>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
@@ -476,7 +561,8 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   p_alive.2 &lt;chr&gt;, p_dodmin.2 &lt;date&gt;, fc_agegroup.2 &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   t_yeardiag.2 &lt;chr&gt;, SEQ_NUM.3 &lt;int&gt;, registry.3 &lt;chr&gt;, sex.3 &lt;chr&gt;, …</span></span></span></code></pre></div>
 <div class="section level5">
-<h5 id="step-filter-pat-status">Step 6b - Remove patients irrelevant to analysis depending on status<a class="anchor" aria-label="anchor" href="#step-filter-pat-status"></a>
+<h5 id="step-filter-pat-status">Step 6b - Remove patients irrelevant to analysis depending on
+status<a class="anchor" aria-label="anchor" href="#step-filter-pat-status"></a>
 </h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">usdata_wide</span> <span class="op">&lt;-</span> <span class="va">usdata_wide</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -554,7 +640,9 @@
 <span>    site_var <span class="op">=</span> <span class="st">"t_site_icd.1"</span>, <span class="co">#using grouping by second cancer incidence</span></span>
 <span>    futime_var <span class="op">=</span> <span class="st">"p_futimeyrs"</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Calculating SIR <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  55% | ETA:  2s</span></span>
+<span><span class="co">#&gt; Calculating SIR <span style="color: #00BB00;">■■■■■■                          </span>  18% | ETA:  5s</span></span>
+<span><span class="co">#&gt; Calculating SIR <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  32% | ETA:  4s</span></span>
+<span><span class="co">#&gt; Calculating SIR <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  82% | ETA:  1s</span></span>
 <span><span class="co">#&gt; Calculating SIR <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span>
 <span><span class="co">#&gt; [INFO Cases 0 PYARs] There are conflicts where strata with 0 follow-up time have data in observed.</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> 40 strata are affected.</span></span>
@@ -721,13 +809,13 @@
 </h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; R version 4.2.1 (2022-06-23)</span></span>
+<span><span class="co">#&gt; R version 4.2.2 (2022-10-31)</span></span>
 <span><span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span><span class="co">#&gt; Running under: Ubuntu 20.04.5 LTS</span></span>
+<span><span class="co">#&gt; Running under: Ubuntu 22.04.2 LTS</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
-<span><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0</span></span>
-<span><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0</span></span>
+<span><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3</span></span>
+<span><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; locale:</span></span>
 <span><span class="co">#&gt;  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
@@ -739,22 +827,22 @@
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt; [1] msSPChelpR_0.9.0.9000 magrittr_2.0.3        dplyr_1.0.10         </span></span>
+<span><span class="co">#&gt; [1] msSPChelpR_0.9.0.9000 magrittr_2.0.3        dplyr_1.1.0          </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span><span class="co">#&gt;  [1] bslib_0.4.0       compiler_4.2.1    pillar_1.8.1      jquerylib_0.1.4  </span></span>
-<span><span class="co">#&gt;  [5] forcats_0.5.2     tools_4.2.1       digest_0.6.29     lubridate_1.8.0  </span></span>
-<span><span class="co">#&gt;  [9] jsonlite_1.8.0    evaluate_0.16     memoise_2.0.1     lifecycle_1.0.1  </span></span>
-<span><span class="co">#&gt; [13] tibble_3.1.8      pkgconfig_2.0.3   rlang_1.0.5       cli_3.4.0        </span></span>
-<span><span class="co">#&gt; [17] yaml_2.3.5        haven_2.5.1       pkgdown_2.0.6     xfun_0.32        </span></span>
-<span><span class="co">#&gt; [21] fastmap_1.1.0     stringr_1.4.1     knitr_1.40        hms_1.1.2        </span></span>
-<span><span class="co">#&gt; [25] desc_1.4.2        generics_0.1.3    fs_1.5.2          sass_0.4.2       </span></span>
-<span><span class="co">#&gt; [29] vctrs_0.4.1       systemfonts_1.0.4 sjlabelled_1.2.0  rprojroot_2.0.3  </span></span>
-<span><span class="co">#&gt; [33] tidyselect_1.1.2  data.table_1.14.2 glue_1.6.2        R6_2.5.1         </span></span>
-<span><span class="co">#&gt; [37] textshaping_0.3.6 fansi_1.0.3       rmarkdown_2.16    tidyr_1.2.1      </span></span>
-<span><span class="co">#&gt; [41] purrr_0.3.4       htmltools_0.5.3   ellipsis_0.3.2    insight_0.18.2   </span></span>
-<span><span class="co">#&gt; [45] tidytable_0.8.1   ragg_1.2.2        utf8_1.2.2        stringi_1.7.8    </span></span>
-<span><span class="co">#&gt; [49] cachem_1.0.6</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] bslib_0.4.2       compiler_4.2.2    pillar_1.8.1      jquerylib_0.1.4  </span></span>
+<span><span class="co">#&gt;  [5] forcats_1.0.0     tools_4.2.2       digest_0.6.31     timechange_0.2.0 </span></span>
+<span><span class="co">#&gt;  [9] lubridate_1.9.2   jsonlite_1.8.4    evaluate_0.20     memoise_2.0.1    </span></span>
+<span><span class="co">#&gt; [13] lifecycle_1.0.3   tibble_3.1.8      pkgconfig_2.0.3   rlang_1.0.6      </span></span>
+<span><span class="co">#&gt; [17] cli_3.6.0         yaml_2.3.7        haven_2.5.1       pkgdown_2.0.7    </span></span>
+<span><span class="co">#&gt; [21] xfun_0.37         fastmap_1.1.1     withr_2.5.0       stringr_1.5.0    </span></span>
+<span><span class="co">#&gt; [25] knitr_1.42        hms_1.1.2         desc_1.4.2        generics_0.1.3   </span></span>
+<span><span class="co">#&gt; [29] fs_1.6.1          vctrs_0.5.2       sass_0.4.5        systemfonts_1.0.4</span></span>
+<span><span class="co">#&gt; [33] sjlabelled_1.2.0  rprojroot_2.0.3   tidyselect_1.2.0  data.table_1.14.8</span></span>
+<span><span class="co">#&gt; [37] glue_1.6.2        R6_2.5.1          textshaping_0.3.6 fansi_1.0.4      </span></span>
+<span><span class="co">#&gt; [41] rmarkdown_2.20    purrr_1.0.1       tidyr_1.3.0       ellipsis_0.3.2   </span></span>
+<span><span class="co">#&gt; [45] htmltools_0.5.4   insight_0.19.0    tidytable_0.9.2   ragg_1.2.5       </span></span>
+<span><span class="co">#&gt; [49] utf8_1.2.3        stringi_1.7.12    cachem_1.0.7</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -776,7 +864,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
