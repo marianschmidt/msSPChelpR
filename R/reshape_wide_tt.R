@@ -43,12 +43,12 @@ reshape_wide_tt <- function(df, case_id_var, time_id_var, timevar_max = 6, datsi
     
     df <- df %>%
       #sort by case_id and time_id_var
-      tidytable::arrange.(!!case_id_var, !!time_id_var) %>%
+      tidytable::arrange(!!case_id_var, !!time_id_var) %>%
       #calculate new renumbered variable group by case_id_var
-      tidytable::mutate.(counter = as.integer(tidytable::row_number.()), .by = !!case_id_var) %>%
+      tidytable::mutate(counter = as.integer(tidytable::row_number()), .by = !!case_id_var) %>%
       #filter based on new renumbered variable
-      tidytable::filter.(counter <= timevar_max) %>% 
-      tidytable::select.(-counter)
+      tidytable::filter(counter <= timevar_max) %>% 
+      tidytable::select(-counter)
     
     max_time <- timevar_max
     
@@ -63,15 +63,15 @@ reshape_wide_tt <- function(df, case_id_var, time_id_var, timevar_max = 6, datsi
     c(.)
   
   ### perform pivot_wider
-  df %>% tidytable::pivot_wider.(
+  df %>% tidytable::pivot_wider(
     names_from = {{time_id_var}}, 
     values_from = tidyselect::all_of(trans_vars),
     names_sep = "."
   ) %>%
     #sort by case_id_var
-    tidytable::arrange.(as.numeric(rlang::eval_tidy(!!case_id_var))) %>%
+    tidytable::arrange(as.numeric(rlang::eval_tidy(!!case_id_var))) %>%
     #order columns by old col order 
-    tidytable::relocate.(tidyselect::all_of(c(rlang::as_name(case_id_var), 
+    tidytable::relocate(tidyselect::all_of(c(rlang::as_name(case_id_var), 
                                               col_order)))
   
 }

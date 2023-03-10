@@ -283,10 +283,10 @@ sir_byfutime <- function(df,
   if (fu){
     
     problems_missing_futime <- df %>%
-      tidytable::filter.(is.na(rlang::eval_tidy(!!futime_var)))
+      tidytable::filter(is.na(rlang::eval_tidy(!!futime_var)))
     
     if (nrow(problems_missing_futime) > 0) {
-      problems_missing_futime_attr <- tidytable::bind_rows.(problems_missing_futime_attr, problems_missing_futime)
+      problems_missing_futime_attr <- tidytable::bind_rows(problems_missing_futime_attr, problems_missing_futime)
     }
     
   }
@@ -343,11 +343,11 @@ sir_byfutime <- function(df,
   
   # remove columns from data.frame that is not needed to safe memory
   df <- df %>%
-    tidytable::select.(!!!rlang::syms(defined_vars))
+    tidytable::select(!!!rlang::syms(defined_vars))
   
   # change factors to character to avoid warning messages
   df <- df%>%
-    tidytable::mutate.(tidytable::across.(.cols = where(is.factor), .fns = as.character))
+    tidytable::mutate(tidytable::across(.cols = where(is.factor), .fns = as.character))
   
   # remove all labels from df to avoid warning messages
   df[] <- lapply(df, function(x) { attributes(x) <- NULL; x })
@@ -355,37 +355,37 @@ sir_byfutime <- function(df,
   
   #make all important variables characters and make NAs explicit (for better matching)
   df <- df %>%
-    tidytable::mutate.(
+    tidytable::mutate(
       age = as.character(!!age_var),
       sex = as.character(!!sex_var),
       region = as.character(!!region_var),
       year = as.character(!!year_var),
       t_site = as.character(!!site_var)) %>%
-    tidytable::mutate.(tidytable::across.(.cols = c(age, sex, region, year, t_site), 
-                                          .fns = ~tidytable::replace_na.(., na_explicit)))
+    tidytable::mutate(tidytable::across(.cols = c(age, sex, region, year, t_site), 
+                                          .fns = ~tidytable::replace_na(., na_explicit)))
   
   #prepare df for race stratification if needed
   if(rs){
     df <- df %>%
-      tidytable::mutate.(
+      tidytable::mutate(
         race = as.character(!!race_var)) %>%
-      tidytable::mutate.(tidytable::across.(.cols = c(race), 
-                                            .fns = ~tidytable::replace_na.(., na_explicit)))
+      tidytable::mutate(tidytable::across(.cols = c(race), 
+                                            .fns = ~tidytable::replace_na(., na_explicit)))
   }
   
   
   #make all important variables characters and make NAs explicit for ybreak_vars (for better matching)
   if(yb){
     df <- df %>%
-      tidytable::mutate.(tidytable::across.(.cols = tidyselect::all_of(ybreak_var_names), .fns = ~as.character(.))) %>%
-      tidytable::mutate.(tidytable::across.(.cols = tidyselect::all_of(ybreak_var_names), .fns = ~tidytable::replace_na.(., na_explicit)))
+      tidytable::mutate(tidytable::across(.cols = tidyselect::all_of(ybreak_var_names), .fns = ~as.character(.))) %>%
+      tidytable::mutate(tidytable::across(.cols = tidyselect::all_of(ybreak_var_names), .fns = ~tidytable::replace_na(., na_explicit)))
   }
   
   #make all important variables characters and make NAs explicit for xbreak_var (for better matching)
   if(xb){
     df <- df %>%
-      tidytable::mutate.(tidytable::across.(.cols = tidyselect::all_of(xbreak_var_names), .fns = ~as.character(.))) %>%
-      tidytable::mutate.(tidytable::across.(.cols = tidyselect::all_of(xbreak_var_names), .fns = ~tidytable::replace_na.(., na_explicit)))
+      tidytable::mutate(tidytable::across(.cols = tidyselect::all_of(xbreak_var_names), .fns = ~as.character(.))) %>%
+      tidytable::mutate(tidytable::across(.cols = tidyselect::all_of(xbreak_var_names), .fns = ~tidytable::replace_na(., na_explicit)))
   }
   
   #get used age, sex, region, year, t_site
@@ -415,7 +415,7 @@ sir_byfutime <- function(df,
     
     #create a new variable total_var that is constant for giving a total for all rows in df when grouping
     df <- df %>%
-      tidytable::mutate.(total_var = "Overall")
+      tidytable::mutate(total_var = "Overall")
     
     #add total_var to ybreak_vars
     if(yb){
@@ -437,7 +437,7 @@ sir_byfutime <- function(df,
     
     
     df <- df %>%
-      tidytable::mutate.(futimegroup = cut(!!futime_var, breaks = !!futime_breaks, right = FALSE))
+      tidytable::mutate(futimegroup = cut(!!futime_var, breaks = !!futime_breaks, right = FALSE))
     
     
     # capture and change futime levels to make grouping readable 
@@ -495,7 +495,7 @@ sir_byfutime <- function(df,
     
     #CHK - check that there are no missing values for futimegroups
     
-    chk_futimegroups <- df %>% tidytable::filter.(is.na(futimegroup)) %>% nrow()
+    chk_futimegroups <- df %>% tidytable::filter(is.na(futimegroup)) %>% nrow()
     
     if(chk_futimegroups > 0) {
       if(!quiet){
@@ -523,7 +523,7 @@ sir_byfutime <- function(df,
     fu_var_names <- c("Total_FU")
     futime_breaks <- c(0,Inf)
     df <- df %>%
-      tidytable::mutate.(Total_FU = 1)
+      tidytable::mutate(Total_FU = 1)
   }
   
   #set-up progess bar
@@ -536,7 +536,7 @@ sir_byfutime <- function(df,
   
   #make factor variables to character for better matching
   refrates_df <- refrates_df %>%
-    tidytable::mutate.(tidytable::across.(.cols = where(is.factor), .fns = as.character))
+    tidytable::mutate(tidytable::across(.cols = where(is.factor), .fns = as.character))
   
   #remove attributes of refrates_df for better matching
   refrates_df[] <- lapply(refrates_df, function(x) { attributes(x) <- NULL; x })
@@ -544,7 +544,7 @@ sir_byfutime <- function(df,
   
   #refrates_df -> filter lines that are not needed in age, sex, region, year, but do not filter for t_site
   refrates_df <- refrates_df %>%
-    tidytable::filter.(age %in% !!used_age,
+    tidytable::filter(age %in% !!used_age,
                        sex %in% !!used_sex,
                        region %in% !!used_region,
                        year %in% !!used_year)
@@ -566,18 +566,18 @@ sir_byfutime <- function(df,
       ))
       
       refrates_total <- refrates_df %>%
-        tidytable::filter.(substr(race, 1, 5) == "Total")
+        tidytable::filter(substr(race, 1, 5) == "Total")
       #replicate refrates_total for each miss_race value and rowbind to refrates_df
       for(lev in miss_race){
         refrates_df <- refrates_total %>%
-          tidytable::mutate.(race = !!lev) %>%
-          tidytable::bind_rows.(refrates_df)
+          tidytable::mutate(race = !!lev) %>%
+          tidytable::bind_rows(refrates_df)
       }
       rm(refrates_total)
     }
     ##filter refrates to used_race
     refrates_df <- refrates_df %>%
-      tidytable::filter.(race %in% !!used_race)
+      tidytable::filter(race %in% !!used_race)
   } #end if(rs)
   
   
@@ -591,13 +591,13 @@ sir_byfutime <- function(df,
     ))
     }
     refrates_df <- refrates_df %>%
-      tidytable::filter.(substr(race, 1, 5) == "Total")
+      tidytable::filter(substr(race, 1, 5) == "Total")
   }
   
   #getting all ICD codes from refrates_df
   refrates_site_all <- refrates_df %>%
-    tidytable::select.(t_site) %>%
-    tidytable::filter.(substr(t_site, 1, 5) != "Total") %>% #removing icd codes that are not based on 3 digits (e.g. Total categories)
+    tidytable::select(t_site) %>%
+    tidytable::filter(substr(t_site, 1, 5) != "Total") %>% #removing icd codes that are not based on 3 digits (e.g. Total categories)
     unique(.) %>%
     purrr::pluck(1)
   
@@ -610,12 +610,12 @@ sir_byfutime <- function(df,
   # Check that there are no duplicates
   
   ref_df_duplicates <- refrates_df %>%
-    tidytable::add_count.(tidyselect::all_of(c("age", "sex", "region", "year", "t_site",
+    tidytable::add_count(tidyselect::all_of(c("age", "sex", "region", "year", "t_site",
                                                if(rs){"race"})),
                           name = "n") %>%
-    tidytable::filter.(n > 1)
+    tidytable::filter(n > 1)
   
-  problems_duplicate_ref_strata_attr <- tidytable::bind_rows.(problems_duplicate_ref_strata_attr, ref_df_duplicates)
+  problems_duplicate_ref_strata_attr <- tidytable::bind_rows(problems_duplicate_ref_strata_attr, ref_df_duplicates)
   
   
   # ---- 2 analysis - refrates option ----
@@ -648,11 +648,11 @@ sir_byfutime <- function(df,
       
       #F2b calculate observed
       sircalc_count <- df %>%
-        tidytable::mutate.(count_var_new = tidytable::case.(
+        tidytable::mutate(count_var_new = tidytable::case(
           !!fu_tot_f & ((!!count_var) == 1) & ((!!futime_var) >= !!futime_breaks[1]) & ((!!futime_var) < !!futime_breaks[length(!!futime_breaks)]), 1, #for iteration fu_tot_f count_var is 1 if it occurs between first and last futime_break
           ((!!count_var) == 1) & ((!!futime_var) >= !!futime_breaks[f]) & ((!!futime_var) < !!futime_breaks[f+1]), 1, #otherwise only count cases occurring between futime_breaks
           default = 0)) %>% 
-        tidytable::summarize.(i_observed = sum(.data$count_var_new, na.rm = TRUE), 
+        tidytable::summarize(i_observed = sum(.data$count_var_new, na.rm = TRUE), 
                               .by = tidyselect::all_of(c("age", "sex", "region", "year", "t_site",
                                                          if(rs){"race"},
                                                          if(yb){rlang::as_string(syb_var)}, if(xb){rlang::as_string(sxb_var)}, 
@@ -663,44 +663,44 @@ sir_byfutime <- function(df,
                                          if(yb){rlang::as_string(syb_var)}, if(xb){rlang::as_string(sxb_var)}))
       
       sircalc_count <- sircalc_count %>% #complete groups where i_observed = 0
-        tidytable::filter.(!!fub_var == 1) %>%  #remove category fub_var == 0, which does not apply #incompatiblity with fu=FALSE (unclear, how to do conditional filtering)
-        tidytable::complete.(., !!!complete_vars_quo, t_site = !!refrates_site_all) %>%
-        tidytable::mutate.(
-          i_observed = tidytable::case.(is.na(i_observed), 0,
+        tidytable::filter(!!fub_var == 1) %>%  #remove category fub_var == 0, which does not apply #incompatiblity with fu=FALSE (unclear, how to do conditional filtering)
+        tidytable::complete(., !!!complete_vars_quo, t_site = !!refrates_site_all) %>%
+        tidytable::mutate(
+          i_observed = tidytable::case(is.na(i_observed), 0,
                                         default = i_observed),
           !!fub_var := 1) 
       
       #for ybreak_var: make NAs explicit
       if(yb & !xb){
         sircalc_count <- sircalc_count %>% 
-          tidytable::mutate.(tidytable::across.(.cols = !!syb_var, .fns = ~tidytable::replace_na.(., na_explicit)))
+          tidytable::mutate(tidytable::across(.cols = !!syb_var, .fns = ~tidytable::replace_na(., na_explicit)))
       }
       
       #for xbreak_var: make NAs explicit
       if(!yb & xb){
         sircalc_count <- sircalc_count %>% 
-          tidytable::mutate.(tidytable::across.(.cols = !!sxb_var, ~tidytable::replace_na.(., na_explicit)))
+          tidytable::mutate(tidytable::across(.cols = !!sxb_var, ~tidytable::replace_na(., na_explicit)))
       }
       
       #for ybreak_vars and xbreak_var: make NAs explicit
       if(yb & xb){
         sircalc_count <- sircalc_count %>% 
-          tidytable::mutate.(tidytable::across.(.cols = c(!!syb_var, !!sxb_var), ~tidytable::replace_na.(., na_explicit)))}
+          tidytable::mutate(tidytable::across(.cols = c(!!syb_var, !!sxb_var), ~tidytable::replace_na(., na_explicit)))}
       
       
       #F2c person-years at risk
       sircalc_fu <- df %>%
-        tidytable::mutate.(
-          futime_var_new = tidytable::case.(!!fu_tot_f & ((!!futime_var) < !!futime_breaks[1]), 0,
+        tidytable::mutate(
+          futime_var_new = tidytable::case(!!fu_tot_f & ((!!futime_var) < !!futime_breaks[1]), 0,
                                             !!fu_tot_f & ((!!futime_var) < !!futime_breaks[length(futime_breaks)]), ((!!futime_var) - !!futime_breaks[1]),
                                             !!fu_tot_f & ((!!futime_var) >= !!futime_breaks[length(futime_breaks)]), ((!!futime_breaks[length(futime_breaks)]) - !!futime_breaks[1]),
                                             (!!futime_var) < !!futime_breaks[f], 0,
                                             (!!futime_var) < !!futime_breaks[f+1], ((!!futime_var) - !!futime_breaks[f]),
                                             (!!futime_var) >= !!futime_breaks[f+1], (!!futime_breaks[f+1] - !!futime_breaks[f]),
                                             default = 0),
-          base_n_fugroup = tidytable::case.((!!fub_var) == 1, 1,
+          base_n_fugroup = tidytable::case((!!fub_var) == 1, 1,
                                             default = 0)) %>%
-        tidytable::summarize.(
+        tidytable::summarize(
           i_pyar = sum(.data$futime_var_new, na.rm = TRUE),
           n_base = sum(.data$base_n_fugroup, na.rm = TRUE),
           .by = tidyselect::all_of(c("age", "sex", "region", "year",
@@ -709,18 +709,18 @@ sir_byfutime <- function(df,
                                      rlang::as_string(fub_var))))
       
       sircalc_fu <- sircalc_fu %>% #only keep relevant groups and fill NA with 0
-        tidytable::filter.(!!fub_var == 1) %>%  #remove category fub_var == 0, which does not apply #incompatiblity with fu=FALSE (unclear, how to do conditional filtering)
-        tidytable::mutate.(
-          i_pyar = tidytable::case.(is.na(i_pyar), 0,
+        tidytable::filter(!!fub_var == 1) %>%  #remove category fub_var == 0, which does not apply #incompatiblity with fu=FALSE (unclear, how to do conditional filtering)
+        tidytable::mutate(
+          i_pyar = tidytable::case(is.na(i_pyar), 0,
                                     default = i_pyar),
-          n_base = tidytable::case.(is.na(n_base), 0,
+          n_base = tidytable::case(is.na(n_base), 0,
                                     default = n_base))
       
       #fill missing syb_var and sxb_var categories with explicit "missing"
       if(yb){
         sircalc_fu <- sircalc_fu %>% 
-          tidytable::mutate.(
-            !!syb_var := tidytable::case.(is.na(rlang::eval_tidy(!!syb_var)), "missing",
+          tidytable::mutate(
+            !!syb_var := tidytable::case(is.na(rlang::eval_tidy(!!syb_var)), "missing",
                                           default = !!syb_var))
         
         used_sybvar <- unique(sircalc_fu[[rlang::as_string(syb_var)]])
@@ -730,8 +730,8 @@ sir_byfutime <- function(df,
       
       if(xb){
         sircalc_fu <- sircalc_fu %>% 
-          tidytable::mutate.(
-            !!sxb_var := tidytable::case.(is.na(rlang::eval_tidy(!!sxb_var)), "missing",
+          tidytable::mutate(
+            !!sxb_var := tidytable::case(is.na(rlang::eval_tidy(!!sxb_var)), "missing",
                                           default = !!sxb_var))
         
         used_sxbvar <- unique(sircalc_fu[[rlang::as_string(sxb_var)]])
@@ -760,8 +760,8 @@ sir_byfutime <- function(df,
       
       #required number of strata in fu is distinct combinations of age, sex, region, year, syb, sxb, race found in df
       n_strata_required_fu <- df %>%
-        tidytable::filter.(!!fub_var == 1) %>%
-        tidytable::distinct.(tidyselect::all_of(c("age", "sex", "region", "year", 
+        tidytable::filter(!!fub_var == 1) %>%
+        tidytable::distinct(tidyselect::all_of(c("age", "sex", "region", "year", 
                                                   if(rs){"race"},
                                                   if(yb){rlang::as_string(syb_var)}, if(xb){rlang::as_string(sxb_var)}))) %>%
         nrow()
@@ -807,7 +807,7 @@ sir_byfutime <- function(df,
       
       #check that there are no conflicting rows with regard to matching variables for join between fu and count
       n_dist_sircalc_fu <- sircalc_fu %>% 
-        tidytable::distinct.(tidyselect::all_of(match_vars)) %>%
+        tidytable::distinct(tidyselect::all_of(match_vars)) %>%
         nrow()
       
       if(n_dist_sircalc_fu != nrow(sircalc_fu)) {
@@ -821,7 +821,7 @@ sir_byfutime <- function(df,
       
       #merge sircalc_count and sircalc_fu
       sircalc <- sircalc_count %>%
-        tidytable::full_join.(sircalc_fu, by = match_vars)
+        tidytable::full_join(sircalc_fu, by = match_vars)
       
       #CHK2d check that merge worked as intended with all sircalc_count strata finding a match in sircalc_fu
       
@@ -829,20 +829,20 @@ sir_byfutime <- function(df,
       if(nrow(sircalc) != nrow(sircalc_count)){
         #missing strata
         missing_count_strat <- sircalc_fu %>%
-          tidytable::anti_join.(sircalc_count, by = match_vars)
+          tidytable::anti_join(sircalc_count, by = match_vars)
         
-        problems_missing_count_strata_attr <- tidytable::bind_rows.(problems_missing_count_strata_attr, missing_count_strat)
+        problems_missing_count_strata_attr <- tidytable::bind_rows(problems_missing_count_strata_attr, missing_count_strat)
       }
       
       ##CHK2d-2 All available sircalc_fu strata were matched
-      n_i_pyar_miss <- sircalc %>% tidytable::select.(i_pyar) %>% tidytable::filter.(is.na(i_pyar)) %>% nrow()
+      n_i_pyar_miss <- sircalc %>% tidytable::select(i_pyar) %>% tidytable::filter(is.na(i_pyar)) %>% nrow()
       
       if(n_not_found_fu != n_i_pyar_miss){
         #missing strata
         missing_fu_strat <- sircalc_count %>%
-          tidytable::anti_join.(sircalc_fu, by = match_vars)
+          tidytable::anti_join(sircalc_fu, by = match_vars)
         
-        problems_missing_fu_strata_attr <- tidytable::bind_rows.(problems_missing_fu_strata_attr, missing_fu_strat)
+        problems_missing_fu_strata_attr <- tidytable::bind_rows(problems_missing_fu_strata_attr, missing_fu_strat)
       }
       
       rm(sircalc_count, sircalc_fu)
@@ -851,34 +851,34 @@ sir_byfutime <- function(df,
       #some missings in t_site are expected after merge for those strata where no observed case occurred
       #make NAs in t_site in sircalc explicit
       sircalc <- sircalc %>% 
-        tidytable::mutate.(tidytable::across.(.cols = c(t_site), .fns = ~tidytable::replace_na.(., na_explicit)))
+        tidytable::mutate(tidytable::across(.cols = c(t_site), .fns = ~tidytable::replace_na(., na_explicit)))
       
       
       #all strata that have missing i_pyar are not in df and therefore i_pyar = 0 and n_base = 0 
       
       sircalc <- sircalc %>% #complete groups where i_observed = 0
-        tidytable::mutate.(
-          i_pyar = tidytable::case.((is.na(i_pyar) & i_observed == 0), 0,
+        tidytable::mutate(
+          i_pyar = tidytable::case((is.na(i_pyar) & i_observed == 0), 0,
                                     default = i_pyar),
-          n_base = tidytable::case.((is.na(n_base) & i_observed == 0), 0,
+          n_base = tidytable::case((is.na(n_base) & i_observed == 0), 0,
                                     default = n_base))
       
       
       #CHK2d-3: make check for unexpected discrepancies
       
       problems_not_empty <- sircalc %>%
-        tidytable::filter.(i_pyar == 0 & i_observed != 0) 
+        tidytable::filter(i_pyar == 0 & i_observed != 0) 
       
       if (nrow(problems_not_empty) > 0) {
-        problems_not_empty_attr <- tidytable::bind_rows.(problems_not_empty_attr, problems_not_empty) #save information to write as attribute later
+        problems_not_empty_attr <- tidytable::bind_rows(problems_not_empty_attr, problems_not_empty) #save information to write as attribute later
       }
       
       
       #filter empty rows for non-matched site from sircalc_count
       sircalc <- sircalc %>%
-        tidytable::filter.(!(t_site == !!na_explicit & i_observed == 0)) %>%
+        tidytable::filter(!(t_site == !!na_explicit & i_observed == 0)) %>%
         #remove all lines with 0 information (0 observed and 0 follow-up time)
-        tidytable::filter.(!(i_pyar == 0 & i_observed == 0))
+        tidytable::filter(!(i_pyar == 0 & i_observed == 0))
       
       
       ### F2e: Merging reference rates (for refpop only) by t_site, region, year, sex and age 
@@ -888,14 +888,14 @@ sir_byfutime <- function(df,
       if(f == 1 & y == 1){
         
         used_strata <- sircalc %>%
-          tidytable::distinct.(tidyselect::all_of(c("age", "sex", "region", "year", if(rs){"race"}, "t_site"))) %>%
-          tidytable::filter.(!is.na(t_site))
+          tidytable::distinct(tidyselect::all_of(c("age", "sex", "region", "year", if(rs){"race"}, "t_site"))) %>%
+          tidytable::filter(!is.na(t_site))
         
         missing_ref_strata <- used_strata %>%
-          tidytable::anti_join.(refrates_df, by = c("age", "sex", "region" , "year", if(rs){"race"}, "t_site"))
+          tidytable::anti_join(refrates_df, by = c("age", "sex", "region" , "year", if(rs){"race"}, "t_site"))
         
         if(nrow(missing_ref_strata) > 0){
-          problems_missing_ref_strata_attr <- tidytable::bind_rows.(problems_missing_ref_strata_attr, missing_ref_strata)
+          problems_missing_ref_strata_attr <- tidytable::bind_rows(problems_missing_ref_strata_attr, missing_ref_strata)
         }
       }
       
@@ -903,8 +903,8 @@ sir_byfutime <- function(df,
       #F2e: Do merge
       
       sir_or <- sircalc %>%
-        tidytable::left_join.(refrates_df, by = c("age", "sex", "region" , "year", if(rs){"race"}, "t_site")) %>%
-        tidytable::select.(-tidyselect::any_of(c("comment", "population_n_per_year")))
+        tidytable::left_join(refrates_df, by = c("age", "sex", "region" , "year", if(rs){"race"}, "t_site")) %>%
+        tidytable::select(-tidyselect::any_of(c("comment", "population_n_per_year")))
       
       rm(sircalc)
       
@@ -913,7 +913,7 @@ sir_byfutime <- function(df,
       ### F2f Calculating Expected by group (from reference rates) [refrates]
       
       sir_basic <- sir_or %>%
-        tidytable::mutate.(
+        tidytable::mutate(
           i_expected = .data$i_pyar * .data$incidence_crude_rate / 100000
         )
       
@@ -927,7 +927,7 @@ sir_byfutime <- function(df,
       #SIR and Confidence intervals using calculation methods by @breslowStatisticalMethodsCancer1987
       ##F2g-1: calculating SIR and confidence intervals
       sir_longresult_strat_f <- sir_basic %>%
-        tidytable::mutate.(
+        tidytable::mutate(
           sir = .data$i_observed / .data$i_expected,
           sir_lci = (stats::qchisq(p = !!alpha / 2, df = 2 * .data$i_observed) / 2) / .data$i_expected,
           sir_uci = (stats::qchisq(p = 1 - !!alpha / 2, df = 2 * (.data$i_observed + 1)) / 2) / .data$i_expected
@@ -941,10 +941,10 @@ sir_byfutime <- function(df,
         futimegroup_levels_f <- futimegroup_levels[f]
         
         sir_longresult_strat_f <- sir_longresult_strat_f %>%
-          tidytable::mutate.(fu_time = !!futimegroup_levels_f,              #new var fu_time that indicates fu_time for calculated stratum
+          tidytable::mutate(fu_time = !!futimegroup_levels_f,              #new var fu_time that indicates fu_time for calculated stratum
                              fu_time_sort = !!f) %>%          
-          tidytable::select.(fu_time, tidyselect::everything()) %>%       #move fu_time col to front
-          tidytable::select.(-tidyselect::starts_with(rlang::as_string(fub_var))) #remove old column named after fub_var
+          tidytable::select(fu_time, tidyselect::everything()) %>%       #move fu_time col to front
+          tidytable::select(-tidyselect::starts_with(rlang::as_string(fub_var))) #remove old column named after fub_var
       } else{
         sir_longresult_strat_f <- sir_longresult_strat_f %>%
           dplyr::select(-tidyselect::starts_with(rlang::as_string(fub_var)))
@@ -955,7 +955,7 @@ sir_byfutime <- function(df,
       if(f == 1){
         sir_longresult_strat <- sir_longresult_strat_f
       } else{
-        sir_longresult_strat <- tidytable::bind_rows.(sir_longresult_strat, sir_longresult_strat_f)
+        sir_longresult_strat <- tidytable::bind_rows(sir_longresult_strat, sir_longresult_strat_f)
       }
       rm(sir_longresult_strat_f)
       
@@ -969,22 +969,22 @@ sir_byfutime <- function(df,
     if(!xb & yb){
       
       sir_longresult_strat <- sir_longresult_strat %>%
-        tidytable::mutate.(yvar_name = !!syb_var_name,
+        tidytable::mutate(yvar_name = !!syb_var_name,
                            yvar_sort = !!y) %>%
-        tidytable::rename.(yvar_label = !!syb_var)  %>%
-        tidytable::select.(yvar_name, yvar_label, tidyselect::everything())
+        tidytable::rename(yvar_label = !!syb_var)  %>%
+        tidytable::select(yvar_name, yvar_label, tidyselect::everything())
     }
     
     if(xb & yb){
       
       sir_longresult_strat <- sir_longresult_strat %>%
-        tidytable::mutate.(yvar_name = !!syb_var_name,
+        tidytable::mutate(yvar_name = !!syb_var_name,
                            yvar_sort = !!y,
                            xvar_name = !!sxb_var_name,
                            xvar_sort = !!x) %>%
-        tidytable::rename.(yvar_label = !!syb_var,
+        tidytable::rename(yvar_label = !!syb_var,
                            xvar_label = !!sxb_var)  %>%
-        tidytable::select.(yvar_name, yvar_label, xvar_name, xvar_label, tidyselect::everything())
+        tidytable::select(yvar_name, yvar_label, xvar_name, xvar_label, tidyselect::everything())
     }
     
     
@@ -997,7 +997,7 @@ sir_byfutime <- function(df,
       if(y == 1){
         sir_longresult <- sir_longresult_strat
       } else{
-        sir_longresult <- tidytable::bind_rows.(sir_longresult, sir_longresult_strat)
+        sir_longresult <- tidytable::bind_rows(sir_longresult, sir_longresult_strat)
       }
     }
     rm(sir_longresult_strat)
@@ -1012,14 +1012,14 @@ sir_byfutime <- function(df,
   #CHK_R1 - PYARS should be the same for all age, sex, year, region groups
   
   problems_pyar <- sir_longresult %>% 
-    tidytable::summarize.(
+    tidytable::summarize(
       min_pyar = min(.data$i_pyar),
       max_pyar = max(.data$i_pyar),
       .by = tidyselect::any_of(c("age", "sex", "region", "year", if(rs){"race"},
                                  if(yb){c("yvar_name", "yvar_label")}, 
                                  if(xb){c("xvar_name", "xvar_label")},
                                  if(fu){"fu_time"}))) %>% 
-    tidytable::filter.(min_pyar != max_pyar)
+    tidytable::filter(min_pyar != max_pyar)
   
   if(nrow(problems_pyar) > 0){
     problems_pyar_attr <- problems_pyar #save information to write as attribute later
@@ -1029,7 +1029,7 @@ sir_byfutime <- function(df,
   #CHK_R2 - observed cases should also occur in reference rates dataset
   
   notes_refcases <- sir_longresult %>% 
-    tidytable::filter.(i_observed > incidence_cases)
+    tidytable::filter(i_observed > incidence_cases)
   
   
   #final dataset should have the structure: columns
@@ -1039,7 +1039,7 @@ sir_byfutime <- function(df,
   #vi) rename vars
   
   sir_result_pre <- sir_longresult %>%
-    tidytable::rename.(observed = i_observed,
+    tidytable::rename(observed = i_observed,
                        expected = i_expected,
                        pyar = i_pyar,
                        ref_inc_cases = incidence_cases,
@@ -1054,10 +1054,10 @@ sir_byfutime <- function(df,
   #5d rounding
   
   sir_result_pre <- sir_result_pre %>%
-    tidytable::mutate.(tidytable::across.(.cols = c(pyar, sir, sir_lci, sir_uci), 
+    tidytable::mutate(tidytable::across(.cols = c(pyar, sir, sir_lci, sir_uci), 
                                           .fns = ~round(.,2))) %>%
     #ensure that all vars are exported as numeric
-    tidytable::mutate.(tidytable::across.(.cols = c(observed, expected, n_base, ref_inc_cases, ref_inc_crude_rate, ref_population_pyar), 
+    tidytable::mutate(tidytable::across(.cols = c(observed, expected, n_base, ref_inc_cases, ref_inc_crude_rate, ref_population_pyar), 
                                           .fns = ~as.numeric(.))) 
   
   #collapse_ci option
@@ -1066,22 +1066,22 @@ sir_byfutime <- function(df,
   ### F2i: labeling and returning results
   
   
-  #since tidytable::arrange.() does not support tidyselect, we need to create a list of symbols to pass on
+  #since tidytable::arrange() does not support tidyselect, we need to create a list of symbols to pass on
   final_sort_var_quo <- rlang::syms(c("age", "region", "sex", if(rs){"race"}, "year", 
                                       if(yb){c("yvar_sort", "yvar_label")}, 
                                       if(xb){c("xvar_name", "xvar_label")}, 
                                       if(fu){"fu_time_sort"}, "t_site"))
   
   sir_result <- sir_result_pre %>%
-    tidytable::select.(tidyselect::any_of(c("age", "region", "sex", if(rs){"race"}, "year", 
+    tidytable::select(tidyselect::any_of(c("age", "region", "sex", if(rs){"race"}, "year", 
                                             if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
                                             if(fu){"fu_time"}, 
                                             "t_site", "observed", "expected", "sir", "sir_lci", "sir_uci")),
                        tidyselect::everything()) %>% 
     #remove race_var when race_var = NULL; but race is present in refrates
-    tidytable::select.(-tidyselect::any_of(c(if(!rs){"race"}))) %>%
+    tidytable::select(-tidyselect::any_of(c(if(!rs){"race"}))) %>%
     #arrange
-    tidytable::arrange.(!!!final_sort_var_quo)
+    tidytable::arrange(!!!final_sort_var_quo)
   
   
   rm(sir_result_pre)
@@ -1089,9 +1089,9 @@ sir_byfutime <- function(df,
   #implement check for missing observed in refrates_df
   sir_result <- sir_result %>%
     #create empty warning message
-    tidytable::mutate.(warning = NA_character_) %>%
+    tidytable::mutate(warning = NA_character_) %>%
     #write warning of CHK_R2
-    tidytable::mutate.(warning = tidytable::case.(
+    tidytable::mutate(warning = tidytable::case(
       .data$observed > .data$ref_inc_cases, paste(
         "This stratum contains observed cases in i_observed that do not occur in the refrates_df (ref_inc_cases).",
         "A possible explanation can be:",

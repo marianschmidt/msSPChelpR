@@ -87,7 +87,7 @@ tumors2 <- tumors %>%
          t_dco = sample(c(rep("DCO case", 1), rep("histology", 9)), size = n(), replace = TRUE)) %>%
   #calculate new renumbered variable #group by case_id_var
   dplyr::arrange(fake_id, t_datediag) %>%
-  tidytable::mutate.(SEQ_NUM := as.integer(tidytable::row_number.()), .by = fake_id)
+  tidytable::mutate(SEQ_NUM := as.integer(tidytable::row_number()), .by = fake_id)
 
 cancer_pre <- tumors2 %>% 
   tibble::as_tibble() %>%

@@ -97,13 +97,13 @@ renumber_time_id_tt <- function(df, new_time_id_var, dattype = NULL,
   
   df %>%
     #sort by case_id, diagdat_var and time_id_var
-    tidytable::arrange.(!!case_id_var, !!diagdat_var, !!time_id_var)%>%
+    tidytable::arrange(!!case_id_var, !!diagdat_var, !!time_id_var)%>%
     #calculate new renumbered variable #group by case_id_var
-    tidytable::mutate.(!!new_time_id_var := as.integer(tidytable::row_number.()), .by = !!case_id_var) %>%
+    tidytable::mutate(!!new_time_id_var := as.integer(tidytable::row_number()), .by = !!case_id_var) %>%
     #delete all rows where new_time_id_var > timevar_max
-    tidytable::filter.(!!new_time_id_var <= !!timevar_max) %>%
+    tidytable::filter(!!new_time_id_var <= !!timevar_max) %>%
     #sort by case_id_var and new_time_id_var
-    tidytable::arrange.(as.numeric(rlang::eval_tidy(!!case_id_var)), !!new_time_id_var)
+    tidytable::arrange(as.numeric(rlang::eval_tidy(!!case_id_var)), !!new_time_id_var)
   
 }
 

@@ -69,7 +69,7 @@ vital_status_tt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   if(is.factor(wide_df[[rlang::as_name(status_var)]])){
     changed_status_var <- TRUE
     wide_df <- wide_df %>%
-      tidytable::mutate.(
+      tidytable::mutate(
         #copy old status var
         status_var_orig = !!status_var,
         #make status_var numeric
@@ -81,7 +81,7 @@ vital_status_tt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   
   #create new life_var
   wide_df <- wide_df %>%
-    tidytable::mutate.(!!life_var_new := tidytable::case.(
+    tidytable::mutate(!!life_var_new := tidytable::case(
       #patient alive
       !!status_var == 1, 10,
       !!status_var == 2, 10,
@@ -96,12 +96,12 @@ vital_status_tt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   #if status_var was changed from factor to numeric, revert
   if(changed_status_var == TRUE){
     wide_df <- wide_df %>%
-      tidytable::mutate.(
+      tidytable::mutate(
         #replace temporary lifedat_var values with values from old lifedat_var
         !!status_var := status_var_orig
       ) %>%
       #remove status_var_orig
-      tidytable::select.(-status_var_orig)
+      tidytable::select(-status_var_orig)
   }
   
   wide_df <- wide_df%>%
@@ -117,7 +117,7 @@ vital_status_tt <- function(wide_df, status_var = "p_status", life_var_new = "p_
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
     wide_df <- wide_df %>%
-      tidytable::mutate.(!!life_var_new := sjlabelled::as_label(!!life_var_new, keep.labels=TRUE))
+      tidytable::mutate(!!life_var_new := sjlabelled::as_label(!!life_var_new, keep.labels=TRUE))
   }
   
   #---- Checks end

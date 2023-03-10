@@ -184,7 +184,7 @@ calc_futime_tt <- function(wide_df,
   if(is.factor(wide_df[[rlang::as_name(status_var)]])){
     changed_status_var <- TRUE
     wide_df <- wide_df %>%
-      tidytable::mutate.(
+      tidytable::mutate(
         #copy old status var
         status_var_orig = !!status_var,
         #make status_var numeric
@@ -201,7 +201,7 @@ calc_futime_tt <- function(wide_df,
   #not working from here
   #calculate new follow_up time p_futimeyrs
   wide_df <- wide_df %>%
-    tidytable::mutate.(!!futime_var_new := tidytable::case.(
+    tidytable::mutate(!!futime_var_new := tidytable::case(
       #patient alive, after FC
       !!status_var == 1, lubridate::time_length(difftime(!!fu_end_quo, rlang::eval_tidy(!!fcdat_var)), !!time_unit),
       #patient alive, after SPC
@@ -223,12 +223,12 @@ calc_futime_tt <- function(wide_df,
   #if status_var was changed from factor to numeric, revert
   if(changed_status_var == TRUE){
     wide_df <- wide_df %>%
-      tidytable::mutate.(
+      tidytable::mutate(
         #replace temporary lifedat_var values with values from old lifedat_var
         !!status_var := status_var_orig
       ) %>%
       #remove status_var_orig
-      tidytable::select.(-status_var_orig)
+      tidytable::select(-status_var_orig)
   }
   
   #---- Checks end
@@ -236,7 +236,7 @@ calc_futime_tt <- function(wide_df,
   #conduct check on new variable
   if(check == TRUE){
     check_tab <- wide_df %>%
-      tidytable::summarise.(mean_futime = mean(!!futime_var_new, na.rm = TRUE),
+      tidytable::summarise(mean_futime = mean(!!futime_var_new, na.rm = TRUE),
                             min_futime = min(!!futime_var_new, na.rm = TRUE),
                             max_futime = max(!!futime_var_new, na.rm = TRUE),
                             median_futime = stats::median(!!futime_var_new, na.rm = TRUE),

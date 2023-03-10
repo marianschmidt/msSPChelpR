@@ -237,7 +237,7 @@ pat_status_tt <- function(wide_df, fu_end, dattype = NULL,
   #check whether spc_var is coherent with date (to catch cases where old p_spc is used and data is filtered afterwards)
   
   n_errorspc <- wide_df %>% 
-    tidytable::filter.(
+    tidytable::filter(
       #scenario 1 -> p_spc indicates SPC developed, but spcdat_var is empty
       (!!spc_var == !!spc_stat_yes & is.na(rlang::eval_tidy(!!spcdat_var))) |
         #secnario 2 -> p_spc indicates no SPC, but spcdat_var is filled
@@ -264,10 +264,10 @@ pat_status_tt <- function(wide_df, fu_end, dattype = NULL,
   if(use_lifedatmin == TRUE){
     wide_df <- wide_df %>%
       #option use_lifedatmin option is used and date of death is missing -> replace by lifedatamin
-      tidytable::mutate.(
+      tidytable::mutate(
         #copy old lifedat_var
         p_datedeath_orig = !!lifedat_var,
-        !!lifedat_var := tidytable::case.(
+        !!lifedat_var := tidytable::case(
           is.na(rlang::eval_tidy(!!lifedat_var)), !!lifedatmin_var,
           default = !!lifedat_var)
       ) 
@@ -276,7 +276,7 @@ pat_status_tt <- function(wide_df, fu_end, dattype = NULL,
   #calculate new status_var variable and label it
   #todo: implement check on date of spc_diagnosis and date of birth and introduce new status.
   wide_df <- wide_df %>%
-    tidytable::mutate.(!!status_var := tidytable::case.(
+    tidytable::mutate(!!status_var := tidytable::case(
       #patient is not born before end of follow-up
       !!birthdat_var > fu_end_param, 97,
       #patient has not developed FC before end of follow-up
@@ -303,12 +303,12 @@ pat_status_tt <- function(wide_df, fu_end, dattype = NULL,
   
   if(use_lifedatmin == TRUE){
     wide_df <- wide_df %>%
-      tidytable::mutate.(
+      tidytable::mutate(
         #replace temporary lifedat_var values with values from old lifedat_var
         !!lifedat_var := p_datedeath_orig
       ) %>%
       #remove p_datedeath_orig
-      tidytable::select.(-tidyselect::all_of("p_datedeath_orig"))
+      tidytable::select(-tidyselect::all_of("p_datedeath_orig"))
   }
   
   wide_df <- wide_df%>%
@@ -326,7 +326,7 @@ pat_status_tt <- function(wide_df, fu_end, dattype = NULL,
   #enforce option as_labelled_factor = TRUE
   if(as_labelled_factor == TRUE){
     wide_df <- wide_df %>%
-      tidytable::mutate.(!!status_var := sjlabelled::as_label(!!status_var, keep.labels=TRUE))
+      tidytable::mutate(!!status_var := sjlabelled::as_label(!!status_var, keep.labels=TRUE))
   }
   
   #----Checks end
@@ -334,12 +334,12 @@ pat_status_tt <- function(wide_df, fu_end, dattype = NULL,
   #conduct check on new variable
   if(check == TRUE){
     check_tab <- wide_df %>%
-      tidytable::count.(!!life_var, !!status_var, name = "n")
+      tidytable::count(!!life_var, !!status_var, name = "n")
     
     print(check_tab)
     
     freq_tab <- wide_df %>%
-      tidytable::count.(!!status_var, name = "n")
+      tidytable::count(!!status_var, name = "n")
     
     print(freq_tab)
     

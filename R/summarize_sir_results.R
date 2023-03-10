@@ -256,11 +256,11 @@ summarize_sir_results <- function(sir_df,
   if(cs){
     if(site_grouped == FALSE){
       sir_df <- sir_df %>%
-        tidytable::select.(-t_site) %>%
-        tidytable::rename.(t_site = !!rlang::sym(site_var_name))
+        tidytable::select(-t_site) %>%
+        tidytable::rename(t_site = !!rlang::sym(site_var_name))
     }else{
       sir_df <- sir_df %>%
-        tidytable::rename.(t_site_orig = t_site,
+        tidytable::rename(t_site_orig = t_site,
                            t_site = !!rlang::sym(site_var_name))
     }
   }
@@ -269,33 +269,33 @@ summarize_sir_results <- function(sir_df,
   #rename variables futime_var, xbreak_var and ybreak_var for normalized output
   if(fu){
     sir_df <- sir_df %>%
-      tidytable::rename.(fu_time = !!rlang::sym(fubreak_var_name))
+      tidytable::rename(fu_time = !!rlang::sym(fubreak_var_name))
   }
   
   if(xb){
     sir_df <- sir_df %>%
-      tidytable::rename.(xvar_name = !!rlang::sym(xbreak_var_name))
+      tidytable::rename(xvar_name = !!rlang::sym(xbreak_var_name))
   }
   
   if(yb){
     sir_df <- sir_df %>%
-      tidytable::rename.(yvar_name = !!rlang::sym(ybreak_var_name))
+      tidytable::rename(yvar_name = !!rlang::sym(ybreak_var_name))
   }
   
   #prepare sorting
   if(yb & !("yvar_sort" %in% colnames(sir_df))){
     sir_df <- sir_df %>%
-      tidytable::mutate.(yvar_sort = as.numeric(as.factor(.data$yvar_name))) 
+      tidytable::mutate(yvar_sort = as.numeric(as.factor(.data$yvar_name))) 
   }
   
   if(yb & !("yvar_sort_levels" %in% colnames(sir_df))){
     sir_df <- sir_df %>%
-      tidytable::mutate.(yvar_sort_levels = as.numeric(as.factor(.data$yvar_label))) 
+      tidytable::mutate(yvar_sort_levels = as.numeric(as.factor(.data$yvar_label))) 
   }
   
   if(fu & !("fu_time_sort" %in% colnames(sir_df))){
     sir_df <- sir_df %>%
-      tidytable::mutate.(fu_time_sort = as.numeric(as.factor(.data$fu_time))) 
+      tidytable::mutate(fu_time_sort = as.numeric(as.factor(.data$fu_time))) 
   }
   
   
@@ -472,28 +472,28 @@ summarize_sir_results <- function(sir_df,
     
     #first all variables that are varying across t_site
     sum_pre_tmp_a <- sir_df %>%
-      tidytable::summarize.(tidytable::across.(
+      tidytable::summarize(tidytable::across(
         .cols = c(observed, expected, ref_inc_cases),
         .fns =  ~ sum(.x, na.rm = TRUE),
         .names = "group_{.col}") ,
         .by = !!grouping_vars) %>%
       #calculate sir
-      tidytable::mutate.(
+      tidytable::mutate(
         sir = .data$group_observed / .data$group_expected,
         sir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$group_observed) / 2) / .data$group_expected,
         sir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$group_observed + 1)) / 2) / .data$group_expected,
       ) %>%
-      tidytable::distinct.()
+      tidytable::distinct()
     
     #second, variables that are constant over t_site
     sum_pre_tmp_b <- sir_df %>%
-      tidytable::summarize.(tidytable::across.(
+      tidytable::summarize(tidytable::across(
         .cols = c(pyar, n_base, ref_population_pyar),
         .fns =  ~ round(sum(.x, na.rm = TRUE), 2),
         .names = "group_{.col}"),
         .by = !!grouping_vars_with_site) %>% 
-      tidytable::select.(-tidyselect::any_of("t_site_orig")) %>%
-      tidytable::distinct.(tidyselect::all_of(c(grouping_vars, "group_pyar", "group_n_base", "group_ref_population_pyar")), .keep_all = TRUE)
+      tidytable::select(-tidyselect::any_of("t_site_orig")) %>%
+      tidytable::distinct(tidyselect::all_of(c(grouping_vars, "group_pyar", "group_n_base", "group_ref_population_pyar")), .keep_all = TRUE)
     
     #in some instances, there will be ambiguous results for n_base and ref_population_pyar
     #created by the fact that sir_results is filtered to exclude non informative strata 
@@ -511,7 +511,7 @@ summarize_sir_results <- function(sir_df,
       ))
       #take first results only
       sum_pre_tmp_b <- sum_pre_tmp_b %>%
-        tidytable::distinct.(tidyselect::all_of(c(grouping_vars, "group_pyar")), .keep_all = TRUE)
+        tidytable::distinct(tidyselect::all_of(c(grouping_vars, "group_pyar")), .keep_all = TRUE)
     }
     
     #check that merge will work
@@ -525,13 +525,13 @@ summarize_sir_results <- function(sir_df,
     
     #now merge a and b
     sum_pre_tmp <- sum_pre_tmp_a %>%
-      tidytable::left_join.(sum_pre_tmp_b, by = grouping_vars) %>%
+      tidytable::left_join(sum_pre_tmp_b, by = grouping_vars) %>%
       #calculate crude rate
-      tidytable::mutate.(
+      tidytable::mutate(
         group_incidence_crude_rate = .data$group_ref_inc_cases / .data$group_ref_population_pyar * 100000
       ) %>%
       #ensure same sorting as before
-      tidytable::select.(tidyselect::all_of(
+      tidytable::select(tidyselect::all_of(
         c(grouping_vars, 
           "group_observed", "group_expected", "sir", "sir_lci", "sir_uci",
           "group_pyar", "group_n_base", "group_ref_inc_cases", "group_ref_population_pyar", "group_incidence_crude_rate")
@@ -547,87 +547,87 @@ summarize_sir_results <- function(sir_df,
     if("age" %in% sg_var_names == TRUE){
       if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(age = paste0("Total - All included ages: ",  min_age, " - ", max_age))
+          tidytable::mutate(age = paste0("Total - All included ages: ",  min_age, " - ", max_age))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(age = "Total")
+          tidytable::mutate(age = "Total")
       }
     }
     
     if("sex" %in% sg_var_names == TRUE){
       if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(sex = paste0("Total - All included sexes: ", paste(used_sex, collapse = ", ")))
+          tidytable::mutate(sex = paste0("Total - All included sexes: ", paste(used_sex, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(sex = "Total")
+          tidytable::mutate(sex = "Total")
       }
     }
     
     if("region" %in% sg_var_names == TRUE){
       if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(region = paste0("Total - All included regions: ", paste(used_region, collapse = ", ")))
+          tidytable::mutate(region = paste0("Total - All included regions: ", paste(used_region, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(region = "Total")
+          tidytable::mutate(region = "Total")
       }
     }
     
     if("year" %in% sg_var_names == TRUE){
       if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(year = paste0("Total - All included years: ", min_year, " - ", max_year))
+          tidytable::mutate(year = paste0("Total - All included years: ", min_year, " - ", max_year))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(year = "Total")
+          tidytable::mutate(year = "Total")
       }
     }
     
     if("race" %in% sg_var_names == TRUE){
       if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(race = paste0("Total - All included races: ", paste(used_race, collapse = ", ")))
+          tidytable::mutate(race = paste0("Total - All included races: ", paste(used_race, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(race = "Total")
+          tidytable::mutate(race = "Total")
       }
     }
     
     if("t_site" %in% sg_var_names == TRUE){
       if(shorten_total_cols == FALSE){
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(t_site = paste0("Total - All included Tumor sites: ", paste(used_t_site, collapse = ", ")))
+          tidytable::mutate(t_site = paste0("Total - All included Tumor sites: ", paste(used_t_site, collapse = ", ")))
       } else{
         sum_pre_tmp <- sum_pre_tmp %>%
-          tidytable::mutate.(t_site = "Total")
+          tidytable::mutate(t_site = "Total")
       }
     }
     
     #rounding
     
     sum_pre_tmp <- sum_pre_tmp %>%
-      tidytable::mutate.(tidytable::across.(.cols = c(group_pyar, sir, sir_lci, sir_uci), 
+      tidytable::mutate(tidytable::across(.cols = c(group_pyar, sir, sir_lci, sir_uci), 
                                             .fns = ~ round(.x, 2)))
     
     #do collapse_ci
     if(ci){
       sum_pre_tmp <- sum_pre_tmp %>% 
-        tidytable::unite.("sir_ci", sir_lci, sir_uci, sep = " - ")
+        tidytable::unite("sir_ci", sir_lci, sir_uci, sep = " - ")
     } 
     
     
     #label
     
     sum_pre <- sum_pre_tmp %>%
-      tidytable::rename.(observed = group_observed,
+      tidytable::rename(observed = group_observed,
                          expected = group_expected,
                          pyar = group_pyar,
                          n_base = group_n_base,
                          ref_inc_cases = group_ref_inc_cases,
                          ref_population_pyar = group_ref_population_pyar,
                          ref_inc_crude_rate = group_incidence_crude_rate) %>%
-      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"},
+      tidytable::select(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"},
                                               if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
                                               if(xb){c("xvar_name", "xvar_label")}, 
                                               if(fu){c("fu_time", "fu_time_sort")}, 
@@ -649,64 +649,64 @@ summarize_sir_results <- function(sir_df,
   
   if(add_total_fu == "only"){
     sum_pre <- sum_pre %>%
-      tidytable::filter.(substr(fu_time, 1, 5) == "Total")
+      tidytable::filter(substr(fu_time, 1, 5) == "Total")
   }
   
   if(add_total_fu == "start"){
     sum_pre <- sum_pre %>%
       #set sorting value for Totals to 0, so it appears first
-      tidytable::mutate.(fu_time_sort = tidytable::case.(substr(.data$fu_time, 1, 5) == "Total", 0,
+      tidytable::mutate(fu_time_sort = tidytable::case(substr(.data$fu_time, 1, 5) == "Total", 0,
                                                          default = .data$fu_time_sort))
   }
   
   if(add_total_fu == "end"){
     sum_pre <- sum_pre %>%
       #set sorting value for Totals to 999, so it appears last
-      tidytable::mutate.(fu_time_sort = tidytable::case.(substr(.data$fu_time, 1, 5) == "Total", 999,
+      tidytable::mutate(fu_time_sort = tidytable::case(substr(.data$fu_time, 1, 5) == "Total", 999,
                                                          default = .data$fu_time_sort))
   }
   
   ##--- sort
   
-  #since tidytable::arrange.() does not support tidyselect, we need to create a list of symbols to pass on
+  #since tidytable::arrange() does not support tidyselect, we need to create a list of symbols to pass on
   arrange_vars <- rlang::syms(c("age", "region", "sex", "year", if(rs){"race"},
                                 if(yb){c("yvar_sort", "yvar_sort_levels")}, if(xb){c("xvar_name", "xvar_label")}, 
                                 if(fu){"fu_time_sort"}, "t_site"))
   
   sum_pre <- sum_pre %>% 
-    tidytable::arrange.(!!!arrange_vars)
+    tidytable::arrange(!!!arrange_vars)
   
   ##--- enforce add_total_row
   if(rt){
     
     #calculate totals
     totals <- sum_pre %>%
-      tidytable::filter.(yvar_name == "total_var") %>%
-      tidytable::summarize.(
-        yvar_name = tidytable::first.(.data$yvar_name),
+      tidytable::filter(yvar_name == "total_var") %>%
+      tidytable::summarize(
+        yvar_name = tidytable::first(.data$yvar_name),
         group_observed = sum(.data$observed, na.rm = TRUE),
-        group_pyar = tidytable::first.(.data$pyar),
-        group_n_base = tidytable::first.(.data$n_base),
+        group_pyar = tidytable::first(.data$pyar),
+        group_n_base = tidytable::first(.data$n_base),
         group_ref_inc_cases = sum(.data$ref_inc_cases),
-        group_ref_population_pyar = tidytable::first.(.data$ref_population_pyar),
+        group_ref_population_pyar = tidytable::first(.data$ref_population_pyar),
         group_expected = sum(.data$expected, na.rm = TRUE),
         .by = tidyselect::any_of(c("yvar_label", "fu_time", "fu_time_sort")))%>%
       #calculate sir
-      tidytable::mutate.(
+      tidytable::mutate(
         sir = .data$group_observed / .data$group_expected,
         sir_lci = (stats::qchisq(p = alpha / 2, df = 2 * .data$group_observed) / 2) / .data$group_expected,
         sir_uci = (stats::qchisq(p = 1 - alpha / 2, df = 2 * (.data$group_observed + 1)) / 2) / .data$group_expected,
         group_incidence_crude_rate = .data$group_ref_inc_cases / .data$group_ref_population_pyar * 100000
       ) %>%
       #rename and select required vars
-      tidytable::rename.(observed = group_observed,
+      tidytable::rename(observed = group_observed,
                          expected = group_expected,
                          pyar = group_pyar,
                          n_base = group_n_base,
                          ref_inc_cases = group_ref_inc_cases,
                          ref_population_pyar = group_ref_population_pyar,
                          ref_inc_crude_rate = group_incidence_crude_rate) %>%
-      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"},
+      tidytable::select(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"},
                                               if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
                                               if(fu){c("fu_time", "fu_time_sort")}, 
                                               "t_site", "observed", "expected", "sir",
@@ -714,19 +714,19 @@ summarize_sir_results <- function(sir_df,
                                               if(collapse_ci == FALSE){c("sir_lci", "sir_uci")})),
                          tidyselect::everything()
       ) %>%
-      tidytable::mutate.(age = paste0("Total - All included ages: ",  min_age, " - ", max_age),
+      tidytable::mutate(age = paste0("Total - All included ages: ",  min_age, " - ", max_age),
                          region = paste0("Total - All included regions: ", paste(used_region, collapse = ", ")),
                          sex = paste0("Total - All included sexes: ", paste(used_sex, collapse = ", ")),
                          year = paste0("Total - All included years: ", min_year, " - ", max_year),
                          t_site = paste0("Total - All included Tumor sites: ", paste(used_t_site, collapse = ", "))
       ) %>%
-      tidytable::mutate.(tidytable::across.(.cols = c(pyar, sir, sir_lci, sir_uci), 
+      tidytable::mutate(tidytable::across(.cols = c(pyar, sir, sir_lci, sir_uci), 
                                             .fns = ~ round(.x, 2)))
     
     
     if(shorten_total_cols == TRUE){
       totals <- totals %>%
-        tidytable::mutate.(age = "Total",
+        tidytable::mutate(age = "Total",
                            region = "Total",
                            sex = "Total",
                            year = "Total",
@@ -735,18 +735,18 @@ summarize_sir_results <- function(sir_df,
     
     if(rs & shorten_total_cols == FALSE){
       totals <- totals %>%
-        tidytable::mutate.(race = paste0("Total - All included races: ", paste(used_race, collapse = ", ")))
+        tidytable::mutate(race = paste0("Total - All included races: ", paste(used_race, collapse = ", ")))
       
     } else{
       if(rs & shorten_total_cols == TRUE){
         totals <- totals %>%
-          tidytable::mutate.(race = "Total")
+          tidytable::mutate(race = "Total")
       }
     }
     
     if(fu){
       totals <- totals  %>%
-        tidytable::arrange.(fu_time_sort)
+        tidytable::arrange(fu_time_sort)
     }
     
     # "only" --> only keep totals
@@ -756,8 +756,8 @@ summarize_sir_results <- function(sir_df,
     
     # "start" --> bind totals to start
     if(add_total_row == "start"){
-      sum_pre <- tidytable::bind_rows.(totals, sum_pre) %>%
-        tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"},
+      sum_pre <- tidytable::bind_rows(totals, sum_pre) %>%
+        tidytable::select(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"},
                                                 if(yb){c("yvar_name", "yvar_label")}, if(xb){c("xvar_name", "xvar_label")}, 
                                                 if(fu){c("fu_time", "fu_time_sort")},
                                                 "t_site", "observed", "expected", "sir",
@@ -768,7 +768,7 @@ summarize_sir_results <- function(sir_df,
     
     # "end" --> bind totals to end
     if(add_total_row == "end"){
-      sum_pre <- tidytable::bind_rows.(sum_pre, totals)
+      sum_pre <- tidytable::bind_rows(sum_pre, totals)
     }
     
   }
@@ -778,7 +778,7 @@ summarize_sir_results <- function(sir_df,
   if(output_information == "full"){
     
     sum_pre2 <- sum_pre %>%
-      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
+      tidytable::select(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
                                               if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
                                               if(xb){c("xvar_name", "xvar_label")}, 
                                               if(fu){c("fu_time", "fu_time_sort")}, 
@@ -792,7 +792,7 @@ summarize_sir_results <- function(sir_df,
   #reduced
   if(output_information == "reduced"){
     sum_pre2 <- sum_pre %>%
-      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
+      tidytable::select(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
                                               if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
                                               if(xb){c("xvar_name", "xvar_label")}, 
                                               if(fu){c("fu_time", "fu_time_sort")}, 
@@ -806,14 +806,14 @@ summarize_sir_results <- function(sir_df,
     if(!ci){
       sum_pre <- sum_pre %>%
         #make sure CIs are minimal
-        tidytable::unite.("sir_ci", sir_lci, sir_uci, sep = " - ")
+        tidytable::unite("sir_ci", sir_lci, sir_uci, sep = " - ")
       
       ci <- TRUE
     }
     
     #select only required vars
     sum_pre2 <- sum_pre %>%
-      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
+      tidytable::select(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
                                               if(yb){c("yvar_name", "yvar_label", "yvar_sort", "yvar_sort_levels")}, 
                                               if(xb){c("xvar_name", "xvar_label")}, 
                                               if(fu){c("fu_time", "fu_time_sort")}, 
@@ -903,7 +903,7 @@ summarize_sir_results <- function(sir_df,
     #sort dataframe
     sum_results <- sum_results_pre %>%
       #sort columns
-      tidytable::select.(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
+      tidytable::select(tidyselect::any_of(c("age", "region", "sex", "year", if(rs){"race"}, 
                                               if(yb & !yb_off){c("yvar_name", "yvar_label")}, 
                                               "t_site", sort)),
                          tidyselect::everything())
@@ -935,7 +935,7 @@ summarize_sir_results <- function(sir_df,
     #only do nesting when nesting_vars present
     if(length(nesting_vars) > 0){
       sum_results <- sum_pre %>%
-        tidytable::nest_by.(tidyselect::any_of(nesting_vars))
+        tidytable::nest_by(tidyselect::any_of(nesting_vars))
     }else{
       rlang::warn("No nesting variables found. Nothing to reshape. Returning long results.")
       sum_results <- sum_pre

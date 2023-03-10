@@ -12,6 +12,7 @@
 
 ### Internal
 * replace progress bars by `cli`
+* deprecate `verb.()`syntax from tidytable
 
 
 
