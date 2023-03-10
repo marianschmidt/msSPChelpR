@@ -12,8 +12,7 @@
 
 ### Internal
 * replace progress bars by `cli`
-* deprecate `verb.()`syntax from tidytable
-
+* deprecate `verb.()`syntax from tidytable (Closes #94)
 
 
 # msSPChelpR 0.9.0

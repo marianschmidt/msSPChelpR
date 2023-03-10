@@ -21,7 +21,7 @@ Imports:
     sjlabelled,
     stringr,
     tidyselect, 
-    tidytable (>= 0.8.0),
+    tidytable (>= 0.9.0),
     tidyr (>= 1.0.0)
 Suggests: 
     haven,
