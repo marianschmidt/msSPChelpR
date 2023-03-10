@@ -49,15 +49,15 @@ reshape_long_tt <- function(wide_df, case_id_var, time_id_var, datsize = Inf){
   
   
   ### perform tidytable::pivot_longer
-  wide_df %>% tidytable::pivot_longer.(
+  wide_df %>% tidytable::pivot_longer(
     -c(tidyselect::all_of(constant_vars)),
     names_to = c(".value", rlang::as_name(time_id_var)),
     names_pattern = "(.*)\\.(.*)",
     values_drop_na = TRUE
   ) %>%  
     #make time_id_var numeric
-    tidytable::mutate.(!!time_id_var := as.numeric(rlang::eval_tidy(!!time_id_var))) %>%
+    tidytable::mutate(!!time_id_var := as.numeric(rlang::eval_tidy(!!time_id_var))) %>%
     #sort by case_id_var
-    tidytable::arrange.(as.numeric(rlang::eval_tidy(!!case_id_var)), !!time_id_var)
+    tidytable::arrange(as.numeric(rlang::eval_tidy(!!case_id_var)), !!time_id_var)
   
 }
