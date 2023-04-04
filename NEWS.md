@@ -2,6 +2,7 @@
 
 ### New Features
 * some functions gain new `quiet` argument to suppress `rlang::warn()` and `rlang::inform()` messages. You can use this when you have checked your results for correctness and want to reduce message output, but keep the progress bars.
+* `asir()`: add World Standard Population 2000-2025 for function with option `std_pop=="WHO2000"` as described here: https://seer.cancer.gov/stdpopulations/world.who.html
 
 ### Breaking Changes
 
@@ -9,6 +10,7 @@
 * make `calc_refrates()` more robust for missing `race_var` (Closes #89)
 * fix bug in `calc_refrates()` using `calc_totals == TRUE` (Closes #90)
 * fix bug in `calc_refrates()` using numeric versions of `fill_sites` (Closes #92)
+* fix bug in `asir()` that throws error for variable not needed (Closes #95) 
 
 ### Internal
 * replace progress bars by `cli`

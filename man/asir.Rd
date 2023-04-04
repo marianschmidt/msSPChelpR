@@ -29,7 +29,7 @@ asir(
 
 \item{dattype}{can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.}
 
-\item{std_pop}{can be either "ESP2013, ESP1976, WHO1960}
+\item{std_pop}{can be either "ESP2013, ESP1976, WHO1960, WHO2000}
 
 \item{truncate_std_pop}{if TRUE standard population will be truncated for all age-groups that do not occur in df}
 
