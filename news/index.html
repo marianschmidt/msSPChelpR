@@ -62,6 +62,9 @@
 <div class="section level4">
 <h4 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
 <ul><li>some functions gain new <code>quiet</code> argument to suppress <code><a href="https://rlang.r-lib.org/reference/abort.html" class="external-link">rlang::warn()</a></code> and <code><a href="https://rlang.r-lib.org/reference/abort.html" class="external-link">rlang::inform()</a></code> messages. You can use this when you have checked your results for correctness and want to reduce message output, but keep the progress bars.</li>
+<li>
+<code><a href="../reference/asir.html">asir()</a></code>: add World Standard Population 2000-2025 for function with option <code>std_pop=="WHO2000"</code> as described here: <a href="https://seer.cancer.gov/stdpopulations/world.who.html" class="external-link uri">https://seer.cancer.gov/stdpopulations/world.who.html</a>
+</li>
 </ul></div>
 <div class="section level4">
 <h4 id="breaking-changes-development-version">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
@@ -71,6 +74,7 @@
 <ul><li>make <code><a href="../reference/calc_refrates.html">calc_refrates()</a></code> more robust for missing <code>race_var</code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/89" class="external-link">#89</a>)</li>
 <li>fix bug in <code><a href="../reference/calc_refrates.html">calc_refrates()</a></code> using <code>calc_totals == TRUE</code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/90" class="external-link">#90</a>)</li>
 <li>fix bug in <code><a href="../reference/calc_refrates.html">calc_refrates()</a></code> using numeric versions of <code>fill_sites</code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/92" class="external-link">#92</a>)</li>
+<li>fix bug in <code><a href="../reference/asir.html">asir()</a></code> that throws error for variable not needed (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/95" class="external-link">#95</a>)</li>
 </ul></div>
 <div class="section level4">
 <h4 id="internal-development-version">Internal<a class="anchor" aria-label="anchor" href="#internal-development-version"></a></h4>
