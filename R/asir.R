@@ -3,7 +3,7 @@
 #'
 #' @param df dataframe in wide format
 #' @param dattype can be "zfkd" or "seer" or NULL. Will set default variable names if dattype is "seer" or "zfkd". Default is NULL.
-#' @param std_pop can be either "ESP2013, ESP1976, WHO1960
+#' @param std_pop can be either "ESP2013, ESP1976, WHO1960, WHO2000
 #' @param truncate_std_pop if TRUE standard population will be truncated for all age-groups that do not occur in df
 #' @param futime_src can be either "refpop" or "cohort". Default is "refpop".
 #' @param summarize_groups option to define summarizing stratified groups. Default is "none". 
@@ -142,74 +142,85 @@ asir <-
     } 
     
     if(!is.null(dattype)){
-    ### setting default var names and values for SEER data --> still need to update to final names!
-    if (dattype == "seer") {
-      if (is.null(region_var)) {
-        region_var <- rlang::sym("p_region.1")
-      } else{
-        region_var <- rlang::ensym(region_var)
+      ### setting default var names and values for SEER data
+      if (dattype == "seer") {
+        if (is.null(region_var)) {
+          region_var <- rlang::sym("p_region.1")
+        } else{
+          region_var <- rlang::ensym(region_var)
+        }
+        if (is.null(age_var)) {
+          age_var <- rlang::sym("t_agegroup.1")
+        } else{
+          age_var <- rlang::ensym(age_var)
+        }
+        if (is.null(sex_var)) {
+          sex_var <- rlang::sym("SEX.1")
+        } else{
+          sex_var <- rlang::ensym(sex_var)
+        }
+        if (is.null(year_var)) {
+          year_var <- rlang::ensym("t_yeardiag.1")
+        } else{
+          year_var <- rlang::ensym(year_var)
+        }
+        if (is.null(site_var)) {
+          site_var <- rlang::sym("t_icdcat.1")
+        } else{
+          site_var <- rlang::ensym(site_var)
+        }
+        if(futime_src == "cohort"){
+          if (is.null(futime_var)) {
+            futime_var <- rlang::sym("p_futimeyrs.1")
+          } else{
+            futime_var <- rlang::ensym(futime_var)
+          }
+        }
+        if(futime_src == "refpop"){
+          if (is.null(pyar_var)) {
+            pyar_var <- rlang::sym("population_pyar")
+          } else{
+            pyar_var <- rlang::ensym(pyar_var)
+          }
+        }
       }
-      if (is.null(age_var)) {
-        age_var <- rlang::sym("t_agegroup.1")
-      } else{
-        age_var <- rlang::ensym(age_var)
+      
+      
+      #setting default var names and values for ZfKD data
+      if (dattype == "zfkd") {
+        if (is.null(region_var)) {
+          region_var <- rlang::sym("p_region.1")
+        } else{
+          region_var <- rlang::ensym(region_var)
+        }
+        if (is.null(age_var)) {
+          age_var <- rlang::sym("t_agegroupdiag.1")
+        } else{
+          age_var <- rlang::ensym(age_var)
+        }
+        if (is.null(sex_var)) {
+          sex_var <- rlang::sym("SEX.1")
+        } else{
+          sex_var <- rlang::ensym(sex_var)
+        }
+        if (is.null(year_var)) {
+          year_var <- rlang::sym("t_yeardiag.1")
+        } else{
+          year_var <- rlang::ensym(year_var)
+        }
+        if (is.null(site_var)) {
+          site_var <- rlang::sym("t_icdcat.1")
+        } else{
+          site_var <- rlang::ensym(site_var)
+        }
+        if(futime_src == "cohort"){
+          if (is.null(futime_var)) {
+            futime_var <- rlang::sym("p_futimeyrs.1")
+          } else{
+            futime_var <- rlang::ensym(futime_var)
+          }
+        }
       }
-      if (is.null(sex_var)) {
-        sex_var <- rlang::sym("SEX.1")
-      } else{
-        sex_var <- rlang::ensym(sex_var)
-      }
-      if (is.null(year_var)) {
-        year_var <- rlang::ensym("t_yeardiag.1")
-      } else{
-        year_var <- rlang::ensym(year_var)
-      }
-      if (is.null(site_var)) {
-        site_var <- rlang::sym("t_icdcat.1")
-      } else{
-        site_var <- rlang::ensym(site_var)
-      }
-      if (is.null(futime_var)) {
-        futime_var <- rlang::sym("p_futimeyrs.1")
-      } else{
-        futime_var <- rlang::ensym(futime_var)
-      }
-    }
-    
-    
-    #setting default var names and values for ZfKD data
-    if (dattype == "zfkd") {
-      if (is.null(region_var)) {
-        region_var <- rlang::sym("p_region.1")
-      } else{
-        region_var <- rlang::ensym(region_var)
-      }
-      if (is.null(age_var)) {
-        age_var <- rlang::sym("t_agegroupdiag.1")
-      } else{
-        age_var <- rlang::ensym(age_var)
-      }
-      if (is.null(sex_var)) {
-        sex_var <- rlang::sym("SEX.1")
-      } else{
-        sex_var <- rlang::ensym(sex_var)
-      }
-      if (is.null(year_var)) {
-        year_var <- rlang::sym("t_yeardiag.1")
-      } else{
-        year_var <- rlang::ensym(year_var)
-      }
-      if (is.null(site_var)) {
-        site_var <- rlang::sym("t_icdcat.1")
-      } else{
-        site_var <- rlang::ensym(site_var)
-      }
-      if (is.null(futime_var)) {
-        futime_var <- rlang::sym("p_futimeyrs.1")
-      } else{
-        futime_var <- rlang::ensym(futime_var)
-      }
-    }
     } else{
       # ensym if no dattype is given
       region_var <- rlang::ensym(region_var)
@@ -217,15 +228,18 @@ asir <-
       sex_var <- rlang::ensym(sex_var)
       year_var <- rlang::ensym(year_var)
       site_var <- rlang::ensym(site_var)
-      futime_var <- rlang::ensym(futime_var)
+      if(futime_src == "cohort"){
+        futime_var <- rlang::ensym(futime_var)
+      }
+      
     }
     
     #setting standard population
     
-    if(!(std_pop %in% c("ESP2013", "ESP1976", "WHO1960"))){
+    if(!(std_pop %in% c("ESP2013", "ESP1976", "WHO1960", "WHO2000"))){
       rlang::abort(
         paste0(
-          "The following population is not a valid standard population to be used: ", std_pop, "Please use any of ESP2013, ESP1976, WHO1960."
+          "The following population is not a valid standard population to be used: ", std_pop, "Please use any of ESP2013, ESP1976, WHO1960, WHO2000."
         )
       )
     }
@@ -239,6 +253,9 @@ asir <-
     if (std_pop == "WHO1960") {
       std_pop <- "World Standard Population 1960"
     } 
+    if (std_pop == "WHO2000") {
+      std_pop <- "World Standard Population 2000"
+    } 
     
     
     ### handling other user inputs
@@ -251,6 +268,7 @@ asir <-
         pyar_var <- rlang::ensym(pyar_var)
       }
     }
+    
     
     #CHK1: check whether all required variables are defined and present in dataset
     defined_vars <-
@@ -342,7 +360,10 @@ asir <-
       
       ref_stdpop_ages <- stdpop_df %>%
         dplyr::filter(.data$standard_pop == std_pop &
-                        .data$age != "85 - 89" &             #remove options from ESP2013 that are not reflected in datasets
+                        .data$age != "85 - 89" &             #remove options from ESP2013, WHO2000 that are not reflected in datasets
+                        .data$age != "90 - 94" &    
+                        .data$age != "95 - 99" &  
+                        .data$age != "99 - 120" &  
                         .data$age != "90 - 120") %>%
         dplyr::distinct(.data$age) %>% 
         dplyr::pull() %>%
@@ -638,7 +659,10 @@ asir <-
       
       ref_stdpop_ages <- stdpop_df %>%
         dplyr::filter(.data$standard_pop == std_pop &
-                        .data$age != "85 - 89" &             #remove options from ESP2013 that are not reflected in datasets
+                        .data$age != "85 - 89" &             #remove options from ESP2013, WHO2000 that are not reflected in datasets
+                        .data$age != "90 - 94" &    
+                        .data$age != "95 - 99" &  
+                        .data$age != "99 - 120" &  
                         .data$age != "90 - 120") %>%
         dplyr::distinct(.data$age) %>% 
         dplyr::pull() %>%
@@ -980,5 +1004,4 @@ asir <-
       
     }
   }
-
 
