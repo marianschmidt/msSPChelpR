@@ -61,24 +61,24 @@
 #'
 
 sir_byfutime <- function(df,
-                             dattype = NULL,
-                             ybreak_vars = "none",
-                             xbreak_var = "none",
-                             futime_breaks = c(0, .5, 1, 5, 10, Inf),
-                             count_var,
-                             refrates_df = rates,
-                             calc_total_row = TRUE,
-                             calc_total_fu = TRUE,
-                             region_var = NULL,
-                             age_var = NULL,
-                             sex_var = NULL,
-                             year_var = NULL,
-                             race_var = NULL,    #optional when matching by race is wanted
-                             site_var = NULL,
-                             futime_var = NULL,
-                             expect_missing_refstrata_df = NULL, #optional df when missing refrates strata are defined
-                             alpha = 0.05,
-                             quiet = FALSE) {
+                         dattype = NULL,
+                         ybreak_vars = "none",
+                         xbreak_var = "none",
+                         futime_breaks = c(0, .5, 1, 5, 10, Inf),
+                         count_var,
+                         refrates_df = rates,
+                         calc_total_row = TRUE,
+                         calc_total_fu = TRUE,
+                         region_var = NULL,
+                         age_var = NULL,
+                         sex_var = NULL,
+                         year_var = NULL,
+                         race_var = NULL,    #optional when matching by race is wanted
+                         site_var = NULL,
+                         futime_var = NULL,
+                         expect_missing_refstrata_df = NULL, #optional df when missing refrates strata are defined
+                         alpha = 0.05,
+                         quiet = FALSE) {
   
   
   # ---- 0 function basics ----
@@ -598,7 +598,7 @@ sir_byfutime <- function(df,
     refrates_df <- refrates_df %>%
       tidytable::bind_rows({expect_missing_refstrata_df %>%
           tidytable::mutate(incidence_cases = 0,
-                            incidence_crude_rate = 0)})
+                 incidence_crude_rate = 0)})
   }
   
   #refrates_df -> filter lines that are not needed in age, sex, region, year, but do not filter for t_site
@@ -614,16 +614,17 @@ sir_byfutime <- function(df,
     available_race <- unique(refrates_df$race)
     miss_race <- used_race[!used_race %in% available_race]
     ##take precautions for missing race data in df
-    if(length(miss_race) > 0 & !quiet){
-      rlang::inform(c(
-        "[INFO Unknown Race] There are values from race missing in refrates_df.",
-        "i" = "The following values for race_var present in the data, is not availabe in refrates_df:",
-        paste0(" -> ", miss_race),
-        "For all missing reference levels of race, data will be matched to the category 'Total' in refrates_df.",
-        "!" = "It is recommeded to clean race_var before running this function.",
-        " "
-      ))
-      
+    if(length(miss_race) > 0){
+      if(!quiet){
+        rlang::inform(c(
+          "[INFO Unknown Race] There are values from race missing in refrates_df.",
+          "i" = "The following values for race_var present in the data, is not availabe in refrates_df:",
+          paste0(" -> ", miss_race),
+          "For all missing reference levels of race, data will be matched to the category 'Total' in refrates_df.",
+          "!" = "It is recommeded to clean race_var before running this function.",
+          " "
+        ))
+      }
       refrates_total <- refrates_df %>%
         tidytable::filter(substr(race, 1, 5) == "Total")
       #replicate refrates_total for each miss_race value and rowbind to refrates_df
