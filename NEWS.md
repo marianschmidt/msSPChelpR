@@ -3,8 +3,10 @@
 ### New Features
 * some functions gain new `quiet` argument to suppress `rlang::warn()` and `rlang::inform()` messages. You can use this when you have checked your results for correctness and want to reduce message output, but keep the progress bars.
 * `asir()`: add World Standard Population 2000-2025 for function with option `std_pop=="WHO2000"` as described here: https://seer.cancer.gov/stdpopulations/world.who.html
+* `sir_byfutime()` gains new argument `expect_missing_refstrata_df`. You can define another data.frame that contains strata expected to be missing from refrates_df (because they are not explicitly coded with incidence = 0). This can be helpful, if refrates_df has a lot of strata and 0 incidence strata have been removed to save storage space. Internally, the rows of expect_missing_refstrata_df will be appended to refrates_df. This reduces the number of lines reported in attribute `problems_missing_ref_strata`. Default setting is `expect_missing_refstrata_df = NULL`.
 
 ### Breaking Changes
+* no breaking changes in this version
 
 ### Bug fixes
 * make `calc_refrates()` more robust for missing `race_var` (Closes #89)

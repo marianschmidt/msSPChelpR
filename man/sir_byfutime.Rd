@@ -21,6 +21,7 @@ sir_byfutime(
   race_var = NULL,
   site_var = NULL,
   futime_var = NULL,
+  expect_missing_refstrata_df = NULL,
   alpha = 0.05,
   quiet = FALSE
 )
@@ -65,9 +66,15 @@ refrates_df must use the same category coding of age, sex, region, year and t_si
 
 \item{race_var}{optional argument, if SIR should be calculated stratified by race. If you want to use this option, provide variable name of df that contains race information. If race_var is provided refrates_df needs to contain the variable "race".}
 
-\item{site_var}{variable in df that contains information on ICD code of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
+\item{site_var}{variable in df that contains information on site or subsite (e.g. ICD code, SEER site code or others that matches t_site in refrates_df) of case diagnosis. Cases are usually the second cancers. Default is set if dattype is given.}
 
 \item{futime_var}{variable in df that contains follow-up time per person between date of first cancer and any of death, date of event (case), end of FU date (in years; whatever event comes first). Default is set if dattype is given.}
+
+\item{expect_missing_refstrata_df}{optional argument, if strata with missing refrates are expected, because incidence rates of value 0 are not explicit, but missing from refrates_df.
+It is assumed that expect_missing_refstrata_df is a data.frame has the columns
+"region" for region, "sex" for biological sex, "age" for age-groups (can be single ages or 5-year brackets), "year" for time period (can be single year or 5-year brackets), and "t_site" for
+The variable "race" is additionally required if the option "race_var" is used.
+refrates_df must use the same category coding of age, sex, region, year and t_site as age_var, sex_var, region_var, year_var and site_var.}
 
 \item{alpha}{significance level for confidence interval calculations. Default is alpha = 0.05 which will give 95 percent confidence intervals.}
 
