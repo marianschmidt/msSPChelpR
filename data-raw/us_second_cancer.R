@@ -84,7 +84,9 @@ tumors2 <- tumors %>%
                                 year(t_datediag) >= 2005 &  year(t_datediag) < 2010  ~ "2005 - 2009",
                                 year(t_datediag) >= 2010 &  year(t_datediag) < 2015  ~ "2010 - 2014",
                                 TRUE ~ NA_character_),
-         t_dco = sample(c(rep("DCO case", 1), rep("histology", 9)), size = n(), replace = TRUE)) %>%
+         t_dco = sample(c(rep("DCO case", 1), rep("histology", 9)), size = n(), replace = TRUE),
+         t_hist = sample(c(8000:9989), size = n(), replace = TRUE)
+         ) %>%
   #calculate new renumbered variable #group by case_id_var
   dplyr::arrange(fake_id, t_datediag) %>%
   tidytable::mutate(SEQ_NUM := as.integer(tidytable::row_number()), .by = fake_id)
@@ -130,7 +132,7 @@ cancer_pre2 <- cancer_pre %>%
   
 us_second_cancer <- cancer_pre2 %>%
   #sort columns
-  dplyr::select(fake_id, SEQ_NUM, registry, sex, race, datebirth, t_datediag, t_site_icd, t_dco, fc_age, datedeath, 
+  dplyr::select(fake_id, SEQ_NUM, registry, sex, race, datebirth, t_datediag, t_site_icd, t_dco, t_hist, fc_age, datedeath, 
          p_alive, p_dodmin, fc_agegroup, t_yeardiag,
          -t_year, -t_month, -p_yeardob, -p_yeardod, -p_lastyear, -p_lastdiag, -miss, -ran_mon)
 

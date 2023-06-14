@@ -71,7 +71,9 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(".",
                                                         "sex_group",
                                                         "year_group",
                                                         "race_group",
-                                                        "site_group"
+                                                        "site_group",
+                                                        "new_var",
+                                                        "t_histgroupiarc"
                                                         )) 
 release_questions <- function() {
   c(

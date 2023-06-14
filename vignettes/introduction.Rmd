@@ -260,7 +260,7 @@ sircalc_results %>% print(n = 100)
 ### Step 9 - Summarize SIR results {#step-summarize-sir}
 
 ```{r}
-#The summarize function is versatile. Her for example the summary by
+#The summarize function is versatile. Here for example the summary with minimal output
 
 sircalc_results %>%
   #summarize results across region, age, year and t_site
