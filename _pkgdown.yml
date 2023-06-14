@@ -10,8 +10,13 @@ reference:
 - title: "Data Preparation"
   desc: "Functions for dataset preparation"
 - contents:
+  - histgroup_iarc
+  - pat_status
+  - pat_status_tt
   - starts_with("renumber")
   - starts_with("reshape")
+  - vital_status
+  - vital_status_tt
    
      
 - title: "Calculations"
@@ -23,12 +28,9 @@ reference:
   - calc_refrates
   - ir_crosstab
   - ir_crosstab_byfutime
-  - pat_status
-  - pat_status_tt
   - sir_byfutime
   - sir_ratio
-  - vital_status
-  - vital_status_tt
+
   
 - title: "Results presentation"
   desc: "Functions to present results"
