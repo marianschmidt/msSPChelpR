@@ -12,6 +12,7 @@
 #' \item{\code{datebirth}}{Date of birth}
 #' \item{\code{t_datediag}}{Date of diagnosis of tumor}
 #' \item{\code{t_site_icd}}{Primary site of tumor in ICD-O coding}
+#' \item{\code{t_hist}}{Histology, i.e. ICD-O-3-Code on tumor morphology (4 digits)}
 #' \item{\code{t_dco}}{Tumor diagnosis is based on Death Certificate only}
 #' \item{\code{fc_age}}{Age at first primary cancer in years}
 #' \item{\code{datedeath}}{Date of death}
