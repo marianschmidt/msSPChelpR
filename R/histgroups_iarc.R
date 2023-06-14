@@ -8,13 +8,7 @@
 #'                Default is `version = "3.1"` for ICD-O-3 revision 1, released 2013.
 #' @return df
 #' @export
-#' @examples 
-#' #load sample data
-#' data("population_us")
 #' 
-#' #make wide data as this is the required format
-#' usdata_wide <- us_second_cancer %>%
-#'                     histgroups_iarc(hist_var = t_hist)
 #'                     
 #'
 

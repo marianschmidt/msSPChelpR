@@ -22,13 +22,3 @@ df
 \description{
 Create variable for groups malignant neoplasms considered to be histologically ‘different’ for the purpose of defining multiple tumours, ICD-O-3.2
 }
-\examples{
-#load sample data
-data("population_us")
-
-#make wide data as this is the required format
-usdata_wide <- us_second_cancer \%>\%
-                    histgroups_iarc(hist_var = t_hist)
-                    
-
-}
