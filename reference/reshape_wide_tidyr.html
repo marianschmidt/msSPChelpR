@@ -115,7 +115,7 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></dd>
 <span class="r-in"><span>                         timevar_max <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>                         datsize <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Long dataset had too many cases per patient. Wide dataset is limited to  2  cases per id as defined in timevar_max option.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6,003 × 27</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6,003 × 29</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    fake_id registry.1 sex.1 race.1 datebirth.1 t_datediag.1 t_site_icd.1 t_dco.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 100004  SEER Reg … Male  White  1926-01-01  1992-07-15   C50          histol…</span>
@@ -129,12 +129,12 @@ All tumors &gt; timevar_max will be deleted before reshaping.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 100063  SEER Reg … Fema… Black  1938-01-01  1995-12-15   C50          histol…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 100073  SEER Reg … Male  White  1960-01-01  1993-11-15   C44          histol…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5,993 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 19 more variables: fc_age.1 &lt;int&gt;, datedeath.1 &lt;date&gt;, p_alive.1 &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   p_dodmin.1 &lt;date&gt;, fc_agegroup.1 &lt;chr&gt;, t_yeardiag.1 &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;, datebirth.2 &lt;date&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;, t_dco.2 &lt;chr&gt;, fc_age.2 &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;, p_dodmin.2 &lt;date&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 21 more variables: t_hist.1 &lt;int&gt;, fc_age.1 &lt;int&gt;, datedeath.1 &lt;date&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   p_alive.1 &lt;chr&gt;, p_dodmin.1 &lt;date&gt;, fc_agegroup.1 &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   t_yeardiag.1 &lt;chr&gt;, registry.2 &lt;chr&gt;, sex.2 &lt;chr&gt;, race.2 &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   datebirth.2 &lt;date&gt;, t_datediag.2 &lt;date&gt;, t_site_icd.2 &lt;chr&gt;, t_dco.2 &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   t_hist.2 &lt;int&gt;, fc_age.2 &lt;int&gt;, datedeath.2 &lt;date&gt;, p_alive.2 &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   p_dodmin.2 &lt;date&gt;, fc_agegroup.2 &lt;chr&gt;, t_yeardiag.2 &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

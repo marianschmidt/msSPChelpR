@@ -110,7 +110,7 @@ E.g. <code>timevar="SEQ_NUM"</code> for SEER data.</p></dd>
 <span class="r-in"><span><span class="fu">msSPChelpR</span><span class="fu">::</span><span class="fu">reshape_long_tidyr</span><span class="op">(</span><span class="va">usdata_wide_sample</span>,</span></span>
 <span class="r-in"><span>                         case_id_var <span class="op">=</span> <span class="st">"fake_id"</span>, </span></span>
 <span class="r-in"><span>                         time_id_var <span class="op">=</span> <span class="st">"SEQ_NUM"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8,746 × 15</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8,746 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    fake_id SEQ_NUM registry   sex   race  datebirth  t_datediag t_site_icd t_dco</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 100004        1 SEER Reg … Male  White 1926-01-01 1992-07-15 C50        hist…</span>
@@ -124,8 +124,8 @@ E.g. <code>timevar="SEQ_NUM"</code> for SEER data.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 100047        1 SEER Reg … Fema… White 1927-01-01 1998-04-15 C50        hist…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 100047        2 SEER Reg … Fema… White 1927-01-01 2003-10-15 C14        hist…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 8,736 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: fc_age &lt;int&gt;, datedeath &lt;date&gt;, p_alive &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;, t_yeardiag &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7 more variables: t_hist &lt;int&gt;, fc_age &lt;int&gt;, datedeath &lt;date&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   p_alive &lt;chr&gt;, p_dodmin &lt;date&gt;, fc_agegroup &lt;chr&gt;, t_yeardiag &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
