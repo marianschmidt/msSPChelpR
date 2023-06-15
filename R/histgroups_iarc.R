@@ -1,5 +1,5 @@
 
-#' Create variable for groups malignant neoplasms considered to be histologically ‘different’ for the purpose of defining multiple tumours, ICD-O-3.2 
+#' Create variable for groups of malignant neoplasms considered to be histologically ‘different’ for the purpose of defining multiple tumors, ICD-O-3 
 #'
 #' @param df dataframe in long or wide format
 #' @param hist_var variable in df that contains first 4 digits of tumor histology (without behavior)
