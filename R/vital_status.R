@@ -1,5 +1,5 @@
 
-#' Calculate vital status at end of follow-up depending on pat_status - tidyverse version
+#' Determine vital status at end of follow-up depending on pat_status - tidyverse version
 #'
 #' @param wide_df dataframe in wide format
 #' @param status_var Name of the patient status variable that was previously created. Default is p_status.  

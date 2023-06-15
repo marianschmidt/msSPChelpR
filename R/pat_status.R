@@ -1,5 +1,5 @@
 
-#' Calculate patient status at specific end of follow-up - tidyverse version
+#' Determine patient status at specific end of follow-up - tidyverse version
 #'
 #' @param wide_df dataframe in wide format
 #' @param fu_end end of follow-up in time format YYYY-MM-DD.
