@@ -2,7 +2,7 @@
 % Please edit documentation in R/pat_status.R
 \name{pat_status}
 \alias{pat_status}
-\title{Calculate patient status at specific end of follow-up - tidyverse version}
+\title{Determine patient status at specific end of follow-up - tidyverse version}
 \usage{
 pat_status(
   wide_df,
@@ -69,7 +69,7 @@ pat_status(
 wide_df
 }
 \description{
-Calculate patient status at specific end of follow-up - tidyverse version
+Determine patient status at specific end of follow-up - tidyverse version
 }
 \examples{
 #load sample data
