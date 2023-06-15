@@ -4,7 +4,7 @@
 \alias{histgroup_iarc}
 \title{Create variable for groups malignant neoplasms considered to be histologically ‘different’ for the purpose of defining multiple tumours, ICD-O-3.2}
 \usage{
-histgroup_iarc(df, hist_var, new_var_hist = t_histgroupiarc, version = "3.2")
+histgroup_iarc(df, hist_var, new_var_hist = t_histgroupiarc, version = "3.1")
 }
 \arguments{
 \item{df}{dataframe in long or wide format}
@@ -21,4 +21,13 @@ df
 }
 \description{
 Create variable for groups malignant neoplasms considered to be histologically ‘different’ for the purpose of defining multiple tumours, ICD-O-3.2
+}
+\examples{
+#load sample data
+data("us_second_cancer")
+
+us_second_cancer \%>\% 
+   msSPChelpR::histgroup_iarc(., hist_var = t_hist) \%>\%
+   dplyr::select(fake_id, t_hist, t_histgroupiarc) 
+                
 }
