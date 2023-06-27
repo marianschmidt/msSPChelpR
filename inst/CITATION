@@ -4,7 +4,7 @@ note <- sprintf("R package version %s", meta$Version)
 bibentry(bibtype="manual",
          title = title,
          author = person("Marian", "Eberl"),
-         year = 2021,
+         year = 2023,
          note = note,
          url = "https://marianschmidt.github.io/msSPChelpR/",
          doi = "10.5281/zenodo.4084961")
