@@ -40,7 +40,7 @@ histgroup_iarc <- function(df, hist_var, new_var_hist = t_histgroupiarc, version
     #          Available from: https://www.who.int/publications/i/item/international-classification-of-diseases-for-oncology
     
     
-    df %>%
+    df <- df %>%
       tidytable::mutate(new_var := tidytable::case_when(
         as.numeric({{hist_var}}) >= 8050 & as.numeric({{hist_var}}) <=  8084 ~ 1,
         as.numeric({{hist_var}}) >= 8120 & as.numeric({{hist_var}}) <=  8131 ~ 1,
@@ -104,8 +104,9 @@ histgroup_iarc <- function(df, hist_var, new_var_hist = t_histgroupiarc, version
                                                  "Unspecified types of cancer" = 12)) %>%
       tidytable::mutate(tidytable::across(.cols = new_var, .fns = ~ sjlabelled::as_label(.x , keep.labels=TRUE))) %>%
       tidytable::rename({{new_var_hist}} := new_var)
-  } else {
     
+    return(df)
+  } else {
     
     if(as.character(version) == "3.1"){
       
@@ -116,7 +117,7 @@ histgroup_iarc <- function(df, hist_var, new_var_hist = t_histgroupiarc, version
       #          Available from: https://apps.who.int/iris/handle/10665/96612
       
       
-      df %>%
+      df <- df %>%
         tidytable::mutate(new_var := tidytable::case_when(
           as.numeric({{hist_var}}) >= 8051 & as.numeric({{hist_var}}) <= 8084 ~ 1,
           as.numeric({{hist_var}}) >= 8120 & as.numeric({{hist_var}}) <= 8131 ~ 1,
@@ -225,6 +226,9 @@ histgroup_iarc <- function(df, hist_var, new_var_hist = t_histgroupiarc, version
                                                    "Unspecified types of cancer" = 17)) %>%
         tidytable::mutate(tidytable::across(.cols = new_var, .fns = ~ sjlabelled::as_label(.x , keep.labels=TRUE))) %>%
         tidytable::rename({{new_var_hist}} := new_var)
+      
+      return(df)
+      
     } else{
       
       if(as.character(version) == "3.2"){
@@ -235,7 +239,7 @@ histgroup_iarc <- function(df, hist_var, new_var_hist = t_histgroupiarc, version
         #        Second Revision. Lyon: International Agency for Research on Cancer (IARC); 2019 [cited 2023 Jun 14]. 
         #        Available from: http://www.iacr.com.fr/index.php?Itemid=577
         
-        df %>%
+        df <- df %>%
           tidytable::mutate(new_var := tidytable::case_when(
             as.numeric({{hist_var}}) >= 8051 & as.numeric({{hist_var}}) <= 8086 ~ 1, 
             as.numeric({{hist_var}}) >= 8120 & as.numeric({{hist_var}}) <= 8131 ~ 1,
@@ -342,8 +346,11 @@ histgroup_iarc <- function(df, hist_var, new_var_hist = t_histgroupiarc, version
                                                      "Unspecified types of cancer" = 17)) %>%
           tidytable::mutate(tidytable::across(.cols = new_var, .fns = ~ sjlabelled::as_label(.x , keep.labels=TRUE))) %>%
           tidytable::rename({{new_var_hist}} := new_var)
+        
+        return(df)
+        
       }
     }
   }
-  
 }
+
