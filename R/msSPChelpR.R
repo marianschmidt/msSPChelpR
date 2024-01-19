@@ -10,7 +10,6 @@
 #' This package follows the principles of the "tidyverse".
 #'
 #'
-#' @docType package
 #' @name msSPChelpR
 #' @keywords internal
 NULL
