@@ -4,7 +4,7 @@
 #' @param df dataframe in long or wide format
 #' @param hist_var variable in df that contains first 4 digits of tumor histology (without behavior)
 #' @param new_var_hist Name of the newly calculated variable for histology groups. Default is t_histgroupiarc.
-#' @param version Version of ICD-O-3 classification used.  Can bei either "3.0" for 2000 publication, "3.1" for 2013 first revision or "3.2" for 2019 second revision.
+#' @param version Version of ICD-O-3 classification used.  Can be either "3.0" for 2000 publication, "3.1" for 2013 first revision or "3.2" for 2019 second revision.
 #'                Default is `version = "3.1"` for ICD-O-3 revision 1, released 2013.
 #' @return df
 #' @export

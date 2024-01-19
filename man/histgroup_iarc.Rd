@@ -13,7 +13,7 @@ histgroup_iarc(df, hist_var, new_var_hist = t_histgroupiarc, version = "3.1")
 
 \item{new_var_hist}{Name of the newly calculated variable for histology groups. Default is t_histgroupiarc.}
 
-\item{version}{Version of ICD-O-3 classification used.  Can bei either "3.0" for 2000 publication, "3.1" for 2013 first revision or "3.2" for 2019 second revision.
+\item{version}{Version of ICD-O-3 classification used.  Can be either "3.0" for 2000 publication, "3.1" for 2013 first revision or "3.2" for 2019 second revision.
 Default is \code{version = "3.1"} for ICD-O-3 revision 1, released 2013.}
 }
 \value{
