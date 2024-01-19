@@ -192,6 +192,13 @@ pat_status_tt <- function(wide_df, fu_end, dattype = NULL,
       }
     }
   } else{
+    # check that no param is missing
+    if(is.null(life_stat_alive) | is.null(life_stat_dead) | is.null(spc_stat_yes) |
+       is.null(spc_stat_no) | is.null(lifedat_fu_end)){
+      rlang::abort(paste0("You have used dattype == `NULL`. 
+      This means you need to define all parameters: `life_stat_alive`, `life_stat_dead`, `spc_stat_yes`, `spc_stat_no`, `lifedat_fu_end`. 
+                          Please check, because at least one of them is `NULL`" ))
+    }
     # ensym if no dattype is given
     life_var <- rlang::ensym(life_var)
     spc_var <- rlang::ensym(spc_var)
