@@ -46,6 +46,9 @@
     <loc>/reference/ir_crosstab_byfutime.html</loc>
   </url>
   <url>
+    <loc>/reference/msSPChelpR-package.html</loc>
+  </url>
+  <url>
     <loc>/reference/msSPChelpR.html</loc>
   </url>
   <url>
@@ -95,9 +98,6 @@
   </url>
   <url>
     <loc>/reference/summarize_sir_results.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tidyeval.html</loc>
   </url>
   <url>
     <loc>/reference/us_refrates_icd2.html</loc>
