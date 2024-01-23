@@ -90,4 +90,6 @@ release_questions <- function() {
 
 
 # previous_checks <- rhub::list_my_checks(email = "marian.eberl@tum.de")
-# previous_checks[[3]][[15]]2
+# group_id <- previous_checks$group[1]
+# group_check <- rhub::get_check(group_id)
+# group_check
