@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">msSPChelpR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.1</span>
       </span>
     </div>
 
@@ -58,9 +58,9 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="development version" id="msspchelpr-development-version">msSPChelpR (development version)<a class="anchor" aria-label="anchor" href="#msspchelpr-development-version"></a></h2>
+<h2 class="page-header" data-toc-text="0.9.1" id="msspchelpr-091">msSPChelpR 0.9.1<a class="anchor" aria-label="anchor" href="#msspchelpr-091"></a></h2>
 <div class="section level4">
-<h4 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
+<h4 id="new-features-0-9-1">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-9-1"></a></h4>
 <ul><li>new function <code><a href="../reference/histgroup_iarc.html">histgroup_iarc()</a></code> to create variable for groups of malignant neoplasms considered to be histologically ‘different’ for the purpose of defining multiple tumors, ICD-O-3 (see <a href="https://github.com/marianschmidt/msSPChelpR/issues/100" class="external-link">#100</a>)</li>
 <li>some functions gain new <code>quiet</code> argument to suppress <code><a href="https://rlang.r-lib.org/reference/abort.html" class="external-link">rlang::warn()</a></code> and <code><a href="https://rlang.r-lib.org/reference/abort.html" class="external-link">rlang::inform()</a></code> messages. You can use this when you have checked your results for correctness and want to reduce message output, but keep the progress bars.</li>
 <li>
@@ -71,18 +71,18 @@
 <li>sample data set for <code>data("us_second_cancer")</code> gains new variable <code>t_hist</code> on histology, i.e. ICD-O-3-Code on tumor morphology (4 digits)</li>
 </ul></div>
 <div class="section level4">
-<h4 id="breaking-changes-development-version">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<h4 id="breaking-changes-0-9-1">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-9-1"></a></h4>
 <ul><li>no breaking changes in this version</li>
 </ul></div>
 <div class="section level4">
-<h4 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
+<h4 id="bug-fixes-0-9-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-9-1"></a></h4>
 <ul><li>make <code><a href="../reference/calc_refrates.html">calc_refrates()</a></code> more robust for missing <code>race_var</code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/89" class="external-link">#89</a>)</li>
 <li>fix bug in <code><a href="../reference/calc_refrates.html">calc_refrates()</a></code> using <code>calc_totals == TRUE</code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/90" class="external-link">#90</a>)</li>
 <li>fix bug in <code><a href="../reference/calc_refrates.html">calc_refrates()</a></code> using numeric versions of <code>fill_sites</code> (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/92" class="external-link">#92</a>)</li>
 <li>fix bug in <code><a href="../reference/asir.html">asir()</a></code> that throws error for variable not needed (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/95" class="external-link">#95</a>)</li>
 </ul></div>
 <div class="section level4">
-<h4 id="internal-development-version">Internal<a class="anchor" aria-label="anchor" href="#internal-development-version"></a></h4>
+<h4 id="internal-0-9-1">Internal<a class="anchor" aria-label="anchor" href="#internal-0-9-1"></a></h4>
 <ul><li>replace progress bars by <code>cli</code>
 </li>
 <li>deprecate <code>verb.()</code>syntax from tidytable (Closes <a href="https://github.com/marianschmidt/msSPChelpR/issues/94" class="external-link">#94</a>)</li>
