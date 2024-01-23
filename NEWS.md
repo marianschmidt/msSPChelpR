@@ -1,4 +1,4 @@
-# msSPChelpR (development version)
+# msSPChelpR 0.9.1
 
 ### New Features
 * new function `histgroup_iarc()` to create variable for groups of malignant neoplasms considered to be histologically 'different' for the purpose of defining multiple tumors, ICD-O-3 (see #100)
