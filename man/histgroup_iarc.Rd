@@ -2,7 +2,7 @@
 % Please edit documentation in R/histgroups_iarc.R
 \name{histgroup_iarc}
 \alias{histgroup_iarc}
-\title{Create variable for groups of malignant neoplasms considered to be histologically ‘different’ for the purpose of defining multiple tumors, ICD-O-3}
+\title{Create variable for groups of malignant neoplasms considered to be histologically 'different' for the purpose of defining multiple tumors, ICD-O-3}
 \usage{
 histgroup_iarc(df, hist_var, new_var_hist = t_histgroupiarc, version = "3.1")
 }
@@ -20,7 +20,7 @@ Default is \code{version = "3.1"} for ICD-O-3 revision 1, released 2013.}
 df
 }
 \description{
-Create variable for groups of malignant neoplasms considered to be histologically ‘different’ for the purpose of defining multiple tumors, ICD-O-3
+Create variable for groups of malignant neoplasms considered to be histologically 'different' for the purpose of defining multiple tumors, ICD-O-3
 }
 \examples{
 #load sample data
