@@ -3,7 +3,7 @@
 ## 2024-01-20: Resubmission notes
 
 This is a resubmission of an updated version of the CRAN package with new features and bug fixes.
-For a full list of changes, please see https://marianschmidt.github.io/msSPChelpR/news/index.html#msspchelpr-development-version 
+For a full list of changes, please see https://marianschmidt.github.io/msSPChelpR/news/index.html 
 
 ### Test environments
 * local Windows 10, R 4.2.3, x64
